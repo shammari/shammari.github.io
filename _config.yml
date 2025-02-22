@@ -4,6 +4,11 @@ plugins:
 
 permalink: pretty
 
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
 relative_links:
   enabled: true
   collections: true
