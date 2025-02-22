@@ -229,6 +229,14 @@ sass:
 permalink: /:categories/:title/
 timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+relative_links:
+  enabled: true
+  collections: true
 
 # Pagination with jekyll-paginate
 paginate: 5 # amount of posts to show
