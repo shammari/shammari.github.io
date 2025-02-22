@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: single
 title: "News & Updates"
 permalink: /news/
 author_profile: true
