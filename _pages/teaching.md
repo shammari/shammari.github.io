@@ -5,10 +5,12 @@ permalink: /teaching/
 author_profile: true
 ---
 
-## **Courses Taught**
-- **Biomathematics**
-- **Mathematical Modeling**
-- **Differential Equations**
-- **Mathematical Epidemiology**
+## **Teaching**  
+- Biomathematics    
+- Ordinary Differential Equations
+- Mathematical Modeling
+- Mathematical Epidemiology
 
-[Course Materials & Resources (if applicable)]
+[Course Materials & Resources (if applicable)]  
+
+---
