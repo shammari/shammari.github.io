@@ -226,18 +226,9 @@ sass:
 
 
 # Outputting
-permalink: #/:categories/:title/
+permalink: /:categories/:title/
 timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
-permalink: pretty
-collections:
-  pages:
-    output: true
-    permalink: /:path/
-
-relative_links:
-  enabled: true
-  collections: true
 
 # Pagination with jekyll-paginate
 paginate: 5 # amount of posts to show
@@ -318,6 +309,9 @@ compress_html:
   ignore:
     envs: development
 
+header:
+      image: /assets/images/header.png
+      image_description: "Spatial distribution of oxygen in skeletal muscle cross-section."
 
 # Defaults
 defaults:
@@ -339,8 +333,5 @@ defaults:
     values:
       layout: single
       author_profile: true
-  - header:
-      image: /assets/images/header.png
-      image_description: "Spatial distribution of oxygen in skeletal muscle cross-section."
 
 
