@@ -10,4 +10,4 @@ author_profile: true
 - **[Title of Paper]**, Journal Name, Year. [DOI or Link]
 - **[Title of Paper]**, Journal Name, Year. [DOI or Link]
 
-[Back to Home](index.md)
+[Back to Research](research.md)
