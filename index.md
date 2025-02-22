@@ -3,6 +3,8 @@ title: Dr. Abdullah A. Al-Shammari
 layout: default
 ---
 
+[Research](research.md) | [Publications](publications.md) | [Teaching](teaching.md)
+
 # **Abdullah A. Al-Shammari, BScMth MSc DPhil**  
 Assistant Professor of Mathematics, Kuwait University  
 
