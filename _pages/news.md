@@ -10,5 +10,5 @@ author_profile: true
 - Announcements for new publications or collaborations.
 - Lab/research group updates (if applicable).
 
-[Back to Home](index.md)
+[Back to Home](../index.md)
 
