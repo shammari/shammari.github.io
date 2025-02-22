@@ -10,3 +10,6 @@ title: "Dr. Abdullah Al-Shammari"
 description: "Mathematical modeling, dynamical systems, and interdisciplinary research"
 logo: "_assets/images/profile.png"
 show_downloads: false
+
+include:
+  - README.md
