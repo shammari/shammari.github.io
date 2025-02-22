@@ -329,17 +329,8 @@ defaults:
       type: pages
     values:
       layout: single
-    header:
+  - header:
       image: /assets/images/header.png
       image_description: "Spatial distribution of oxygen in skeletal muscle cross-section."
-
-    excerpt: "This post should [...]"
-    header:
-      overlay_image: /assets/images/header.png
-      overlay_filter: 0.5 # same as adding an opacity of 0.5 to a black background
-      caption: "Photo credit: [**Unsplash**](https://unsplash.com)"
-      actions:
-        - label: "Download"
-          url: "https://github.com"
 
 
