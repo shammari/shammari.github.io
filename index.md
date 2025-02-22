@@ -10,6 +10,6 @@ Assistant Professor of Mathematical Biology, Kuwait University
 I work on **mathematical modeling and dynamical systems**, focusing on **biological and physiological applications**. My research explores **heterogeneous systems** in **oxygen transport, epidemiology, genotype-phenotype maps, and clinical data analysis**.  
 
 ## **Navigation**  
-[Home](index.md) | [Research](/_pages/research.md) | [Publications](/_pages/publications.md) | [Teaching](/_pages/teaching.md) | [Software](/_pages/software.md) | [News](/_pages/news.md) | [Contact](/_pages/contact.md)  
+[Home](index.md) | [Research](./_pages/research.md) | [Publications](./_pages/publications.md) | [Teaching](./_pages/teaching.md) | [Software](./_pages/software.md) | [News](./_pages/news.md) | [Contact](./_pages/contact.md)  
 
 ---
