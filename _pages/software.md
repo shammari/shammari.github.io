@@ -5,7 +5,7 @@ permalink: /software/
 author_profile: true
 ---
 
-# **Software & Computational Work**  
+## **Software & Computational Work**  
 ### **GitHub Repositories**  
 - [Finite Element Models for Oxygen Transport](#)  
 - [Dynamical Systems & Epidemiological Simulations](#)  
