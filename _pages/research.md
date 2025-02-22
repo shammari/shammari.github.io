@@ -25,4 +25,4 @@ author_profile: true
 
 ---
 
-[View Publications](publications.md)
+[View Publications](_pages/publications.md)
