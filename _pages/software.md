@@ -1,0 +1,13 @@
+---
+layout: single
+title: "Software & Computational Work"
+permalink: /software/
+author_profile: true
+---
+
+## **GitHub Repositories**
+- [Finite Element Models for Oxygen Transport](#)
+- [Dynamical Systems & Epidemiological Simulations](#)
+- [Conformal Mapping for Biological Domains](#)
+
+[Back to Research](research.md)
