@@ -329,6 +329,7 @@ defaults:
       type: pages
     values:
       layout: single
+      author_profile: true
   - header:
       image: /assets/images/header.png
       image_description: "Spatial distribution of oxygen in skeletal muscle cross-section."
