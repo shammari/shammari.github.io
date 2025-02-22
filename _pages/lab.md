@@ -17,11 +17,11 @@ Although not formally designated as a lab, I supervise **graduate students** wor
 ## **Current and Former Students**
 ### **Current Students**
 - **Jumanah A. Salman** – Project on [Oxygen Transport]
-- **[Zeinab A. Mohammad]** – Project on [Genotype-Phenotype Maps]
-- **[Haya H. Abuhasan]** – Project on [Epidemic Modeling]
+- **Zeinab A. Mohammad** – Project on [Genotype-Phenotype Maps]
+- **Haya H. Abuhasan** – Project on [Epidemic Modeling]
 
 ### **Former Students**
-- **[Abir Aljassar]** – Thesis on [Epidemic Modeling], now at [Ministry of Education, Kuwait]
+- **Abir Aljassar** – Thesis on [Epidemic Modeling], now at [Ministry of Education, Kuwait]
 
 ## **Opportunities**
 I welcome inquiries from prospective **graduate students, postdocs and collaborators** interested in any of these research areas or any complimentary research themes.
