@@ -13,5 +13,5 @@ author_profile: true
 
 [Course Materials & Resources (if applicable)]  
 
---
+---
 [Back to Home](../index.md)
