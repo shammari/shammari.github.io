@@ -6,7 +6,7 @@ author_profile: true
 ---
 
 # **Research ''Team''**
-Although not formally designated as a lab, I supervise **graduate students** working on a range of projects in **mathematical modeling, dynamical systems, and computational biology**. The research conducted under my supervision generally focuses on investigating implications of structural heterogeneities on biological systems.
+Although not formally designated as a lab, I supervise **graduate students** working on a range of projects in **mathematical modeling, dynamical systems, and computational biology**. The research conducted under my supervision generally focuses on investigating implications of structural heterogeneities on biological function.
 
 ## **Research Themes**
 - **Oxygen transport & capillary networks**
