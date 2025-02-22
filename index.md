@@ -3,7 +3,7 @@ title: Dr. Abdullah A. Al-Shammari
 layout: default
 ---
 
-# **Abdullah A. Al-Shammari, BScMth MSc DPhil**  
+# **Abdullah A. Al-Shammari, BSMth MS DPhil**  
 Assistant Professor of Mathematics, Kuwait University  
 
 ## **About Me**  
