@@ -1,6 +1,6 @@
 ---
 title: Dr. Abdullah A. Al-Shammari
-layout: default
+layout: single
 ---
 
 # **Abdullah A. Al-Shammari, BSMth MS DPhil**  
