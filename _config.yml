@@ -1,3 +1,3 @@
-theme: jeykll-theme-
-title: "Dr. Abdullah A. Al-Shammari"
-description: "Mathematical modeling, dynamical systems, and interdisciplinary research"
+remote_theme: "mmistakes/minimal-mistakes"
+plugins:
+  - jekyll-include-cache
