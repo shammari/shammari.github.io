@@ -1,0 +1,15 @@
+main:
+  - title: "Research"
+    url: /pages/research/
+  - title: "Publications"
+    url: /pages/publications/
+  - title: "Teaching"
+    url: /pages/teaching/
+  - title: "Lab"
+    url: /pages/lab/
+  - title: "Software"
+    url: /pages/software/
+  - title: "News"
+    url: /pages/news/
+  - title: "Contact"
+    url: /pages/contact/
