@@ -5,26 +5,26 @@ permalink: /lab/
 author_profile: true
 ---
 
-# **Research Group**
-Although not formally designated as a lab, I supervise **graduate students** working on a range of projects in **mathematical modeling, dynamical systems, and computational biology**. The research conducted under my supervision focuses on:
+# **Research ''Team''**
+Although not formally designated as a lab, I supervise **graduate students** working on a range of projects in **mathematical modeling, dynamical systems, and computational biology**. The research conducted under my supervision generally focuses on investigating implications of structural heterogeneities on biological systems.
 
 ## **Research Themes**
-- **Oxygen Transport & Capillary Networks**
-- **Epidemiological Modeling & Disease Dynamics**
-- **Genotype-Phenotype Maps & Evolutionary Constraints**
-- **Clinical Data Analysis & Computational Methods**
+- **Oxygen transport & capillary networks**
+- **Epidemiological modeling & disease dynamics**
+- **Genotype-Phenotype maps & evolutionary constraints**
+- **Public health and clinical data analysis & computational methods**
 
 ## **Current and Former Students**
 ### **Current Students**
-- **[Student Name]** – Project on [topic]
-- **[Student Name]** – Project on [topic]
+- **Jumanah A. Salman** – Project on [Oxygen Transport]
+- **[Zeinab A. Mohammad]** – Project on [Genotype-Phenotype Maps]
+- **[Haya H. Abuhasan]** – Project on [Epidemic Modeling]
 
 ### **Former Students**
-- **[Student Name]** – Thesis on [topic], now at [institution/company]
-- **[Student Name]** – Thesis on [topic], now at [institution/company]
+- **[Abir Aljassar]** – Thesis on [Epidemic Modeling], now at [Ministry of Education, Kuwait]
 
 ## **Opportunities**
-I welcome inquiries from prospective **graduate students and collaborators** interested in mathematical modeling and interdisciplinary research.
+I welcome inquiries from prospective **graduate students, postdocs and collaborators** interested in any of these research areas or any complimentary research themes.
 
 📧 **[Contact me](contact.md)** for potential research opportunities.
 
