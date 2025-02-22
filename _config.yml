@@ -323,3 +323,13 @@ defaults:
       comments: # true
       share: true
       related: true
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+    header:
+      image: /assets/images/header.png
+      image_description: "Spatial distribution of oxygen in skeletal muscle cross-section."
+
