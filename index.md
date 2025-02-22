@@ -1,5 +1,5 @@
 ---
-title: Dr. Abdullah A. Al-Shammari
+title:
 layout: single
 ---
 
