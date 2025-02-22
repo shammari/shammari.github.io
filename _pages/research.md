@@ -6,7 +6,6 @@ author_profile: true
 ---
 
 ## **Research Areas**
-# **Research**  
 ### **Oxygen Transport in Muscle Tissue**  
 - Computational models for capillary networks and diffusion.  
 - Finite Element Methods (FEM) for complex geometries.  
