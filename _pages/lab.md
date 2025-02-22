@@ -28,4 +28,4 @@ I welcome inquiries from prospective **graduate students, postdocs and collabora
 
 📧 **[Contact me](contact.md)** for potential research opportunities.
 
-[Back to Home](index.md)
+[Back to Home](../index.md)
