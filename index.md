@@ -1,6 +1,6 @@
 ---
 title:
-layout: single
+layout: default
 ---
 
 # **Abdullah A. Al-Shammari, BSMth MS DPhil**  
