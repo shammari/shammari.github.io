@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: default
 title: "Software & Computational Work"
 permalink: /software/
 author_profile: true
