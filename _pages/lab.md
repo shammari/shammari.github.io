@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: default
 title: "Research Team"
 permalink: /lab/
 author_profile: true
