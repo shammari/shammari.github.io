@@ -1,0 +1,19 @@
+# Venue abbreviations shown as badges next to publications (the `abbr` field in papers.bib).
+"J Physiol":
+  url: https://physoc.onlinelibrary.wiley.com/journal/14697793
+"J Appl Physiol":
+  url: https://journals.physiology.org/journal/jappl
+"J Theor Biol":
+  url: https://www.sciencedirect.com/journal/journal-of-theoretical-biology
+"Bull Math Biol":
+  url: https://link.springer.com/journal/11538
+"BMC Public Health":
+  url: https://bmcpublichealth.biomedcentral.com/
+"Diabetes Care":
+  url: https://diabetesjournals.org/care
+"Front Public Health":
+  url: https://www.frontiersin.org/journals/public-health
+"PLOS ONE":
+  url: https://journals.plos.org/plosone/
+"CBP A":
+  url: https://www.sciencedirect.com/journal/comparative-biochemistry-and-physiology-part-a-molecular-and-integrative-physiology
