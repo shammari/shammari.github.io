@@ -1,14 +1,8 @@
 ---
-layout: default
-title: "News & Updates"
+layout: page
+title: news
 permalink: /news/
-author_profile: true
+nav: false
 ---
 
-## **Latest Updates**
-- Recent talks, conferences, and awards.
-- Announcements for new publications or collaborations.
-- Lab/research group updates (if applicable).
-
-[Back to Home](../index.md)
-
+{% include news.liquid %}

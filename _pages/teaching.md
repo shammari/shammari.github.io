@@ -1,17 +1,17 @@
 ---
-layout: default
-title: "Teaching"
+layout: page
 permalink: /teaching/
-author_profile: true
+title: teaching
+description: Courses taught at the Department of Mathematics, Kuwait University.
+nav: true
+nav_order: 3
 ---
 
-## **Teaching**  
-- Biomathematics    
-- Ordinary Differential Equations
-- Mathematical Modeling
-- Mathematical Epidemiology
+I teach undergraduate and graduate courses in applied mathematics and mathematical biology, including:
 
-[Course Materials & Resources (if applicable)]  
+- **Biomathematics**
+- **Ordinary Differential Equations**
+- **Mathematical Modelling**
+- **Mathematical Epidemiology**
 
----
-[Back to Home](../index.md)
+Course materials are shared with enrolled students through the university's learning platform.

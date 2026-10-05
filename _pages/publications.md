@@ -1,13 +1,20 @@
 ---
-layout: default
-title: "Publications"
+layout: page
 permalink: /publications/
-author_profile: true
+title: publications
+description: Publications in reverse chronological order. For a complete and up-to-date list, see my <a href="https://scholar.google.com/citations?user=4hTO4WMAAAAJ&hl=en">Google Scholar profile</a>.
+nav: true
+nav_order: 2
 ---
 
-## **Selected Publications**
-- **[Title of Paper]**, Journal Name, Year. [DOI or Link]
-- **[Title of Paper]**, Journal Name, Year. [DOI or Link]
-- **[Title of Paper]**, Journal Name, Year. [DOI or Link]
+<!-- _pages/publications.md -->
 
-[Back to Research](research.md)
+<!-- Bibsearch Feature -->
+
+{% include bib_search.liquid %}
+
+<div class="publications">
+
+{% bibliography %}
+
+</div>
