@@ -1,0 +1,49 @@
+name: Sync publications from ORCID
+
+# Weekly, look up the works on the ORCID record in _data/socials.yml and open a
+# pull request that adds any new ones to _bibliography/papers.bib.
+# Nothing goes live until the pull request is reviewed and merged.
+
+on:
+  schedule:
+    - cron: "0 4 * * 0" # Sundays 04:00 UTC (07:00 Kuwait)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Set up Python 🐍
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Look up new publications 🔎
+        id: sync
+        run: python3 bin/sync_orcid_publications.py
+
+      - name: Open pull request 📬
+        if: steps.sync.outputs.added != '0'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: auto/orcid-publications
+          delete-branch: true
+          commit-message: "Add ${{ steps.sync.outputs.added }} publication(s) from ORCID"
+          title: "Add ${{ steps.sync.outputs.added }} publication(s) from ORCID"
+          body: |
+            New works found on ORCID and added to `_bibliography/papers.bib`:
+
+            ${{ steps.sync.outputs.titles }}
+
+            Before merging, check the entries. You can add `selected = {true}` to feature a paper on the home page, or `abbr = {...}` for a venue badge.
+            To stop a DOI from being suggested again, remove its entry and add the DOI to `_bibliography/orcid_ignore.txt`.
+
+            Merging publishes the update to the website.
+          labels: publications
