@@ -367,6 +367,8 @@ scholar:
   query: "@*"
   group_by: year
   group_order: descending
+  sort_by: year, title # newest first; same-year papers alphabetically
+  order: descending, ascending
 
 # Display different badges withs stats for your publications
 # Customize badge behavior in _layouts/bib.liquid
