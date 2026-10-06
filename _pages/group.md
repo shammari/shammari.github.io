@@ -11,17 +11,22 @@ I supervise graduate students working on projects in **mathematical modelling, d
 
 ## Current students
 
-| Student                | Project area            |
-| :--------------------- | :---------------------- |
-| **Jumanah A. Salman**  | Oxygen transport        |
-| **Zeinab A. Mohammad** | Genotype–phenotype maps |
-| **Haya H. Abuhasan**   | Epidemic modelling      |
+| Student              | Project area       |
+| :------------------- | :----------------- |
+| **Haya H. Abuhasan** | Epidemic modelling |
+
+## Research team
+
+| Name                   | Role                                                |
+| :--------------------- | :-------------------------------------------------- |
+| **Zeinab A. Mohammad** | Research assistant, genotype–phenotype maps project |
 
 ## Former students
 
-| Student           | Thesis area        | Now                           |
-| :---------------- | :----------------- | :---------------------------- |
-| **Abir Aljassar** | Epidemic modelling | Ministry of Education, Kuwait |
+| Student               | Thesis area        | Completed | Now                           |
+| :-------------------- | :----------------- | :-------- | :---------------------------- |
+| **Jumanah A. Salman** | Oxygen transport   | Apr 2026  | High school teacher           |
+| **Abir Aljassar**     | Epidemic modelling | Jan 2025  | Ministry of Education, Kuwait |
 
 ## Opportunities
 
