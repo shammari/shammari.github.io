@@ -17,9 +17,10 @@ I supervise graduate students working on projects in **mathematical modelling, d
 
 ## Research team
 
-| Name                   | Role                                                |
-| :--------------------- | :-------------------------------------------------- |
-| **Zeinab A. Mohammad** | Research assistant, genotype–phenotype maps project |
+| Name                   | Role                                        |
+| :--------------------- | :------------------------------------------ |
+| **Mohammed Dekhil**    | Research associate, epidemic modelling      |
+| **Zeinab A. Mohammad** | Research assistant, genotype–phenotype maps |
 
 ## Former students
 
