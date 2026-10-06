@@ -99,6 +99,8 @@ def clean_text(text: str) -> str:
     text = re.sub(r"<[^>]+>", "", text)
     text = html.unescape(text)
     text = re.sub(r"\s+", " ", text).strip()
+    # Crossref often uses Unicode hyphens (e.g. "Al\u2010Shammari"); use ASCII so names match _config.yml
+    text = text.replace("\u2010", "-").replace("\u2011", "-")
     for char in ("&", "%", "#", "_"):
         text = re.sub(r"(?<!\\)" + re.escape(char), "\\" + char, text)
     return text.replace("{", "").replace("}", "")

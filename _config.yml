@@ -344,7 +344,7 @@ display_categories: [] # these categories will be displayed on the front page of
 # -----------------------------------------------------------------------------
 
 scholar:
-  last_name: [Al-Shammari, Alshammari, Al Shammari]
+  last_name: [Al-Shammari, "Al‐Shammari", Alshammari, Al Shammari] # second uses a Unicode hyphen (U+2010), as in some publisher metadata
   first_name: [Abdullah, A., A. A., Abdullah A.]
 
   style: apa
