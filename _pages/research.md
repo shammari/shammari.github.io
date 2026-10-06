@@ -2,41 +2,35 @@
 layout: page
 title: research
 permalink: /research/
-description: Mathematical modelling of heterogeneous biological systems.
+description: How biological structure shapes biological function.
 nav: true
 nav_order: 1
 ---
 
-My research asks how **structural heterogeneity** affects biological function, using mathematical modelling, dynamical systems and computation.
+My research asks how the **structure** of a biological system — the arrangement of capillaries in a tissue, the way a population divides into groups, the shape of the map from genotype to phenotype — determines how that system functions. I use differential equations, dynamical systems and image-based computation, and I work closely with physiologists and clinicians so that the models address questions they can test.
 
-## Oxygen transport in muscle tissue
+## How does capillary arrangement control oxygen supply to muscle?
 
-How well can a muscle's capillary network supply oxygen, and can simple anatomical indices of "capillary supply" tell us? I build computational and image-based models of oxygen diffusion from capillaries into striated muscle, in close collaboration with physiologists.
+Physiologists often summarise a muscle's blood supply with simple anatomical indices: capillary density, capillary-to-fibre ratio, or Voronoi "capillary domains". I test these indices against models that solve for oxygen diffusion in real, image-derived tissue sections. The results show that some widely used indices can be misleading, and identify local measures that better predict a muscle's capacity to transport oxygen.
 
-- Computational models for capillary networks and diffusion
-- Finite element methods for complex, image-derived geometries
-- Conformal mapping for oxygen diffusion in polygonal domains
-- Re-evaluating capillary domains and Voronoi tessellations as measures of supply
+**Methods:** reaction–diffusion models on image-derived geometries; finite element methods; conformal mapping for diffusion in polygonal domains.
 
-Selected work: {% cite alshammari2012voronoi alshammari2014domains kissane2026capillary %}
+**Selected work:** {% cite alshammari2012voronoi alshammari2014domains alshammari2019integrated alshammari2025utility kissane2026capillary %}
 
-## Epidemiological modelling
+## How do interventions and population structure shape epidemics?
 
-- Nonlinear dynamics of multistrain infectious diseases
-- Threshold conditions for strain invasion
-- Transmission, forecasting and the effect of public health measures during the COVID-19 epidemic in Kuwait
+I model infectious-disease transmission in populations that are divided by socioeconomic group and living conditions, and use these models to estimate the effect of public-health measures. During the first wave of COVID-19, this work informed the Kuwaiti government's response, including the partial and full curfews and the staged plan for reopening. I also study the nonlinear dynamics of multistrain diseases and the threshold conditions under which a new strain can invade.
 
-Selected work: {% cite alshammari2021strict khadadah2021npi %}
+**Selected work:** {% cite alshammari2021strict khadadah2021npi %}
 
-## Genotype–phenotype maps
+## What do nonlinear relationships in clinical data reveal about risk?
 
-- Mathematical frameworks for mapping genotype–phenotype relationships
-- Structured constraints in evolutionary dynamics
+With clinical collaborators, including at the Dasman Diabetes Institute, I analyse patient data to find where standard linear assumptions break down — for example, the nonlinear relationship between fasting blood glucose and COVID-19 severity — and turn these findings into risk scores that clinicians can use.
 
-## Clinical data analysis
+**Selected work:** {% cite alahmad2020fasting ali2021advancing alhamar2022development %}
 
-- Mathematical interpretation of clinical datasets
-- Heterogeneity in disease progression and treatment outcomes
-- Risk factors and outcomes for COVID-19 patients, including those with diabetes
+## Ongoing: how do genotype–phenotype maps constrain evolution?
+
+Evolution acts on phenotypes, but variation arises in genotypes. I develop mathematical frameworks for the structure of the map between the two and the constraints it places on evolutionary dynamics, in collaboration with a group in biophysics at the University of Oxford. A paper is in preparation.
 
 See all [publications]({{ '/publications/' | relative_url }}).

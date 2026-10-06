@@ -25,15 +25,17 @@ latest_posts:
   enabled: false
 ---
 
-I work on **mathematical modelling and dynamical systems**, with a focus on **biological and physiological applications**. A common thread in my research is the role of **structural heterogeneity** in shaping biological function, from the arrangement of capillaries in muscle tissue to differences between populations in an epidemic.
+I am an applied mathematician working in **mathematical biology**. I build models to understand how the **structure** of a biological system — how capillaries are arranged in a muscle, or how a population is split into groups that mix unevenly — determines how well that system works.
 
-My main research areas are:
+My work combines **differential equations and dynamical systems** with **image-based computation**, and is done together with physiologists and clinicians so that the models answer questions they can test. The main themes are:
 
-- **Oxygen transport in muscle tissue**: computational and image-based models of capillary networks and diffusion, including finite element and conformal mapping methods for complex geometries.
-- **Epidemiological modelling**: nonlinear dynamics of infectious diseases, multistrain competition and threshold conditions for invasion, and modelling the COVID-19 epidemic in Kuwait.
-- **Genotype–phenotype maps**: mathematical frameworks for genotype–phenotype relationships and the constraints they place on evolutionary dynamics.
-- **Clinical data analysis**: mathematical interpretation of clinical datasets and heterogeneity in disease progression and treatment outcomes.
+- **Oxygen supply to muscle** — which measures of capillary supply actually predict a muscle's capacity to transport oxygen, tested with image-based models of real tissue.
+- **Epidemic dynamics and public health** — how interventions and population structure shape transmission. My COVID-19 modelling informed Kuwait's response during the first wave, including the partial and full curfews and the staged plan for reopening.
+- **Clinical risk** — finding where linear assumptions break down in patient data, and turning the results into usable risk scores.
+- **Genotype–phenotype maps** (ongoing) — how the structure of the map from genotype to phenotype constrains evolution, with collaborators in biophysics at the University of Oxford.
 
-I received my DPhil in Mathematical Biology from the University of Oxford, an MS in Mathematics from New York University, and a BS in Mathematics from Creighton University. I am also a Visiting Research Fellow at the University of Leeds and a Research Associate at the Dasman Diabetes Institute.
+Recent work published in _The Journal of Physiology_ (2025–26) shows which common indices of "capillary supply" reflect oxygen transport capacity and which can mislead; one of these papers features in the journal's special issue on computational modelling of the cardiovascular system. More on the [research]({{ '/research/' | relative_url }}) page.
 
-I welcome inquiries from prospective **graduate students, postdocs and collaborators**. See the [group]({{ '/group/' | relative_url }}) page for current projects.
+**Background.** DPhil in Mathematical Biology, University of Oxford; MS in Mathematics, New York University; BS in Mathematics, Creighton University. I am a Research Associate at the Dasman Diabetes Institute, and was previously a Visiting Research Fellow at the University of Leeds.
+
+**Joining the group.** I welcome enquiries from prospective **graduate students, postdocs and collaborators** — see the [group]({{ '/group/' | relative_url }}#joining) page for project ideas and how to get in touch.
