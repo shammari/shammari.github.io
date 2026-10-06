@@ -19,9 +19,11 @@ Physiologists often summarise a muscle's blood supply with simple anatomical ind
 
 ## How do interventions and population structure shape epidemics?
 
-I model infectious-disease transmission in populations that are divided by socioeconomic group and living conditions, and use these models to estimate the effect of public-health measures. During the first wave of COVID-19, this work informed the Kuwaiti government's response, including the partial and full curfews and the staged plan for reopening. I also study the nonlinear dynamics of multistrain diseases and the threshold conditions under which a new strain can invade.
+I model infectious-disease transmission in populations that are divided by socioeconomic group and living conditions, and use these models to estimate the effect of public-health measures. During the first wave of COVID-19, this work informed the Kuwaiti government's response, including the partial and full curfews and the staged plan for reopening.
 
 **Selected work:** {% cite alshammari2021strict khadadah2021npi %}
+
+A second strand looks at **multistrain diseases**: the nonlinear dynamics of competing strains and the threshold conditions under which a new strain can invade. This was the subject of Abir Aljassar's graduate thesis, and a paper based on it is in preparation.
 
 ## What do nonlinear relationships in clinical data reveal about risk?
 

@@ -24,10 +24,10 @@ I supervise graduate students working on projects in **mathematical modelling, d
 
 ## Former students
 
-| Student               | Thesis area        | Completed | Now                           |
-| :-------------------- | :----------------- | :-------- | :---------------------------- |
-| **Jumanah A. Salman** | Oxygen transport   | Apr 2026  | High school teacher           |
-| **Abir Aljassar**     | Epidemic modelling | Jan 2025  | Ministry of Education, Kuwait |
+| Student               | Thesis area                   | Completed | Now                           |
+| :-------------------- | :---------------------------- | :-------- | :---------------------------- |
+| **Jumanah A. Salman** | Oxygen transport              | Apr 2026  | High school teacher           |
+| **Abir Aljassar**     | Multistrain epidemic dynamics | Jan 2025  | Ministry of Education, Kuwait |
 
 ## Joining
 
