@@ -2,37 +2,44 @@
 layout: page
 title: research
 permalink: /research/
-description: How biological structure shapes biological function.
+description: Structure–function relationships across biological scales.
 nav: true
 nav_order: 1
 ---
 
-My research asks how the **structure** of a biological system — the arrangement of capillaries in a tissue, the way a population divides into groups, the shape of the map from genotype to phenotype — determines how that system functions. I use differential equations, dynamical systems and image-based computation, and I work closely with physiologists and clinicians so that the models address questions they can test.
+My research investigates **structure–function relationships** in biological systems, with particular emphasis on how **heterogeneity** influences system behaviour across biological scales: from the arrangement of capillaries among muscle fibres, to differences between groups within a population during an epidemic, to the way genotypes map onto phenotypes. I use differential equations, dynamical systems and image-based computation, and work closely with physiologists, clinicians and fellow mathematicians.
 
-## How does capillary arrangement control oxygen supply to muscle?
+## How does the arrangement of capillaries influence oxygen supply to muscle?
 
-Physiologists often summarise a muscle's blood supply with simple anatomical indices: capillary density, capillary-to-fibre ratio, or Voronoi "capillary domains". I test these indices against models that solve for oxygen diffusion in real, image-derived tissue sections. The results show that some widely used indices can be misleading, and identify local measures that better predict a muscle's capacity to transport oxygen.
+Physiologists often summarise a muscle's blood supply with anatomical indices such as capillary density, capillary-to-fibre ratio or capillary domains. We build image-based models that solve for oxygen diffusion in real tissue sections, and compare their predictions with these indices to ask how well each index reflects the tissue's capacity for oxygen supply.
 
-**Methods:** reaction–diffusion models on image-derived geometries; finite element methods; conformal mapping for diffusion in polygonal domains.
+**What the models indicate:**
+
+- Area-based measures of capillary supply were the most sensitive to variation in predicted fibre PO<sub>2</sub>.
+- Only area-based measures captured the plateau and nonlinearity in predicted fibre PO<sub>2</sub>.
+
+**Methods:** reaction–diffusion PDEs on image-derived geometries; finite element methods; Green's functions and conformal mapping for diffusion in polygonal domains.
 
 **Selected work:** {% cite alshammari2012voronoi alshammari2014domains alshammari2019integrated alshammari2025utility kissane2026capillary %}
 
-## How do interventions and population structure shape epidemics?
+## How do population heterogeneity and interventions influence epidemic dynamics?
 
-I model infectious-disease transmission in populations that are divided by socioeconomic group and living conditions, and use these models to estimate the effect of public-health measures. During the first wave of COVID-19, this work informed the Kuwaiti government's response, including the partial and full curfews and the staged plan for reopening.
+I model infectious-disease transmission in populations made up of groups that differ in socioeconomic status and living conditions, and use these models to assess the effect of public-health measures. During the first wave of COVID-19, a preprint of this work informed the Kuwaiti government's response, including scaling up healthcare capacity, the partial and full curfews, and the staged plan for reopening. It was later published in _Frontiers in Public Health_.
 
 **Selected work:** {% cite alshammari2021strict khadadah2021npi %}
 
-A second strand looks at **multistrain diseases**: the nonlinear dynamics of competing strains and the threshold conditions under which a new strain can invade. This was the subject of Abir Aljassar's graduate thesis, and a paper based on it is in preparation.
+A second strand looks at **multistrain diseases**: the nonlinear dynamics of competing strains and the conditions under which a new strain can invade. This was the subject of Abir Aljassar's graduate thesis, and a paper based on it is in preparation.
 
 ## What do nonlinear relationships in clinical data reveal about risk?
 
-With clinical collaborators, including at the Dasman Diabetes Institute, I analyse patient data to find where standard linear assumptions break down — for example, the nonlinear relationship between fasting blood glucose and COVID-19 severity — and turn these findings into risk scores that clinicians can use.
+With clinical collaborators, including at the Dasman Diabetes Institute, we analyse patient data to identify where standard linear assumptions break down, and develop clinical risk scores.
 
 **Selected work:** {% cite alahmad2020fasting ali2021advancing alhamar2022development %}
 
-## Ongoing: how do genotype–phenotype maps constrain evolution?
+## How do genotype changes influence the complexity of phenotypes?
 
-Evolution acts on phenotypes, but variation arises in genotypes. I develop mathematical frameworks for the structure of the map between the two and the constraints it places on evolutionary dynamics, in collaboration with a group in biophysics at the University of Oxford. A paper is in preparation.
+Genotype–phenotype maps describe how genetic sequences give rise to biological traits and shapes. In collaboration with colleagues at Gulf University for Science and Technology (Kuwait) and the University of Oxford (UK), we use ideas from algorithmic information theory to investigate how changes to genotype may influence the complexity of phenotype shapes.
+
+**Funding:** Kuwait Foundation for the Advancement of Sciences (KFAS).
 
 See all [publications]({{ '/publications/' | relative_url }}).
