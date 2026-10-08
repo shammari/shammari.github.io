@@ -25,16 +25,16 @@ latest_posts:
   enabled: false
 ---
 
-I am an applied mathematician working in **mathematical biology**. My research investigates structure–function relationships in biological systems, with particular emphasis on how heterogeneity influences system behaviour across biological scales, from the arrangement of capillaries in muscle to differences between groups within a population.
+I am an applied mathematician working in **mathematical biology**. My research investigates how the organization of a biological system influences what it can do. My particular focus is **heterogeneity**: when variation in how a system's components are arranged or composed, beyond their averages, changes the system's behaviour, and when it is tolerated.
 
-My work combines **differential equations and dynamical systems** with **image-based computation**, and is done together with physiologists, clinicians and fellow mathematicians. The main themes are:
+I build mechanistic models that make their assumptions explicit and lead to testable predictions. My methods combine **differential equations and dynamical systems** with analytical techniques, such as Green's functions and complex-variable methods, **image-based computation** and, more recently, machine learning. I develop these models in close collaboration with physiologists, clinicians and fellow mathematicians. The main themes are:
 
-- **Oxygen supply to muscle:** how well common measures of capillary supply reflect a muscle's capacity for oxygen supply, assessed with image-based models of real tissue.
-- **Epidemic dynamics and public health:** how population heterogeneity and interventions influence transmission. Our COVID-19 modelling informed Kuwait's first-wave response, including scaling up healthcare capacity, the partial and full curfews, and the staged plan for reopening.
-- **Clinical risk:** identifying nonlinear relationships in patient data and developing clinical risk scores.
-- **Genotype–phenotype maps** (ongoing): characterizing how genotype changes influence the complexity of phenotypes.
+- **Oxygen supply to muscle:** how the organization of both the oxygen sources (capillaries) and the sinks (muscle fibres, with their size, arrangement and fibre type) influences a muscle's capacity for oxygen supply, assessed with image-based models of real tissue.
+- **Epidemic dynamics and public health:** how differences between population groups in living conditions and contact, together with interventions, influence transmission. Our COVID-19 modelling informed Kuwait's first-wave response, including scaling up healthcare capacity, the partial and full curfews, and the staged plan for reopening.
+- **Clinical risk:** how heterogeneity among patients, in glycaemic state, comorbidities, ethnicity and prior infection, relates to outcomes such as ICU admission, mortality and antibody response, and how these often nonlinear relationships can inform clinical risk scores.
+- **Genotype–phenotype maps** (new direction): characterizing how genotype changes influence the complexity of phenotypes.
 
-Recent work in _The Journal of Physiology_ (2025–26) uses image-based modelling to assess how well common indices of capillary supply reflect oxygen transport capacity; one of these papers features in the journal's special issue on computational modelling of the cardiovascular system. More on the [research]({{ '/research/' | relative_url }}) page.
+Recent work in _The Journal of Physiology_ (2025–26) uses image-based modelling to assess which common indices of capillary supply are transport-relevant measures that predict fibre oxygenation; one of these papers features in the journal's special issue on computational modelling of the cardiovascular system. More on the [research]({{ '/research/' | relative_url }}) page.
 
 **Background.** DPhil in Mathematical Biology, University of Oxford; MS in Mathematics, New York University; BS in Mathematics, Creighton University. I am a Research Associate at the Dasman Diabetes Institute, and was previously a Visiting Research Fellow at the University of Leeds.
 
