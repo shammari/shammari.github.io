@@ -17,7 +17,7 @@ I teach undergraduate and graduate courses in calculus, differential equations a
 | MATH 102 | Calculus 2                                                        |
 | MATH 103 | Biomathematics                                                    |
 | MATH 211 | Calculus 3                                                        |
-| MATH 316 | Elements of Mathematical Modeling                                 |
+| MATH 316 | [Elements of Mathematical Modeling]({{ '/teaching/math316/'       | relative_url }}) |
 | MATH 340 | Theory of ODEs                                                    |
 | MATH 491 | Seminar in Applied Mathematics (topic: Mathematical Epidemiology) |
 
