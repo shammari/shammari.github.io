@@ -2,7 +2,7 @@
 layout: page
 title: research
 permalink: /research/
-description: Structure–function relationships across biological scales.
+description: Structure, heterogeneity and function across biological scales.
 nav: true
 nav_order: 1
 images:
@@ -34,6 +34,9 @@ images:
   .rp-tag { position: absolute; top: 20px; z-index: 2; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; line-height: 1; padding: 6px 8px; border-radius: 4px; background: rgba(18, 18, 20, 0.72); color: #fff; pointer-events: none; }
   .rp-tag-l { left: 20px; }
   .rp-tag-r { right: 20px; }
+  .rp-line > div { padding-left: 7.2rem; text-indent: -7.2rem; }
+  .rp-line { font-size: 0.875rem; line-height: 1.55; color: var(--global-text-color-light); margin: 0 0 1rem; }
+  .rp-line span { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--global-theme-color); display: inline-block; min-width: 7.2rem; text-indent: 0; }
 </style>
 
 <div class="rp-frame rp-banner mt-3">
@@ -43,11 +46,15 @@ images:
   Oxygen flux streamlines (blue) from each capillary (red dots) into the surrounding muscle fibres, compared with the Voronoi polygons (red) often used to approximate each capillary's supply region. Preliminary work related to our study of capillary domains in mixed muscles (<a href="https://doi.org/10.1016/j.jtbi.2014.04.016"><em>J Theor Biol</em> 2014</a>).
 </p>
 
-My research investigates **structure–function relationships** in biological systems, with particular emphasis on how **heterogeneity** influences system behaviour across biological scales: from the arrangement of capillaries among muscle fibres, to differences between groups within a population during an epidemic, to the way genotypes map onto phenotypes. I use differential equations, dynamical systems and image-based computation, and work closely with physiologists, clinicians and fellow mathematicians.
+My research investigates how the organization of a biological system (the arrangement, connectivity and composition of its parts) influences a specific function under specific conditions. I place particular emphasis on **heterogeneity**: which differences in spatial arrangement, or between groups and individuals, change a system's behaviour even when averages are similar, and which does the system tolerate?
+
+I study this across biological scales: genetic sequences and the complexity of the phenotype shapes they give rise to; capillaries and muscle fibres within skeletal muscle; patients within clinical cohorts; and, in epidemics, population groups and competing pathogen strains. In each case we specify the outcome of interest, identify which features of organization might matter, and build mechanistic models detailed enough to test that explanation. Model predictions hold under the assumptions they state, and we compare them with experimental, clinical and epidemiological data where possible.
 
 ## How does the arrangement of capillaries influence oxygen supply to muscle?
 
-Physiologists often summarise a muscle's blood supply with anatomical indices such as capillary density, capillary-to-fibre ratio or capillary domains. We build image-based models that solve for oxygen diffusion in real tissue sections, and compare their predictions with these indices to ask how well each index reflects the tissue's capacity for oxygen supply.
+<div class="rp-line"><div><span>Organization</span>Capillaries (sources) and muscle fibres (sinks): their arrangement, size and fibre type</div><div><span>Outcome</span>The tissue's capacity for oxygen supply</div></div>
+
+Physiologists often summarise a muscle's blood supply with anatomical indices such as capillary density, capillary-to-fibre ratio or capillary domains. We build image-based models that solve for oxygen diffusion in real tissue sections, and use their predictions to ask which indices are only descriptors of capillary geometry and which are transport-relevant measures that predict fibre oxygenation, given the size, arrangement and type of the fibres they supply.
 
 <div class="rp-frame rp-compare mt-3">
   <img-comparison-slider>
@@ -84,6 +91,8 @@ Physiologists often summarise a muscle's blood supply with anatomical indices su
 </div>
 
 ## How do population heterogeneity and interventions influence epidemic dynamics?
+
+<div class="rp-line"><div><span>Organization</span>Population groups that differ in living conditions and contact; competing pathogen strains</div><div><span>Outcome</span>Transmission, its response to interventions, and strain invasion</div></div>
 
 <div class="rp-split">
   <div markdown="1">
@@ -123,7 +132,9 @@ A second strand looks at **multistrain diseases**: the nonlinear dynamics of com
 
 ## What do nonlinear relationships in clinical data reveal about risk?
 
-With clinical collaborators, including at the Dasman Diabetes Institute, we analyse patient data to identify where standard linear assumptions break down, and develop clinical risk scores.
+<div class="rp-line"><div><span>Organization</span>Differences among patients in glycaemic state, comorbidities, ethnicity and prior infection</div><div><span>Outcome</span>ICU admission, mortality and antibody response</div></div>
+
+With clinical collaborators, including at the Dasman Diabetes Institute, we study how heterogeneity among patients, in glycaemic state, comorbidities, ethnicity and prior infection, relates to ICU admission, mortality and antibody response after vaccination. Rather than imposing clinical thresholds, we let continuous predictors such as fasting blood glucose take their natural, often nonlinear, shape, and we develop clinical risk scores validated in independent cohorts.
 
 <div class="rp-frame mt-3">
   {% include figure.liquid path="assets/img/research/glucose-icu-risk.jpg" zoomable=true alt="Curve of the log odds of ICU admission against fasting blood glucose, rising steeply at lower values and flattening at higher values, with a shaded confidence band." %}
@@ -135,6 +146,8 @@ With clinical collaborators, including at the Dasman Diabetes Institute, we anal
 **Selected work:** {% cite alahmad2020fasting ali2021advancing alhamar2022development %}
 
 ## How do genotype changes influence the complexity of phenotypes?
+
+<div class="rp-line"><div><span>Organization</span>How genotypes map onto phenotypes</div><div><span>Outcome</span>The complexity of phenotypes after genotype changes</div></div>
 
 Genotype–phenotype maps describe how genetic sequences give rise to biological traits and shapes. In collaboration with colleagues at Gulf University for Science and Technology (Kuwait) and the University of Oxford (UK), we use ideas from algorithmic information theory to investigate how changes to genotype may influence the complexity of phenotype shapes.
 
