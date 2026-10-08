@@ -79,7 +79,7 @@ Physiologists often summarise a muscle's blood supply with anatomical indices su
 
 **Methods:** reaction–diffusion PDEs on image-derived geometries; finite element methods; Green's functions and conformal mapping for diffusion in polygonal domains.
 
-**Selected work:** {% cite alshammari2012voronoi alshammari2014domains alshammari2019integrated alshammari2025utility kissane2026capillary %}
+**Selected work:** [Al-Shammari et al., 2012]({{ '/publications/' | relative_url }}#alshammari2012voronoi); [Al-Shammari et al., 2014]({{ '/publications/' | relative_url }}#alshammari2014domains); [Al-Shammari et al., 2019]({{ '/publications/' | relative_url }}#alshammari2019integrated); [Al-Shammari et al., 2025]({{ '/publications/' | relative_url }}#alshammari2025utility); [Kissane et al., 2026]({{ '/publications/' | relative_url }}#kissane2026capillary)
 
   </div>
   <div class="rp-fig">
@@ -101,7 +101,7 @@ I model infectious-disease transmission in populations made up of groups that di
 
 During the first wave of COVID-19, a preprint of this work informed the Kuwaiti government's response, including scaling up healthcare capacity, the partial and full curfews, and the staged plan for reopening. It was later published in [_Frontiers in Public Health_](https://doi.org/10.3389/fpubh.2021.757419).
 
-**Selected work:** {% cite alshammari2021strict khadadah2021npi %}
+**Selected work:** [Al-Shammari et al., 2021]({{ '/publications/' | relative_url }}#alshammari2021strict); [Khadadah et al., 2021]({{ '/publications/' | relative_url }}#khadadah2021npi)
 
   </div>
   <div class="rp-fig">
@@ -143,7 +143,7 @@ With clinical collaborators, including at the Dasman Diabetes Institute, we stud
   In the study cohort of COVID-19 patients, the estimated log-odds of ICU admission rise steeply with fasting blood glucose and then level off at higher values, a pattern a linear model would not capture. From <a href="https://doi.org/10.2337/dc20-1941">Alahmad et al., <em>Diabetes Care</em> 2020</a>.
 </p>
 
-**Selected work:** {% cite alahmad2020fasting ali2021advancing alhamar2022development %}
+**Selected work:** [Alahmad et al., 2020]({{ '/publications/' | relative_url }}#alahmad2020fasting); [Ali et al., 2021]({{ '/publications/' | relative_url }}#ali2021advancing); [Alhamar et al., 2022]({{ '/publications/' | relative_url }}#alhamar2022development)
 
 ## How do genotype changes influence the complexity of phenotypes?
 
