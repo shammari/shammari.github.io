@@ -79,7 +79,7 @@ Physiologists often summarise a muscle's blood supply with anatomical indices su
 
 **Methods:** reaction–diffusion PDEs on image-derived geometries; finite element methods; Green's functions and conformal mapping for diffusion in polygonal domains.
 
-**Selected work:** [Al-Shammari et al., 2012]({{ '/publications/' | relative_url }}#alshammari2012voronoi); [Al-Shammari et al., 2014]({{ '/publications/' | relative_url }}#alshammari2014domains); [Al-Shammari et al., 2019]({{ '/publications/' | relative_url }}#alshammari2019integrated); [Al-Shammari et al., 2025]({{ '/publications/' | relative_url }}#alshammari2025utility); [Kissane et al., 2026]({{ '/publications/' | relative_url }}#kissane2026capillary)
+**Selected work:** [Al-Shammari et al., 2012]({{ '/publications/' | relative_url }}#re-evaluating%20the%20use%20of%20voronoi); [Al-Shammari et al., 2014]({{ '/publications/' | relative_url }}#capillary%20domains%20revisited); [Al-Shammari et al., 2019]({{ '/publications/' | relative_url }}#integrated%20method%20for%20quantitative%20morphometry); [Al-Shammari et al., 2025]({{ '/publications/' | relative_url }}#utility%20of%20local%20capillary%20supply%20indices); [Kissane et al., 2026]({{ '/publications/' | relative_url }}#how%20well%20does%20quantifying)
 
   </div>
   <div class="rp-fig">
@@ -101,7 +101,7 @@ I model infectious-disease transmission in populations made up of groups that di
 
 During the first wave of COVID-19, a preprint of this work informed the Kuwaiti government's response, including scaling up healthcare capacity, the partial and full curfews, and the staged plan for reopening. It was later published in [_Frontiers in Public Health_](https://doi.org/10.3389/fpubh.2021.757419).
 
-**Selected work:** [Al-Shammari et al., 2021]({{ '/publications/' | relative_url }}#alshammari2021strict); [Khadadah et al., 2021]({{ '/publications/' | relative_url }}#khadadah2021npi)
+**Selected work:** [Al-Shammari et al., 2021]({{ '/publications/' | relative_url }}#impact%20of%20strict%20public%20health%20measures); [Khadadah et al., 2021]({{ '/publications/' | relative_url }}#non-pharmaceutical%20interventions)
 
   </div>
   <div class="rp-fig">
@@ -143,7 +143,7 @@ With clinical collaborators, including at the Dasman Diabetes Institute, we stud
   In the study cohort of COVID-19 patients, the estimated log-odds of ICU admission rise steeply with fasting blood glucose and then level off at higher values, a pattern a linear model would not capture. From <a href="https://doi.org/10.2337/dc20-1941">Alahmad et al., <em>Diabetes Care</em> 2020</a>.
 </p>
 
-**Selected work:** [Alahmad et al., 2020]({{ '/publications/' | relative_url }}#alahmad2020fasting); [Ali et al., 2021]({{ '/publications/' | relative_url }}#ali2021advancing); [Alhamar et al., 2022]({{ '/publications/' | relative_url }}#alhamar2022development)
+**Selected work:** [Alahmad et al., 2020]({{ '/publications/' | relative_url }}#nonlinearity%20matters); [Ali et al., 2021]({{ '/publications/' | relative_url }}#advancing%20risk%20analysis); [Alhamar et al., 2022]({{ '/publications/' | relative_url }}#clinical%20risk%20score%20to%20predict%20death)
 
 ## How do genotype changes influence the complexity of phenotypes?
 
