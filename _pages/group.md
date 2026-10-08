@@ -20,7 +20,7 @@ I supervise graduate students working on projects in **mathematical modelling, d
 | Name                   | Role                                        |
 | :--------------------- | :------------------------------------------ |
 | **Mohammed Dekhil**    | Research associate, epidemic modelling      |
-| **Zeinab A. Mohammad** | Research assistant, genotype–phenotype maps |
+| **Zainab A. Mohammad** | Research assistant, genotype–phenotype maps |
 
 ## Former students
 
@@ -36,6 +36,6 @@ I welcome enquiries from prospective **graduate students, postdocs and collabora
 - Oxygen transport in muscle, modelled from microscopy images of real tissue
 - Epidemic models with population structure, and the effect of interventions
 - Nonlinear risk in clinical data
-- Genotype–phenotype maps and evolutionary constraint
+- Genotype–phenotype maps and phenotype complexity
 
 To get in touch, [email me](mailto:abdullah.alshammari@ku.edu.kw) with your CV, your transcript (for students), and a few sentences on which direction interests you and why.
