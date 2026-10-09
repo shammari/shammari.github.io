@@ -36,7 +36,7 @@ weeks:
     slides:
     problems:
     code:
-    explore: /teaching/math316/tools/logistic-map/
+    explore: "#interactive-tools"
   - week: 4
     topic: Proportionality and geometric similarity
     details: Vehicular stopping distance; free fall of a raindrop; automobile gasoline mileage
@@ -263,7 +263,12 @@ Small tools for exploring ideas from the lectures. They run in your browser, nee
   <a class="cp-card" href="{{ '/teaching/math316/tools/logistic-map/' | relative_url }}">
     <span class="cp-meta">Weeks 2–3 · Difference equations</span>
     <span class="cp-card-title">The discrete logistic model</span>
-    <span class="cp-card-text">Follow a difference equation with cobweb diagrams, and watch an equilibrium give way to cycles and chaos as the growth rate increases.</span>
+    <span class="cp-card-text">Build the model from the textbook’s yeast culture data, then follow it with cobweb diagrams and watch an equilibrium give way to cycles and chaos as the growth rate increases.</span>
+  </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/difference-systems/' | relative_url }}">
+    <span class="cp-meta">Week 3 · Systems of difference equations</span>
+    <span class="cp-card-title">Systems of difference equations</span>
+    <span class="cp-card-text">Iterate the textbook’s systems, from a car rental company and the Battle of Trafalgar to owls and hawks and a discrete epidemic, and test their equilibrium values.</span>
   </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/fitting/' | relative_url }}">
     <span class="cp-meta">Weeks 5–6 · Model fitting</span>
