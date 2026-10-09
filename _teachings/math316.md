@@ -200,7 +200,7 @@ By the end of the course, students should be able to:
 
 ## Textbook and readings
 
-**Textbook:** F. R. Giordano and M. D. Weir, _A First Course in Mathematical Modeling_, Brooks/Cole, 2003.
+**Textbook:** F. R. Giordano, W. P. Fox and S. B. Horton, _A First Course in Mathematical Modeling_, 5th edition, Brooks/Cole, Cengage Learning, 2014.
 
 **Suggested further reading:**
 
