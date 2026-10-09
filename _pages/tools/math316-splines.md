@@ -21,6 +21,7 @@ A spline joins data points with a separate simple curve on each interval. A line
   <h3 style="font-size:1.05rem;margin:1.2rem 0 .3rem">Coefficients</h3>
   <div class="mm-controls" id="sp-coef-ctl"></div>
   <div class="mm-scroll"><table class="mm-table" id="sp-coef"></table></div>
+  <p class="mm-help">Piece <em>i</em> is <em>S<sub>i</sub></em>(<em>x</em>) = <em>a<sub>i</sub></em> + <em>b<sub>i</sub></em><em>x</em> + <em>c<sub>i</sub></em><em>x</em><sup>2</sup> + <em>d<sub>i</sub></em><em>x</em><sup>3</sup> on the interval shown.</p>
 </div>
 
 ## Things to try
@@ -34,7 +35,7 @@ A spline joins data points with a separate simple curve on each interval. A line
 
 ## How it is computed
 
-On the interval $$[x_i, x_{i+1}]$$ each cubic spline is written as $$S_i(x) = a_i + b_i (x - x_i) + c_i (x - x_i)^2 + d_i (x - x_i)^3$$, with $$a_i = y_i$$. Requiring the pieces, their slopes and their second derivatives to match at the interior knots gives a tridiagonal system of equations for the second derivatives $$M_i = S''(x_i)$$. The natural spline adds $$M_0 = M_n = 0$$; the clamped spline adds $$S'(x_0) = s_0$$ and $$S'(x_n) = s_n$$. Then $$c_i = M_i/2$$, $$d_i = (M_{i+1} - M_i)/(6h_i)$$ and $$b_i = (y_{i+1} - y_i)/h_i - h_i (2M_i + M_{i+1})/6$$, where $$h_i = x_{i+1} - x_i$$. The interpolating polynomial is the polynomial of lowest degree through all the knots.
+On each interval between neighbouring knots, a cubic spline is a cubic written, as in the textbook, in powers of $$x$$: $$S_i(x) = a_i + b_i x + c_i x^2 + d_i x^3$$. Requiring each piece to pass through the knots at its two ends, and neighbouring pieces to have the same slope and the same second derivative where they meet, gives a system of linear equations for the coefficients. The natural spline adds $$S''(x_0) = S''(x_n) = 0$$; the clamped spline adds $$S'(x_0) = s_0$$ and $$S'(x_n) = s_n$$. The tool solves an equivalent, smaller system for the second derivatives at the knots, $$M_i = S''(x_i)$$, which is tridiagonal, and then expands each piece in powers of $$x$$. The interpolating polynomial is the polynomial of lowest degree through all the knots.
 
 <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p>
 
@@ -153,7 +154,9 @@ On the interval $$[x_i, x_{i+1}]$$ each cubic spline is written as $$S_i(x) = a_
       var S = coefKind === "nat" ? nat : cla, h = "<thead><tr><th><em>i</em></th><th>interval</th><th><em>a<sub>i</sub></em></th><th><em>b<sub>i</sub></em></th><th><em>c<sub>i</sub></em></th><th><em>d<sub>i</sub></em></th></tr></thead><tbody>";
       if (S) S.co.forEach(function (p, j) {
         var x1 = j < S.co.length - 1 ? S.co[j + 1].x : S.x1;
-        h += "<tr><td>" + j + "</td><td>[" + M.fmt(p.x) + ", " + M.fmt(x1) + "]</td><td>" + M.fmt(p.a, 4) + "</td><td>" + M.fmt(p.b, 4) + "</td><td>" + M.fmt(p.c, 4) + "</td><td>" + M.fmt(p.d, 4) + "</td></tr>";
+        // expand a + b(x − xi) + c(x − xi)^2 + d(x − xi)^3 in powers of x, as the textbook writes it
+        var xi = p.x, A = p.a - p.b * xi + p.c * xi * xi - p.d * xi * xi * xi, B = p.b - 2 * p.c * xi + 3 * p.d * xi * xi, C = p.c - 3 * p.d * xi, D = p.d;
+        h += "<tr><td>" + (j + 1) + "</td><td>[" + M.fmt(p.x) + ", " + M.fmt(x1) + "]</td><td>" + M.fmt(A, 4) + "</td><td>" + M.fmt(B, 4) + "</td><td>" + M.fmt(C, 4) + "</td><td>" + M.fmt(D, 4) + "</td></tr>";
       });
       document.getElementById("sp-coef").innerHTML = h + "</tbody>";
     }
