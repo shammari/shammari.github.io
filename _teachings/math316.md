@@ -11,6 +11,8 @@ instructor: Abdullah A. Al-Shammari
 next_offering: To be announced
 # Weekly plan. To add a file, give its path after notes:, slides:, problems: or code:
 # (for example  notes: /assets/pdf/teaching/math316/week01-notes.pdf). Empty slots show greyed out.
+# explore: is optional. Give a tool's address or the id of a Going further card (for example  #lotka-volterra);
+# an Explore link then appears in that week's row.
 weeks:
   - week: 1
     topic: The basic idea of mathematical modeling
@@ -47,6 +49,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/fitting/
   - week: 6
     topic: Model fitting
     details: Vehicular stopping distance revisited; least-squares filters
@@ -54,6 +57,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/fitting/
   - week: 7
     topic: Experimental modeling
     details: Finite and divided differences; reliability of data; degree of polynomial fit
@@ -103,6 +107,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: "#lotka-volterra"
   - week: 14
     topic: Review
     details:
@@ -122,12 +127,24 @@ weeks:
   .cp-table th { color: var(--global-text-color); font-weight: 500; }
   .cp-table td, .cp-table th { vertical-align: top; border-color: var(--global-divider-color); }
   .cp-schedule td:first-child { width: 3.5rem; white-space: nowrap; }
-  .cp-schedule td:last-child, .cp-schedule th:last-child { width: 15.5rem; }
+  .cp-schedule td:last-child, .cp-schedule th:last-child { width: 19.5rem; }
   .cp-schedule .cp-files { flex-wrap: nowrap; }
   .cp-files.cp-files-inline { display: none; margin-top: 0.35rem; }
   .cp-details { display: block; font-size: 0.85rem; color: var(--global-text-color-light); margin-top: 0.15rem; }
   .cp-files { display: flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; font-size: 0.85rem; }
   .cp-files .off { color: var(--global-text-color-light); opacity: 0.45; }
+  .cp-files .cp-explore { font-weight: 600; }
+  .cp-meta { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--global-text-color-light); }
+  .cp-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
+  .cp-card { display: block; border: 1px solid var(--global-divider-color); border-radius: 6px; padding: 0.9rem 1.1rem; color: var(--global-text-color); transition: border-color 0.15s; }
+  .cp-card:hover { border-color: var(--global-theme-color); text-decoration: none; color: var(--global-text-color); }
+  .cp-card-title { display: block; font-weight: 500; color: var(--global-theme-color); margin: 0.25rem 0 0.35rem; }
+  .cp-card-text { display: block; font-size: 0.9rem; }
+  .cp-further { border: 1px solid var(--global-divider-color); border-left: 3px solid var(--global-theme-color); border-radius: 6px; padding: 1rem 1.2rem 0.4rem; margin: 1rem 0 1.5rem; scroll-margin-top: 5rem; }
+  .cp-further h3 { font-size: 1.15rem; margin: 0.3rem 0 0.8rem; }
+  .cp-further p, .cp-further li { font-size: 0.95rem; }
+  .cp-further ul { padding-left: 1.2rem; }
+  .cp-further .cp-label { font-weight: 600; margin-bottom: 0.3rem; }
   .cp-weights { width: auto; min-width: 18rem; }
   .cp-weights td:last-child { text-align: right; }
   .cp-note { font-size: 0.875rem; color: var(--global-text-color-light); border-left: 3px solid var(--global-theme-color); padding: 0.4rem 0.8rem; margin: 1.5rem 0; }
@@ -213,6 +230,7 @@ An indicative weekly plan, based on the lecture hours in the official syllabus. 
             {% if w.slides %}<a href="{{ w.slides | relative_url }}">Slides</a>{% else %}<span class="off">Slides</span>{% endif %}
             {% if w.problems %}<a href="{{ w.problems | relative_url }}">Problems</a>{% else %}<span class="off">Problems</span>{% endif %}
             {% if w.code %}<a href="{{ w.code | relative_url }}">Code</a>{% else %}<span class="off">Code</span>{% endif %}
+            {% if w.explore %}{% assign c = w.explore | slice: 0 %}<a class="cp-explore" href="{% if c == '#' %}{{ w.explore }}{% else %}{{ w.explore | relative_url }}{% endif %}">Explore</a>{% endif %}
           </div>
         </td>
         <td>
@@ -221,6 +239,7 @@ An indicative weekly plan, based on the lecture hours in the official syllabus. 
             {% if w.slides %}<a href="{{ w.slides | relative_url }}">Slides</a>{% else %}<span class="off">Slides</span>{% endif %}
             {% if w.problems %}<a href="{{ w.problems | relative_url }}">Problems</a>{% else %}<span class="off">Problems</span>{% endif %}
             {% if w.code %}<a href="{{ w.code | relative_url }}">Code</a>{% else %}<span class="off">Code</span>{% endif %}
+            {% if w.explore %}{% assign c = w.explore | slice: 0 %}<a class="cp-explore" href="{% if c == '#' %}{{ w.explore }}{% else %}{{ w.explore | relative_url }}{% endif %}">Explore</a>{% endif %}
           </div>
         </td>
       </tr>
@@ -229,3 +248,34 @@ An indicative weekly plan, based on the lecture hours in the official syllabus. 
 </table>
 
 <p class="cp-note">Files appear as links once they are posted. Solutions, grades and announcements are shared with enrolled students through the university's learning platform.</p>
+
+## Interactive tools
+
+Small tools for exploring ideas from the lectures. They run in your browser, need no installation, and are not assessed.
+
+<div class="cp-cards">
+  <a class="cp-card" href="{{ '/teaching/math316/tools/fitting/' | relative_url }}">
+    <span class="cp-meta">Weeks 5–6 · Model fitting</span>
+    <span class="cp-card-title">Least squares or Chebyshev?</span>
+    <span class="cp-card-text">Drag data points and compare the fit that minimizes the sum of squared deviations with the fit that minimizes the largest deviation.</span>
+  </a>
+</div>
+
+## Going further
+
+For anyone who wants to see where a topic leads: a question to think about, something to read, and a small open problem. All of it is optional and none of it is assessed.
+
+<div class="cp-further" id="lotka-volterra">
+  <span class="cp-meta">Week 13 · Systems of differential equations · Optional</span>
+  <h3>When two competitors share a resource, can both survive?</h3>
+  <p>In the competitive hunter model from class, the phase plane shows that, depending on the parameters, two species can settle at a coexistence point or one can drive the other out. The same question arises with infectious diseases: when two strains of a virus spread through the same population, can a new strain invade, and can both persist?</p>
+  <p class="cp-label">Read</p>
+  <ul>
+    <li>S. H. Strogatz, <em>Nonlinear Dynamics and Chaos</em>, 2nd ed., Westview Press, 2015, Section 6.4, “Rabbits versus sheep”. The competition model analysed in the phase plane, in the spirit of the lectures.</li>
+    <li>A. Kucharski, <em>The Rules of Contagion: Why Things Spread – and Why They Stop</em>, Profile Books, 2020. A non-technical account of how epidemic models are built and used.</li>
+  </ul>
+  <p class="cp-label">Try</p>
+  <p>Turn the two species into two strains of a virus competing for the same susceptible people. Write equations for the susceptible population <em>S</em> and the populations infected with each strain, <em>I</em><sub>1</sub> and <em>I</em><sub>2</sub>, with new susceptibles entering at a constant rate. Find the equilibria, then use a numerical solver to explore when strain 2 can invade a population where strain 1 is already established. Is there a single quantity that decides the outcome?</p>
+  <p class="cp-label">Where it leads</p>
+  <p>Competing strains were the subject of a recent graduate thesis in my group; see <a href="{{ '/research/' | relative_url }}#competing-strains">Competing strains</a> on the research page, which also describes our <a href="{{ '/research/' | relative_url }}#how-do-population-heterogeneity-and-interventions-influence-epidemic-dynamics">COVID-19 modelling for Kuwait</a>. If you take the problem further, or would like to talk about it, I would be glad to hear from you; see <a href="{{ '/group/' | relative_url }}#joining">Joining</a> on the group page.</p>
+</div>
