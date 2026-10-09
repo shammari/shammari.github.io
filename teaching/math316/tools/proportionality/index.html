@@ -1,0 +1,484 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Proportionality and geometric similarity | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 316, week 4. Test proportionality graphically with the textbook's data, build the vehicular stopping distance model and compare it with rules of thumb, and see how area and volume scale for similar objects."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Proportionality and geometric similarity"> <meta property="og:url" content="https://shammari.github.io/teaching/math316/tools/proportionality/"> <meta property="og:description" content="An interactive tool for MATH 316, week 4. Test proportionality graphically with the textbook's data, build the vehicular stopping distance model and compare it with rules of thumb, and see how area and volume scale for similar objects."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Proportionality and geometric similarity"> <meta name="twitter:description" content="An interactive tool for MATH 316, week 4. Test proportionality graphically with the textbook's data, build the vehicular stopping distance model and compare it with rules of thumb, and see how area and volume scale for similar objects."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math316/tools/proportionality/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 316, week 4. Test proportionality graphically with the textbook's data, build the vehicular stopping distance model and compare it with rules of thumb, and see how area and volume scale for similar objects.",
+        "headline": "Proportionality and geometric similarity",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math316/tools/proportionality/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Proportionality and geometric similarity</h1> <p class="post-description">An interactive tool for MATH 316, week 4. Test proportionality graphically with the textbook's data, build the vehicular stopping distance model and compare it with rules of thumb, and see how area and volume scale for similar objects.</p> </header> <article> <p><a href="/teaching/math316/">← MATH 316</a></p> <p>Two quantities are proportional, \(y \propto x\), when \(y = kx\) for some constant \(k \neq 0\). So if \(y \propto x^{3}\), the graph of \(y\) against \(x^{3}\) is a straight line <strong>through the origin</strong>, with slope \(k\). This gives a quick graphical test of a proportionality model: plot \(y\) against the proposed function of \(x\), see whether the points lie close to a line through the origin, and estimate its slope. This tool does that with the data sets in Chapter 2 of the textbook, then puts the stopping distance submodels together and shows how geometric similarity scales areas and volumes. It supports learning outcomes 1 and 2.</p> <div class="mm-wrap" id="pr"> <div class="mm-controls" id="pr-top"></div> <div class="mm-panels mm-2"> <svg id="pr-orig" role="img" aria-label="The data with the proportionality model"></svg> <svg id="pr-tran" role="img" aria-label="The data plotted against the chosen function of x, with a line through the origin"></svg> </div> <div class="mm-controls" id="pr-controls"></div> <p class="mm-help">In the right-hand panel, click a data point to draw the line through the origin and that point, as the textbook does, or drag anywhere in the panel to tilt the line by eye.</p> <p class="mm-help" id="pr-src"></p> <div class="mm-scroll"> <table class="mm-table" style="width:100%"> <thead> <tr> <th>Line and model</th> <th>Sum of squared deviations</th> <th>Largest absolute deviation</th> </tr> </thead> <tbody id="pr-out"></tbody> </table> </div> <p class="mm-readout" id="pr-pred"></p> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>Load <strong>Kepler’s third law</strong> and plot <em>T</em> against <em>R</em>. Do the points lie on a line through the origin? Now plot against <em>R</em><sup>3/2</sup>, and click the point for Neptune to get the textbook’s model, <em>T</em> = 0.408<em>R</em><sup>3/2</sup>. Use it to answer Problem 13: how long is the year of a planet 4004 million miles from the Sun?</li> <li>Load <strong>stopping distance: reaction distance</strong>. Is reaction distance proportional to speed? Estimate the slope and convert it to a response time in seconds (1 mph is 22/15 ft/s). The textbook says these results are “too good”. Why?</li> <li>Load <strong>stopping distance: braking distance</strong> and plot it against <em>v</em>, then against <em>v</em><sup>2</sup>. The bars show the range of the middle 85% of the observations. Is proportionality to <em>v</em><sup>2</sup> more convincing at low speeds or at high speeds?</li> <li>Load the <strong>bass fishing derby</strong> and plot <em>W</em> against <em>l</em><sup>3</sup>, then against <em>lg</em><sup>2</sup>. Which model has the smaller largest deviation? Which would an angler who caught a fat fish prefer? Try <em>l</em><sup>2</sup><em>g</em> and <em>g</em><sup>3</sup> as well (Problem 9).</li> <li>Load <strong>bird femurs</strong> and estimate the slope of <em>W</em> against <em>l</em><sup>3</sup>. Predict the weight of the terror bird, whose femur has a circumference of 21 cm. Then load the <strong>dinosaur</strong> data (Project 7) and predict again for a 210 mm femur. Why do the two predictions differ so much?</li> <li>Load <strong>weight and height</strong> and plot <em>W</em> against <em>h</em><sup>3</sup>. The points lie close to a straight line, but does it pass through the origin? Turn on the <strong>line with an intercept</strong>. What does the textbook’s model, <em>W</em> = <em>k</em><sub>1</sub> + <em>k</em><sub>3</sub><em>h</em><sup>2</sup> + <em>k</em><sub>5</sub><em>h</em><sup>3</sup>, say the intercept stands for?</li> <li>For any data set, estimate the slope by eye first, then turn on <strong>least squares</strong>. How close were you? Is the line through a single chosen point ever the best by either measure in the table? Chapter 3 shows how the least-squares slope is found.</li> </ol> <h2 id="stopping-distance-and-rules-of-thumb">Stopping distance and rules of thumb</h2> <p>The textbook models the total stopping distance as reaction distance plus braking distance. A driver keeps going at speed \(v\) for a response time \(t_r\) before braking, so \(d_r = t_r v\). If the brakes give the same deceleration to any car, the work done by braking equals the loss of kinetic energy, and \(d_b \propto v^{2}\). Together, with \(v\) in mph and distances in feet,</p> \[d = \tfrac{22}{15}\, t_r\, v + k v^{2},\] <p>and a response time of 3/4 s with \(k = 0.054\) gives the textbook’s model, \(d = 1.1v + 0.054v^{2}\). The plot compares the model with the observed stopping distances and with three rules for how far to stay behind the car in front.</p> <div class="mm-wrap" id="sd"> <svg id="sd-plot" role="img" aria-label="Observed stopping distances with the model and rules of thumb"></svg> <div class="mm-controls" id="sd-controls"></div> <p class="mm-readout" id="sd-out"></p> <p class="mm-help">Observed values from the U.S. Bureau of Public Roads, as given in Table 2.4 of the textbook: each bar spans the middle 85% of the observations, and the dot marks the average.</p> </div> <ol> <li>With the textbook’s values, where does the model lie relative to the bars? At what speed does it start to fall short?</li> <li>Show the <strong>one car length per 10 mph</strong> rule. Above what speed does it allow less than the average stopping distance? Do the same for the <strong>2-second rule</strong>. The two rules are often said to be the same: are they?</li> <li>Move the speed and note the trailing time needed to stop within the longest observed distance. Do these times reproduce Table 2.5, and do they support the textbook’s rule of 1, 2, 3 and 4 seconds?</li> <li>A distracted driver may take 1.5 s to react. How much farther does that driver need to stop at 60 mph? Which rules still leave enough room?</li> <li>On a wet road the braking constant is larger. Increase it and see which rule fails first.</li> </ol> <h2 id="geometric-similarity">Geometric similarity</h2> <p>Two objects are geometrically similar when one is a scaled copy of the other: every distance between corresponding points is multiplied by the same factor \(k\). Areas are then multiplied by \(k^{2}\) and volumes by \(k^{3}\), so for similar objects \(S \propto l^{2}\) and \(V \propto l^{3}\) for any characteristic length \(l\). That is the step behind the bass, bird and raindrop models.</p> <div class="mm-wrap" id="gs"> <svg id="gs-fig" role="img" aria-label="A box and a geometrically similar box scaled by a factor k"></svg> <div class="mm-controls" id="gs-controls"></div> <div class="mm-scroll"><table class="mm-table" id="gs-tab" style="width:100%"></table></div> <p class="mm-readout" id="gs-out"></p> </div> <ol> <li>Double the scale. By what factors do the lengths, the surface area and the volume change? What happens to the surface area per unit volume, and why does that matter for a small animal keeping warm (Problem 5 of Section 2.3)?</li> <li>The textbook shows that the terminal velocity of a raindrop is proportional to the one-sixth power of its mass. How much faster does a drop twice as wide fall?</li> <li>A 12-inch bass weighs about 1 lb. Set the scale to 1.5 to predict the weight of an 18-inch bass, and compare with the textbook’s conversion table.</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>For data \((x_i, y_i)\) and a proposed model \(y = k\,g(x)\), the tool plots \(y_i\) against \(X_i = g(x_i)\). Your line is \(y = kX\) with the slope you set; clicking a point \((X_j, y_j)\) sets \(k = y_j / X_j\). The least-squares line through the origin has \(k = \sum X_i y_i \big/ \sum X_i^{2}\), and the line with an intercept is the usual least-squares line \(y = a + bX\). The table compares the lines by the sum of squared deviations \(\sum [y_i - f(x_i)]^2\) and the largest absolute deviation \(\max_i \lvert y_i - f(x_i) \rvert\). In the stopping distance plot, a rule that keeps \(t\) seconds behind the car in front allows \(\tfrac{22}{15}\, t\, v\) feet at \(v\) mph, and the trailing time needed is the longest observed stopping distance divided by the speed in feet per second.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    var FPS = 22 / 15; // 1 mph in ft/s
+    // Numbers with n significant figures; large values are rounded and grouped.
+    function num(v, n) {
+      if (!isFinite(v)) return "—";
+      var a = Math.abs(v), s;
+      if (a >= Math.pow(10, n)) s = Math.round(v).toLocaleString("en-US");
+      else s = String(+v.toPrecision(n));
+      return s.replace("-", "−");
+    }
+    var V = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
+    function rows(xs, ys) { return xs.map(function (x, i) { return [x, ys[i]]; }); }
+    var BL = [14.5, 12.5, 17.25, 14.5, 12.625, 17.75, 14.125, 12.625], BG = [9.75, 8.375, 11.0, 9.75, 8.5, 12.5, 9.0, 8.5], BW = [27, 17, 41, 26, 17, 49, 23, 16];
+    // Data sets from Chapter 2 of the textbook. lo and hi give the range of the middle 85% of observations where the book has one.
+    var sets = {
+      kepler: {
+        name: "Kepler's third law", xv: "R", yv: "T", xname: "mean distance from the Sun, R (millions of miles)", yname: "period, T (days)",
+        pts: [[36, 88.0], [67.25, 224.7], [93, 365.3], [141.75, 687.0], [483.8, 4331.8], [887.97, 10760.0], [1764.5, 30684.0], [2791.05, 60188.3]],
+        book: { "p1.5": 7 }, pred: 4004, src: "Mean distances and orbital periods of the planets (Table 2.3, from the 1993 <em>World Almanac</em>). The textbook draws the line through the point for Neptune and obtains <em>T</em> = 0.408<em>R</em><sup>3/2</sup>.",
+      },
+      reaction: {
+        name: "Stopping distance: reaction distance", xv: "v", yv: "d", xname: "speed, v (mph)", yname: "reaction distance, d (ft)",
+        pts: rows(V, [22, 28, 33, 39, 44, 50, 55, 61, 66, 72, 77, 83, 88]),
+        pred: 90, src: "Driver reaction distances (Table 2.4). The textbook estimates the slope as 1.1, a response time of about 3/4 s.",
+      },
+      braking: {
+        name: "Stopping distance: braking distance", xv: "v", yv: "d", xname: "speed, v (mph)", yname: "braking distance, d (ft)",
+        pts: rows(V, [20, 28, 40.5, 52.5, 72, 92.5, 118, 148.5, 182, 220.5, 266, 318, 376]),
+        book: { p2: 10 }, lo: [18, 25, 36, 47, 64, 82, 105, 132, 162, 196, 237, 283, 334], hi: [22, 31, 45, 58, 80, 103, 131, 165, 202, 245, 295, 353, 418],
+        pred: 90, src: "Braking distances (Table 2.4): averages, with bars for the middle 85% of the observations. The textbook draws the line through the point for 70 mph and obtains <em>d</em> = 0.054<em>v</em><sup>2</sup>.",
+      },
+      bass: {
+        name: "Bass fishing derby", xv: "l", yv: "W", xname: "length, l (in.)", yname: "weight, W (oz)", girth: BG, gname: "girth, g (in.)",
+        pts: rows(BL, BW), book: { p3: 3, lg2: 2 }, pred: 18, predG: 12,
+        src: "Length, girth and weight of eight bass (Section 2.3). Through the point for the 26-oz fish the textbook obtains <em>W</em> = 0.00853<em>l</em><sup>3</sup> and, through the 41-oz fish, <em>W</em> = 0.0196<em>lg</em><sup>2</sup>.",
+      },
+      birds: {
+        name: "Bird femurs and the terror bird", xv: "l", yv: "W", xname: "femur circumference, l (cm)", yname: "body weight, W (kg)",
+        pts: [[0.7943, 0.0832], [0.7079, 0.0912], [1.0, 0.1413], [1.122, 0.1479], [1.6982, 0.2455], [1.2023, 0.2818], [1.9953, 0.7943], [2.2387, 2.5119], [2.5119, 1.4125], [2.5119, 0.8913], [3.1623, 1.9953], [3.5481, 4.2658], [4.4668, 6.3096], [5.8884, 11.2202], [6.7608, 19.95], [15.136, 141.25], [15.85, 158.4893]],
+        pred: 21, src: "Femur circumference and body weight of birds (Table 2.6). The textbook estimates <em>W</em> = 0.0398<em>l</em><sup>3</sup> and predicts about 369 kg for the terror bird's 21 cm femur.",
+      },
+      dinos: {
+        name: "Dinosaur femurs", xv: "l", yv: "W", xname: "femur circumference, l (mm)", yname: "weight, W (kg)",
+        pts: [[103, 55], [136, 115], [201, 311], [267, 640], [348, 1230], [400, 1818], [504, 3300], [512, 3500], [534, 4000]],
+        pred: 210, src: "Femur circumference and weight of dinosaurs (Project 7 of Section 2.3). Note that the circumference is in millimetres here.",
+      },
+      height: {
+        name: "Weight and height", xv: "h", yv: "W", xname: "height, h (in.)", yname: "weight, W (lb)",
+        pts: rows([60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80], [132, 136, 141, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 201, 206, 212, 218, 223, 229, 234]),
+        pred: 84, src: "Upper weight limits for males aged 17–21 (Table 2.7). The textbook's model is <em>W</em> = <em>k</em><sub>1</sub> + <em>k</em><sub>3</sub><em>h</em><sup>2</sup> + <em>k</em><sub>5</sub><em>h</em><sup>3</sup>.",
+      },
+    };
+    // Functions of x to plot against. Those marked g also use the girth.
+    var SUP = { 0.5: "^(1/2)", 1: "", 1.5: "^(3/2)", 2: "²", 3: "³" }, SUPH = { 0.5: "1/2", 1.5: "3/2", 2: "2", 3: "3" };
+    function powers(d) {
+      var o = [0.5, 1, 1.5, 2, 3].map(function (p) {
+        return { id: "p" + p, text: d.xv + SUP[p], html: "<em>" + d.xv + "</em>" + (p === 1 ? "" : "<sup>" + SUPH[p] + "</sup>"), f: function (x) { return Math.pow(x, p); } };
+      });
+      if (d.girth)
+        o.push(
+          { id: "lg2", g: true, text: "l·g²", html: "<em>lg</em><sup>2</sup>", f: function (x, g) { return x * g * g; } },
+          { id: "l2g", g: true, text: "l²·g", html: "<em>l</em><sup>2</sup><em>g</em>", f: function (x, g) { return x * x * g; } },
+          { id: "g3", g: true, text: "g³", html: "<em>g</em><sup>3</sup>", f: function (x, g) { return g * g * g; } }
+        );
+      return o;
+    }
+    var key = "kepler", tid = "p1", show = { ls: false, int: false }, lines = {}, predX = {}, predG = {};
+    Object.keys(sets).forEach(function (k) { predX[k] = sets[k].pred; predG[k] = sets[k].predG; });
+    var orig = new M.Plot(document.getElementById("pr-orig"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, aspect: 0.72, aspectNarrow: 0.75, left: 44, right: 24 });
+    var tran = new M.Plot(document.getElementById("pr-tran"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, aspect: 0.72, aspectNarrow: 0.75, left: 44, right: 24 });
+    function axes(plot, xmax, ymax) {
+      var rx = M.niceRange(0, xmax * 1.04, 5), ry = M.niceRange(0, ymax * 1.06, 5);
+      plot.o.x0 = 0; plot.o.x1 = rx.hi; plot.o.gx = rx.step; plot.o.lx = rx.step * (plot.o.x1 / rx.step > (window.innerWidth < 768 ? 4 : 6) ? 2 : 1);
+      plot.o.y0 = 0; plot.o.y1 = ry.hi; plot.o.gy = ry.step; plot.o.ly = ry.step;
+    }
+    function tick(v) {
+      if (Math.abs(v) < 1e-12) return "0";
+      var a = Math.abs(v);
+      return (a >= 1e4 ? Math.round(v).toLocaleString("en-US") : String(+v.toPrecision(3))).replace("-", "−");
+    }
+    function current() {
+      var d = sets[key], T = powers(d).filter(function (t) { return t.id === tid; })[0] || powers(d)[1];
+      var X = d.pts.map(function (p, i) { return T.f(p[0], d.girth ? d.girth[i] : 0); }), Y = d.pts.map(function (p) { return p[1]; });
+      return { d: d, T: T, X: X, Y: Y };
+    }
+    function fits(c) {
+      var sxy = 0, sxx = 0;
+      c.X.forEach(function (x, i) { sxy += x * c.Y[i]; sxx += x * x; });
+      var ab = M.lsq(c.X.map(function (x) { return [1, x]; }), c.Y);
+      return { ls: sxy / sxx, a: ab ? ab[0] : NaN, b: ab ? ab[1] : NaN };
+    }
+    function stats(f, c) {
+      var s = 0, m = 0;
+      c.X.forEach(function (x, i) { var r = c.Y[i] - f(x); s += r * r; m = Math.max(m, Math.abs(r)); });
+      return { sse: s, max: m };
+    }
+    // Your line starts through the point the textbook uses, or else the point with the largest X, until you set it.
+    function mine(c) {
+      var id = key + "/" + c.T.id;
+      if (!lines[id]) {
+        var j = 0;
+        c.X.forEach(function (x, i) { if (x > c.X[j]) j = i; });
+        if (c.d.book && c.d.book[c.T.id] !== undefined) j = c.d.book[c.T.id];
+        lines[id] = { k: c.Y[j] / c.X[j], anchor: j };
+      }
+      return lines[id];
+    }
+    function draw() {
+      var c = current(), d = c.d, L = mine(c), F = fits(c), K;
+      document.getElementById("pr-src").innerHTML = d.src;
+      gInput.parentNode.style.display = c.T.g ? "" : "none";
+      var px = predX[key], pg = predG[key], hasPred = isFinite(px) && px > 0 && (!c.T.g || (isFinite(pg) && pg > 0));
+      var PX = hasPred ? c.T.f(px, pg) : NaN;
+      // original data
+      var xs = d.pts.map(function (p) { return p[0]; }), ys = d.pts.map(function (p) { return p[1]; }).concat(d.hi || []);
+      if (hasPred) { xs.push(px); ys.push(L.k * PX); }
+      axes(orig, Math.max.apply(null, xs), Math.max.apply(null, ys));
+      orig.o.xname = d.xname; orig.o.yname = d.yname; orig.o.fx = tick; orig.o.fy = tick;
+      orig.frame();
+      K = orig.K;
+      function model(k) { return function (x) { return k * c.T.f(x); }; }
+      if (!c.T.g) {
+        var curve = function (f) { var o = []; for (var i = 0; i <= 300; i++) { var x = (orig.o.x1 * i) / 300; o.push([x, f(x)]); } return o; };
+        if (show.int && isFinite(F.a)) { var pi = orig.path(curve(function (x) { return F.a + F.b * c.T.f(x); }), "mm-c"); pi.style.strokeDasharray = "6 4"; }
+        if (show.ls) { var pl = orig.path(curve(model(F.ls)), "mm-b"); pl.style.strokeDasharray = "6 4"; }
+        orig.path(curve(model(L.k)), "mm-a");
+      } else {
+        // the model depends on the girth too, so show its value for each fish
+        c.X.forEach(function (X, i) {
+          M.el("line", { x1: orig.sx(xs[i]), y1: orig.sy(c.Y[i]), x2: orig.sx(xs[i]), y2: orig.sy(L.k * X), class: "mm-a", style: "stroke-width:1.5" }, orig.data);
+          var r = orig.circle(xs[i], L.k * X, 4.5, "mm-eq-u", orig.data);
+          r.style.stroke = "var(--mm-a)";
+        });
+      }
+      if (d.hi) d.pts.forEach(function (p, i) { M.el("line", { x1: orig.sx(p[0]), y1: orig.sy(d.lo[i]), x2: orig.sx(p[0]), y2: orig.sy(d.hi[i]), class: "mm-curve", style: "stroke-width:1.5;opacity:.45" }, orig.data); });
+      d.pts.forEach(function (p) { orig.circle(p[0], p[1], 3.8, "mm-dot", orig.data); });
+      if (hasPred) { var pr = orig.circle(px, L.k * PX, 6, "mm-handle"); pr.setAttribute("stroke", "var(--mm-a)"); }
+      // transformed data
+      axes(tran, Math.max.apply(null, c.X), Math.max.apply(null, c.Y.concat(d.hi || [])));
+      tran.o.xname = c.T.text; tran.o.yname = d.yv; tran.o.fx = tick; tran.o.fy = tick;
+      tran.frame();
+      var x1 = tran.o.x1;
+      if (show.int && isFinite(F.a)) { var li = tran.path([[0, F.a], [x1, F.a + F.b * x1]], "mm-c"); li.style.strokeDasharray = "6 4"; }
+      if (show.ls) { var ll = tran.path([[0, 0], [x1, F.ls * x1]], "mm-b"); ll.style.strokeDasharray = "6 4"; }
+      tran.path([[0, 0], [x1, L.k * x1]], "mm-a");
+      if (d.hi) c.X.forEach(function (X, i) { M.el("line", { x1: tran.sx(X), y1: tran.sy(d.lo[i]), x2: tran.sx(X), y2: tran.sy(d.hi[i]), class: "mm-curve", style: "stroke-width:1.5;opacity:.45" }, tran.data); });
+      c.X.forEach(function (X, i) { tran.circle(X, c.Y[i], 3.8, "mm-dot", tran.data); });
+      if (L.anchor >= 0) { var ring = tran.circle(c.X[L.anchor], c.Y[L.anchor], 9, "mm-handle"); ring.setAttribute("stroke", "var(--mm-a)"); ring.style.strokeWidth = "2"; }
+      // a small square where the line leaves the plot, as a reminder that it can be tilted
+      var hx = Math.min(x1 * 0.92, (tran.o.y1 * 0.92) / L.k), s = 4.5 * tran.K;
+      M.el("rect", { x: tran.sx(hx) - s, y: tran.sy(L.k * hx) - s, width: 2 * s, height: 2 * s, class: "mm-handle", stroke: "var(--mm-a)" }, tran.top);
+      // table
+      var Xh = c.T.html, yv = "<em>" + d.yv + "</em>";
+      var R = [["Your line through the origin", "var(--mm-a)", yv + " = " + num(L.k, 3) + " " + Xh, stats(function (X) { return L.k * X; }, c)]];
+      if (show.ls) R.push(["Least squares through the origin", "var(--mm-b)", yv + " = " + num(F.ls, 4) + " " + Xh, stats(function (X) { return F.ls * X; }, c)]);
+      if (show.int && isFinite(F.a)) R.push(["Least-squares line with an intercept", "var(--mm-c)", yv + " = " + num(F.a, 4) + (F.b < 0 ? " − " : " + ") + num(Math.abs(F.b), 4) + " " + Xh, stats(function (X) { return F.a + F.b * X; }, c)]);
+      document.getElementById("pr-out").innerHTML = R.map(function (r) {
+        return "<tr><td><span class=\"mm-key\" style=\"border-color:" + r[1] + "\"></span>" + r[0] + "<br><span style=\"color:var(--global-text-color-light);margin-left:1.75rem;white-space:nowrap\">" + r[2] + "</span></td><td>" + num(r[3].sse, 4) + "</td><td>" + num(r[3].max, 3) + "</td></tr>";
+      }).join("");
+      // prediction
+      var at = "<em>" + d.xv + "</em> = " + num(px, 4) + (c.T.g ? " and <em>g</em> = " + num(pg, 4) : "");
+      var t = hasPred ? "Prediction at " + at + ": your model gives " + yv + " ≈ <b>" + num(L.k * PX, 4) + "</b>" : "Enter a positive value to predict.";
+      if (hasPred && show.ls) t += "; least squares gives <b>" + num(F.ls * PX, 4) + "</b>";
+      if (hasPred && show.int && isFinite(F.a)) t += "; the line with an intercept gives <b>" + num(F.a + F.b * PX, 4) + "</b>";
+      document.getElementById("pr-pred").innerHTML = t + (hasPred ? "." : "");
+    }
+    // controls
+    var top = document.getElementById("pr-top"), tSel;
+    M.select(M.group(top, "Data"), Object.keys(sets).map(function (k) { return [k, sets[k].name]; }), key, function (v) {
+      key = v; tid = "p1"; fillT(); fillPred(); draw();
+    });
+    var gt = M.group(top, "Plot against");
+    function fillT() {
+      if (tSel) tSel.parentNode.removeChild(tSel);
+      tSel = M.select(gt, powers(sets[key]).map(function (t) { return [t.id, t.text]; }), tid, function (v) { tid = v; draw(); });
+    }
+    var box = document.getElementById("pr-controls"), gs = M.group(box, "Show");
+    M.checkbox(gs, "<span style=\"color:var(--mm-b)\">Least squares</span>", show.ls, function (c) { show.ls = c; draw(); });
+    M.checkbox(gs, "<span style=\"color:var(--mm-c)\">Line with an intercept</span>", show.int, function (c) { show.int = c; draw(); });
+    var gp = M.group(box, "Predict at");
+    function numInput(label) {
+      var lab = M.html("label", null, gp), sp = M.html("span", null, lab);
+      sp.innerHTML = label;
+      var inp = M.html("input", { type: "number", min: "0", step: "any", style: "width:6.5rem;font:inherit;font-size:.88rem;padding:.1rem .3rem;border:1px solid var(--global-divider-color);border-radius:4px;background:var(--global-bg-color);color:var(--global-text-color)" }, lab);
+      return inp;
+    }
+    var xInput = numInput("<em>x</em> ="), gInput = numInput("<em>g</em> =");
+    function fillPred() {
+      xInput.previousSibling.innerHTML = "<em>" + sets[key].xv + "</em> =";
+      xInput.value = predX[key];
+      gInput.value = predG[key] === undefined ? "" : predG[key];
+    }
+    xInput.addEventListener("input", function () { predX[key] = parseFloat(xInput.value); draw(); });
+    gInput.addEventListener("input", function () { predG[key] = parseFloat(gInput.value); draw(); });
+    // pointer on the right-hand panel: click a point to put the line through it, or drag to tilt the line
+    var svg = tran.svg, dragging = false;
+    function setFrom(p, anchor) {
+      if (!(p.x > 0) || !isFinite(p.y)) return;
+      var c = current(), L = mine(c);
+      L.k = Math.max(1e-12, p.y / p.x);
+      L.anchor = anchor;
+      draw();
+    }
+    svg.addEventListener("pointerdown", function (evt) {
+      var p = tran.at(evt), c = current(), best = -1, bd = Math.pow(14 * tran.K, 2);
+      c.X.forEach(function (X, i) {
+        var dx = tran.sx(X) - p.px, dy = tran.sy(c.Y[i]) - p.py, dd = dx * dx + dy * dy;
+        if (dd < bd) { bd = dd; best = i; }
+      });
+      evt.preventDefault();
+      if (best >= 0) { setFrom({ x: c.X[best], y: c.Y[best] }, best); return; }
+      if (!tran.inside(p.x, p.y)) return;
+      dragging = true;
+      svg.setPointerCapture(evt.pointerId);
+      setFrom(p, -1);
+    });
+    svg.addEventListener("pointermove", function (evt) { if (dragging) setFrom(tran.at(evt), -1); });
+    function release() { dragging = false; }
+    svg.addEventListener("pointerup", release);
+    svg.addEventListener("pointercancel", release);
+    fillT();
+    fillPred();
+    M.onResize(function () { draw(); drawSD(); drawGS(); });
+    draw();
+
+    // ---- Stopping distance and rules of thumb ----
+    var DT = [42, 56, 73.5, 91.5, 116, 142.5, 173, 209.5, 248, 292.5, 343, 401, 464];
+    var DLO = [40, 53, 69, 86, 108, 132, 160, 193, 228, 268, 314, 366, 422], DHI = [44, 59, 78, 97, 124, 153, 186, 226, 268, 317, 372, 436, 506];
+    var sd = { tr: 0.75, kb: 0.054, v: 60, car: true, two: false, book: false };
+    var sp = new M.Plot(document.getElementById("sd-plot"), { x0: 0, x1: 85, y0: 0, y1: 550, gx: 5, gy: 50, lx: 10, ly: 100, xname: "speed, v (mph)", yname: "distance (ft)", aspect: 0.56, aspectNarrow: 0.9, left: 26, right: 16 });
+    // the textbook's alternative rule: trailing time in seconds by speed
+    function bookTime(v) { return v <= 10 ? 1 : v <= 40 ? 2 : v <= 60 ? 3 : v <= 75 ? 4 : NaN; }
+    function sdModel(v) { return FPS * sd.tr * v + sd.kb * v * v; }
+    function drawSD() {
+      sp.frame();
+      var K = sp.K, i, v, o;
+      function line(f, cls, dash) {
+        o = [];
+        for (i = 0; i <= 340; i++) { v = (85 * i) / 340; o.push([v, f(v)]); }
+        var p = sp.path(o, cls);
+        if (dash) p.style.strokeDasharray = dash;
+        return p;
+      }
+      sp.path([[sd.v, 0], [sd.v, 550]], "mm-zero");
+      if (sd.car) line(function (v) { return 1.5 * v; }, "mm-b");
+      if (sd.two) line(function (v) { return 2 * FPS * v; }, "mm-c");
+      if (sd.book) {
+        o = [];
+        for (i = 0; i <= 300; i++) { v = (75 * i) / 300; o.push([v, bookTime(v) * FPS * v]); if (i < 300 && bookTime(v) !== bookTime((75 * (i + 1)) / 300)) o.push([NaN, NaN]); }
+        var bp = sp.path(o, "mm-curve");
+        bp.style.strokeDasharray = "5 3";
+        [[25, "2 s"], [50, "3 s"], [68, "4 s"]].forEach(function (q) { sp.text(q[0], bookTime(q[0]) * FPS * q[0] + 14, q[1], { "text-anchor": "middle", style: "font-size:" + 11 * K + "px" }, sp.data); });
+      }
+      V.forEach(function (v, j) { M.el("line", { x1: sp.sx(v), y1: sp.sy(DLO[j]), x2: sp.sx(v), y2: sp.sy(DHI[j]), class: "mm-curve", style: "stroke-width:2;opacity:.45" }, sp.data); });
+      line(sdModel, "mm-a");
+      V.forEach(function (v, j) { sp.circle(v, DT[j], 3.6, "mm-dot", sp.data); });
+      // readout at the chosen speed
+      var j = V.indexOf(sd.v), fps = sd.v * FPS, t = "At <b>" + sd.v + " mph</b> (" + M.fmt(fps, 1) + " ft/s) the model gives <b>" + M.fmt(sdModel(sd.v), 1) + " ft</b>";
+      t += " (reaction " + M.fmt(FPS * sd.tr * sd.v, 1) + " ft, braking " + M.fmt(sd.kb * sd.v * sd.v, 1) + " ft).";
+      if (j >= 0) t += " Observed: " + DLO[j] + "–" + DHI[j] + " ft, average " + DT[j] + " ft. To stop within the longest of these, stay <b>" + M.fmt(DHI[j] / fps, 1) + " s</b> behind the car in front.";
+      var r = [];
+      function judge(name, dist) { r.push(name + " allows " + M.fmt(dist, 0) + " ft" + (j >= 0 ? (dist >= DHI[j] ? " (enough)" : dist >= DT[j] ? " (more than the average, less than the longest)" : " (<b>less than the average</b>)") : "")); }
+      if (sd.car) judge("one car length per 10 mph", 1.5 * sd.v);
+      if (sd.two) judge("the 2-second rule", 2 * fps);
+      if (sd.book && isFinite(bookTime(sd.v))) judge("the textbook's rule (" + bookTime(sd.v) + " s)", bookTime(sd.v) * fps);
+      if (r.length) { var u = r.join("; "); t += " " + u.charAt(0).toUpperCase() + u.slice(1) + "."; }
+      document.getElementById("sd-out").innerHTML = t;
+    }
+    var sb = document.getElementById("sd-controls"), g1 = M.group(sb, "Model");
+    var trS = M.slider(g1, { label: "response time <em>t<sub>r</sub></em> (s)", min: 0.25, max: 2.5, step: 0.05, value: sd.tr, digits: 2, onInput: function (v) { sd.tr = v; drawSD(); } });
+    var kbS = M.slider(g1, { label: "braking constant <em>k</em>", min: 0.03, max: 0.09, step: 0.001, value: sd.kb, digits: 3, onInput: function (v) { sd.kb = v; drawSD(); } });
+    M.button(g1, "Textbook values", function () { sd.tr = 0.75; sd.kb = 0.054; trS.set(0.75); kbS.set(0.054); drawSD(); });
+    var g2 = M.group(sb, "Rules");
+    M.checkbox(g2, "<span style=\"color:var(--mm-b)\">One car length (15 ft) per 10 mph</span>", sd.car, function (c) { sd.car = c; drawSD(); });
+    M.checkbox(g2, "<span style=\"color:var(--mm-c)\">2-second rule</span>", sd.two, function (c) { sd.two = c; drawSD(); });
+    M.checkbox(g2, "Textbook's rule: 1, 2, 3 or 4 s (dashed)", sd.book, function (c) { sd.book = c; drawSD(); });
+    M.slider(M.group(sb, "Speed"), { label: "<em>v</em> (mph)", min: 20, max: 80, step: 5, value: sd.v, digits: 0, onInput: function (v) { sd.v = v; drawSD(); } });
+    drawSD();
+
+    // ---- Geometric similarity ----
+    var BOX = [4, 2.4, 2], gk = 2; // length, depth and height of the first box
+    var fig = document.getElementById("gs-fig");
+    fig.classList.add("mm-plot");
+    function drawGS() {
+      var W = 640, H = 230, w = fig.getBoundingClientRect().width, K = w > 0 ? W / w : 1;
+      if (window.innerWidth < 768) H = 300;
+      fig.setAttribute("viewBox", "0 0 " + W + " " + H);
+      fig.style.fontSize = 12 * K + "px";
+      while (fig.firstChild) fig.removeChild(fig.firstChild);
+      var kmax = Math.max(gk, 1.5), ox = 0.55, oy = 0.4; // oblique projection of the depth
+      var unitsW = (1 + kmax) * (BOX[0] + ox * BOX[1]) + 2.5, unitsH = kmax * (BOX[2] + oy * BOX[1]);
+      var s = Math.min((W - 20) / unitsW, (H - 40 * K) / unitsH), base = H - 26 * K;
+      function box(x0, k, cls, lab) {
+        var l = BOX[0] * k * s, d = BOX[1] * k * s, h = BOX[2] * k * s, dx = ox * d, dy = oy * d;
+        function P(pts) { return pts.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" "); }
+        var st = "stroke-width:1.6;stroke-linejoin:round";
+        M.el("polygon", { points: P([[x0, base], [x0 + l, base], [x0 + l, base - h], [x0, base - h]]), class: cls, style: st + ";fill-opacity:.16" }, fig);
+        M.el("polygon", { points: P([[x0, base - h], [x0 + l, base - h], [x0 + l + dx, base - h - dy], [x0 + dx, base - h - dy]]), class: cls, style: st + ";fill-opacity:.3" }, fig);
+        M.el("polygon", { points: P([[x0 + l, base], [x0 + l + dx, base - dy], [x0 + l + dx, base - h - dy], [x0 + l, base - h]]), class: cls, style: st + ";fill-opacity:.45" }, fig);
+        var t = M.el("text", { x: x0 + l / 2, y: base + 17 * K, "text-anchor": "middle" }, fig);
+        t.textContent = lab;
+        return x0 + l + dx;
+      }
+      var x = 10 + 0.5 * s;
+      x = box(x, 1, "mm-gs-a", "l");
+      box(x + 1.5 * s, gk, "mm-gs-b", (gk === 1 ? "" : num(gk, 3)) + " l");
+    }
+    function tableGS() {
+      var l = BOX[0], d = BOX[1], h = BOX[2];
+      function S(k) { return 2 * k * k * (l * d + l * h + d * h); }
+      function Vo(k) { return k * k * k * l * d * h; }
+      var R = [
+        ["Length <em>l</em>", l, l * gk, gk, "<em>k</em>"],
+        ["Surface area <em>S</em>", S(1), S(gk), gk * gk, "<em>k</em><sup>2</sup>"],
+        ["Volume <em>V</em>", Vo(1), Vo(gk), gk * gk * gk, "<em>k</em><sup>3</sup>"],
+        ["Surface area per unit volume, <em>S</em>/<em>V</em>", S(1) / Vo(1), S(gk) / Vo(gk), 1 / gk, "1/<em>k</em>"],
+      ];
+      var h1 = "<thead><tr><th>Quantity</th><th>First box</th><th>Scaled box</th><th>Ratio</th></tr></thead><tbody>";
+      R.forEach(function (r) { h1 += "<tr><td>" + r[0] + "</td><td>" + num(r[1], 3) + "</td><td>" + num(r[2], 3) + "</td><td style=\"white-space:nowrap\">" + r[4] + " = " + num(r[3], 3) + "</td></tr>"; });
+      document.getElementById("gs-tab").innerHTML = h1 + "</tbody>";
+      document.getElementById("gs-out").innerHTML = "With constant density, mass is proportional to volume, so it changes by a factor of <b>" + num(gk * gk * gk, 3) + "</b>. A raindrop's terminal velocity is proportional to <em>m</em><sup>1/6</sup>, so a drop scaled by <em>k</em> = " + num(gk, 3) + " falls <b>" + num(Math.sqrt(gk), 3) + "</b> times as fast.";
+    }
+    var css = document.createElement("style");
+    css.textContent = ".mm-plot .mm-gs-a{stroke:var(--mm-a);fill:var(--mm-a)}.mm-plot .mm-gs-b{stroke:var(--mm-b);fill:var(--mm-b)}";
+    document.head.appendChild(css);
+    M.slider(M.group(document.getElementById("gs-controls"), "Scale"), { label: "factor <em>k</em>", min: 0.5, max: 3, step: 0.05, value: gk, digits: 2, onInput: function (v) { gk = v; drawGS(); tableGS(); } });
+    drawGS();
+    tableGS();
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>
