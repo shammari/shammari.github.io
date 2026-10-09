@@ -28,6 +28,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/logistic-map/
   - week: 3
     topic: Modeling with discrete dynamical systems
     details: Properties of dynamical systems; elements of finance
@@ -35,6 +36,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/logistic-map/
   - week: 4
     topic: Proportionality and geometric similarity
     details: Vehicular stopping distance; free fall of a raindrop; automobile gasoline mileage
@@ -79,6 +81,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/linear-programming/
   - week: 10
     topic: Discrete optimization
     details: Linear programming and the simplex method
@@ -86,6 +89,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/linear-programming/
   - week: 11
     topic: Modeling with a differential equation
     details: Population dynamics; vehicular stopping distance
@@ -93,6 +97,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/phase-line/
   - week: 12
     topic: Modeling with a differential equation
     details: Graphical solutions of autonomous differential equations
@@ -100,6 +105,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/phase-line/
   - week: 13
     topic: Modeling with systems of differential equations
     details: Autonomous systems; phase-plane trajectories; competitive hunter and Lotka–Volterra predator–prey models
@@ -107,7 +113,7 @@ weeks:
     slides:
     problems:
     code:
-    explore: "#lotka-volterra"
+    explore: "#interactive-tools"
   - week: 14
     topic: Review
     details:
@@ -254,10 +260,35 @@ An indicative weekly plan, based on the lecture hours in the official syllabus. 
 Small tools for exploring ideas from the lectures. They run in your browser, need no installation, and are not assessed.
 
 <div class="cp-cards">
+  <a class="cp-card" href="{{ '/teaching/math316/tools/logistic-map/' | relative_url }}">
+    <span class="cp-meta">Weeks 2–3 · Difference equations</span>
+    <span class="cp-card-title">The discrete logistic model</span>
+    <span class="cp-card-text">Follow a difference equation with cobweb diagrams, and watch an equilibrium give way to cycles and chaos as the growth rate increases.</span>
+  </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/fitting/' | relative_url }}">
     <span class="cp-meta">Weeks 5–6 · Model fitting</span>
     <span class="cp-card-title">Least squares or Chebyshev?</span>
     <span class="cp-card-text">Drag data points, or load real data on Kuwait’s population, and compare the fit that minimizes the sum of squared deviations with the fit that minimizes the largest deviation.</span>
+  </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/linear-programming/' | relative_url }}">
+    <span class="cp-meta">Weeks 9–10 · Discrete optimization</span>
+    <span class="cp-card-title">Linear programming</span>
+    <span class="cp-card-text">Solve the carpenter’s problem, or a randomly generated coffee-shop problem, on the graph and step through the simplex method one pivot at a time.</span>
+  </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/phase-line/' | relative_url }}">
+    <span class="cp-meta">Weeks 11–12 · Differential equations</span>
+    <span class="cp-card-title">Phase lines and solution curves</span>
+    <span class="cp-card-text">Read the behaviour of an autonomous equation from the graph of its right-hand side: Newton’s law of cooling, diffusion across a membrane, and logistic growth with and without harvesting.</span>
+  </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/predator-prey/' | relative_url }}">
+    <span class="cp-meta">Week 13 · Systems of differential equations</span>
+    <span class="cp-card-title">Predators and prey</span>
+    <span class="cp-card-text">Trajectories of the Lotka–Volterra model in the phase plane, with harvesting, limited resources and saturating predation.</span>
+  </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/competitive-hunter/' | relative_url }}">
+    <span class="cp-meta">Week 13 · Systems of differential equations</span>
+    <span class="cp-card-title">Competing species</span>
+    <span class="cp-card-text">The competitive hunter model and its extension with limited resources: drag the nullclines and see which species wins.</span>
   </a>
 </div>
 
