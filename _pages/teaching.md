@@ -13,7 +13,7 @@ I teach undergraduate and graduate courses in calculus, differential equations a
 
 | Course   | Title                                                                     |
 | :------- | :------------------------------------------------------------------------ |
-| MATH 101 | Calculus 1                                                                |
+| MATH 101 | [Calculus 1]({{ site.baseurl }}/teaching/math101/)                        |
 | MATH 102 | Calculus 2                                                                |
 | MATH 103 | Biomathematics                                                            |
 | MATH 211 | Calculus 3                                                                |
