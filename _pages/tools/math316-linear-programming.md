@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Linear programming
-description: An interactive tool for MATH 316, weeks 9–10. Solve two-variable linear programs graphically and step through the simplex method.
+description: An interactive tool for MATH 316, week 10. Solve two-variable linear programs graphically and step through the simplex method.
 permalink: /teaching/math316/tools/linear-programming/
 ---
 
@@ -38,7 +38,7 @@ A linear program chooses the values of decision variables that make a linear obj
 
 ## How it is computed
 
-The problem is to maximize $$z = c_1 x_1 + c_2 x_2$$ subject to $$a_{i1} x_1 + a_{i2} x_2 \le b_i$$ for each constraint and $$x_1, x_2 \ge 0$$. The feasible region is found by cutting a large rectangle with each constraint, and its corners are evaluated directly. The simplex method adds a slack variable $$s_i$$ to each constraint, starts at the origin, and at each step brings in the variable with the most negative entry in the bottom row of the tableau, choosing the row to pivot on by the smallest ratio of right-hand side to pivot-column entry. Whole-number solutions are found by checking every integer point in the region. The carpenter's problem uses the data from the textbook; the coffee shop problems use made-up numbers, with profits in fils.
+The problem is to maximize $$z = c_1 x_1 + c_2 x_2$$ subject to $$a_{i1} x_1 + a_{i2} x_2 \le b_i$$ for each constraint and $$x_1, x_2 \ge 0$$. The feasible region is found by cutting a large rectangle with each constraint, and its corners are evaluated directly. The simplex method adds a slack variable $$y_i$$ to each constraint, and $$z$$ for the objective function, as in the textbook, starts at the origin, and at each step applies the optimality test (the entering variable has the negative coefficient of largest absolute value in the last row) and the feasibility test (the exiting variable is in the row with the smallest positive ratio of right-hand side to the entering variable's coefficient), and pivots. Whole-number solutions are found by checking every integer point in the region. The carpenter's problem uses the data from the textbook, and the tableaux follow its format; the coffee shop problems use made-up numbers, with profits in fils.
 
 <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p>
 
@@ -53,7 +53,7 @@ The problem is to maximize $$z = c_1 x_1 + c_2 x_2$$ subject to $$a_{i1} x_1 + a
         title: "Carpenter's problem",
         vars: ["tables", "bookcases"], unit: "$",
         c: [25, 30],
-        cons: [{ name: "Lumber (units)", a: [20, 30], b: 690 }, { name: "Labour (hours)", a: [5, 4], b: 120 }],
+        cons: [{ name: "Lumber (board-feet)", a: [20, 30], b: 690 }, { name: "Labour (hours)", a: [5, 4], b: 120 }],
       };
     }
     function ri(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
@@ -169,7 +169,10 @@ The problem is to maximize $$z = c_1 x_1 + c_2 x_2$$ subject to $$a_{i1} x_1 + a
       }
       return M.fmt(v, 3).replace("-", "−");
     }
-    function vname(j) { return j < 2 ? "<em>x</em>" + SUB[j] : "<em>s</em>" + SUB[j - 2]; }
+    // Variable names as in the textbook: decision variables x1, x2 and slack variables y1, y2, ...
+    function vname(j) { return j < 2 ? "<em>x</em>" + SUB[j] : "<em>y</em>" + SUB[j - 2]; }
+    var decimals = false;
+    function shown(v) { return decimals ? (Math.abs(v - Math.round(v)) < 1e-9 ? String(Math.round(v)) : M.fmt(v, 6).replace(/0+$/, "")) : frac(v); }
     function num(v) { return Math.abs(v - Math.round(v)) < 1e-9 ? String(Math.round(v)) : M.fmt(v, 2); }
     function money(v) { return prob.unit === "$" ? "$" + num(v) : num(v) + " " + prob.unit; }
     var plot = new M.Plot(document.getElementById("lp-plot"), { x0: 0, x1: 10, y0: 0, y1: 10, gx: 1, gy: 1, aspect: 0.85, aspectNarrow: 0.9, left: 24 });
@@ -236,7 +239,14 @@ The problem is to maximize $$z = c_1 x_1 + c_2 x_2$$ subject to $$a_{i1} x_1 + a
       }
       // tables
       var ct = "<thead><tr><th>Corner</th><th><em>x</em>₁</th><th><em>x</em>₂</th><th>Profit (" + prob.unit + ")</th></tr></thead><tbody>";
-      S.corners.slice().sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; }).forEach(function (q, i) {
+      // Corners are labelled A, B, C, ... anticlockwise from the origin, as in the textbook.
+      var cx = 0, cy = 0;
+      S.corners.forEach(function (q) { cx += q[0] / S.corners.length; cy += q[1] / S.corners.length; });
+      var ordered = S.corners.slice().sort(function (a, b) { return Math.atan2(a[1] - cy, a[0] - cx) - Math.atan2(b[1] - cy, b[0] - cx); });
+      var start = 0;
+      ordered.forEach(function (q, i) { if (q[0] + q[1] < ordered[start][0] + ordered[start][1] - 1e-9) start = i; });
+      ordered = ordered.slice(start).concat(ordered.slice(0, start));
+      ordered.forEach(function (q, i) {
         var best = S.best && Math.abs(q[0] - S.best.p[0]) + Math.abs(q[1] - S.best.p[1]) < 1e-7;
         ct += "<tr" + (best ? " class=\"mm-best\"" : "") + "><td>" + String.fromCharCode(65 + i) + "</td><td>" + num(q[0]) + "</td><td>" + num(q[1]) + "</td><td>" + num(zval(prob, q)) + "</td></tr>";
       });
@@ -247,29 +257,36 @@ The problem is to maximize $$z = c_1 x_1 + c_2 x_2$$ subject to $$a_{i1} x_1 + a
       document.getElementById("lp-out").innerHTML = txt;
       drawTableau();
     }
+    // Tableau in the textbook's format: columns x1, x2, y1, ..., z, RHS, and the dependent variable of each row.
     function drawTableau() {
       var tab = document.getElementById("lp-tab"), info = document.getElementById("lp-step");
-      if (!steps.length) { tab.innerHTML = ""; info.innerHTML = "Press <b>Start</b> to set up the initial tableau."; return; }
-      var st = steps[stepIx], m = st.basis.length, n = st.T[0].length - 1;
-      var h = "<thead><tr><th>Basic</th>";
-      for (var j = 0; j < n; j++) h += "<th" + (st.status === "pivot" && j === st.col ? " class=\"mm-pc\"" : "") + ">" + vname(j) + "</th>";
-      h += "<th>RHS</th>" + (st.status === "pivot" ? "<th>Ratio</th>" : "") + "</tr></thead><tbody>";
+      if (!steps.length) { tab.innerHTML = ""; info.innerHTML = "Press <b>Start</b> to set up Tableau 0 at the origin."; return; }
+      var st = steps[stepIx], m = st.basis.length, n = st.T[0].length - 1, piv = st.status === "pivot";
+      var h = "<thead><tr>";
+      for (var j = 0; j < n; j++) h += "<th" + (piv && j === st.col ? " class=\"mm-pc\"" : "") + ">" + vname(j) + "</th>";
+      h += "<th><em>z</em></th><th>RHS</th><th></th>" + (piv ? "<th>Ratio</th>" : "") + "</tr></thead><tbody>";
       for (var r = 0; r <= m; r++) {
-        var pr = st.status === "pivot" && r === st.row;
-        h += "<tr" + (pr ? " class=\"mm-pc\"" : "") + "><td>" + (r < m ? vname(st.basis[r]) : "<em>z</em>") + "</td>";
-        for (var c = 0; c <= n; c++) {
-          var cls = st.status === "pivot" && c === st.col ? (pr ? "mm-pc mm-pe" : "mm-pc") : "";
-          h += "<td" + (cls ? " class=\"" + cls + "\"" : "") + ">" + frac(st.T[r][c]) + "</td>";
+        var pr = piv && r === st.row;
+        h += "<tr" + (pr ? " class=\"mm-pc\"" : "") + ">";
+        for (var c = 0; c < n; c++) {
+          var cls = piv && c === st.col ? (pr ? "mm-pc mm-pe" : "mm-pc") : "";
+          h += "<td" + (cls ? " class=\"" + cls + "\"" : "") + ">" + shown(st.T[r][c]) + "</td>";
         }
-        if (st.status === "pivot") h += "<td>" + (r < m && st.ratios[r][1] !== null ? frac(st.ratios[r][1]) : "") + "</td>";
+        h += "<td>" + (r < m ? "0" : "1") + "</td><td>" + shown(st.T[r][n]) + "</td><td style=\"color:var(--global-text-color-light)\">(= " + (r < m ? vname(st.basis[r]) : "<em>z</em>") + ")</td>";
+        if (piv) h += "<td>" + (r < m && st.ratios[r][1] !== null ? shown(st.ratios[r][1]) : "") + "</td>";
         h += "</tr>";
       }
       tab.innerHTML = h + "</tbody>";
-      var x = point(st), z = st.T[m][n], t = "Step " + stepIx + ": the current corner is <em>x</em>₁ = " + frac(x[0]) + ", <em>x</em>₂ = " + frac(x[1]) + ", with <em>z</em> = " + frac(z) + ". ";
-      if (st.status === "pivot")
-        t += "Entering variable: " + vname(st.col) + " (most negative entry in the bottom row, " + frac(st.T[m][st.col]) + "). Smallest ratio in row " + vname(st.basis[st.row]) + ", which leaves the basis. Pivot on " + frac(st.T[st.row][st.col]) + ".";
-      else if (st.status === "optimal") t += "No negative entries remain in the bottom row, so this corner is optimal.";
-      else t += "No positive entries in the pivot column: the problem is unbounded.";
+      var x = point(st), z = st.T[m][n];
+      var dep = st.basis.map(vname).concat(["<em>z</em>"]), indep = [];
+      for (var k = 0; k < n; k++) if (st.basis.indexOf(k) < 0) indep.push(vname(k));
+      var t = "<b>Tableau " + stepIx + (stepIx === 0 ? " (original tableau)" : "") + ".</b> Dependent variables: {" + dep.join(", ") + "}. Independent variables: " + indep.join(" = ") + " = 0. Extreme point: (<em>x</em>₁, <em>x</em>₂) = (" + shown(x[0]) + ", " + shown(x[1]) + "). Value of the objective function: <em>z</em> = " + shown(z) + ".<br>";
+      if (piv) {
+        t += "<b>Optimality test:</b> the entering variable is " + vname(st.col) + ", which has the negative coefficient of largest absolute value, " + shown(st.T[m][st.col]) + ", in the last row. ";
+        var rs = st.ratios.filter(function (q) { return q[1] !== null; }).map(function (q) { return shown(st.T[q[0]][n]) + " ÷ " + shown(st.T[q[0]][st.col]) + " = " + shown(q[1]); });
+        t += "<b>Feasibility test:</b> the ratios of the right-hand sides to the entries in the " + vname(st.col) + " column are " + rs.join(", ") + "; the smallest positive ratio is in the row of " + vname(st.basis[st.row]) + ", which is the exiting variable. <b>Pivot</b> on " + shown(st.T[st.row][st.col]) + ".";
+      } else if (st.status === "optimal") t += "<b>Optimality test:</b> there are no negative coefficients in the last row, so this extreme point is optimal.";
+      else t += "There are no positive entries in the column of the entering variable, so the objective function can increase without limit.";
       info.innerHTML = t;
     }
     function buildProblemTable() {
@@ -316,6 +333,7 @@ The problem is to maximize $$z = c_1 x_1 + c_2 x_2$$ subject to $$a_{i1} x_1 + a
     M.button(g2, "Next pivot", function () { if (!steps.length) steps = simplex(prob); else if (stepIx < steps.length - 1) stepIx++; draw(); });
     M.button(g2, "Back", function () { if (stepIx > 0) stepIx--; draw(); });
     M.button(g2, "Reset", function () { steps = []; stepIx = 0; draw(); });
+    M.select(g2, [["frac", "Fractions"], ["dec", "Decimals"]], "frac", function (v) { decimals = v === "dec"; drawTableau(); });
     // pointer: the profit line passes through the pointer
     var svg = plot.svg;
     function moveLine(evt) { var p = plot.at(evt); Z = Math.max(0, zval(prob, [Math.max(p.x, 0), Math.max(p.y, 0)])); draw(); }

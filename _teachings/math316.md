@@ -67,6 +67,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: "#interactive-tools"
   - week: 8
     topic: Experimental modeling
     details: Linear and cubic spline models
@@ -74,6 +75,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/splines/
   - week: 9
     topic: Discrete optimization
     details: An overview of discrete optimization modeling
@@ -81,7 +83,6 @@ weeks:
     slides:
     problems:
     code:
-    explore: /teaching/math316/tools/linear-programming/
   - week: 10
     topic: Discrete optimization
     details: Linear programming and the simplex method
@@ -97,7 +98,6 @@ weeks:
     slides:
     problems:
     code:
-    explore: /teaching/math316/tools/phase-line/
   - week: 12
     topic: Modeling with a differential equation
     details: Graphical solutions of autonomous differential equations
@@ -200,7 +200,7 @@ By the end of the course, students should be able to:
 
 ## Textbook and readings
 
-**Textbook:** F. R. Giordano and M. D. Weir, _A First Course in Mathematical Modeling_, Brooks/Cole, 2003.
+**Textbook:** F. R. Giordano, W. P. Fox and S. B. Horton, _A First Course in Mathematical Modeling_, 5th edition, Brooks/Cole, Cengage Learning, 2014.
 
 **Suggested further reading:**
 
@@ -270,13 +270,28 @@ Small tools for exploring ideas from the lectures. They run in your browser, nee
     <span class="cp-card-title">Least squares or Chebyshev?</span>
     <span class="cp-card-text">Drag data points, or load real data on Kuwait’s population, and compare the fit that minimizes the sum of squared deviations with the fit that minimizes the largest deviation.</span>
   </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/ladder-of-powers/' | relative_url }}">
+    <span class="cp-meta">Week 7 · Experimental modeling</span>
+    <span class="cp-card-title">The ladder of powers</span>
+    <span class="cp-card-text">Move each variable up or down the ladder of powers until the data straighten, and read off a one-term model, for the planets, Kuwait’s population and mystery data.</span>
+  </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/polynomials/' | relative_url }}">
+    <span class="cp-meta">Week 7 · Experimental modeling</span>
+    <span class="cp-card-title">High or low order?</span>
+    <span class="cp-card-text">Fit polynomials of any degree, test them on points held back from the fit, and use divided differences to choose a sensible degree.</span>
+  </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/splines/' | relative_url }}">
+    <span class="cp-meta">Week 8 · Experimental modeling</span>
+    <span class="cp-card-title">Linear and cubic splines</span>
+    <span class="cp-card-text">Compare linear, natural and clamped cubic splines through points you can drag, with their derivatives and coefficients.</span>
+  </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/linear-programming/' | relative_url }}">
-    <span class="cp-meta">Weeks 9–10 · Discrete optimization</span>
+    <span class="cp-meta">Week 10 · Linear programming</span>
     <span class="cp-card-title">Linear programming</span>
     <span class="cp-card-text">Solve the carpenter’s problem, or a randomly generated coffee-shop problem, on the graph and step through the simplex method one pivot at a time.</span>
   </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/phase-line/' | relative_url }}">
-    <span class="cp-meta">Weeks 11–12 · Differential equations</span>
+    <span class="cp-meta">Week 12 · Differential equations</span>
     <span class="cp-card-title">Phase lines and solution curves</span>
     <span class="cp-card-text">Read the behaviour of an autonomous equation from the graph of its right-hand side: Newton’s law of cooling, diffusion across a membrane, and logistic growth with and without harvesting.</span>
   </a>

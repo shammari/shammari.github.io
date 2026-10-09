@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Phase lines and solution curves
-description: An interactive tool for MATH 316, weeks 11–12. Explore autonomous differential equations dy/dt = f(y) through the phase line, the stability of equilibria and solution curves.
+description: An interactive tool for MATH 316, week 12. Explore autonomous differential equations dy/dt = f(y) through the phase line, the stability of equilibria and solution curves.
 permalink: /teaching/math316/tools/phase-line/
 ---
 
@@ -23,19 +23,21 @@ For an autonomous differential equation $$dy/dt = f(y)$$, the graph of $$f$$ tel
 
 ## Things to try
 
-1. Choose **Newton's law of cooling** and hide everything except the axes. Sketch $$f$$, the phase line and the solution curves starting at 90 °C and at 5 °C. Then reveal them and compare.
-2. Change <em>k</em>. What happens to the solution curves, and what does <em>k</em> mean physically? Compare a cup of tea in a thin glass with one in a vacuum flask.
-3. Switch to **diffusion across a membrane**. Why does the same equation describe both situations? What plays the part of the room temperature?
-4. In **logistic growth**, where is a solution curve steepest? Find that point on the graph of $$f$$ and explain why.
-5. In **logistic growth with harvesting**, increase the harvest <em>H</em>. What happens to the two equilibria, and at what harvest do they meet? Compare it with <em>rK</em>/4. What happens to the population beyond that?
-6. In **growth with a threshold**, what happens to populations that start below <em>A</em>? Why might a small population of a species fail even when resources are plentiful?
-7. Can two solution curves cross? Can a solution curve cross an equilibrium line? Why not?
+1. Start with the **textbook example**, $$dy/dt = (y + 1)(y - 2)$$. Hide everything, draw the phase line and mark where $$y'$$ and $$y''$$ are positive and negative, then sketch solution curves. Reveal them, with **concavity** on, and compare.
+2. Choose **Newton's law of cooling** (the cooling soup, in a room at 15 °C) and hide everything except the axes. Sketch $$f$$, the phase line and the solution curves starting at 90 °C and at 5 °C. Then reveal them and compare.
+3. Change <em>k</em>. What happens to the solution curves, and what does <em>k</em> mean physically? Compare a cup of tea in a thin glass with one in a vacuum flask.
+4. Switch to **diffusion across a membrane**. Why does the same equation describe both situations? What plays the part of the room temperature?
+5. In **logistic growth**, where is a solution curve steepest? Find that point on the graph of $$f$$ and explain why.
+6. In **logistic growth with harvesting**, increase the harvest <em>H</em>. What happens to the two equilibria, and at what harvest do they meet? Compare it with <em>rK</em>/4. What happens to the population beyond that?
+7. In **growth with a threshold**, what happens to populations that start below <em>A</em>? Why might a small population of a species fail even when resources are plentiful?
+8. Can two solution curves cross? Can a solution curve cross an equilibrium line? Why not?
 
 ## How it is computed
 
-Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is stable if $$f'(y^*) < 0$$, unstable if $$f'(y^*) > 0$$, and semi-stable if $$f$$ has the same sign on both sides of it. Solution curves are computed forwards and backwards in time from the chosen point with the fourth-order Runge–Kutta method. The models are
+Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is stable if $$f'(y^*) < 0$$, unstable if $$f'(y^*) > 0$$, and semi-stable if $$f$$ has the same sign on both sides of it. Since $$y'' = f'(y)\,f(y)$$, solution curves change concavity at the equilibria and where $$f'(y) = 0$$; the concavity option marks the latter. Solution curves are computed forwards and backwards in time from the chosen point with the fourth-order Runge–Kutta method. The models are
 
-- Newton's law of cooling: $$dT/dt = -k\,(T - T_a)$$;
+- the textbook's example $$dy/dt = (y + 1)(y - 2)$$;
+- Newton's law of cooling: $$dH/dt = -k\,(H - H_s)$$, where $$H_s$$ is the temperature of the surroundings;
 - diffusion across a membrane into a well-mixed cell: $$dC/dt = -k\,(C - C_e)$$;
 - logistic growth: $$dP/dt = rP\,(1 - P/K)$$, with harvesting $$dP/dt = rP\,(1 - P/K) - H$$;
 - growth with a threshold: $$dP/dt = rP\,(P/A - 1)(1 - P/K)$$.
@@ -48,12 +50,20 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
     var M = window.MMTools;
     // Each model: variable name, axis range, time span, parameters (label, min, max, step, value, digits), f, equation text, default starts.
     var models = {
+      example: {
+        name: "Textbook example: (y + 1)(y − 2)",
+        v: "y", vname: "y", y0: -3, y1: 4, gy: 0.5, ly: 1, t1: 3, gt: 0.5,
+        params: {},
+        f: function (y) { return (y + 1) * (y - 2); },
+        eq: function () { return "d<em>y</em>/d<em>t</em> = (<em>y</em> + 1)(<em>y</em> − 2)"; },
+        starts: [[0, 1.9], [0, -2.5], [0, 0.5], [0.4, 2.1]],
+      },
       cooling: {
-        name: "Newton's law of cooling",
-        v: "T", vname: "temperature, T (°C)", y0: 0, y1: 100, gy: 10, ly: 20, t1: 30, gt: 5,
-        params: { k: ["<em>k</em>", 0.02, 1, 0.01, 0.2, 2], Ta: ["<em>T</em><sub>a</sub>", 0, 50, 1, 25, 0] },
-        f: function (y, p) { return -p.k * (y - p.Ta); },
-        eq: function (p) { return "d<em>T</em>/d<em>t</em> = −" + M.fmt(p.k) + " (<em>T</em> − " + M.fmt(p.Ta, 0) + ")"; },
+        name: "Newton's law of cooling (cooling soup)",
+        v: "H", vname: "temperature, H (°C)", y0: 0, y1: 100, gy: 10, ly: 20, t1: 30, gt: 5,
+        params: { k: ["<em>k</em>", 0.02, 1, 0.01, 0.2, 2], Hs: ["surroundings (°C)", 0, 50, 1, 15, 0] },
+        f: function (y, p) { return -p.k * (y - p.Hs); },
+        eq: function (p) { return "d<em>H</em>/d<em>t</em> = −" + M.fmt(p.k) + " (<em>H</em> − " + M.fmt(p.Hs, 0) + ")"; },
         starts: [[0, 90], [0, 5]],
       },
       diffusion: {
@@ -92,7 +102,14 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
       },
     };
     var key = "cooling", mdl, par = {}, starts = [], dragging = false;
-    var show = { f: true, line: true, field: false, sol: true };
+    var show = { f: true, line: true, field: false, sol: true, conc: false };
+    // Where y'' = f'(y) f(y) changes sign away from equilibria, solution curves have inflection points: the roots of f'.
+    function inflections(eqs) {
+      var span = mdl.y1 - mdl.y0, d = span * 1e-5;
+      return M.roots(function (y) { return (f(y + d) - f(y - d)) / (2 * d); }, mdl.y0, mdl.y1, 1000).filter(function (y) {
+        return !eqs.some(function (e) { return Math.abs(e.y - y) < span * 1e-3; });
+      });
+    }
     var fp = new M.Plot(document.getElementById("pl-f"), { x0: 0, x1: 1, y0: -1, y1: 1, gx: 1, gy: 1, xname: "y", yname: "f", aspect: 0.7, aspectNarrow: 0.7, left: 26 });
     var sp = new M.Plot(document.getElementById("pl-sol"), { x0: 0, x1: 30, y0: 0, y1: 1, gx: 5, gy: 1, xname: "time, t", yname: "", aspect: 0.7, aspectNarrow: 0.75, left: 26 });
     function f(y) { return mdl.f(y, par); }
@@ -178,6 +195,8 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
           }
       }
       if (show.line) eqs.forEach(function (e) { sp.path([[0, e.y], [mdl.t1, e.y]], e.kind === "stable" ? "mm-null-a" : "mm-null-b"); });
+      var infl = inflections(eqs);
+      if (show.conc) infl.forEach(function (y) { var l = sp.path([[0, y], [mdl.t1, y]], "mm-zero"); l.style.strokeDasharray = "1 3"; l.style.strokeWidth = "1.6"; });
       if (show.sol)
         starts.forEach(function (s0, idx) {
           sp.path(solution(s0[0], s0[1]), idx === starts.length - 1 ? "mm-curve" : "mm-curve mm-faded");
@@ -187,6 +206,7 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
       var txt = eqs.length
         ? "Equilibria: " + eqs.map(function (e) { return mdl.v + " = <b>" + M.fmt(e.y, span > 20 ? 1 : 2) + "</b> (" + e.kind + ")"; }).join(", ") + "."
         : "No equilibria in this range.";
+      if (show.conc && infl.length) txt += " Solution curves change concavity (<em>" + mdl.v + "</em>″ changes sign) where they cross " + infl.map(function (y) { return mdl.v + " = <b>" + M.fmt(y, span > 20 ? 1 : 2) + "</b>"; }).join(", ") + " (dotted).";
       if (key === "harvest") {
         var msy = (par.r * par.K) / 4;
         txt += " The largest harvest the population can sustain is <em>rK</em>/4 = <b>" + M.fmt(msy, 1) + "</b>" + (par.H > msy ? "; at this harvest every population declines to zero." : ".");
@@ -203,6 +223,7 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
     M.checkbox(g2, "Phase line and equilibria", show.line, function (c) { show.line = c; draw(); });
     M.checkbox(g2, "Solution curves", show.sol, function (c) { show.sol = c; draw(); });
     M.checkbox(g2, "Slope field", show.field, function (c) { show.field = c; draw(); });
+    M.checkbox(g2, "Concavity", show.conc, function (c) { show.conc = c; draw(); });
     M.button(g2, "Clear", function () { starts = []; draw(); });
     function setModel(k) {
       key = k; mdl = models[k]; par = {};
@@ -212,6 +233,7 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
         par[name] = s[4];
         M.slider(pg, { label: s[0], min: s[1], max: s[2], step: s[3], value: s[4], digits: s[5], onInput: function (v) { par[name] = v; draw(); } });
       });
+      pg.style.display = Object.keys(mdl.params).length ? "" : "none";
       starts = mdl.starts.map(function (s) { return s.slice(); });
       draw();
     }
