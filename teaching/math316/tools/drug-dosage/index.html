@@ -1,0 +1,261 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Prescribing drug dosage | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 316, week 11. Explore how repeated doses build up in the bloodstream and design a dosing schedule that is safe and effective."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Prescribing drug dosage"> <meta property="og:url" content="https://shammari.github.io/teaching/math316/tools/drug-dosage/"> <meta property="og:description" content="An interactive tool for MATH 316, week 11. Explore how repeated doses build up in the bloodstream and design a dosing schedule that is safe and effective."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Prescribing drug dosage"> <meta name="twitter:description" content="An interactive tool for MATH 316, week 11. Explore how repeated doses build up in the bloodstream and design a dosing schedule that is safe and effective."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math316/tools/drug-dosage/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 316, week 11. Explore how repeated doses build up in the bloodstream and design a dosing schedule that is safe and effective.",
+        "headline": "Prescribing drug dosage",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math316/tools/drug-dosage/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Prescribing drug dosage</h1> <p class="post-description">An interactive tool for MATH 316, week 11. Explore how repeated doses build up in the bloodstream and design a dosing schedule that is safe and effective.</p> </header> <article> <p><a href="/teaching/math316/">← MATH 316</a></p> <p>Between doses, the concentration of a drug in the blood decreases at a rate proportional to the concentration, \(dC/dt = -kC\). Each dose raises the concentration by \(C_0\), and doses are repeated every \(T\) hours. How much drug is left over just before each dose, and how should \(C_0\) and \(T\) be chosen so that the concentration stays between the lowest effective level \(L\) and the highest safe level \(H\)? This tool follows the textbook’s model. It supports learning outcomes 1, 10 and 11.</p> <div class="mm-wrap" id="dd"> <div class="mm-controls" id="dd-top"></div> <svg id="dd-plot" role="img" aria-label="Drug concentration against time, with the safe and effective band between L and H"></svg> <div class="mm-controls" id="dd-controls"></div> <p class="mm-readout" id="dd-out"></p> <h3 style="font-size:1.05rem;margin:1.2rem 0 .3rem">Peaks and residuals as difference equations</h3> <svg id="dd-seq" role="img" aria-label="Concentration just after and just before each dose, against the dose number"></svg> <p class="mm-help">Just after the <em>n</em>th dose the concentration is <em>C<sub>n</sub></em> (the peaks); just before the next dose it is the residual <em>R</em><sub><em>n</em>+1</sub> = <em>r</em> <em>C<sub>n</sub></em>, where <em>r</em> = <em>e</em><sup>−<em>kT</em></sup> is the fraction left after one interval. So the peaks follow the linear difference equation <em>C</em><sub><em>n</em>+1</sub> = <em>r</em> <em>C<sub>n</sub></em> + <em>C</em><sub>0</sub>, the same kind of model as the digoxin prescription in week 3.</p> <p class="mm-readout" id="dd-seq-out"></p> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>With the starting values, does the concentration stay between <em>L</em> and <em>H</em>? Watch the residuals approach their limit <em>R</em>, and check it against \(R = C_0/(e^{kT} - 1)\).</li> <li>Make <em>T</em> long and then short. When are the doses essentially independent, and when does the drug build up? Relate what you see to the ratio \(R/C_0 = 1/(e^{kT} - 1)\).</li> <li>Press <strong>use the textbook’s schedule</strong>, which sets \(C_0 = H - L\), \(T = \frac{1}{k}\ln\frac{H}{L}\) and a loading dose that raises the concentration to <em>H</em>. Why does the concentration then move between <em>L</em> and <em>H</em>? Turn the loading dose off: what goes wrong, and for how long?</li> <li>Set <em>k</em> = 0.01 per hour and <em>T</em> = 10 hours. What is the smallest <em>n</em> for which <em>R<sub>n</sub></em> &gt; 0.5<em>R</em>? Check your answer from the formula for <em>R<sub>n</sub></em>.</li> <li>Suppose <em>H</em> = 2 mg/ml, <em>L</em> = 0.5 mg/ml and <em>k</em> = 0.02 per hour. Design a schedule, then check it with the tool.</li> <li>Load <strong>digoxin</strong>: a daily dose of 0.1 mg, with half of the drug remaining after each day. Compare the peaks with the difference equation \(a_{n+1} = 0.5\,a_n + 0.1\) from week 3, starting from 0.1, 0.2 and 0.3. What is the equilibrium, and how is it related to \(C_0 + R\)?</li> <li>Turn on <strong>gradual absorption</strong>, for a drug taken by mouth. How do the peaks change? Is the textbook’s schedule still safe and effective?</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>Between doses, \(C(t) = C(t_n)\,e^{-k(t - t_n)}\). With equal doses \(C_0\) every \(T\) hours, the residual just before dose \(n + 1\) is</p> \[R_n = \frac{C_0\, e^{-kT}\left(1 - e^{-nkT}\right)}{1 - e^{-kT}} \;\longrightarrow\; R = \frac{C_0}{e^{kT} - 1},\] <p>so the concentration settles into a cycle between \(R\) and \(R + C_0\). Setting \(C_0 = H - L\) and \(R = L\) gives \(e^{kT} = H/L\), the textbook’s dose schedule \(T = \frac{1}{k}\ln\frac{H}{L}\). With gradual absorption, each dose first enters the gut, \(G' = -k_a G\), and passes into the blood, \(C' = k_a G - kC\); this is solved numerically with the fourth-order Runge–Kutta method, and the formulas above no longer apply exactly. The drug and its levels are made up, apart from the textbook’s digoxin example; the tool is for learning about the model, not for medical use.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    var P = { k: 0.1, C0: 1, T: 6, H: 2, L: 0.5, first: 1, N: 12, ka: 1 };
+    var oral = false, unit = "mg/ml", sl = {};
+    var plot = new M.Plot(document.getElementById("dd-plot"), { x0: 0, x1: 72, y0: 0, y1: 3, gx: 6, gy: 0.5, lx: 12, ly: 1, xname: "time (hours)", yname: "concentration (mg/ml)", aspect: 0.42, aspectNarrow: 0.75, left: 30 });
+    var seq = new M.Plot(document.getElementById("dd-seq"), { x0: 0, x1: 12, y0: 0, y1: 3, gx: 1, gy: 0.5, lx: 2, ly: 1, xname: "dose number, n", yname: "", aspect: 0.3, aspectNarrow: 0.6, left: 30 });
+    // Simulate N doses. Instant absorption uses the exact exponential; gradual absorption uses RK4 for the gut and blood.
+    function simulate() {
+      var pts = [], peaks = [], troughs = [], C = 0, G = 0, t = 0;
+      for (var n = 0; n < P.N; n++) {
+        var dose = n === 0 ? P.first : P.C0;
+        if (oral) G += dose; else C += dose;
+        var steps = 240, h = P.T / steps, peak = C;
+        pts.push([t, C]);
+        for (var i = 1; i <= steps; i++) {
+          if (oral) {
+            var s = M.rk4(function (tt, y) { return [-P.ka * y[0], P.ka * y[0] - P.k * y[1]]; }, 0, [G, C], h);
+            G = s[0]; C = s[1];
+          } else C = C * Math.exp(-P.k * h);
+          if (C > peak) peak = C;
+          pts.push([t + i * h, C]);
+        }
+        peaks.push(peak);
+        troughs.push(C);
+        t += P.T;
+      }
+      return { pts: pts, peaks: peaks, troughs: troughs, end: t };
+    }
+    function fmtU(v) { return M.fmt(v, 3) + " " + unit; }
+    function draw() {
+      var sim = simulate(), r = Math.exp(-P.k * P.T), R = P.C0 / (Math.exp(P.k * P.T) - 1);
+      var top = Math.max(P.H * 1.15, Math.max.apply(null, sim.peaks) * 1.1), ry = M.niceRange(0, top, 6), rx = M.niceRange(0, sim.end, 8);
+      plot.o.x1 = rx.hi; plot.o.gx = rx.step; plot.o.lx = rx.step * 2; plot.o.y1 = ry.hi; plot.o.gy = ry.step; plot.o.ly = ry.step * 2;
+      plot.o.yname = "concentration (" + unit + ")";
+      plot.frame();
+      // the safe and effective band
+      M.el("rect", { x: plot.sx(0), y: plot.sy(P.H), width: plot.sx(rx.hi) - plot.sx(0), height: plot.sy(P.L) - plot.sy(P.H), style: "fill:var(--mm-c);opacity:.12;stroke:none" }, plot.data);
+      plot.path([[0, P.H], [rx.hi, P.H]], "mm-null-b");
+      plot.path([[0, P.L], [rx.hi, P.L]], "mm-null-a");
+      plot.text(rx.hi, P.H, "H ", { "text-anchor": "end", dy: -4 * plot.K });
+      plot.text(rx.hi, P.L, "L ", { "text-anchor": "end", dy: -4 * plot.K });
+      if (!oral) { var lr = plot.path([[0, R], [rx.hi, R]], "mm-zero"); lr.style.strokeDasharray = "1 3"; lr.style.strokeWidth = "1.6"; }
+      plot.path(sim.pts, "mm-curve");
+      sim.troughs.forEach(function (v, i) { var c = plot.circle((i + 1) * P.T, v, 3.2, "mm-dot", plot.data); c.style.fill = "var(--mm-a)"; });
+      // readout
+      var lastPeak = sim.peaks[sim.peaks.length - 1], lastTrough = sim.troughs[sim.troughs.length - 1];
+      var t = "";
+      if (!oral) {
+        var n95 = Math.ceil(Math.log(0.05) / (-P.k * P.T));
+        t += "Fraction left after one interval: <em>r</em> = <em>e</em><sup>−<em>kT</em></sup> = <b>" + M.fmt(r, 3) + "</b>. Limiting residual <em>R</em> = <b>" + fmtU(R) + "</b> (dotted), so the concentration settles between <b>" + M.fmt(R, 3) + "</b> and <b>" + M.fmt(R + P.C0, 3) + "</b>; <em>R</em>/<em>C</em><sub>0</sub> = <b>" + M.fmt(R / P.C0, 3) + "</b>. ";
+        if (Math.abs(P.first - P.C0) < 1e-9) t += "Starting from no drug, the residual is within 5% of <em>R</em> after <b>" + n95 + "</b> doses. ";
+      } else t += "With gradual absorption, the last cycle runs between <b>" + M.fmt(lastTrough, 3) + "</b> and a peak of <b>" + M.fmt(lastPeak, 3) + "</b> " + unit + ". ";
+      var over = sim.peaks.some(function (v) { return v > P.H + 1e-9; }), under = sim.troughs.slice(1).some(function (v) { return v < P.L - 1e-9; });
+      t += over && under ? "The concentration both rises above <em>H</em> and falls below <em>L</em>." : over ? "The concentration rises above the highest safe level <em>H</em>." : under ? "After the first dose, the concentration still falls below the lowest effective level <em>L</em>." : "After the first dose, the concentration stays between <em>L</em> and <em>H</em>.";
+      t += " The textbook's schedule for these <em>k</em>, <em>H</em> and <em>L</em>: <em>C</em><sub>0</sub> = <em>H</em> − <em>L</em> = <b>" + M.fmt(P.H - P.L, 3) + "</b>, <em>T</em> = (1/<em>k</em>) ln(<em>H</em>/<em>L</em>) = <b>" + M.fmt(Math.log(P.H / P.L) / P.k, 2) + "</b> hours.";
+      document.getElementById("dd-out").innerHTML = t;
+      // peaks and residuals by dose number
+      var ry2 = M.niceRange(0, Math.max(P.H, Math.max.apply(null, sim.peaks)) * 1.1, 4);
+      seq.o.x1 = P.N; seq.o.gx = P.N > 20 ? 2 : 1; seq.o.lx = P.N > 20 ? 4 : 2; seq.o.y1 = ry2.hi; seq.o.gy = ry2.step; seq.o.ly = ry2.step * 2; seq.o.yname = unit;
+      seq.frame();
+      if (!oral) {
+        seq.path([[0, R + P.C0], [P.N, R + P.C0]], "mm-null-b");
+        seq.path([[0, R], [P.N, R]], "mm-null-a");
+      }
+      seq.path(sim.peaks.map(function (v, i) { return [i + 1, v]; }), "mm-b");
+      seq.path(sim.troughs.map(function (v, i) { return [i + 1, v]; }), "mm-a");
+      sim.peaks.forEach(function (v, i) { var c = seq.circle(i + 1, v, 3, "mm-dot", seq.data); c.style.fill = "var(--mm-b)"; });
+      sim.troughs.forEach(function (v, i) { var c = seq.circle(i + 1, v, 3, "mm-dot", seq.data); c.style.fill = "var(--mm-a)"; });
+      var ly = seq.T - 14 * seq.K, Rr = seq.W - seq.R, K = seq.K;
+      M.el("line", { x1: Rr - 230 * K, y1: ly, x2: Rr - 212 * K, y2: ly, class: "mm-b" }, seq.top);
+      M.el("text", { x: Rr - 206 * K, y: ly + 4 * K }, seq.top).textContent = "peaks Cₙ";
+      M.el("line", { x1: Rr - 120 * K, y1: ly, x2: Rr - 102 * K, y2: ly, class: "mm-a" }, seq.top);
+      M.el("text", { x: Rr - 96 * K, y: ly + 4 * K }, seq.top).textContent = "residuals Rₙ₊₁";
+      var s = oral
+        ? "With gradual absorption the peaks come a little after each dose, and the difference equation above holds only approximately."
+        : "Peaks: <em>C</em><sub><em>n</em>+1</sub> = " + M.fmt(r, 4) + " <em>C<sub>n</sub></em> + " + M.fmt(P.C0, 3) + ", with equilibrium <em>C</em><sub>0</sub>/(1 − <em>r</em>) = <b>" + M.fmt(P.C0 / (1 - r), 3) + "</b> = <em>C</em><sub>0</sub> + <em>R</em>.";
+      document.getElementById("dd-seq-out").innerHTML = s;
+    }
+    // controls
+    function set(name, v) { P[name] = v; if (sl[name]) sl[name].set(v); }
+    var presets = {
+      start: function () { unit = "mg/ml"; set("k", 0.1); set("C0", 1); set("T", 6); set("H", 2); set("L", 0.5); set("first", 1); set("N", 12); },
+      p4: function () { unit = "mg/ml"; set("k", 0.02); set("C0", 1.5); set("T", 24); set("H", 2); set("L", 0.5); set("first", 1.5); set("N", 12); },
+      digoxin: function () { unit = "mg"; set("k", Math.log(2) / 24); set("C0", 0.1); set("T", 24); set("H", 0.3); set("L", 0.1); set("first", 0.1); set("N", 10); },
+    };
+    var top = document.getElementById("dd-top");
+    M.select(M.group(top, "Example"), [["start", "A made-up drug"], ["p4", "Textbook problem: H = 2, L = 0.5, k = 0.02"], ["digoxin", "Digoxin: 0.1 mg daily, half left each day"]], "start", function (v) { presets[v](); draw(); });
+    var box = document.getElementById("dd-controls");
+    var g1 = M.group(box, "Drug"), g2 = M.group(box, "Schedule"), g3 = M.group(box, "Options");
+    sl.k = M.slider(g1, { label: "<em>k</em> (per hour)", min: 0.005, max: 1, step: 0.001, value: P.k, digits: 3, onInput: function (v) { P.k = v; draw(); } });
+    sl.H = M.slider(g1, { label: "<em>H</em>", min: 0.1, max: 5, step: 0.01, value: P.H, onInput: function (v) { P.H = Math.max(v, P.L + 0.01); draw(); } });
+    sl.L = M.slider(g1, { label: "<em>L</em>", min: 0.01, max: 4, step: 0.01, value: P.L, onInput: function (v) { P.L = Math.min(v, P.H - 0.01); draw(); } });
+    sl.C0 = M.slider(g2, { label: "dose <em>C</em><sub>0</sub>", min: 0.01, max: 5, step: 0.01, value: P.C0, onInput: function (v) { P.C0 = v; draw(); } });
+    sl.T = M.slider(g2, { label: "every <em>T</em> hours", min: 0.5, max: 120, step: 0.1, value: P.T, digits: 1, onInput: function (v) { P.T = v; draw(); } });
+    sl.first = M.slider(g2, { label: "first dose", min: 0.01, max: 6, step: 0.01, value: P.first, onInput: function (v) { P.first = v; draw(); } });
+    sl.N = M.slider(g2, { label: "doses", min: 1, max: 40, step: 1, value: P.N, digits: 0, onInput: function (v) { P.N = v; draw(); } });
+    M.button(g3, "Use the textbook's schedule", function () {
+      set("C0", P.H - P.L); set("T", Math.min(120, Math.log(P.H / P.L) / P.k)); set("first", P.H); draw();
+    });
+    M.button(g3, "Equal first dose", function () { set("first", P.C0); draw(); });
+    var pair = M.html("span", { class: "mm-pair" }, g3), kas;
+    M.checkbox(pair, "Gradual absorption", oral, function (c) { oral = c; kas.el.classList.toggle("mm-dim", !c); draw(); });
+    kas = M.slider(pair, { label: "<em>k<sub>a</sub></em>", min: 0.1, max: 5, step: 0.05, value: P.ka, onInput: function (v) { P.ka = v; if (oral) draw(); } });
+    kas.el.classList.add("mm-dim");
+    M.onResize(draw);
+    draw();
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>
