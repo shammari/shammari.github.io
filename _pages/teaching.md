@@ -11,15 +11,15 @@ I teach undergraduate and graduate courses in calculus, differential equations a
 
 ## Undergraduate courses
 
-| Course   | Title                                                             |
-| :------- | :---------------------------------------------------------------- |
-| MATH 101 | Calculus 1                                                        |
-| MATH 102 | Calculus 2                                                        |
-| MATH 103 | Biomathematics                                                    |
-| MATH 211 | Calculus 3                                                        |
-| MATH 316 | Elements of Mathematical Modeling                                 |
-| MATH 340 | Theory of ODEs                                                    |
-| MATH 491 | Seminar in Applied Mathematics (topic: Mathematical Epidemiology) |
+| Course   | Title                                                                     |
+| :------- | :------------------------------------------------------------------------ |
+| MATH 101 | Calculus 1                                                                |
+| MATH 102 | Calculus 2                                                                |
+| MATH 103 | Biomathematics                                                            |
+| MATH 211 | Calculus 3                                                                |
+| MATH 316 | [Elements of Mathematical Modeling]({{ site.baseurl }}/teaching/math316/) |
+| MATH 340 | Theory of ODEs                                                            |
+| MATH 491 | Seminar in Applied Mathematics (topic: Mathematical Epidemiology)         |
 
 ## Graduate courses
 
