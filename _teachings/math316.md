@@ -98,6 +98,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/drug-dosage/
   - week: 12
     topic: Modeling with a differential equation
     details: Graphical solutions of autonomous differential equations
@@ -294,6 +295,11 @@ Small tools for exploring ideas from the lectures. They run in your browser, nee
     <span class="cp-meta">Week 10 · Linear programming</span>
     <span class="cp-card-title">Linear programming</span>
     <span class="cp-card-text">Solve the carpenter’s problem, or a randomly generated coffee-shop problem, on the graph and step through the simplex method one pivot at a time.</span>
+  </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/drug-dosage/' | relative_url }}">
+    <span class="cp-meta">Week 11 · Differential equations</span>
+    <span class="cp-card-title">Prescribing drug dosage</span>
+    <span class="cp-card-text">See repeated doses build up to a limiting residual, design a schedule that keeps the concentration between the effective and safe levels, and link it back to the digoxin difference equation.</span>
   </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/phase-line/' | relative_url }}">
     <span class="cp-meta">Week 12 · Differential equations</span>
