@@ -1,0 +1,230 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Check your derivative | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 101, weeks 5–8. Practise the differentiation rules (product, quotient, chain, trigonometric, exponential, logarithmic and hyperbolic) by typing your answer and comparing it with the true derivative."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Check your derivative"> <meta property="og:url" content="https://shammari.github.io/teaching/math101/tools/check-derivative/"> <meta property="og:description" content="An interactive tool for MATH 101, weeks 5–8. Practise the differentiation rules (product, quotient, chain, trigonometric, exponential, logarithmic and hyperbolic) by typing your answer and comparing it with the true derivative."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Check your derivative"> <meta name="twitter:description" content="An interactive tool for MATH 101, weeks 5–8. Practise the differentiation rules (product, quotient, chain, trigonometric, exponential, logarithmic and hyperbolic) by typing your answer and comparing it with the true derivative."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math101/tools/check-derivative/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 101, weeks 5–8. Practise the differentiation rules (product, quotient, chain, trigonometric, exponential, logarithmic and hyperbolic) by typing your answer and comparing it with the true derivative.",
+        "headline": "Check your derivative",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math101/tools/check-derivative/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Check your derivative</h1> <p class="post-description">An interactive tool for MATH 101, weeks 5–8. Practise the differentiation rules (product, quotient, chain, trigonometric, exponential, logarithmic and hyperbolic) by typing your answer and comparing it with the true derivative.</p> </header> <article> <p><a href="/teaching/math101/">← MATH 101</a></p> <p>The differentiation rules (the Power Rule, the Product and Quotient Rules, the derivatives of trigonometric, exponential and logarithmic functions, and above all the Chain Rule) turn finding a derivative into algebra. This tool checks that algebra. Type a function and your formula for its derivative: the tool compares your formula with the slope of the graph of \(f\), computed numerically, and shows where they disagree. It supports learning outcome 6.</p> <div class="mm-wrap" id="cd"> <div class="mm-controls" id="cd-top"></div> <div class="mm-controls" id="cd-input"></div> <svg id="cd-plot" role="img" aria-label="The true derivative and your formula for it"></svg> <div class="mm-controls" id="cd-controls"></div> <p class="mm-help">The solid curve is the true derivative, computed from the slopes of <em>f</em>; the dashed curve is your formula. Where they differ, the gap is shaded. Each example starts with a common mistake for you to find and fix.</p> <div class="mm-readout" id="cd-out"></div> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>Each example starts with a wrong answer that students often give. Say which rule was misused, then type the correct derivative until the tool agrees.</li> <li>For \(x e^x\), why is the derivative not \(e^x\), the product of the derivatives? Compare with the Product Rule.</li> <li>For \(\sqrt{x^2 + 1}\) and \(\sin(x^2)\), which part of the answer comes from the Chain Rule? What happens if you leave it out?</li> <li>Two correct answers can look different. Check that \(\dfrac{d}{dx}\ln(x^2) = \dfrac{2}{x}\), and that the tool accepts both \(\dfrac{2}{x}\) and \(\dfrac{2x}{x^2}\).</li> <li>Use the tool on your homework: type a function, work out its derivative on paper, and check.</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>The true derivative is approximated by the central difference \([f(x + h) - f(x - h)]/(2h)\) with a small \(h\), at several hundred points across the window. Your formula is evaluated at the same points, and the tool reports the largest difference relative to the size of the derivative, ignoring points where either is undefined. A match means the two agree to about five significant figures everywhere it looked, which is strong evidence, but not a proof, that your formula is right.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    // each example: f, a common wrong answer, the right one (shown only on request), the window
+    var presets = {
+      prod: { name: "Product Rule: x e^x", f: "x e^x", wrong: "e^x", right: "(x + 1)e^x", win: [-4, 2, -2, 8] },
+      quot: { name: "Quotient Rule: (x² + x − 2)/(x³ + 6)", f: "(x^2 + x - 2)/(x^3 + 6)", wrong: "(2x + 1)/(3x^2)", right: "(-x^4 - 2x^3 + 6x^2 + 12x + 6)/(x^3 + 6)^2", win: [-1.5, 4, -1.5, 1.5] },
+      trig: { name: "x² sin x", f: "x^2 sin x", wrong: "2x cos x", right: "2x sin x + x^2 cos x", win: [-6, 6, -40, 40] },
+      chain1: { name: "Chain Rule: √(x² + 1)", f: "sqrt(x^2 + 1)", wrong: "1/(2sqrt(x^2 + 1))", right: "x/sqrt(x^2 + 1)", win: [-4, 4, -1.5, 1.5] },
+      chain2: { name: "Chain Rule: sin(x²)", f: "sin(x^2)", wrong: "cos(x^2)", right: "2x cos(x^2)", win: [-3, 3, -7, 7] },
+      exp: { name: "e^(sin x)", f: "e^(sin x)", wrong: "e^(cos x)", right: "cos(x) e^(sin x)", win: [-6, 6, -3, 3] },
+      log: { name: "ln(x²)", f: "ln(x^2)", wrong: "1/x^2", right: "2/x", win: [-4, 4, -6, 6] },
+      tan: { name: "tan x", f: "tan x", wrong: "sec x", right: "sec^2 x", win: [-1.5, 1.5, -2, 15] },
+      hyp: { name: "Hyperbolic: cosh √x", f: "cosh(sqrt(x))", wrong: "sinh(sqrt(x))", right: "sinh(sqrt(x))/(2sqrt(x))", win: [0, 6, -0.5, 3] },
+      atan: { name: "Inverse tangent: tan⁻¹(2x)", f: "atan(2x)", wrong: "1/(1 + 4x^2)", right: "2/(1 + 4x^2)", win: [-3, 3, -0.5, 2.5] },
+    };
+    var key = "prod", P = presets[key], f = null, d = null;
+    var plot = new M.Plot(document.getElementById("cd-plot"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y", aspect: 0.55, aspectNarrow: 0.85, left: 30 });
+    function num(v, dd) { if (!isFinite(v)) return "undefined"; if (Math.abs(v) < 1e-10) return "0"; return String(+v.toPrecision(dd || 4)).replace(/-/g, "−"); }
+    function fp(x) { var h = 1e-5 * Math.max(1, Math.abs(x)); return (f(x + h) - f(x - h)) / (2 * h); }
+    // near a jump or a vertical tangent the difference quotient grows as the step shrinks: f′ does not exist there
+    function rough(x) { var h = 1e-6 * Math.max(1, Math.abs(x)), q = (f(x + h) - f(x - h)) / (2 * h), p = fp(x); return Math.abs(q) > 3 * Math.abs(p) + 1e-6; }
+    function draw() {
+      plot.frame();
+      var out = document.getElementById("cd-out");
+      if (!f) { out.innerHTML = "Enter a function <em>f</em>."; return; }
+      var o = plot.o, n = 600, worst = null, scale = 0, checked = 0;
+      plot.path([[o.x0, 0], [o.x1, 0]], "mm-zero");
+      // scale of the derivative over the window
+      var vals = [];
+      for (var i = 0; i <= n; i++) { var x = o.x0 + ((o.x1 - o.x0) * i) / n, t = fp(x); if (isFinite(t)) vals.push(Math.abs(t)); }
+      vals.sort(function (a, b) { return a - b; });
+      scale = vals.length ? vals[Math.floor(0.9 * vals.length)] + 1e-9 : 1;
+      if (d) {
+        for (var j = 0; j <= n; j++) {
+          var x2 = o.x0 + ((o.x1 - o.x0) * j) / n, a = fp(x2), b = d(x2);
+          if (!isFinite(a) || !isFinite(b) || Math.abs(a) > 1e6 || rough(x2)) continue;
+          checked++;
+          var err = Math.abs(a - b) / (Math.abs(a) + 0.01 * scale);
+          if (!worst || err > worst.err) worst = { x: x2, err: err, a: a, b: b };
+          if (err > 1e-3) {
+            var w = (o.x1 - o.x0) / n;
+            M.el("rect", { x: plot.sx(x2 - w / 2), y: plot.sy(Math.max(a, b)), width: Math.max(0.5, plot.sx(x2 + w / 2) - plot.sx(x2 - w / 2)), height: Math.abs(plot.sy(Math.min(a, b)) - plot.sy(Math.max(a, b))), style: "fill:#c0392b;fill-opacity:.25;stroke:none" }, plot.data);
+          }
+        }
+      }
+      plot.fn(fp, "mm-a", { n: 1500 });
+      if (d) { var dp = plot.fn(d, "mm-b", { n: 1500 }); dp.style.strokeDasharray = "7 4"; }
+      var t2;
+      if (!d) t2 = "Type your formula for <em>f</em>′(<em>x</em>).";
+      else if (checked < 0.25 * n) t2 = "Your formula and the true derivative are both defined at only " + checked + " of the " + (n + 1) + " points checked, too few for a fair comparison. Is your formula defined where <em>f</em> is?";
+      else if (worst.err <= 1e-4) t2 = "<b>✓ Your formula matches the true derivative</b> at all " + checked + " points checked in this window.";
+      else t2 = "<b>✗ Not yet.</b> At <em>x</em> = " + num(worst.x) + " the true derivative is " + num(worst.a) + " but your formula gives " + num(worst.b) + ". The shaded gaps show where they differ.";
+      out.innerHTML = t2;
+    }
+    var top = document.getElementById("cd-top"), inp = document.getElementById("cd-input"), box = document.getElementById("cd-controls");
+    M.select(M.group(top, "Example"), Object.keys(presets).map(function (k) { return [k, presets[k].name]; }), key, function (v) { load(v); });
+    var fIn = M.textInput(inp, "<em>f</em>(<em>x</em>) =", P.f, function (v) { try { f = M.expr(v); fIn.showError(""); } catch (e) { f = null; fIn.showError(e.message); } draw(); });
+    var dIn = M.textInput(inp, "your <em>f</em>′(<em>x</em>) =", P.wrong, function (v) { setD(v); draw(); }, "16rem");
+    function setD(v) { if (!v.trim()) { d = null; dIn.showError(""); return; } try { d = M.expr(v); dIn.showError(""); } catch (e) { d = null; dIn.showError(e.message); } }
+    var g = M.group(box, "Answer");
+    M.button(g, "Show a correct answer", function () { if (P.f === fIn.input.value) { dIn.set(P.right); setD(P.right); draw(); } });
+    M.button(g, "Clear", function () { dIn.set(""); setD(""); draw(); });
+    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    function load(k) {
+      key = k; P = presets[k];
+      fIn.set(P.f); f = M.expr(P.f); fIn.showError(""); dIn.set(P.wrong); setD(P.wrong);
+      M.setWindow(plot, P.win); draw();
+    }
+    M.onResize(draw);
+    load(key);
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-101-calculus-1",
+          title: 'MATH 101: Calculus 1',
+          description: "Limits, continuity, derivatives and their applications, and integrals of functions of one variable.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math101/";
+            },},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

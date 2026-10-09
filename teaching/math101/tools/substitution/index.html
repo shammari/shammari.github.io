@@ -1,0 +1,216 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> The Substitution Rule | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 101, week 14. See the Substitution Rule for definite integrals as two equal areas, one under f(g(x)) g′(x) and one under f(u) between the new limits."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | The Substitution Rule"> <meta property="og:url" content="https://shammari.github.io/teaching/math101/tools/substitution/"> <meta property="og:description" content="An interactive tool for MATH 101, week 14. See the Substitution Rule for definite integrals as two equal areas, one under f(g(x)) g′(x) and one under f(u) between the new limits."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="The Substitution Rule"> <meta name="twitter:description" content="An interactive tool for MATH 101, week 14. See the Substitution Rule for definite integrals as two equal areas, one under f(g(x)) g′(x) and one under f(u) between the new limits."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math101/tools/substitution/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 101, week 14. See the Substitution Rule for definite integrals as two equal areas, one under f(g(x)) g′(x) and one under f(u) between the new limits.",
+        "headline": "The Substitution Rule",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math101/tools/substitution/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">The Substitution Rule</h1> <p class="post-description">An interactive tool for MATH 101, week 14. See the Substitution Rule for definite integrals as two equal areas, one under f(g(x)) g′(x) and one under f(u) between the new limits.</p> </header> <article> <p><a href="/teaching/math101/">← MATH 101</a></p> <p>The <strong>Substitution Rule</strong> reverses the Chain Rule. If \(u = g(x)\), then \(du = g'(x)\,dx\) and</p> \[\int f(g(x))\,g'(x)\,dx = \int f(u)\,du.\] <p>For a definite integral, the limits change too:</p> \[\int_a^b f(g(x))\,g'(x)\,dx = \int_{g(a)}^{g(b)} f(u)\,du.\] <p>So two quite different regions, one under \(y = f(g(x))\,g'(x)\) from \(a\) to \(b\) and one under \(y = f(u)\) from \(g(a)\) to \(g(b)\), have the same net area. This tool draws both and lets you sweep the upper limit to see them grow together. It supports learning outcomes 10 and 11.</p> <div class="mm-wrap" id="su"> <div class="mm-controls" id="su-top"></div> <div class="mm-controls" id="su-input"></div> <div class="mm-panels mm-2"> <svg id="su-x" role="img" aria-label="Graph of f(g(x)) g prime of x with the area from a to the current x"></svg> <svg id="su-u" role="img" aria-label="Graph of f(u) with the area from g(a) to g(x)"></svg> </div> <div class="mm-controls" id="su-controls"></div> <p class="mm-help">Choose the inner function <em>u</em> = <em>g</em>(<em>x</em>) and the outer function <em>f</em>(<em>u</em>); the integrand on the left is <em>f</em>(<em>g</em>(<em>x</em>)) <em>g</em>′(<em>x</em>). Move the upper limit with the slider: the two shaded net areas are always equal.</p> <div class="mm-readout" id="su-out"></div> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>For \(\displaystyle\int_0^4 \sqrt{2x + 1}\,dx\), the textbook substitutes \(u = 2x + 1\), so \(dx = du/2\) and the limits become 1 and 9. Check that both areas are \(\tfrac{26}{3}\). Why is the region on the right lower but wider?</li> <li>For \(\displaystyle\int_1^2 \frac{dx}{(3 - 5x)^2}\), with \(u = 3 - 5x\) the new limits are \(-2\) and \(-7\): the upper limit is smaller than the lower one. How does that affect the sign of \(\int_{-2}^{-7} f(u)\,du\)? Check the textbook’s answer, \(\tfrac{1}{14}\).</li> <li>For \(\displaystyle\int_1^e \frac{\ln x}{x}\,dx\), with \(u = \ln x\) the region on the right is a triangle. What is its area?</li> <li>For \(\displaystyle\int_0^{\pi/2} \sin x \cos x\,dx\), the example uses \(u = \sin x\), so \(f(u) = u\). Now type \(u = \cos x\) instead, with \(f(u) = -u\). Why do the new limits come out in the opposite order, and why is the answer the same?</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>The integrand on the left is \(f(g(x))\,g'(x)\), with \(g'\) approximated by central differences. Each integral is computed independently by Simpson’s rule, \(\int_a^x f(g(t))\,g'(t)\,dt\) on the left and \(\int_{g(a)}^{g(x)} f(u)\,du\) on the right, so their agreement is a check of the rule rather than something built in.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    var presets = {
+      root: { name: "∫ √(2x + 1) dx from 0 to 4", g: "2x + 1", f: "sqrt(u)/2", a: "0", b: "4", exact: "26/3", xwin: [-0.5, 4.5, -0.3, 3.5], uwin: [0, 10, -0.3, 2] },
+      recip: { name: "∫ dx/(3 − 5x)² from 1 to 2", g: "3 - 5x", f: "-1/(5u^2)", a: "1", b: "2", exact: "1/14", xwin: [0.9, 2.1, -0.05, 0.3], uwin: [-7.5, -1.5, -0.06, 0.01] },
+      log: { name: "∫ (ln x)/x dx from 1 to e", g: "ln x", f: "u", a: "1", b: "e", exact: "1/2", xwin: [0.8, 3, -0.1, 0.5], uwin: [-0.2, 1.2, -0.1, 1.2] },
+      cos: { name: "∫ x³ cos(x⁴ + 2) dx from 0 to 1", g: "x^4 + 2", f: "cos(u)/4", a: "0", b: "1", exact: "(sin 3 − sin 2)/4", xwin: [-0.1, 1.1, -0.6, 0.2], uwin: [1.8, 3.2, -0.3, 0.05] },
+      exp: { name: "∫ e^(5x) dx from 0 to 1", g: "5x", f: "e^u/5", a: "0", b: "1", exact: "(e⁵ − 1)/5", xwin: [-0.1, 1.1, -5, 160], uwin: [-0.5, 5.5, -1, 32] },
+      sc: { name: "∫ sin x cos x dx from 0 to π/2", g: "sin x", f: "u", a: "0", b: "pi/2", exact: "1/2", xwin: [-0.2, 1.8, -0.2, 0.7], uwin: [-1.2, 1.2, -1.2, 1.2] },
+    };
+    var key = "root", P = presets[key], g = null, fu = null, A = 0, B = 4, X = 4;
+    var px = new M.Plot(document.getElementById("su-x"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y = f(g(x)) g′(x)", aspect: 0.8, aspectNarrow: 0.7, left: 34 });
+    var pu = new M.Plot(document.getElementById("su-u"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "u", yname: "y = f(u)", aspect: 0.8, aspectNarrow: 0.7, left: 34 });
+    function num(v, d) { if (!isFinite(v)) return "undefined"; if (Math.abs(v) < 1e-10) return "0"; return String(+v.toPrecision(d || 6)).replace(/-/g, "−"); }
+    function gp(x) { var h = 1e-6 * Math.max(1, Math.abs(x)); return (g(x + h) - g(x - h)) / (2 * h); }
+    function integrand(x) { return fu(g(x)) * gp(x); }
+    function shade(pl, F, l, r) {
+      var lo = Math.min(l, r), hi = Math.max(l, r), N = 300, pts = [[lo, 0]], o = pl.o, H = o.y1 - o.y0;
+      for (var i = 0; i <= N; i++) { var t = lo + ((hi - lo) * i) / N, y = F(t); pts.push([t, isFinite(y) ? Math.max(o.y0 - 5 * H, Math.min(o.y1 + 5 * H, y)) : 0]); }
+      pts.push([hi, 0]);
+      M.el("polygon", { points: pts.map(function (p) { return pl.sx(p[0]).toFixed(1) + "," + pl.sy(p[1]).toFixed(1); }).join(" "), style: "fill:var(--mm-c);fill-opacity:.35;stroke:none" }, pl.data);
+    }
+    function draw() {
+      px.frame(); pu.frame();
+      var out = document.getElementById("su-out");
+      if (!g || !fu || !isFinite(A) || !isFinite(B)) { out.innerHTML = "Enter <em>g</em>, <em>f</em> and the limits."; return; }
+      var ga = g(A), gx = g(X), gb = g(B);
+      shade(px, integrand, A, X); shade(pu, fu, ga, gx);
+      [px, pu].forEach(function (pl) { pl.path([[pl.o.x0, 0], [pl.o.x1, 0]], "mm-zero"); });
+      px.fn(integrand, "mm-a", { n: 1200 }); pu.fn(fu, "mm-a", { n: 1200 });
+      [[px, A, "a"], [px, X, "x"], [pu, ga, "g(a)"], [pu, gx, "g(x)"]].forEach(function (q) { var l = q[0].path([[q[1], q[0].o.y0], [q[1], q[0].o.y1]], "mm-zero"); l.style.strokeDasharray = "4 3"; q[0].text(q[1], q[0].o.y1, q[2], { "text-anchor": "middle", dy: 13 * q[0].K }); });
+      var L = M.integrate(integrand, A, X, 4000), R = M.integrate(fu, ga, gx, 4000), t = [];
+      t.push("Left: ∫<sub>" + num(A, 4) + "</sub><sup>" + num(X, 4) + "</sup> <em>f</em>(<em>g</em>(<em>x</em>)) <em>g</em>′(<em>x</em>) d<em>x</em> ≈ <b>" + num(L) + "</b>.");
+      t.push("Right: with <em>u</em> = <em>g</em>(<em>x</em>), the limits become <em>g</em>(" + num(A, 4) + ") = " + num(ga, 4) + " and <em>g</em>(" + num(X, 4) + ") = " + num(gx, 4) + ", and ∫<sub>" + num(ga, 4) + "</sub><sup>" + num(gx, 4) + "</sup> <em>f</em>(<em>u</em>) d<em>u</em> ≈ <b>" + num(R) + "</b>." + (gx < ga ? " The upper limit is smaller than the lower one, so this integral is minus the net area between them." : ""));
+      if (Math.abs(X - B) < 1e-9 * Math.max(1, Math.abs(B)) && P.exact && P.g === gIn.input.value && P.f === fIn.input.value) t.push("The textbook's value is " + P.exact + ".");
+      out.innerHTML = t.map(function (s) { return "<div>" + s + "</div>"; }).join("");
+    }
+    var top = document.getElementById("su-top"), inp = document.getElementById("su-input"), box = document.getElementById("su-controls");
+    M.select(M.group(top, "Example"), Object.keys(presets).map(function (k) { return [k, presets[k].name]; }), key, function (v) { load(v); });
+    var gIn = M.textInput(inp, "<em>u</em> = <em>g</em>(<em>x</em>) =", P.g, function (v) { try { g = M.expr(v); gIn.showError(""); } catch (e) { g = null; gIn.showError(e.message); } draw(); }, "9rem");
+    var fIn = M.textInput(inp, "<em>f</em>(<em>u</em>) =", P.f, function (v) { try { fu = M.expr(v, ["u"]); fIn.showError(""); } catch (e) { fu = null; fIn.showError(e.message); } draw(); }, "10rem");
+    var aIn = M.textInput(inp, "<em>a</em> =", P.a, function (v) { A = val(v, aIn); rescale(); draw(); }, "3.5rem");
+    var bIn = M.textInput(inp, "<em>b</em> =", P.b, function (v) { B = val(v, bIn); rescale(); X = B; xS.set(X); draw(); }, "3.5rem");
+    function val(v, b) { try { var r = M.expr(v)(0); b.showError(isFinite(r) ? "" : "not a number"); return r; } catch (e) { b.showError(e.message); return NaN; } }
+    var xS = M.slider(M.group(box, "Upper limit"), { label: "<em>x</em>", min: 0, max: 4, step: 0.001, value: X, digits: 3, onInput: function (v) { X = v; draw(); } });
+    function rescale() { if (isFinite(A) && isFinite(B)) { xS.input.min = Math.min(A, B); xS.input.max = Math.max(A, B); xS.input.step = Math.abs(B - A) / 1000; } }
+    M.zoomControls(box, [px, pu], function () { return [P.xwin, P.uwin]; }, draw);
+    function load(k) {
+      key = k; P = presets[k];
+      gIn.set(P.g); g = M.expr(P.g); gIn.showError(""); fIn.set(P.f); fu = M.expr(P.f, ["u"]); fIn.showError("");
+      aIn.set(P.a); A = val(P.a, aIn); bIn.set(P.b); B = val(P.b, bIn); rescale(); X = B; xS.set(X);
+      M.setWindow(px, P.xwin); M.setWindow(pu, P.uwin);
+      draw();
+    }
+    M.onResize(draw);
+    load(key);
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-101-calculus-1",
+          title: 'MATH 101: Calculus 1',
+          description: "Limits, continuity, derivatives and their applications, and integrals of functions of one variable.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math101/";
+            },},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

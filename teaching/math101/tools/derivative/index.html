@@ -1,0 +1,349 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Tangent lines and the derivative | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 101, weeks 4–6. Watch secant lines turn into the tangent line, compute the derivative as a limit of difference quotients, and see the graph of the derivative traced out from the slopes of f."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Tangent lines and the derivative"> <meta property="og:url" content="https://shammari.github.io/teaching/math101/tools/derivative/"> <meta property="og:description" content="An interactive tool for MATH 101, weeks 4–6. Watch secant lines turn into the tangent line, compute the derivative as a limit of difference quotients, and see the graph of the derivative traced out from the slopes of f."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Tangent lines and the derivative"> <meta name="twitter:description" content="An interactive tool for MATH 101, weeks 4–6. Watch secant lines turn into the tangent line, compute the derivative as a limit of difference quotients, and see the graph of the derivative traced out from the slopes of f."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math101/tools/derivative/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 101, weeks 4–6. Watch secant lines turn into the tangent line, compute the derivative as a limit of difference quotients, and see the graph of the derivative traced out from the slopes of f.",
+        "headline": "Tangent lines and the derivative",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math101/tools/derivative/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Tangent lines and the derivative</h1> <p class="post-description">An interactive tool for MATH 101, weeks 4–6. Watch secant lines turn into the tangent line, compute the derivative as a limit of difference quotients, and see the graph of the derivative traced out from the slopes of f.</p> </header> <article> <p><a href="/teaching/math101/">← MATH 101</a></p> <p>The <strong>derivative</strong> of \(f\) at \(a\) is</p> \[f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h} = \lim_{x \to a} \frac{f(x) - f(a)}{x - a},\] <p>if this limit exists. It is the slope of the <strong>tangent line</strong> to \(y = f(x)\) at \((a, f(a))\), the limit of the slopes of secant lines, and the instantaneous rate of change of \(f\). The first part of this tool shows secant lines approaching the tangent line. The second part draws the graph of \(f'\) as the slope of \(f\) at each point. It supports learning outcomes 5 and 6.</p> <h2 id="from-secant-lines-to-the-tangent-line">From secant lines to the tangent line</h2> <div class="mm-wrap" id="sc"> <div class="mm-controls" id="sc-top"></div> <div class="mm-controls" id="sc-input"></div> <svg id="sc-plot" role="img" aria-label="Graph of f with the secant line through P and Q"></svg> <div class="mm-controls" id="sc-controls"></div> <p class="mm-help">Drag the point <em>Q</em> along the curve towards <em>P</em>, or use the slider for <em>x</em>. The table lists the slopes <em>m</em><sub><em>PQ</em></sub> of the secant lines for <em>Q</em> closer and closer to <em>P</em>.</p> <p class="mm-readout" id="sc-out"></p> <div class="mm-panels mm-2" id="sc-tables"></div> </div> <ol> <li>For \(y = x^2\) at \(P(1, 1)\), compare the table with the textbook’s: as \(x \to 1\), the slopes approach 2. Turn on the tangent line and check its equation, \(y = 2x - 1\).</li> <li>For \(y = 3/x\) at \((3, 1)\), what do the slopes approach? Compare with the textbook’s tangent line, \(x + 3y - 6 = 0\).</li> <li>The position of a falling ball is \(s = 4.9t^2\) metres after \(t\) seconds. The slope of a secant line is an average velocity. What is the velocity at \(t = 5\)?</li> <li>For \(\lvert x\rvert\) at 0, compare the slopes from the left and from the right. Is there a tangent line? For \(\sqrt[3]{x}\) at 0, what happens to the slopes?</li> </ol> <h2 id="the-derivative-as-a-function">The derivative as a function</h2> <div class="mm-wrap" id="dv"> <div class="mm-controls" id="dv-top"></div> <div class="mm-controls" id="dv-input"></div> <div class="mm-panels mm-2"> <svg id="dv-f" role="img" aria-label="Graph of f with the tangent line at the chosen point"></svg> <svg id="dv-d" role="img" aria-label="Graph of the derivative f prime"></svg> </div> <div class="mm-controls" id="dv-controls"></div> <p class="mm-help">Move the point with the slider or by dragging it on the graph of <em>f</em>. The slope of the tangent line there is plotted as a point on the right. To practise, untick <b>graph of f′</b>, sketch it yourself while you move the point, then reveal it.</p> <p class="mm-readout" id="dv-out"></p> </div> <ol> <li>For \(f(x) = x^3 - x\), where is \(f'(x) = 0\)? Where is \(f'\) negative? Match these with what the graph of \(f\) is doing. Turn on the <strong>textbook’s formula</strong> \(f'(x) = 3x^2 - 1\) to check.</li> <li>Sketch the derivative of \(\sin x\) before revealing it. Which familiar function is it? What about the derivative of \(e^x\)?</li> <li>For \(\sqrt{x}\) and \(\lvert x\rvert\), where does \(f'\) fail to exist? Which of the three ways a function can fail to be differentiable (a corner, a discontinuity, a vertical tangent) is each?</li> <li>For \(\ln x\), compare the graph of \(f'\) with \(1/x\). For \(\sinh x\) and \(\cosh x\), which derivative is which?</li> <li>Type a function of your own and predict the shape of its derivative before revealing it.</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>The secant slope is \(m_{PQ} = [f(x) - f(a)]/(x - a)\). The derivative is approximated by one-sided difference quotients with \(h = 10^{-6}\): if the quotients from the left and from the right agree, their average is used as \(f'(a)\); if they differ, the tool reports a corner, and if they grow without bound, a vertical tangent. The graph of \(f'\) is drawn from the central difference \([f(x + h) - f(x - h)]/(2h)\) at several hundred points. The textbook’s formulas are included for comparison only; the tool does not differentiate symbolically.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    function num(v, d) { if (!isFinite(v)) return "undefined"; if (Math.abs(v) < 1e-10) return "0"; return String(+v.toPrecision(d || 6)).replace("-", "−"); }
+    function parse(v, box) { try { var g = M.expr(v); box.showError(""); return g; } catch (e) { box.showError(e.message); return null; } }
+    function val(v, box) { try { var r = M.expr(v)(0); box.showError(isFinite(r) ? "" : "not a number"); return r; } catch (e) { box.showError(e.message); return NaN; } }
+    // one-sided difference quotients at a: a derivative, a corner or a vertical tangent
+    // The derivative at a, or why it does not exist: "jump" (f is not continuous), "vertical" (slopes → ±∞ with one sign),
+    // "cusp" (slopes → ∞ on one side and −∞ on the other), "corner" (different one-sided slopes), "left"/"right" (an end of the domain).
+    function slope(f, a) {
+      var fa = f(a);
+      if (!isFinite(fa)) return { kind: "none" };
+      function q(h) { return (f(a + h) - fa) / h; } // h > 0 from the right, h < 0 from the left
+      var s = Math.max(1, Math.abs(a)), h1 = 1e-4 * s, h2 = 1e-6 * s;
+      var r1 = q(h1), r2 = q(h2), l1 = q(-h1), l2 = q(-h2);
+      // a jump: the change in f does not shrink with h (for a continuous f it shrinks at least like a power of h)
+      function jump(h) { var d1 = f(a + 100 * h) - fa, d2 = f(a + h) - fa; return isFinite(d2) && Math.abs(d2) > 1e-9 * (1 + Math.abs(fa)) && Math.abs(d2) > 0.5 * Math.abs(d1); }
+      if (jump(h2) || jump(-h2)) return { kind: "jump" };
+      var upR = isFinite(r2) && Math.abs(r2) > 50 && Math.abs(r2) > 3 * Math.abs(r1), upL = isFinite(l2) && Math.abs(l2) > 50 && Math.abs(l2) > 3 * Math.abs(l1);
+      if (upR && upL) return { kind: r2 * l2 > 0 ? "vertical" : "cusp" };
+      if (!isFinite(l2) && isFinite(r2)) return upR ? { kind: "vertical" } : { kind: "right", m: r2 };
+      if (isFinite(l2) && !isFinite(r2)) return upL ? { kind: "vertical" } : { kind: "left", m: l2 };
+      if (upR || upL) return { kind: "corner", l: l2, r: r2 };
+      // at a corner the gap between the one-sided slopes stays put as h shrinks; at a smooth point it shrinks with h
+      var g1 = Math.abs(l1 - r1), g2 = Math.abs(l2 - r2);
+      if (g2 > 1e-3 * (1 + Math.abs(l2) + Math.abs(r2)) && g2 > 0.3 * g1) return { kind: "corner", l: l2, r: r2 };
+      var h = 1e-5 * s, m = (f(a + h) - f(a - h)) / (2 * h), m2 = (f(a + h / 10) - f(a - h / 10)) / (h / 5);
+      // a small slope that keeps shrinking with h is really 0 (x|x| at 0 gives h, not 0)
+      if (Math.abs(m) < 1e-8 || (Math.abs(m) < 1e-4 && Math.abs(m2) < 0.2 * Math.abs(m))) m = 0;
+      return { kind: "ok", m: m };
+    }
+    function lineEq(m, a, fa) {
+      var b = fa - m * a, mm = Math.abs(m) < 1e-9 ? 0 : +m.toPrecision(5), bb = Math.abs(b) < 1e-9 ? 0 : +b.toPrecision(5);
+      var t = "<em>y</em> = " + (mm === 0 ? "" : (mm === 1 ? "" : mm === -1 ? "−" : num(mm, 5)) + "<em>x</em>");
+      if (bb !== 0 || mm === 0) t += (mm === 0 ? num(bb, 5) : (bb < 0 ? " − " : " + ") + num(Math.abs(bb), 5));
+      return t;
+    }
+
+    // ---- secant to tangent ----
+    var sps = {
+      sq: { name: "y = x² at P(1, 1)", f: "x^2", a: "1", x: 2, L: [0, 0.5, 0.9, 0.99, 0.999], R: [2, 1.5, 1.1, 1.01, 1.001], win: [-0.5, 2.5, -0.5, 4.5] },
+      recip: { name: "y = 3/x at (3, 1)", f: "3/x", a: "3", x: 5, win: [0, 7, -0.5, 4] },
+      quad: { name: "y = x² − 8x + 9 at (3, −6)", f: "x^2 - 8x + 9", a: "3", x: 5, win: [-1, 8, -9, 10] },
+      ball: { name: "s = 4.9t² at t = 5", f: "4.9x^2", a: "5", x: 6, R: [6, 5.1, 5.05, 5.01, 5.001], win: [0, 8, -20, 300] },
+      exp: { name: "y = e^x at (0, 1)", f: "e^x", a: "0", x: 1, win: [-2, 2, -0.5, 5] },
+      abs: { name: "y = |x| at 0", f: "abs(x)", a: "0", x: 1, win: [-2, 2, -0.5, 2] },
+      cbrt: { name: "y = ∛x at 0", f: "cbrt(x)", a: "0", x: 1, win: [-2, 2, -1.6, 1.6] },
+    };
+    var sk = "sq", SP = sps[sk], sf = null, sa = 1, sx = 2, showTan = false;
+    var splot = new M.Plot(document.getElementById("sc-plot"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y", aspect: 0.55, aspectNarrow: 0.85, left: 30 });
+    function stable(title, xs) {
+      var h = "<div><table class=\"mm-table\" style=\"width:100%\"><thead><tr><th><em>x</em></th><th><em>m</em><sub><em>PQ</em></sub></th></tr></thead><tbody>";
+      xs.forEach(function (x) { h += "<tr><td>" + num(x, 7) + "</td><td>" + num((sf(x) - sf(sa)) / (x - sa), 8) + "</td></tr>"; });
+      return h + "</tbody></table><p class=\"mm-help\" style=\"margin-top:-.4rem\">" + title + "</p></div>";
+    }
+    function sdraw() {
+      splot.frame();
+      var out = document.getElementById("sc-out");
+      if (!sf || !isFinite(sa) || !isFinite(sf(sa))) { out.innerHTML = "Enter a formula and a number <em>a</em> where <em>f</em> is defined."; document.getElementById("sc-tables").innerHTML = ""; return; }
+      var o = splot.o, fa = sf(sa), fx = sf(sx), m = (fx - fa) / (sx - sa), s = slope(sf, sa);
+      splot.fn(sf, "mm-a", { n: 1500 });
+      if (isFinite(m) && sx !== sa) splot.path([[o.x0, fa + m * (o.x0 - sa)], [o.x1, fa + m * (o.x1 - sa)]], "mm-b");
+      if (showTan) {
+        if (s.kind === "ok") { var tl = splot.path([[o.x0, fa + s.m * (o.x0 - sa)], [o.x1, fa + s.m * (o.x1 - sa)]], "mm-curve"); tl.style.strokeDasharray = "6 4"; }
+        if (s.kind === "vertical" || s.kind === "cusp") { var vl = splot.path([[sa, o.y0], [sa, o.y1]], "mm-curve"); vl.style.strokeDasharray = "6 4"; }
+      }
+      splot.circle(sa, fa, 5, "mm-dot");
+      if (isFinite(fx)) { var q = splot.circle(sx, fx, 6, "mm-handle"); q.setAttribute("stroke", "var(--mm-b)"); }
+      splot.text(sa, fa, "P", { dx: -14 * splot.K, dy: -8 * splot.K });
+      if (isFinite(fx)) splot.text(sx, fx, "Q", { dx: 9 * splot.K, dy: -8 * splot.K });
+      var t = "<em>P</em>(" + num(sa) + ", " + num(fa) + "), <em>Q</em>(" + num(sx) + ", " + num(fx) + "): the secant slope is <em>m</em><sub><em>PQ</em></sub> = <b>" + num(m, 7) + "</b>. ";
+      if (!showTan) t += "Tick <b>tangent line</b> to compare with the limit.";
+      else if (s.kind === "ok") t += "The slopes approach <em>f</em>′(" + num(sa) + ") = <b>" + num(s.m, 6) + "</b>, and the tangent line at <em>P</em> is <b>" + lineEq(s.m, sa, fa) + "</b>.";
+      else if (s.kind === "corner") t += "The slopes from the left approach " + num(s.l, 4) + " and those from the right approach " + num(s.r, 4) + ", so <em>f</em>′(" + num(sa) + ") does not exist: there is a <b>corner</b> and no tangent line.";
+      else if (s.kind === "vertical") t += "The slopes grow without bound, so <em>f</em>′(" + num(sa) + ") does not exist: the tangent line is <b>vertical</b>, <em>x</em> = " + num(sa) + ".";
+      else if (s.kind === "cusp") t += "The slopes grow without bound, with opposite signs on the two sides, so <em>f</em>′(" + num(sa) + ") does not exist: the graph has a <b>cusp</b> with a vertical tangent, <em>x</em> = " + num(sa) + ".";
+      else if (s.kind === "jump") t += "<em>f</em> is not continuous at " + num(sa) + " (its graph jumps), so it is not differentiable there and the secant slopes from one side grow without bound.";
+      else if (s.kind === "left" || s.kind === "right") t += "This is an end of the domain of <em>f</em>, so only secant lines from the " + s.kind + " exist; their slopes approach " + num(s.m, 5) + " (a one-sided derivative).";
+      else t += "<em>f</em> is defined on only one side of " + num(sa) + ".";
+      out.innerHTML = t;
+      var hs = [1, 0.5, 0.1, 0.01, 0.001, 0.0001];
+      var xl = SP.L && SP.f === sfIn.input.value && sa === val(SP.a, saIn) ? SP.L : hs.map(function (h) { return sa - h; });
+      var xr = SP.R && SP.f === sfIn.input.value && sa === val(SP.a, saIn) ? SP.R : hs.map(function (h) { return sa + h; });
+      if (SP.R && !SP.L && SP.f === sfIn.input.value) xl = [];
+      document.getElementById("sc-tables").innerHTML = (xl.length ? stable("<em>Q</em> to the left of <em>P</em>", xl) : "") + stable("<em>Q</em> to the right of <em>P</em>", xr);
+    }
+    var stop = document.getElementById("sc-top"), sin = document.getElementById("sc-input"), sbox = document.getElementById("sc-controls");
+    M.select(M.group(stop, "Example"), Object.keys(sps).map(function (k) { return [k, sps[k].name]; }), sk, function (v) { sload(v); });
+    var sfIn = M.textInput(sin, "<em>f</em>(<em>x</em>) =", SP.f, function (v) { sf = parse(v, sfIn); sdraw(); });
+    var saIn = M.textInput(sin, "<em>a</em> =", SP.a, function (v) { sa = val(v, saIn); xS.input.min = sa - 3; xS.input.max = sa + 3; sdraw(); }, "4.5rem");
+    var g1 = M.group(sbox, "Point Q");
+    var xS = M.slider(g1, { label: "<em>x</em>", min: -1, max: 3, step: 0.001, value: sx, digits: 3, onInput: function (v) { sx = v; sdraw(); } });
+    M.checkbox(M.group(sbox, "Show"), "Tangent line (dashed)", showTan, function (v) { showTan = v; sdraw(); });
+    M.zoomControls(sbox, splot, function () { return SP.win; }, sdraw);
+    function sload(k) {
+      sk = k; SP = sps[k];
+      sfIn.set(SP.f); sf = parse(SP.f, sfIn); saIn.set(SP.a); sa = val(SP.a, saIn);
+      var w = SP.win, span = Math.max(sa - w[0], w[1] - sa);
+      xS.input.min = sa - span; xS.input.max = sa + span; xS.input.step = span / 2000;
+      sx = SP.x; xS.set(sx);
+      M.setWindow(splot, SP.win); sdraw();
+    }
+    // drag Q along the curve
+    var ssvg = splot.svg, sdrag = false;
+    ssvg.addEventListener("pointerdown", function (evt) {
+      var p = splot.at(evt), fx = sf ? sf(sx) : NaN;
+      if (isFinite(fx) && Math.hypot(p.px - splot.sx(sx), p.py - splot.sy(fx)) < 16 * splot.K) { sdrag = true; ssvg.setPointerCapture(evt.pointerId); evt.preventDefault(); }
+    });
+    ssvg.addEventListener("pointermove", function (evt) {
+      if (!sdrag) return;
+      var p = splot.at(evt), o = splot.o;
+      sx = Math.min(o.x1, Math.max(o.x0, p.x));
+      if (Math.abs(sx - sa) < 1e-9) sx = sa + 1e-6;
+      xS.set(sx); sdraw();
+    });
+    ssvg.addEventListener("pointerup", function () { sdrag = false; });
+    ssvg.addEventListener("pointercancel", function () { sdrag = false; });
+
+    // ---- the derivative as a function ----
+    var dps = {
+      cubic: { name: "x³ − x", f: "x^3 - x", d: "3x^2 - 1", x0: 1, win: [-2, 2, -3, 3], dwin: [-2, 2, -2, 6] },
+      sqrt: { name: "√x", f: "sqrt(x)", d: "1/(2sqrt(x))", x0: 1, win: [-0.5, 4, -0.5, 2.5], dwin: [-0.5, 4, -0.5, 3] },
+      rat: { name: "(1 − x)/(2 + x)", f: "(1 - x)/(2 + x)", d: "-3/(2 + x)^2", x0: 0, win: [-6, 4, -6, 6], dwin: [-6, 4, -8, 2] },
+      abs: { name: "|x|", f: "abs(x)", d: "", x0: 1, win: [-3, 3, -1, 3], dwin: [-3, 3, -2, 2] },
+      sin: { name: "sin x", f: "sin x", d: "cos x", x0: 0.5, win: [-6.3, 6.3, -1.6, 1.6], dwin: [-6.3, 6.3, -1.6, 1.6] },
+      cos: { name: "cos x", f: "cos x", d: "-sin x", x0: 0.5, win: [-6.3, 6.3, -1.6, 1.6], dwin: [-6.3, 6.3, -1.6, 1.6] },
+      exp: { name: "e^x", f: "e^x", d: "e^x", x0: 0, win: [-3, 2, -0.5, 6], dwin: [-3, 2, -0.5, 6] },
+      ln: { name: "ln x", f: "ln x", d: "1/x", x0: 1, win: [-0.5, 5, -3, 2], dwin: [-0.5, 5, -0.5, 5] },
+      sinh: { name: "sinh x", f: "sinh x", d: "cosh x", x0: 0.5, win: [-3, 3, -5, 5], dwin: [-3, 3, -1, 6] },
+      cosh: { name: "cosh x", f: "cosh x", d: "sinh x", x0: 0.5, win: [-3, 3, -1, 6], dwin: [-3, 3, -5, 5] },
+    };
+    var dk = "cubic", DP = dps[dk], df = null, dd = null, x0 = 1, showD = true, showBook = false, trail = [];
+    var fplot = new M.Plot(document.getElementById("dv-f"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y = f(x)", aspect: 0.75, aspectNarrow: 0.75, left: 30 });
+    var dplot = new M.Plot(document.getElementById("dv-d"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y = f′(x)", aspect: 0.75, aspectNarrow: 0.75, left: 30 });
+    function fprime(x) { return M.deriv(df, x, 1e-5 * Math.max(1, Math.abs(x))); }
+    function ddraw() {
+      fplot.frame(); dplot.frame();
+      var out = document.getElementById("dv-out");
+      if (!df) { out.innerHTML = "Enter a formula for <em>f</em>."; return; }
+      var o = fplot.o, fx = df(x0), s = slope(df, x0);
+      fplot.fn(df, "mm-a", { n: 1500 });
+      if (s.kind === "ok") { var tl = fplot.path([[o.x0, fx + s.m * (o.x0 - x0)], [o.x1, fx + s.m * (o.x1 - x0)]], "mm-b"); tl.style.strokeWidth = "1.8"; }
+      if (isFinite(fx)) { var hp = fplot.circle(x0, fx, 6, "mm-handle"); hp.setAttribute("stroke", "var(--mm-b)"); }
+      var z = dplot.path([[dplot.o.x0, 0], [dplot.o.x1, 0]], "mm-zero");
+      if (showBook && dd) { var bp = dplot.fn(dd, "mm-curve", { n: 1500 }); bp.style.strokeDasharray = "6 4"; }
+      if (showD) dplot.fn(fprime, "mm-a", { n: 1500 });
+      trail.forEach(function (p) { var c = dplot.circle(p[0], p[1], 2.4, "mm-dot", dplot.data); c.style.fill = "var(--mm-b)"; });
+      if (s.kind === "ok") { var c = dplot.circle(x0, s.m, 5.5, "mm-dot"); c.style.fill = "var(--mm-b)"; }
+      var t = "At <em>x</em> = " + num(x0, 4) + ": ";
+      if (!isFinite(fx)) t += "<em>f</em> is not defined.";
+      else if (s.kind === "ok") t += "<em>f</em>(<em>x</em>) = " + num(fx, 5) + " and the slope of the tangent line is <em>f</em>′(<em>x</em>) ≈ <b>" + num(s.m, 5) + "</b>" + (showBook && dd ? " (the textbook's formula gives " + num(dd(x0), 5) + ")" : "") + ".";
+      else if (s.kind === "corner") t += "<em>f</em> has a corner, so <em>f</em>′(" + num(x0, 4) + ") does not exist (slopes " + num(s.l, 3) + " from the left, " + num(s.r, 3) + " from the right).";
+      else if (s.kind === "vertical") t += "the tangent line is vertical, so <em>f</em>′(" + num(x0, 4) + ") does not exist.";
+      else if (s.kind === "cusp") t += "the graph has a cusp (a vertical tangent with the curve turning back), so <em>f</em>′(" + num(x0, 4) + ") does not exist.";
+      else if (s.kind === "jump") t += "<em>f</em> is not continuous here, so <em>f</em>′(" + num(x0, 4) + ") does not exist.";
+      else if (s.kind === "left" || s.kind === "right") t += "this is an end of the domain; the one-sided slope from the " + s.kind + " is " + num(s.m, 5) + ".";
+      else t += "<em>f</em> is defined on only one side, so <em>f</em>′(" + num(x0, 4) + ") does not exist.";
+      out.innerHTML = t;
+    }
+    var dtop = document.getElementById("dv-top"), din = document.getElementById("dv-input"), dbox = document.getElementById("dv-controls");
+    M.select(M.group(dtop, "Example"), Object.keys(dps).map(function (k) { return [k, dps[k].name]; }), dk, function (v) { dload(v); });
+    var dfIn = M.textInput(din, "<em>f</em>(<em>x</em>) =", DP.f, function (v) { df = parse(v, dfIn); dd = null; bookBox.parentNode.style.display = "none"; trail = []; ddraw(); });
+    var dg = M.group(dbox, "Point");
+    var x0S = M.slider(dg, { label: "<em>x</em>", min: -2, max: 2, step: 0.01, value: x0, digits: 2, onInput: function (v) { x0 = v; addTrail(); ddraw(); } });
+    var gs2 = M.group(dbox, "Show");
+    var dBox = M.checkbox(gs2, "Graph of <em>f</em>′", showD, function (v) { showD = v; ddraw(); });
+    var bookBox = M.checkbox(gs2, "Textbook's formula (dashed)", showBook, function (v) { showBook = v; ddraw(); });
+    M.button(gs2, "Clear trail", function () { trail = []; ddraw(); });
+    M.zoomControls(dbox, [fplot, dplot], function () { return [DP.win, DP.dwin]; }, ddraw);
+    function addTrail() { var s = slope(df, x0); if (s.kind === "ok") trail.push([x0, s.m]); if (trail.length > 400) trail.shift(); }
+    function dload(k) {
+      dk = k; DP = dps[k];
+      dfIn.set(DP.f); df = parse(DP.f, dfIn);
+      dd = DP.d ? M.expr(DP.d) : null; bookBox.parentNode.style.display = dd ? "" : "none";
+      x0S.input.min = DP.win[0]; x0S.input.max = DP.win[1]; x0S.input.step = (DP.win[1] - DP.win[0]) / 1000;
+      x0 = DP.x0; x0S.set(x0); trail = [];
+      M.setWindow(fplot, DP.win); M.setWindow(dplot, DP.dwin); ddraw();
+    }
+    // drag the point on the graph of f
+    var dsvg = fplot.svg, ddrag = false;
+    dsvg.addEventListener("pointerdown", function (evt) {
+      var p = fplot.at(evt);
+      if (fplot.inside(p.x, p.y)) { ddrag = true; dsvg.setPointerCapture(evt.pointerId); evt.preventDefault(); x0 = p.x; x0S.set(x0); addTrail(); ddraw(); }
+    });
+    dsvg.addEventListener("pointermove", function (evt) { if (!ddrag) return; var p = fplot.at(evt); x0 = Math.min(fplot.o.x1, Math.max(fplot.o.x0, p.x)); x0S.set(x0); addTrail(); ddraw(); });
+    dsvg.addEventListener("pointerup", function () { ddrag = false; });
+    dsvg.addEventListener("pointercancel", function () { ddrag = false; });
+    M.onResize(function () { sdraw(); ddraw(); });
+    sload(sk);
+    dload(dk);
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-101-calculus-1",
+          title: 'MATH 101: Calculus 1',
+          description: "Limits, continuity, derivatives and their applications, and integrals of functions of one variable.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math101/";
+            },},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

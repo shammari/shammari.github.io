@@ -1,0 +1,565 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Curve sketching | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 101, weeks 8–11. See how f′ and f″ shape the graph of f, find critical numbers, local and absolute extreme values, intervals of increase and concavity, inflection points and asymptotes, and check a sketch against them."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Curve sketching"> <meta property="og:url" content="https://shammari.github.io/teaching/math101/tools/curve-sketching/"> <meta property="og:description" content="An interactive tool for MATH 101, weeks 8–11. See how f′ and f″ shape the graph of f, find critical numbers, local and absolute extreme values, intervals of increase and concavity, inflection points and asymptotes, and check a sketch against them."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Curve sketching"> <meta name="twitter:description" content="An interactive tool for MATH 101, weeks 8–11. See how f′ and f″ shape the graph of f, find critical numbers, local and absolute extreme values, intervals of increase and concavity, inflection points and asymptotes, and check a sketch against them."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math101/tools/curve-sketching/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 101, weeks 8–11. See how f′ and f″ shape the graph of f, find critical numbers, local and absolute extreme values, intervals of increase and concavity, inflection points and asymptotes, and check a sketch against them.",
+        "headline": "Curve sketching",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math101/tools/curve-sketching/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Curve sketching</h1> <p class="post-description">An interactive tool for MATH 101, weeks 8–11. See how f′ and f″ shape the graph of f, find critical numbers, local and absolute extreme values, intervals of increase and concavity, inflection points and asymptotes, and check a sketch against them.</p> </header> <article> <p><a href="/teaching/math101/">← MATH 101</a></p> <p>The first and second derivatives tell us the shape of a graph. Where \(f' &gt; 0\), \(f\) is increasing, and where \(f' &lt; 0\) it is decreasing (the Increasing/Decreasing Test). A <strong>critical number</strong> is a number \(c\) in the domain of \(f\) where \(f'(c) = 0\) or \(f'(c)\) does not exist, and the First Derivative Test decides whether \(f\) has a local maximum or minimum there. Where \(f'' &gt; 0\) the graph is concave upward, where \(f'' &lt; 0\) concave downward, and an <strong>inflection point</strong> is a point where the concavity changes. On a closed interval, the <strong>Closed Interval Method</strong> finds the absolute maximum and minimum values. This tool carries out the textbook’s guidelines for sketching a curve and shows \(f\), \(f'\) and \(f''\) together. It supports learning outcomes 8 and 9.</p> <div class="mm-wrap" id="cs"> <div class="mm-controls" id="cs-top"></div> <div class="mm-controls" id="cs-input"></div> <svg id="cs-f" role="img" aria-label="Graph of f with its extreme values, inflection points and asymptotes"></svg> <div class="mm-panels mm-2"> <svg id="cs-d1" role="img" aria-label="Graph of f prime"></svg> <svg id="cs-d2" role="img" aria-label="Graph of f double prime"></svg> </div> <div class="mm-controls" id="cs-controls"></div> <p class="mm-help">Tick <b>closed interval</b> to restrict <em>f</em> to [<em>a</em>, <em>b</em>] and apply the Closed Interval Method. Without it, the tool studies a range three times as wide as the window and writes its ends as −∞ and ∞, so features far outside the window can be missed. Untick the boxes under <b>Show</b> to sketch first and check afterwards.</p> <div class="mm-readout" id="cs-out"></div> <div class="mm-scroll"><table class="mm-table" id="cs-chart" style="width:100%"></table></div> <div class="mm-scroll"><table class="mm-table" id="cs-civ" style="width:auto;min-width:16rem"></table></div> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>For \(f(x) = 3x^4 - 16x^3 + 18x^2\) on \([-1, 4]\), the textbook finds a local maximum \(f(1) = 5\), a local minimum \(f(0) = 0\), the absolute maximum \(f(-1) = 37\) and the absolute minimum \(f(3) = -27\). Check each one, and explain why \(f(-1)\) is not a local maximum.</li> <li>For \(f(x) = x - 2\sin x\) on \([0, 2\pi]\), find the absolute extreme values and compare with the textbook’s \(\pi/3 - \sqrt{3}\) and \(5\pi/3 + \sqrt{3}\).</li> <li>For \(f(x) = 3x^4 - 4x^3 - 12x^2 + 5\), read off the intervals of increase and decrease from the graph of \(f'\), then check them in the sign chart.</li> <li>For \(y = x^4 - 4x^3\), \(f'(0) = 0\) but there is no local extremum at 0. What does the sign chart show there? What happens to the concavity?</li> <li>For \(f(x) = x^{2/3}(6 - x)^{1/3}\), find the critical numbers where \(f'\) does not exist. What does the graph look like at those points?</li> <li>For \(\dfrac{2x^2}{x^2 - 1}\), \(x e^x\), \(\ln(4 - x^2)\) and \(\dfrac{x^3}{x^2 + 1}\), compare each item in the summary with the textbook’s sketch: domain, asymptotes, extreme values, concavity and inflection points.</li> <li>Untick the three boxes under <strong>Show</strong>, sketch \(f'\) and \(f''\) for a function of your choice, and then reveal them.</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>The derivatives are approximated by central differences, \(f'(x) \approx [f(x + h) - f(x - h)]/(2h)\) and \(f''(x) \approx\) \([f(x + h) - 2f(x) + f(x - h)]/h^2\). The tool samples the range finely and splits it where \(f\) is undefined or jumps; a jump where \(\lvert f\rvert\) grows without bound is a vertical asymptote. In each piece, critical numbers are the zeros of \(f'\) (found as sign changes and refined by bisection) and the points where the one-sided difference quotients disagree or grow without bound. The signs of \(f'\) and \(f''\) between these points give the intervals of increase and concavity, and the First Derivative Test classifies the critical numbers. Horizontal and slant asymptotes come from the values of \(f(x)\) and \(f(x)/x\) for very large \(\lvert x\rvert\). Results are rounded and can be fooled by features smaller than the sampling grid.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools, PI = Math.PI;
+    var presets = {
+      ex41: { name: "3x⁴ − 16x³ + 18x² on [−1, 4]", f: "3x^4 - 16x^3 + 18x^2", I: ["-1", "4"], win: [-1.5, 4.5, -35, 45] },
+      ex48: { name: "x³ − 3x² + 1 on [−½, 4]", f: "x^3 - 3x^2 + 1", I: ["-1/2", "4"], win: [-1, 4.5, -5, 19] },
+      ex49: { name: "x − 2 sin x on [0, 2π]", f: "x - 2sin x", I: ["0", "2pi"], win: [-0.5, 6.8, -1.5, 8] },
+      ex431: { name: "3x⁴ − 4x³ − 12x² + 5", f: "3x^4 - 4x^3 - 12x^2 + 5", win: [-2, 3, -30, 20] },
+      ex433: { name: "x + 2 sin x on [0, 2π]", f: "x + 2sin x", I: ["0", "2pi"], win: [-0.5, 6.8, -1, 8] },
+      ex436: { name: "x⁴ − 4x³", f: "x^4 - 4x^3", win: [-1.5, 4.5, -30, 15] },
+      ex437: { name: "x^(2/3) (6 − x)^(1/3)", f: "x^(2/3)(6 - x)^(1/3)", win: [-3, 9, -4, 5] },
+      ex438: { name: "e^(1/x)", f: "e^(1/x)", win: [-4, 4, -1, 6] },
+      ex451: { name: "2x²/(x² − 1)", f: "2x^2/(x^2 - 1)", win: [-4, 4, -6, 8] },
+      ex452: { name: "x²/√(x + 1)", f: "x^2/sqrt(x + 1)", win: [-1.5, 4, -1, 8] },
+      ex453: { name: "x e^x", f: "x e^x", win: [-6, 1.5, -1, 3] },
+      ex454: { name: "cos x/(2 + sin x) on [0, 2π]", f: "cos x/(2 + sin x)", I: ["0", "2pi"], win: [-0.5, 6.8, -1, 1] },
+      ex455: { name: "ln(4 − x²)", f: "ln(4 - x^2)", win: [-3, 3, -4, 2] },
+      ex456: { name: "x³/(x² + 1)", f: "x^3/(x^2 + 1)", win: [-4, 4, -4, 4] },
+    };
+    var key = "ex41", P = presets[key], f0 = null, useI = true, IA = -1, IB = 4, show = { f: true, d1: true, d2: true };
+    var pf = new M.Plot(document.getElementById("cs-f"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y = f(x)", aspect: 0.5, aspectNarrow: 0.8, left: 30 });
+    var p1 = new M.Plot(document.getElementById("cs-d1"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y = f′(x)", aspect: 0.62, aspectNarrow: 0.6, left: 30 });
+    var p2 = new M.Plot(document.getElementById("cs-d2"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y = f″(x)", aspect: 0.62, aspectNarrow: 0.6, left: 30 });
+    function num(v, d) { if (!isFinite(v)) return v > 0 ? "∞" : v < 0 ? "−∞" : "undefined"; if (Math.abs(v) < 1e-9) return "0"; return String(+v.toPrecision(d || 4)).replace(/-/g, "−"); }
+    function f(x) { return useI && (x < IA || x > IB) ? NaN : f0(x); }
+    function sc(x) { return Math.max(1, Math.abs(x)); }
+    function d1(x) { var h = 1e-5 * sc(x); return (f(x + h) - f(x - h)) / (2 * h); }
+    function d2(x) { var h = 1e-3 * sc(x); return (f(x + h) - 2 * f(x) + f(x - h)) / (h * h); }
+    function bis(g, u, v, gu) { for (var k = 0; k < 60; k++) { var m = (u + v) / 2, gm = g(m); if (!isFinite(gm)) break; if (gu * gm <= 0) v = m; else { u = m; gu = gm; } } return (u + v) / 2; }
+    // Is f differentiable at x? null if so, otherwise "corner" or "vertical".
+    function kind(x) {
+      var s = sc(x), h1 = 1e-4 * s, h2 = 1e-6 * s, fx = f(x);
+      var r1 = (f(x + h1) - fx) / h1, r2 = (f(x + h2) - fx) / h2, l1 = (fx - f(x - h1)) / h1, l2 = (fx - f(x - h2)) / h2;
+      if (!isFinite(fx)) return null;
+      if (!isFinite(l2) || !isFinite(r2)) return null; // an end of the domain, handled elsewhere
+      var upR = Math.abs(r2) > 3 * Math.abs(r1) && Math.abs(r2) > 50, upL = Math.abs(l2) > 3 * Math.abs(l1) && Math.abs(l2) > 50;
+      if (upR && upL && l2 * r2 < 0) return "cusp";
+      if (upR || upL) return "vertical";
+      // at a smooth point the gap between the one-sided quotients shrinks with h (near a pole it can still be large); at a corner it does not
+      var g1 = Math.abs(l1 - r1), g2 = Math.abs(l2 - r2);
+      if (g2 > 1e-3 * (1 + Math.abs(l2) + Math.abs(r2)) && g2 > 0.3 * g1) return "corner";
+      return null;
+    }
+    // sign of f″ at x, or 0 when rounding noise swamps it: the second difference with steps h and 2h must agree
+    function sgn2(x) {
+      var fx = f(x), e = [0.5e-3, 1e-3, 2e-3].map(function (h) { h *= sc(x); return (f(x + h) - 2 * fx + f(x - h)) / (h * h); });
+      if (!e.every(isFinite) || e[1] === 0 || Math.abs(e[0] - e[1]) > 0.3 * Math.abs(e[1]) || Math.abs(e[2] - e[1]) > 0.3 * Math.abs(e[1])) return 0;
+      return e[1] > 0 ? 1 : -1;
+    }
+    // size of the rounding noise in the computed f′ at x
+    function noise1(x) { return 1e-13 * Math.abs(f(x)) / (1e-5 * sc(x)); }
+    function snap(x) { var q = Math.round(x * 1e4) / 1e4 + 0; return Math.abs(q - x) < 2e-4 ? q : x; } // + 0 turns −0 into 0
+    // a root r of g, moved to a nearby round number when that is at least as good a root
+    function snapRoot(g, r) {
+      var q = Math.round(r * 1e4) / 1e4 + 0, d = 1e-3 * sc(r);
+      if (Math.abs(q - r) >= 2e-4) return r;
+      var gq = Math.abs(g(q));
+      return gq <= Math.abs(g(r)) + 1e-12 || gq < 5e-4 * (Math.abs(g(q - d)) + Math.abs(g(q + d))) ? q : r;
+    }
+    // where f′ misbehaves near x: try round numbers first (integers, then 1 to 4 decimals)
+    // f′ is computed with a step of about 1e-5, so the bisection pins the point down only that closely:
+    // try the nearby numbers with few decimals first (2, 0.5, 1.25, ...), as they are what people type
+    function locate(x, tol) {
+      for (var d = 0; d <= 6; d++) { var q = Math.round(x * Math.pow(10, d)) / Math.pow(10, d) + 0; if (Math.abs(q - x) < (tol || 5e-7) * sc(x) && kind(q)) return q; }
+      return kind(x) ? x : null;
+    }
+    // Split [A, B] into pieces on which f is defined and continuous, and list the break points between them.
+    function pieces(A, B) {
+      var n = 6000, xs = [], ys = [], i, out = [], brk = [], start = null;
+      // asinh keeps steep growth near an asymptote continuous; overflow (±∞) counts as a huge value
+      function g(x) { var y = f(x); return Math.asinh(y === Infinity ? 1e300 : y === -Infinity ? -1e300 : y); }
+      for (i = 0; i <= n; i++) { xs.push(A + ((B - A) * i) / n); ys.push(g(xs[i])); }
+      var fin = ys.filter(isFinite).map(Math.abs).sort(function (p, q) { return p - q; }), H = fin.length ? fin[Math.floor(0.9 * fin.length)] + 1 : 1;
+      // a step much bigger than the typical step between samples is worth a closer look, even if it is small
+      // compared with the values themselves (floor(10x) near x = 3 jumps by 1 out of 30)
+      var steps = [];
+      for (i = 1; i <= n; i++) if (isFinite(ys[i]) && isFinite(ys[i - 1])) steps.push(Math.abs(ys[i] - ys[i - 1]));
+      steps.sort(function (p, q) { return p - q; });
+      var big = Math.min(0.05 * H, 20 * (steps.length ? steps[Math.floor(steps.length / 2)] : 0) + 1e-12 * H);
+      function edge(u, v) { for (var k = 0; k < 60; k++) { var m = (u + v) / 2; if (isFinite(g(m)) === isFinite(g(u))) u = m; else v = m; } return isFinite(g(u)) ? u : v; }
+      for (i = 0; i <= n; i++) {
+        var ok = isFinite(ys[i]);
+        if (ok && start === null) start = i === 0 ? A : edge(xs[i - 1], xs[i]);
+        if (!ok && start !== null) { out.push([start, edge(xs[i - 1], xs[i])]); brk.push(xs[i]); start = null; }
+        if (ok && i > 0 && isFinite(ys[i - 1]) && Math.abs(ys[i] - ys[i - 1]) > big) {
+          // a jump (or a vertical asymptote) between samples?
+          var u = xs[i - 1], v = xs[i], gu = ys[i - 1], gv = ys[i], bad = false;
+          for (var k = 0; k < 60; k++) { var m = (u + v) / 2, gm = g(m); if (!isFinite(gm)) { bad = true; break; } if (Math.abs(gm - gu) > Math.abs(gv - gm)) { v = m; gv = gm; } else { u = m; gu = gm; } }
+          if (bad || Math.abs(gv - gu) > 1e-4 * H) {
+            var c = (u + v) / 2, q = snap(c), e = 1e-9 * sc(q);
+            if (q !== c && !bad) { var gl = g(q - e), gr = g(q + e); if (!(Math.abs(gl - gu) < Math.abs(gl - gv) && Math.abs(gr - gv) < Math.abs(gr - gu))) q = c; }
+            out.push([start, q]); brk.push(q); start = q;
+          }
+        }
+      }
+      if (start !== null) out.push([start, B]);
+      // removable holes that the samples stepped over
+      M.holes(f, A, B).forEach(function (hx) {
+        for (var pi = 0; pi < out.length; pi++) if (hx > out[pi][0] && hx < out[pi][1]) { out.splice(pi, 1, [out[pi][0], hx], [hx, out[pi][1]]); brk.push(hx); break; }
+      });
+      // a stretch where f overflows to ±∞ on both sides of a point (e^(1/x²) near 0) hides a vertical asymptote:
+      // split the piece at the middle of the stretch
+      for (i = 1; i < n; i++) {
+        if (Math.abs(f(xs[i])) !== Infinity) continue;
+        var j0 = i; while (i < n && Math.abs(f(xs[i + 1])) === Infinity) i++;
+        if (j0 === 1 || i >= n - 1 || !isFinite(f(xs[j0 - 1])) || !isFinite(f(xs[i + 1]))) continue;
+        var cm = snap((xs[j0] + xs[i]) / 2);
+        for (var pi = 0; pi < out.length; pi++) if (cm > out[pi][0] && cm < out[pi][1]) { out.splice(pi, 1, [out[pi][0], cm], [cm, out[pi][1]]); brk.push(cm); break; }
+      }
+      return { pieces: out.filter(function (p) { return p[1] - p[0] > (B - A) * 1e-9; }), H: H };
+    }
+    // zeros of g on [a, b]: sign changes between n samples, refined by bisection. A long run of exact zeros is
+    // returned separately in out.runs; a sign change across a pole is rejected; pre(xp, x) can skip a sign change cheaply.
+    function zeros(g, a, b, n, ok, pre) {
+      var out = [], xs = [], ys = [], i, k;
+      out.runs = [];
+      for (i = 0; i <= n; i++) { xs.push(a + ((b - a) * i) / n); ys.push(g(xs[i])); }
+      function add(r) { if (!out.some(function (q) { return Math.abs(q - r) < (b - a) * 1e-7; })) out.push(r); }
+      // exact zeros: a long run means g = 0 on an interval, a short one a zero at a sample point; but zeros next to
+      // values below 1e-200 are underflow (e^(−1/x²) near 0), not zeros
+      for (i = 0; i <= n; i = k + 1) {
+        if (ys[i] !== 0) { k = i; continue; }
+        for (k = i; k < n && ys[k + 1] === 0; k++);
+        var nb = [ys[i - 1], ys[k + 1]].filter(function (v) { return v !== undefined && isFinite(v); });
+        var under = nb.length && nb.every(function (v) { return Math.abs(v) < 1e-200; });
+        if (!under) { if (k - i > 20) out.runs.push([xs[i], xs[k]]); else add(xs[i]); }
+        for (var q = i; q <= k; q++) ys[q] = NaN;
+      }
+      for (i = 1; i <= n; i++) {
+        var yp = ys[i - 1], y = ys[i];
+        if (isFinite(y) && isFinite(yp) && yp * y < 0 && (!pre || pre(xs[i - 1], xs[i]))) {
+          var r0 = bis(g, xs[i - 1], xs[i], yp), r = snapRoot(g, r0);
+          if (Math.abs(g(r0)) <= 1e-3 * Math.min(Math.abs(yp), Math.abs(y)) + 1e-12 && (!ok || ok(r))) add(r);
+        }
+      }
+      out.sort(function (p, q) { return p - q; });
+      return out;
+    }
+    function kinks(a, b) {
+      // stay clear of the ends of the piece by more than the step of f′, which would reach across a jump
+      var n = 3000, out = [], xs = [], ys = [], i, mg = Math.max((3 * (b - a)) / n, 3e-5 * Math.max(sc(a), sc(b)));
+      for (i = 0; i <= n; i++) { var x = a + mg + ((b - a - 2 * mg) * i) / n, y = d1(x); if (isFinite(y) && Math.abs(f(x)) < 1e8) { xs.push(x); ys.push(y); } }
+      var srt = ys.slice().sort(function (p, q) { return p - q; }), H = (srt[Math.floor(0.95 * srt.length)] - srt[Math.floor(0.05 * srt.length)]) || 1;
+      for (i = 1; i < xs.length; i++) {
+        if (Math.abs(ys[i] - ys[i - 1]) <= 0.05 * H) continue;
+        var u = xs[i - 1], v = xs[i], gu = ys[i - 1], gv = ys[i];
+        // bisect with a much smaller step in the difference quotient, so the corner is pinned down to about 1e-7
+        var dfine = function (x) { var h = 1e-8 * sc(x); return (f(x + h) - f(x - h)) / (2 * h); };
+        gu = dfine(u); gv = dfine(v);
+        for (var k = 0; k < 60 && v - u > 1e-7 * sc(u); k++) { var m = (u + v) / 2, gm = dfine(m); if (!isFinite(gm)) break; if (Math.abs(gm - gu) > Math.abs(gv - gm)) { v = m; gv = gm; } else { u = m; gu = gm; } }
+        // sharpen a corner: where the tangent lines from the two sides meet
+        var x0 = (u + v) / 2, dl = 1e-5 * sc(x0), sharp = false, sl = (f(x0 - dl) - f(x0 - 2 * dl)) / dl, sr = (f(x0 + 2 * dl) - f(x0 + dl)) / dl;
+        if (Math.abs(sl - sr) > 1e-3 * (1 + Math.abs(sl) + Math.abs(sr)) && Math.abs(sl) < 1e3 && Math.abs(sr) < 1e3) {
+          var xs2 = (f(x0 + dl) - f(x0 - dl) + sl * (x0 - dl) - sr * (x0 + dl)) / (sl - sr);
+          if (Math.abs(xs2 - x0) < dl && kind(xs2) === "corner") { x0 = xs2; sharp = true; }
+        }
+        var xm = locate(x0, sharp ? 1e-9 : 5e-7), c = xm === null ? null : kind(xm);
+        if (c && xm > a + mg && xm < b - mg && !out.some(function (q) { return Math.abs(q.x - xm) < 1e-4 * sc(xm); })) out.push({ x: xm, kind: c });
+      }
+      return out;
+    }
+    // limits at ±∞ and slant asymptotes
+    function atInf(s) {
+      var X = [1e4, 1e5, 1e6].map(function (x) { return s * x * 1.0731737; }), v = X.map(f);
+      if (!v.every(isFinite)) return null;
+      var d1v = v[1] - v[0], d2v = v[2] - v[1];
+      if (Math.abs(d2v) < 1e-3 * (1 + Math.abs(v[2])) && Math.abs(d1v) < 1e-2 * (1 + Math.abs(v[2])) && (Math.abs(d2v) <= Math.abs(d1v) * 0.5 + 1e-9 || Math.abs(d2v) < 1e-4)) {
+        var Lh = +(v[2] + d2v / 9).toPrecision(5);
+        return { type: "h", L: Math.abs(Lh) < 1e-4 ? 0 : Lh };
+      }
+      var q = X.map(function (x, i) { return v[i] / x; }), m = +(q[2] + (q[2] - q[1]) / 9).toPrecision(6);
+      if (Math.abs(q[2] - q[1]) < 1e-3 * (1 + Math.abs(m)) && Math.abs(m) > 1e-3) {
+        // the intercept f(x) − mx must settle down (for ln x, f(x)/x → 0 but f(x) keeps growing)
+        var b = [1e3, 1e4, 1e5, 1e6].map(function (x) { x *= 1.0731737 * s; return f(x) - m * x; });
+        if (b.every(isFinite) && Math.abs(b[3] - b[2]) < 1e-2 * (1 + Math.abs(b[3])) && Math.abs(b[3] - b[2]) <= 0.5 * Math.abs(b[2] - b[1]) + 1e-6 * (1 + Math.abs(b[3]))) return { type: "s", m: m, b: Math.abs(b[3]) < 1e-4 ? 0 : +b[3].toPrecision(4) };
+      }
+      return null;
+    }
+    function iv(a, b, A, B) { return "(" + (a <= A && !useI ? "−∞" : num(a)) + ", " + (b >= B && !useI ? "∞" : num(b)) + ")"; }
+    function draw() {
+      [pf, p1, p2].forEach(function (p) { p.frame(); });
+      var out = document.getElementById("cs-out"), chart = document.getElementById("cs-chart"), civ = document.getElementById("cs-civ");
+      if (!f0 || (useI && !(IB > IA))) { out.innerHTML = "Enter a formula" + (useI ? " and an interval with <em>a</em> &lt; <em>b</em>" : "") + "."; chart.innerHTML = civ.innerHTML = ""; return; }
+      var o = pf.o, W = o.x1 - o.x0, A = useI ? IA : o.x0 - W, B = useI ? IB : o.x1 + W;
+      var PC = pieces(A, B), crit = [], infl = [], cuts = [], vas = [], flat = [];
+      PC.pieces.forEach(function (pc) {
+        var a = pc[0], b = pc[1], n = Math.max(800, Math.round((6000 * (b - a)) / (B - A))), w = (b - a) / n, i, x;
+        if (b - a < 1e-9 * sc(a)) return;
+        var mg = 3 * w, top = 0, fmax = 0, allFin = true;
+        for (i = 3; i <= n - 3; i += 3) { x = a + i * w; var dv = Math.abs(d1(x)), fv = Math.abs(f(x)); if (isFinite(dv)) top = Math.max(top, dv); else allFin = false; if (isFinite(fv)) fmax = Math.max(fmax, fv); else allFin = false; }
+        // f is constant on this piece: every number in it is a critical number, and there is nothing else to find
+        if (allFin && !(top > 1e-8 * (1 + fmax))) { flat.push(pc); return; }
+        // a critical number must stand out from the rounding noise in f′ on both sides
+        // f′(r) must be tiny next to its size nearby and to its largest size, and the values nearby must stand out from rounding noise
+        function clear(r) {
+          var nz = 100 * noise1(r), l = Math.abs(d1(r - w)), rr = Math.abs(d1(r + w)), z0 = Math.abs(d1(r));
+          return l > nz && rr > nz && z0 < 1e-2 * Math.max(l, rr) && z0 < 1e-7 * top + 1e-300;
+        }
+        var z = zeros(d1, a + mg, b - mg, n, function (r) { return !kind(r) && clear(r); });
+        z.forEach(function (r) { crit.push({ x: r, why: "zero" }); });
+        // zeros of f′ where it touches 0 without changing sign (x³ at 0, x⁴ − 4x³ at 0)
+        var dp = Math.abs(d1(a + mg)), dc = Math.abs(d1(a + mg + w));
+        for (i = 4; i <= n - 3; i++) {
+          x = a + i * w; var dn = Math.abs(d1(x));
+          if (dc < dp && dc < dn) {
+            var u = x - 2 * w, v = x;
+            for (var j = 0; j < 80; j++) { var m1 = u + (v - u) / 3, m2 = v - (v - u) / 3; if (Math.abs(d1(m1)) < Math.abs(d1(m2))) v = m2; else u = m1; }
+            var zz = snapRoot(d1, (u + v) / 2);
+            if (!kind(zz) && clear(zz) && !crit.some(function (c) { return Math.abs(c.x - zz) < 1e-5 * sc(zz); })) crit.push({ x: zz, why: "zero" });
+          }
+          dp = dc; dc = dn;
+        }
+        var kk = kinks(a, b);
+        kk.forEach(function (k) { if (!crit.some(function (c) { return Math.abs(c.x - k.x) < 1e-4 * sc(k.x); })) crit.push({ x: k.x, why: k.kind }); });
+        // zeros of f″ where its sign clearly changes, ignoring rounding noise and the points where f′ does not exist
+        // the sign of f″ on one side of x: next to a zero of high order (f″ ≈ c(x − r)³) it is lost in rounding,
+        // so step further out until it is clear
+        function side2(x, dir) { for (var st = 0, k = 0; k < 7; k++, st = st ? st * 4 : 1) { var z = x + dir * st * w; if (z <= a + mg || z >= b - mg) return 0; var sg = sgn2(z); if (sg) return sg; } return 0; }
+        zeros(d2, a + mg, b - mg, n, function (r) { return side2(r - w / 2, -1) * side2(r + w / 2, 1) < 0; }, function (p, q) { return side2(p, -1) * side2(q, 1) < 0; })
+          .forEach(function (r) { if (!kk.some(function (k) { return Math.abs(k.x - r) < 2e-3 * sc(r); })) infl.push(r); });
+      });
+      crit.sort(function (p, q) { return p.x - q.x; });
+      // break points between pieces: vertical asymptotes where |f| grows without bound
+      var ends = [];
+      PC.pieces.forEach(function (pc, i) {
+        [pc[0], pc[1]].forEach(function (e, j) {
+          if ((j === 0 && i === 0 && e <= A) || (j === 1 && i === PC.pieces.length - 1 && e >= B)) return;
+          ends.push(e);
+          // |f| keeps growing as x approaches e, by at least as much for each step closer (ln grows slowly but surely)
+          var s = j === 0 ? 1 : -1, v = [1e-4, 1e-8, 1e-12].map(function (d) { var y = Math.abs(f(e + s * d * sc(e))); return y === Infinity ? 1e300 : y; });
+          var grows = v.every(function (y) { return !isNaN(y); }) && (v[2] >= 1e300 || (v[2] > 1e3 && v[2] > 5 * v[1]) || (v[2] > v[1] && v[1] > v[0] && v[2] - v[1] > 0.5 * (v[1] - v[0]) && v[2] > 10));
+          if (grows && !vas.some(function (q) { return Math.abs(q - e) < 1e-4 * sc(e); })) vas.push(e);
+        });
+      });
+      // intervals between all special points, with the signs of f′ and f″
+      var pts = crit.map(function (c) { return c.x; }).concat(infl).concat(ends).concat([A, B]).sort(function (p, q) { return p - q; });
+      var U = [];
+      pts.forEach(function (x) { if (!U.length || x - U[U.length - 1] > 1e-7 * sc(x)) U.push(x); });
+      var cols = [];
+      for (var i = 0; i < U.length - 1; i++) {
+        var m = (U[i] + U[i + 1]) / 2, y = f(m);
+        if (!isFinite(y)) continue;
+        var s1 = d1(m), s2 = 0, fl = flat.some(function (pc) { return m > pc[0] && m < pc[1]; });
+        if (Math.abs(s1) < noise1(m)) s1 = 0;
+        // f″ can vanish at the midpoint itself (x − 2 sin x at π), so try a few more points
+        for (var t = 0; t < 5 && !s2; t++) s2 = sgn2(U[i] + [0.5, 0.3, 0.7, 0.1, 0.9][t] * (U[i + 1] - U[i]));
+        cols.push({ a: U[i], b: U[i + 1], s1: fl ? 0 : s1 > 0 ? 1 : s1 < 0 ? -1 : 0, s2: fl ? 0 : s2 });
+      }
+      function colAt(x, side) { for (var k = 0; k < cols.length; k++) if (side < 0 ? Math.abs(cols[k].b - x) < 1e-7 * sc(x) : Math.abs(cols[k].a - x) < 1e-7 * sc(x)) return cols[k]; return null; }
+      // First Derivative Test and inflection points
+      crit.forEach(function (c) { var L = colAt(c.x, -1), R = colAt(c.x, 1); c.type = L && R ? (L.s1 > 0 && R.s1 < 0 ? "max" : L.s1 < 0 && R.s1 > 0 ? "min" : "none") : "end"; c.y = f(c.x); });
+      var IP = [];
+      var ipc = infl.concat(crit.filter(function (c) { return c.why !== "zero"; }).map(function (c) { return c.x; }));
+      U.forEach(function (x) { var L = colAt(x, -1), R = colAt(x, 1); if (L && R && L.s2 * R.s2 < 0 && isFinite(f(x)) && ipc.some(function (q) { return Math.abs(q - x) < 1e-7 * sc(x); }) && !vas.some(function (q) { return Math.abs(q - x) < 1e-6 * sc(x); })) IP.push([x, f(x)]); });
+      // merge neighbouring intervals with the same behaviour
+      function merged(key) {
+        var res = [];
+        // as in the textbook, intervals are not joined across points where f, f′ or f″ is undefined
+        var stops = ends.concat(crit.filter(function (c) { return c.why !== "zero"; }).map(function (c) { return c.x; }));
+        cols.forEach(function (c) { var last = res[res.length - 1]; if (last && last.s === c[key] && Math.abs(last.b - c.a) < 1e-7 * sc(c.a) && !stops.some(function (e) { return Math.abs(e - c.a) < 1e-7 * sc(e); })) last.b = c.b; else res.push({ a: c.a, b: c.b, s: c[key] }); });
+        return res;
+      }
+      var inc = merged("s1"), conc = merged("s2");
+      // ---- plots ----
+      function vline(p, x, cls) { var l = p.path([[x, p.o.y0], [x, p.o.y1]], cls || "mm-zero"); l.style.strokeDasharray = "2 3"; return l; }
+      var hInf = useI ? [null, null] : [atInf(-1), atInf(1)];
+      vas.forEach(function (x) { var l = vline(pf, x, "mm-b"); l.style.strokeDasharray = "6 4"; });
+      hInf.forEach(function (h, j) {
+        if (!h) return;
+        var l = h.type === "h" ? pf.path([[o.x0, h.L], [o.x1, h.L]], "mm-b") : pf.path([[o.x0, h.m * o.x0 + h.b], [o.x1, h.m * o.x1 + h.b]], "mm-b");
+        l.style.strokeDasharray = "6 4";
+      });
+      if (show.f) pf.fn(f, "mm-a", { n: 2500 });
+      crit.forEach(function (c) { if (c.type === "max" || c.type === "min") { var q = pf.circle(c.x, c.y, 5, "mm-dot"); q.style.fill = c.type === "max" ? "var(--mm-b)" : "var(--mm-c)"; } });
+      IP.forEach(function (q) { pf.circle(q[0], q[1], 4.5, "mm-eq-u"); });
+      if (useI) [IA, IB].forEach(function (x) { if (isFinite(f(x))) pf.circle(x, f(x), 3.5, "mm-dot"); });
+      [[p1, d1, show.d1], [p2, d2, show.d2]].forEach(function (q) {
+        q[0].path([[q[0].o.x0, 0], [q[0].o.x1, 0]], "mm-zero");
+        crit.forEach(function (c) { vline(q[0], c.x); });
+        if (q[2]) q[0].fn(q[1], "mm-a", { n: 1500 });
+      });
+      IP.forEach(function (x) { vline(p2, x[0], "mm-curve").style.opacity = ".5"; });
+      // ---- summary ----
+      var L = [];
+      if (!useI) {
+        var gaps = [];
+        PC.pieces.forEach(function (pc, i) { if (i > 0) gaps.push([PC.pieces[i - 1][1], pc[0]]); });
+        // a jump splits the graph but not the domain: join pieces that meet at a point where f is defined
+        var DP = [], jumps = [];
+        PC.pieces.forEach(function (pc) {
+          var last = DP[DP.length - 1], e = pc[0];
+          if (last && last[1] === e && isFinite(f(e)) && !vas.some(function (q) { return Math.abs(q - e) < 1e-4 * sc(e); })) { last[1] = pc[1]; jumps.push(e); }
+          else DP.push([pc[0], pc[1]]);
+        });
+        function isVA(x) { return vas.some(function (q) { return Math.abs(q - x) < 1e-4 * sc(x); }); }
+        var domL = DP.map(function (pc) { var l = snap(pc[0]), r = snap(pc[1]); return (pc[0] <= A ? "(−∞" : (isFinite(f(l)) && !isVA(l) ? "[" : "(") + num(l)) + ", " + (pc[1] >= B ? "∞)" : num(r) + (isFinite(f(r)) && !isVA(r) ? "]" : ")")); }), dom = domL.length > 8 ? domL.slice(0, 4).join(" ∪ ") + " ∪ … ∪ " + domL.slice(-2).join(" ∪ ") + " (" + domL.length + " intervals)" : domL.join(" ∪ ");
+        L.push("<b>Domain</b> (as far as the tool looks): " + dom + "." + (jumps.length ? " <em>f</em> jumps at <em>x</em> = " + jumps.slice(0, 12).map(function (x) { return num(snap(x)); }).join(", ") + (jumps.length > 12 ? ", …" : "") + "." : ""));
+      } else L.push("<b>Interval</b>: [" + num(IA) + ", " + num(IB) + "].");
+      var y0 = f(0), xi = [], xruns = [];
+      PC.pieces.forEach(function (pc) {
+        var zf = zeros(f, pc[0], pc[1], 3000);
+        zf.forEach(function (r) { xi.push(r); });
+        zf.runs.forEach(function (r) {
+          var st = (pc[1] - pc[0]) / 3000, l = r[0] - pc[0] < 2.5 * st ? pc[0] : r[0], rr = pc[1] - r[1] < 2.5 * st ? pc[1] : r[1];
+          // a run reaching the end of the range the tool looks at, but not filling its piece, is underflow (e^x for x < −745)
+          if (!useI && ((l <= A && rr < pc[1]) || (rr >= B && l > pc[0]))) return;
+          xruns.push([l, rr]);
+        });
+        // zeros where the graph touches the axis without crossing it
+        var n = 3000, w = (pc[1] - pc[0]) / n;
+        for (var k = 1; k < n; k++) {
+          var x = pc[0] + k * w, y = Math.abs(f(x));
+          if (!(y <= Math.abs(f(x - w)) && y <= Math.abs(f(x + w))) || (y === 0 && (f(x - w) === 0 || f(x + w) === 0))) continue;
+          var u = x - w, v = x + w;
+          for (var j = 0; j < 80; j++) { var m1 = u + (v - u) / 3, m2 = v - (v - u) / 3; if (Math.abs(f(m1)) < Math.abs(f(m2))) v = m2; else u = m1; }
+          var z = snapRoot(f, (u + v) / 2);
+          var nearEnd = PC.pieces.some(function (p2) { return Math.abs(p2[0] - z) < 1e-4 * sc(z) || Math.abs(p2[1] - z) < 1e-4 * sc(z); }) && !(Math.abs(z - A) < 1e-9 || Math.abs(z - B) < 1e-9);
+          if (Math.abs(f(z)) < 1e-9 && !nearEnd && !xruns.some(function (r) { return z >= r[0] - 1e-9 && z <= r[1] + 1e-9; }) && !xi.some(function (q) { return Math.abs(q - z) < 1e-5 * sc(z); })) xi.push(z);
+        }
+      });
+      xi.sort(function (p, q) { return p - q; });
+      // zeros at an end of the domain or of the interval (√x at 0, |x² − 1| at −1)
+      PC.pieces.forEach(function (pc) { [pc[0], pc[1]].forEach(function (e) { var q = snap(e); if (q >= A && q <= B && f(q) === 0 && !xi.some(function (t) { return Math.abs(t - q) < 1e-6 * sc(q); })) xi.push(q); }); });
+      xi.sort(function (p, q) { return p - q; });
+      xi = xi.filter(function (x) { return !xruns.some(function (r) { return x >= r[0] - 1e-9 && x <= r[1] + 1e-9; }); });
+      var xt = xi.slice(0, 12).map(function (x) { return num(x); }).concat(xruns.map(function (r) { return "every <em>x</em> in " + (!useI && r[0] <= A ? "(−∞" : (f(r[0]) === 0 ? "[" : "(") + num(snap(r[0]))) + ", " + (!useI && r[1] >= B ? "∞)" : num(snap(r[1])) + (f(r[1]) === 0 ? "]" : ")")); }));
+      L.push("<b>Intercepts</b>: " + (isFinite(y0) ? "<em>y</em>-intercept " + num(y0) : "no <em>y</em>-intercept") + "; " + (xt.length ? "<em>x</em>-intercept" + (xt.length > 1 || xruns.length ? "s " : " ") + xt.join(", ") + (xi.length > 12 ? ", …" : "") : "no <em>x</em>-intercepts") + ".");
+      var as = [];
+      vas.slice(0, 8).forEach(function (x) { as.push("vertical <em>x</em> = " + num(x)); });
+      if (vas.length > 8) as.push("… (" + vas.length + " vertical asymptotes in all)");
+      hInf.forEach(function (h, j) { if (!h) return; var side = j ? "as <em>x</em> → ∞" : "as <em>x</em> → −∞"; as.push(h.type === "h" ? "horizontal <em>y</em> = " + num(h.L) + " " + side : "slant <em>y</em> = " + (h.m === 1 ? "" : h.m === -1 ? "−" : num(h.m)) + "<em>x</em>" + (Math.abs(h.b) < 1e-6 ? "" : (h.b < 0 ? " − " : " + ") + num(Math.abs(h.b))) + " " + side); });
+      // a line is not called an asymptote of itself
+      var straight = hInf.every(function (h) { return h && [-2.13, 0.37, 1.71].every(function (x) { var y = f(x), l = h.type === "h" ? h.L : h.m * x + h.b; return isFinite(y) && Math.abs(y - l) < 1e-6 * (1 + Math.abs(y)); }); });
+      if (!useI) L.push("<b>Asymptotes</b>: " + (straight ? "none (the graph is itself a line)" : as.length ? as.join("; ") : "none found") + ".");
+      var incT = inc.filter(function (c) { return c.s > 0; }).map(function (c) { return iv(c.a, c.b, A, B); }), decT = inc.filter(function (c) { return c.s < 0; }).map(function (c) { return iv(c.a, c.b, A, B); });
+      function cap(l) { return l.length > 10 ? l.slice(0, 10).join(", ") + ", …" : l.join(", "); }
+      L.push("<b>Increasing</b> on " + (cap(incT) || "no interval") + "; <b>decreasing</b> on " + (cap(decT) || "no interval") + ".");
+      var cn = crit.filter(function (c) { return c.type !== "end"; });
+      var ct = cn.slice(0, 12).map(function (c) { return num(c.x) + (c.why === "zero" ? "" : " (<em>f</em>′ does not exist: " + (c.why === "corner" ? "corner" : c.why === "cusp" ? "cusp" : "vertical tangent") + ")"); });
+      if (cn.length > 12) ct.push("…");
+      var fl = flat.slice(0, 6).map(function (pc) { return iv(pc[0], pc[1], A, B); }).join(", ") + (flat.length > 6 ? ", …" : "");
+      if (flat.length) ct.push("every number in " + fl + ", where <em>f</em> is constant");
+      L.push("<b>Critical numbers</b>: " + (ct.length ? ct.join(", ") : "none") + "." + (flat.length ? " Where <em>f</em> is constant, every point is both a local maximum and a local minimum, in the wide sense of the definition (<em>f</em>(<em>c</em>) ≥ <em>f</em>(<em>x</em>) and <em>f</em>(<em>c</em>) ≤ <em>f</em>(<em>x</em>) near <em>c</em>)." : ""));
+      var mx = cn.filter(function (c) { return c.type === "max"; }), mn = cn.filter(function (c) { return c.type === "min"; });
+      function vals(list) { return list.slice(0, 8).map(function (c) { return "<em>f</em>(" + num(c.x) + ") = " + num(c.y); }).join(", ") + (list.length > 8 ? ", …" : ""); }
+      L.push((flat.length ? "Apart from that: " : "") + (mx.length ? "<b>Local maximum</b> " + vals(mx) : (flat.length ? "no" : "No") + " local maximum") + "; " + (mn.length ? "<b>local minimum</b> " + vals(mn) : "no local minimum") + ".");
+      var cu = conc.filter(function (c) { return c.s > 0; }).map(function (c) { return iv(c.a, c.b, A, B); }), cd = conc.filter(function (c) { return c.s < 0; }).map(function (c) { return iv(c.a, c.b, A, B); });
+      L.push("<b>Concave upward</b> on " + (cap(cu) || "no interval") + "; <b>concave downward</b> on " + (cap(cd) || "no interval") + ".");
+      L.push("<b>Inflection points</b>: " + (IP.length ? IP.slice(0, 12).map(function (q) { return "(" + num(q[0]) + ", " + num(Math.abs(q[1]) < 1e-5 ? 0 : q[1]) + ")"; }).join(", ") + (IP.length > 12 ? ", …" : "") : "none") + ".");
+      out.innerHTML = L.map(function (t) { return "<div>" + t + "</div>"; }).join("");
+      // ---- sign chart ----
+      var h = "<thead><tr><th>interval</th>" + cols.map(function (c) { return "<th style=\"white-space:nowrap;text-align:center\">" + iv(c.a, c.b, A, B) + "</th>"; }).join("") + "</tr></thead><tbody>";
+      function sg(s) { return s > 0 ? "+" : s < 0 ? "−" : "0"; }
+      h += "<tr><td><em>f</em>′(<em>x</em>)</td>" + cols.map(function (c) { return "<td style=\"text-align:center;font-weight:600\">" + sg(c.s1) + "</td>"; }).join("") + "</tr>";
+      h += "<tr><td><em>f</em>″(<em>x</em>)</td>" + cols.map(function (c) { return "<td style=\"text-align:center;font-weight:600\">" + sg(c.s2) + "</td>"; }).join("") + "</tr>";
+      h += "<tr><td><em>f</em></td>" + cols.map(function (c) { return "<td style=\"text-align:center\">" + (c.s1 > 0 ? "increasing" : c.s1 < 0 ? "decreasing" : "constant") + ", " + (c.s2 > 0 ? "CU" : c.s2 < 0 ? "CD" : "straight") + "</td>"; }).join("") + "</tr>";
+      chart.innerHTML = cols.length <= 14 ? h + "</tbody>" : "";
+      // ---- Closed Interval Method ----
+      if (useI && PC.pieces.length > 1) {
+        civ.innerHTML = "<tbody><tr><td style=\"text-align:left\"><em>f</em> is not continuous on [" + num(IA) + ", " + num(IB) + "]: it " + (vas.length ? "has a vertical asymptote" : "breaks") + " at <em>x</em> = " + num(snap(vas.length ? vas[0] : PC.pieces[0][1])) + ". So the Extreme Value Theorem does not apply, <em>f</em> need not have an absolute maximum or minimum, and the Closed Interval Method cannot be used.</td></tr></tbody>";
+      } else if (useI) {
+        var cand = [{ x: IA, why: "end point" }].concat(cn.map(function (c) { return { x: c.x, why: "critical number" }; })).concat([{ x: IB, why: "end point" }]);
+        cand.forEach(function (c) { c.y = f(c.x); });
+        var ys = cand.map(function (c) { return c.y; }).filter(isFinite), top = Math.max.apply(null, ys), bot = Math.min.apply(null, ys);
+        var t = "<thead><tr><th><em>x</em></th><th></th><th><em>f</em>(<em>x</em>)</th></tr></thead><tbody>";
+        cand.forEach(function (c) { var isT = Math.abs(c.y - top) < 1e-9 * (1 + Math.abs(top)), isB = Math.abs(c.y - bot) < 1e-9 * (1 + Math.abs(bot)), tag = isT && isB ? " (absolute maximum and minimum)" : isT ? " (absolute maximum)" : isB ? " (absolute minimum)" : ""; t += "<tr" + (tag ? " class=\"mm-best\"" : "") + "><td>" + num(c.x, 6) + "</td><td style=\"text-align:left\">" + c.why + tag + "</td><td>" + num(c.y, 6) + "</td></tr>"; });
+        civ.innerHTML = t + "</tbody>";
+      } else civ.innerHTML = "";
+    }
+    // controls
+    var top = document.getElementById("cs-top"), inp = document.getElementById("cs-input"), box = document.getElementById("cs-controls");
+    M.select(M.group(top, "Example"), Object.keys(presets).map(function (k) { return [k, presets[k].name]; }), key, function (v) { load(v); });
+    var fIn = M.textInput(inp, "<em>f</em>(<em>x</em>) =", P.f, function (v) { try { f0 = M.expr(v); fIn.showError(""); } catch (e) { f0 = null; fIn.showError(e.message); } draw(); });
+    var gi = M.group(inp, "");
+    var iBox = M.checkbox(gi, "Closed interval", useI, function (v) { useI = v; dim(); draw(); });
+    function dim() { [aIn, bIn].forEach(function (q) { q.input.disabled = !useI; q.input.style.opacity = useI ? "" : ".45"; }); }
+    var aIn = M.textInput(gi, "<em>a</em> =", "-1", function (v) { IA = val(v, aIn); draw(); }, "4rem");
+    var bIn = M.textInput(gi, "<em>b</em> =", "4", function (v) { IB = val(v, bIn); draw(); }, "4rem");
+    function val(v, b) { try { var r = M.expr(v)(0); b.showError(isFinite(r) ? "" : "not a number"); return r; } catch (e) { b.showError(e.message); return NaN; } }
+    var gs = M.group(box, "Show");
+    M.checkbox(gs, "<em>f</em>", show.f, function (v) { show.f = v; draw(); });
+    M.checkbox(gs, "<em>f</em>′", show.d1, function (v) { show.d1 = v; draw(); });
+    M.checkbox(gs, "<em>f</em>″", show.d2, function (v) { show.d2 = v; draw(); });
+    function derivWindows() {
+      // fit the windows of f′ and f″ to their values over the window of f
+      var o = pf.o;
+      [[p1, d1], [p2, d2]].forEach(function (q) {
+        var vs = [];
+        for (var i = 0; i <= 300; i++) { var v = q[1](o.x0 + ((o.x1 - o.x0) * i) / 300); if (isFinite(v)) vs.push(v); }
+        vs.sort(function (p, r) { return p - r; });
+        var lo = vs.length ? vs[Math.floor(0.03 * vs.length)] : -1, hi = vs.length ? vs[Math.floor(0.97 * vs.length) - 1] : 1;
+        lo = Math.min(lo, 0); hi = Math.max(hi, 0); var pad = (hi - lo) * 0.1 || 1;
+        M.setWindow(q[0], [o.x0, o.x1, lo - pad, hi + pad]);
+      });
+    }
+    M.zoomControls(box, pf, function () { return P.win; }, function () { derivWindows(); draw(); });
+    function load(k) {
+      key = k; P = presets[k];
+      fIn.set(P.f); f0 = M.expr(P.f); fIn.showError("");
+      useI = !!P.I; iBox.checked = useI; dim();
+      if (P.I) { aIn.set(P.I[0]); bIn.set(P.I[1]); IA = val(P.I[0], aIn); IB = val(P.I[1], bIn); }
+      M.setWindow(pf, P.win); derivWindows();
+      draw();
+    }
+    M.onResize(draw);
+    load(key);
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-101-calculus-1",
+          title: 'MATH 101: Calculus 1',
+          description: "Limits, continuity, derivatives and their applications, and integrals of functions of one variable.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math101/";
+            },},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

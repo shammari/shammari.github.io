@@ -1,0 +1,283 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Antiderivatives | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 101, week 12. See the family of antiderivatives F(x) + C of a function as curves with the slopes it prescribes, and pick out the one that satisfies an initial condition."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Antiderivatives"> <meta property="og:url" content="https://shammari.github.io/teaching/math101/tools/antiderivatives/"> <meta property="og:description" content="An interactive tool for MATH 101, week 12. See the family of antiderivatives F(x) + C of a function as curves with the slopes it prescribes, and pick out the one that satisfies an initial condition."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Antiderivatives"> <meta name="twitter:description" content="An interactive tool for MATH 101, week 12. See the family of antiderivatives F(x) + C of a function as curves with the slopes it prescribes, and pick out the one that satisfies an initial condition."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math101/tools/antiderivatives/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 101, week 12. See the family of antiderivatives F(x) + C of a function as curves with the slopes it prescribes, and pick out the one that satisfies an initial condition.",
+        "headline": "Antiderivatives",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math101/tools/antiderivatives/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Antiderivatives</h1> <p class="post-description">An interactive tool for MATH 101, week 12. See the family of antiderivatives F(x) + C of a function as curves with the slopes it prescribes, and pick out the one that satisfies an initial condition.</p> </header> <article> <p><a href="/teaching/math101/">← MATH 101</a></p> <p>A function \(F\) is an <strong>antiderivative</strong> of \(f\) on an interval if \(F'(x) = f(x)\) for all \(x\) in the interval. If \(F\) is one antiderivative, then the most general antiderivative on the interval is \(F(x) + C\), where \(C\) is an arbitrary constant: the graphs are vertical translations of one another, all with the same slope \(f(x)\) above each \(x\). An <strong>initial condition</strong> \(F(x_0) = y_0\) picks out one member of the family. This tool draws the slopes prescribed by \(f\), the family of antiderivatives and the one through a point you choose. It supports learning outcomes 10 and 11.</p> <div class="mm-wrap" id="ad"> <div class="mm-controls" id="ad-top"></div> <div class="mm-controls" id="ad-input"></div> <div class="mm-panels mm-side"> <svg id="ad-f" role="img" aria-label="Graph of f"></svg> <svg id="ad-F" role="img" aria-label="The family of antiderivatives and the one through the chosen point"></svg> </div> <div class="mm-controls" id="ad-controls"></div> <p class="mm-help">The small panel is the graph of <em>f</em>. In the large panel, the short line segments have slope <em>f</em>(<em>x</em>), the faint curves are members of the family <em>F</em>(<em>x</em>) + <em>C</em>, and the bold curve passes through the point you choose. Drag the point, or type the initial condition.</p> <div class="mm-readout" id="ad-out"></div> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>For \(f(x) = \sin x\), the antiderivatives are \(-\cos x + C\). Drag the point and watch the bold curve move up and down. Why does every curve have a horizontal tangent at the same values of \(x\)?</li> <li>For \(f(x) = 1/x\), the family has two separate parts, one for \(x &gt; 0\) and one for \(x &lt; 0\), each with its own constant. Why is \(\ln\lvert x\rvert + C\) not quite the most general antiderivative?</li> <li>The textbook finds the function with \(f'(x) = e^x + \dfrac{20}{1 + x^2}\) and \(f(0) = -2\): it is \(e^x + 20\tan^{-1}x - 3\). Compare the bold curve with that formula.</li> <li>A ball is thrown upward at 48 ft/s from the edge of a cliff 432 ft above the ground, so its velocity is \(v(t) = 48 - 32t\). With \(s(0) = 432\), find the maximum height and when the ball hits the ground. Compare with the textbook’s answer, about 6.9 s.</li> <li>Sketch an antiderivative of \(f(x) = x^2 - 1\) before revealing the family. Where does it have a local maximum or minimum, and why there?</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>The antiderivative through \((x_0, y_0)\) is \(F(x) = y_0 + \int_{x_0}^{x} f(t)\,dt\), computed by Simpson’s rule on a fine grid going out from \(x_0\) in both directions, and stopped where \(f\) is undefined or blows up, since an antiderivative is only defined on an interval where \(f\) is. The other members of the family are vertical translations of it, \(F(x) + C\); on each other interval of the domain the family is drawn from its own starting point. The textbook’s formulas are shown for comparison only.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    var presets = {
+      sin: { name: "f(x) = sin x", f: "sin x", F: "-cos x", p: [0, -1], win: [-7, 7, -4, 4], fwin: [-7, 7, -1.5, 1.5] },
+      recip: { name: "f(x) = 1/x", f: "1/x", F: "ln(abs(x))", p: [1, 0], win: [-5, 5, -4, 4], fwin: [-5, 5, -5, 5] },
+      sq: { name: "f(x) = x² − 1", f: "x^2 - 1", F: "x^3/3 - x", p: [0, 0], win: [-3, 3, -4, 4], fwin: [-3, 3, -2, 8] },
+      ex3: { name: "f′(x) = e^x + 20/(1 + x²), f(0) = −2", f: "e^x + 20/(1 + x^2)", F: "e^x + 20atan(x) - 3", p: [0, -2], win: [-6, 3, -40, 40], fwin: [-6, 3, -1, 25] },
+      ball: { name: "v(t) = 48 − 32t, s(0) = 432", f: "48 - 32x", F: "-16x^2 + 48x + 432", p: [0, 432], win: [-0.5, 8, -100, 550], fwin: [-0.5, 8, -220, 60], var: "t" },
+    };
+    var key = "sin", P = presets[key], f = null, Fb = null, x0 = 0, y0 = -1, xp = 1, showFam = true;
+    var fp = new M.Plot(document.getElementById("ad-f"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y = f(x)", aspect: 1.36, aspectNarrow: 0.55, left: 30 });
+    var Fp = new M.Plot(document.getElementById("ad-F"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y = F(x)", aspect: 0.68, aspectNarrow: 0.8, left: 34 });
+    function num(v, d) { if (!isFinite(v)) return "undefined"; if (Math.abs(v) < 1e-9) return "0"; return String(+v.toPrecision(d || 5)).replace(/-/g, "−"); }
+    // a single missing point where f has the same value on both sides (sin x/x at 0) does not stop an antiderivative
+    function hole(x) { var e = 1e-7 * Math.max(1, Math.abs(x)), l = f(x - e), r = f(x + e); return isFinite(l) && isFinite(r) && Math.abs(l - r) < 1e-4 * (1 + Math.abs(l)); }
+    function fh(x) { var y = f(x); if (isFinite(y)) return y; var e = 1e-9 * Math.max(1, Math.abs(x)); return hole(x) ? (f(x - e) + f(x + e)) / 2 : NaN; }
+    function breaks(lo, hi) { return M.breaks(f, lo, hi).filter(function (q) { return q.kind === "jump" || !hole(q.x); }).map(function (q) { return q.x; }); }
+    // F on a grid, integrating out from (a, ya) to the nearest break on each side
+    function integral(a, ya, lo, hi, brk) {
+      var N = 1200, h = (hi - lo) / N, pts = [[a, ya]];
+      var L = lo, R = hi;
+      brk.forEach(function (q) { if (q < a && q > L) L = q; if (q > a && q < R) R = q; });
+      if (L > lo) L += (hi - lo) * 1e-4;
+      if (R < hi) R -= (hi - lo) * 1e-4;
+      [1, -1].forEach(function (s) {
+        var x = a, y = ya, lim = s > 0 ? R : L, out = [];
+        while ((s > 0 && x < lim) || (s < 0 && x > lim)) {
+          var st = s * Math.min(h, Math.abs(lim - x)), m = fh(x + st / 2), e = fh(x + st), b0 = fh(x);
+          if (![m, e, b0].every(isFinite)) break;
+          y += (st / 6) * (b0 + 4 * m + e); x += st;
+          out.push([x, y]);
+        }
+        if (s > 0) pts = pts.concat(out); else pts = out.reverse().concat(pts);
+      });
+      return pts;
+    }
+    function value(pts, x) { for (var i = 1; i < pts.length; i++) if ((pts[i - 1][0] - x) * (pts[i][0] - x) <= 0) { var t = (x - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0] || 1); return pts[i - 1][1] + t * (pts[i][1] - pts[i - 1][1]); } return NaN; }
+    function draw() {
+      fp.frame(); Fp.frame();
+      var out = document.getElementById("ad-out");
+      if (!f) { out.innerHTML = "Enter a formula for <em>f</em>."; return; }
+      var o = Fp.o, H = o.y1 - o.y0, W = o.x1 - o.x0, K = Fp.K;
+      fp.path([[fp.o.x0, 0], [fp.o.x1, 0]], "mm-zero");
+      fp.fn(f, "mm-a", { n: 1200 });
+      var v = fp.path([[xp, fp.o.y0], [xp, fp.o.y1]], "mm-zero"); v.style.strokeDasharray = "3 3";
+      if (isFinite(f(xp))) fp.circle(xp, f(xp), 4.5, "mm-dot").style.fill = "var(--mm-b)";
+      // slope field of y′ = f(x)
+      for (var i = 0; i <= 24; i++) for (var j = 0; j <= 14; j++) {
+        var x = o.x0 + ((i + 0.5) * W) / 25, y = o.y0 + ((j + 0.5) * H) / 15, s = f(x);
+        if (!isFinite(s)) continue;
+        var dx = Fp.sx(x + 1) - Fp.sx(x), dy = Fp.sy(y + s) - Fp.sy(y), n = Math.sqrt(dx * dx + dy * dy), L = 6 * K;
+        M.el("line", { x1: Fp.sx(x) - (dx / n) * L, y1: Fp.sy(y) - (dy / n) * L, x2: Fp.sx(x) + (dx / n) * L, y2: Fp.sy(y) + (dy / n) * L, class: "mm-field" }, Fp.data);
+      }
+      // the initial point must lie in an interval where f is defined (a single missing point, as for sin x/x at 0, is fine)
+      if (!isFinite(f(x0)) && !hole(x0)) {
+        document.getElementById("ad-out").innerHTML = "<em>f</em> is not defined near <em>x</em> = " + num(x0) + ", so no antiderivative can start there: an antiderivative lives on an interval where <em>f</em> is defined. Choose <em>x</em><sub>0</sub> inside such an interval.";
+        return;
+      }
+      var lo = o.x0 - 0.05 * W, hi = o.x1 + 0.05 * W, brk = breaks(lo, hi), main = integral(x0, y0, lo, hi, brk);
+      // the family: translations of the main curve, plus curves on the other intervals of the domain, between breaks
+      var pieces = [main], cuts = [lo].concat(brk).concat([hi]);
+      for (var q = 0; q < cuts.length - 1; q++) {
+        var u = cuts[q], w2 = cuts[q + 1], mid = (u + w2) / 2;
+        if (x0 > u && x0 < w2) continue;
+        if (w2 - u > W * 0.02 && isFinite(f(mid))) pieces.push(integral(mid, 0, lo, hi, brk));
+      }
+      if (showFam) pieces.forEach(function (pc, idx) {
+        var ref = idx === 0 ? y0 : 0, ys = pc.map(function (q) { return q[1]; }), mid = ys[Math.floor(ys.length / 2)];
+        for (var c = -8; c <= 8; c++) {
+          if (idx === 0 && c === 0) continue;
+          var shift = (c * H) / 8 + (idx === 0 ? 0 : (o.y0 + o.y1) / 2 - mid);
+          var l = Fp.path(pc.map(function (q) { return [q[0], q[1] + shift]; }), "mm-a"); l.style.opacity = ".22"; l.style.strokeWidth = "1.4";
+        }
+      });
+      var bp = Fp.path(main, "mm-a"); bp.style.strokeWidth = "3";
+      if (Fb && P.f === fIn.input.value) { var tp = Fp.fn(Fb, "mm-b", { n: 800 }); tp.style.strokeDasharray = "6 5"; tp.style.strokeWidth = "1.6"; }
+      var hp = Fp.circle(x0, y0, 6, "mm-handle"); hp.setAttribute("stroke", "var(--mm-b)");
+      var Fx = value(main, xp), sl = f(xp);
+      if (isFinite(Fx) && isFinite(sl)) { var w = W * 0.12, tl = Fp.path([[xp - w, Fx - sl * w], [xp + w, Fx + sl * w]], "mm-b"); tl.style.strokeWidth = "1.8"; Fp.circle(xp, Fx, 4.5, "mm-dot"); }
+      var V = P.var && P.f === fIn.input.value ? P.var : "x", t = [];
+      t.push("The bold curve is the antiderivative with <em>F</em>(" + num(x0) + ") = " + num(y0) + ".");
+      t.push(isFinite(Fx) ? "At <em>" + V + "</em> = " + num(xp) + ": <em>F</em>(" + num(xp) + ") ≈ <b>" + num(Fx) + "</b>, and the slope of the curve there is <em>F</em>′(" + num(xp) + ") = <em>f</em>(" + num(xp) + ") = " + num(sl) + "." : "At <em>" + V + "</em> = " + num(xp) + " the bold curve is not defined: this antiderivative lives on an interval where <em>f</em> is defined.");
+      if (Fb && P.f === fIn.input.value) {
+        var C = y0 - Fb(x0);
+        t.push("The textbook's antiderivative (dashed) is " + P.Ftxt + (Math.abs(C) > 1e-6 ? ", which needs <em>C</em> = " + num(C) + " to pass through the point" : ", which passes through the point") + ".");
+      }
+      if (key === "ball" && P.f === fIn.input.value) {
+        var tmax = 1.5, tg = (3 * (1 + Math.sqrt(13))) / 2;
+        t.push("<em>s</em>(<em>t</em>) is largest when <em>v</em>(<em>t</em>) = 0, at <em>t</em> = 1.5 s, where <em>s</em> = " + num(value(main, tmax)) + " ft (the bold curve gives this; −16<em>t</em><sup>2</sup> + 48<em>t</em> + 432 = 468). It reaches the ground, <em>s</em> = 0, at <em>t</em> = 3(1 + √13)/2 ≈ " + num(tg, 3) + " s.");
+      }
+      out.innerHTML = t.map(function (s) { return "<div>" + s + "</div>"; }).join("");
+    }
+    var top = document.getElementById("ad-top"), inp = document.getElementById("ad-input"), box = document.getElementById("ad-controls");
+    M.select(M.group(top, "Example"), Object.keys(presets).map(function (k) { return [k, presets[k].name]; }), key, function (v) { load(v); });
+    var fIn = M.textInput(inp, "<em>f</em>(<em>x</em>) =", P.f, function (v) { try { f = M.expr(v); fIn.showError(""); } catch (e) { f = null; fIn.showError(e.message); } draw(); });
+    var gi = M.group(inp, "Initial condition");
+    var x0In = M.textInput(gi, "<em>F</em>(", "0", function (v) { var r = val(v, x0In); if (isFinite(r)) x0 = r; draw(); }, "3.5rem");
+    var y0In = M.textInput(gi, ") =", "-1", function (v) { var r = val(v, y0In); if (isFinite(r)) y0 = r; draw(); }, "4rem");
+    function val(v, b) { try { var r = M.expr(v)(0); b.showError(isFinite(r) ? "" : "not a number"); return r; } catch (e) { b.showError(e.message); return NaN; } }
+    var g1 = M.group(box, "Probe");
+    var xS = M.slider(g1, { label: "<em>x</em>", min: -7, max: 7, step: 0.01, value: xp, digits: 2, onInput: function (v) { xp = v; draw(); } });
+    M.checkbox(M.group(box, "Show"), "Family <em>F</em>(<em>x</em>) + <em>C</em>", showFam, function (v) { showFam = v; draw(); });
+    M.zoomControls(box, [Fp, fp], function () { return [P.win, P.fwin]; }, draw);
+    function load(k) {
+      key = k; P = presets[k];
+      fIn.set(P.f); f = M.expr(P.f); fIn.showError("");
+      Fb = P.F ? M.expr(P.F) : null; P.Ftxt = { sin: "−cos <em>x</em> + <em>C</em>", recip: "ln|<em>x</em>| + <em>C</em>", sq: "⅓<em>x</em><sup>3</sup> − <em>x</em> + <em>C</em>", ex3: "<em>e</em><sup><em>x</em></sup> + 20 tan<sup>−1</sup><em>x</em> − 3", ball: "−16<em>t</em><sup>2</sup> + 48<em>t</em> + 432" }[k];
+      x0 = P.p[0]; y0 = P.p[1]; x0In.set(String(x0)); y0In.set(String(y0));
+      M.setWindow(Fp, P.win); M.setWindow(fp, P.fwin);
+      xS.input.min = P.win[0]; xS.input.max = P.win[1]; xS.input.step = (P.win[1] - P.win[0]) / 1000; xp = P.win[0] + 0.7 * (P.win[1] - P.win[0]); xS.set(xp);
+      var vn = P.var || "x"; xS.el.querySelector("span").innerHTML = "<em>" + vn + "</em>";
+      Fp.o.xname = fp.o.xname = vn;
+      draw();
+    }
+    // drag the point
+    var svg = Fp.svg, dragging = false;
+    svg.addEventListener("pointerdown", function (evt) { var p = Fp.at(evt); if (Fp.inside(p.x, p.y) && f && isFinite(f(p.x))) { dragging = true; svg.setPointerCapture(evt.pointerId); evt.preventDefault(); move(p); } });
+    svg.addEventListener("pointermove", function (evt) { if (dragging) move(Fp.at(evt)); });
+    function move(p) { if (!isFinite(f(p.x))) return; var st = M.niceStep(Fp.o.x1 - Fp.o.x0, 100), sy = M.niceStep(Fp.o.y1 - Fp.o.y0, 100); x0 = Math.round(p.x / st) * st; y0 = Math.round(p.y / sy) * sy; x0In.set(num(x0)); y0In.set(num(y0)); draw(); }
+    svg.addEventListener("pointerup", function () { dragging = false; });
+    svg.addEventListener("pointercancel", function () { dragging = false; });
+    M.onResize(draw);
+    load(key);
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-101-calculus-1",
+          title: 'MATH 101: Calculus 1',
+          description: "Limits, continuity, derivatives and their applications, and integrals of functions of one variable.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math101/";
+            },},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

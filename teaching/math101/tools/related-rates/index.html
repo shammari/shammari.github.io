@@ -1,0 +1,347 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Related rates | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 101, week 7. Animate the textbook's related rates problems (the sliding ladder, the filling tank, the inflating balloon, two cars and a searchlight) and see each rate as the slope of a graph against time."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Related rates"> <meta property="og:url" content="https://shammari.github.io/teaching/math101/tools/related-rates/"> <meta property="og:description" content="An interactive tool for MATH 101, week 7. Animate the textbook's related rates problems (the sliding ladder, the filling tank, the inflating balloon, two cars and a searchlight) and see each rate as the slope of a graph against time."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Related rates"> <meta name="twitter:description" content="An interactive tool for MATH 101, week 7. Animate the textbook's related rates problems (the sliding ladder, the filling tank, the inflating balloon, two cars and a searchlight) and see each rate as the slope of a graph against time."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math101/tools/related-rates/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 101, week 7. Animate the textbook's related rates problems (the sliding ladder, the filling tank, the inflating balloon, two cars and a searchlight) and see each rate as the slope of a graph against time.",
+        "headline": "Related rates",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math101/tools/related-rates/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Related rates</h1> <p class="post-description">An interactive tool for MATH 101, week 7. Animate the textbook's related rates problems (the sliding ladder, the filling tank, the inflating balloon, two cars and a searchlight) and see each rate as the slope of a graph against time.</p> </header> <article> <p><a href="/teaching/math101/">← MATH 101</a></p> <p>In a related rates problem, two or more quantities change with time and are linked by an equation. Differentiating that equation with respect to time \(t\), using the Chain Rule, links their rates of change, so a rate we know gives a rate we want. This tool animates the textbook’s examples. The left panel shows the situation; the right panel graphs the quantity we want against time, and its tangent line, whose slope is the rate we are asked to find. It supports learning outcome 7.</p> <div class="mm-wrap" id="rr"> <div class="mm-controls" id="rr-top"></div> <div class="mm-panels mm-2"> <svg id="rr-pic" role="img" aria-label="Picture of the situation at the current time"></svg> <svg id="rr-graph" role="img" aria-label="The unknown quantity against time, with its tangent line"></svg> </div> <div class="mm-controls" id="rr-controls"></div> <div class="mm-readout" id="rr-out"></div> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>In the <strong>ladder</strong> problem, press <strong>textbook’s moment</strong>: the bottom is 6 ft from the wall and slides away at 1 ft/s. Follow the steps in the readout to find how fast the top slides down. Then play the animation. What happens to the speed of the top as it nears the floor? Is that realistic?</li> <li>In the <strong>conical tank</strong>, water flows in at a constant rate. Does the water level rise at a constant rate? When is it fastest, and why?</li> <li>For the <strong>balloon</strong>, air goes in at 100 cm³/s. How fast is the radius growing when the radius is 25 cm? Why does the radius grow more and more slowly?</li> <li>For the <strong>two cars</strong>, find how fast the distance between them is shrinking when car A is 0.3 mi and car B is 0.4 mi from the intersection. Why is the answer not simply 50 + 60 = 110 mi/h?</li> <li>For the <strong>searchlight</strong>, when is the light turning fastest? Explain why with the picture.</li> <li>In each problem, compare the rate in the readout (from the differentiated equation) with the slope of the tangent line on the graph. Why must they agree? Change the parameters and check again.</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>Each problem follows the textbook’s strategy: name the quantities, write an equation that relates them, differentiate it with respect to \(t\), and substitute the values at the moment of interest. Time is measured from the start of the animation, and the quantity whose rate is given changes at that constant rate. For the tank and the balloon the volume grows at the given rate, and the height or radius is found from it. The rate in the readout comes from the differentiated equation; the graph is drawn from the positions themselves, so the slope of its tangent line, computed independently by a central difference, is a check on the calculus.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools, PI = Math.PI;
+    function num(v, d) { if (!isFinite(v)) return "undefined"; if (Math.abs(v) < 1e-10) return "0"; return String(+v.toPrecision(d || 4)).replace("-", "−"); }
+    // Each problem: parameters, time range, the state at time t, the rate we want (from calculus) and a picture.
+    var P = {
+      ladder: {
+        name: "Sliding ladder",
+        params: { L: ["ladder length (ft)", 5, 20, 0.5, 10, 1], v: ["d<em>x</em>/d<em>t</em> (ft/s)", 0.2, 3, 0.1, 1, 1] },
+        tmax: function (p) { return (p.L * 0.995 - 1) / p.v; }, tbook: function (p) { return (6 - 1) / p.v; },
+        state: function (t, p) { var x = 1 + p.v * t; return { x: x, y: Math.sqrt(p.L * p.L - x * x) }; },
+        want: "y", wname: "height of the top, <em>y</em> (ft)", gname: "y (ft)", tunit: "s",
+        rate: function (s, p) { return (-s.x / s.y) * p.v; },
+        steps: function (s, p, r) {
+          return ["Given d<em>x</em>/d<em>t</em> = " + num(p.v) + " ft/s; find d<em>y</em>/d<em>t</em>.",
+            "Equation: <em>x</em><sup>2</sup> + <em>y</em><sup>2</sup> = " + num(p.L * p.L) + ".",
+            "Differentiate with respect to <em>t</em>: 2<em>x</em> d<em>x</em>/d<em>t</em> + 2<em>y</em> d<em>y</em>/d<em>t</em> = 0, so d<em>y</em>/d<em>t</em> = −(<em>x</em>/<em>y</em>) d<em>x</em>/d<em>t</em>.",
+            "Now <em>x</em> = " + num(s.x) + " ft and <em>y</em> = " + num(s.y) + " ft, so d<em>y</em>/d<em>t</em> = <b>" + num(r) + " ft/s</b>: the top slides down at " + num(-r) + " ft/s."];
+        },
+        pic: function (pl, s, p) {
+          M.setWindow(pl, [-1, p.L + 1, -1, p.L + 1]);
+          eq(pl); pl.frame();
+          pl.path([[0, -1], [0, p.L + 1]], "mm-curve"); pl.path([[-1, 0], [p.L + 1, 0]], "mm-curve");
+          var l = pl.path([[s.x, 0], [0, s.y]], "mm-a"); l.style.strokeWidth = "4";
+          pl.text(s.x / 2, -0.2, "x = " + num(s.x, 3), { "text-anchor": "middle", dy: 14 * pl.K });
+          pl.text(0.2, s.y / 2, "y = " + num(s.y, 3), { dx: 6 * pl.K });
+          pl.arrow(s.x + 0.6, 0.4, 1, 0, 26, "mm-b");
+          pl.arrow(0.4, s.y - 0.6, 0, 1, 26, "mm-b");
+        },
+      },
+      cone: {
+        name: "Filling a conical tank",
+        params: { R: ["top radius (m)", 1, 4, 0.1, 2, 1], H: ["height (m)", 2, 8, 0.1, 4, 1], q: ["d<em>V</em>/d<em>t</em> (m³/min)", 0.5, 5, 0.1, 2, 1] },
+        tmax: function (p) { return (PI * p.R * p.R * p.H) / 3 / p.q * 0.999; }, t0: 0.002, tbook: function (p) { var h = Math.min(3, p.H * 0.99); return (PI * p.R * p.R * h * h * h) / (3 * p.H * p.H) / p.q; },
+        state: function (t, p) { var V = p.q * t, h = Math.cbrt((3 * V * p.H * p.H) / (PI * p.R * p.R)); return { V: V, h: h, r: (p.R / p.H) * h }; },
+        want: "h", wname: "depth of water, <em>h</em> (m)", gname: "h (m)", tunit: "min",
+        rate: function (s, p) { return (p.q * p.H * p.H) / (PI * p.R * p.R * s.h * s.h); },
+        steps: function (s, p, r) {
+          return ["Given d<em>V</em>/d<em>t</em> = " + num(p.q) + " m³/min; find d<em>h</em>/d<em>t</em>.",
+            "Similar triangles give <em>r</em>/<em>h</em> = " + num(p.R) + "/" + num(p.H) + ", so <em>V</em> = ⅓π<em>r</em><sup>2</sup><em>h</em> = " + piOver((3 * p.H * p.H) / (p.R * p.R)) + " <em>h</em><sup>3</sup>.",
+            "Differentiate: d<em>V</em>/d<em>t</em> = " + piOver((p.H * p.H) / (p.R * p.R)) + " <em>h</em><sup>2</sup> d<em>h</em>/d<em>t</em>.",
+            "Now <em>h</em> = " + num(s.h) + " m, so d<em>h</em>/d<em>t</em> = <b>" + num(r) + " m/min</b>."];
+        },
+        pic: function (pl, s, p) {
+          var w = Math.max(p.R * 1.3, p.H * 0.65);
+          M.setWindow(pl, [-w, w, -0.3, p.H + 0.5]);
+          eq(pl); pl.frame();
+          M.el("polygon", { points: [[0, 0], [s.r, s.h], [-s.r, s.h]].map(function (q) { return pl.sx(q[0]).toFixed(1) + "," + pl.sy(q[1]).toFixed(1); }).join(" "), style: "fill:var(--mm-c);opacity:.45;stroke:none" }, pl.data);
+          pl.path([[-p.R, p.H], [0, 0], [p.R, p.H]], "mm-curve");
+          pl.path([[-p.R, p.H], [p.R, p.H]], "mm-zero");
+          var hl = pl.path([[0, 0], [0, s.h]], "mm-b"); hl.style.strokeDasharray = "4 3";
+          pl.text(0, s.h / 2, "h = " + num(s.h, 3), { dx: 6 * pl.K });
+          pl.text(-s.r / 2, s.h, "r = " + num(s.r, 3), { "text-anchor": "middle", dy: -6 * pl.K });
+        },
+      },
+      balloon: {
+        name: "Inflating a balloon",
+        params: { q: ["d<em>V</em>/d<em>t</em> (cm³/s)", 20, 300, 10, 100, 0] },
+        tmax: function (p) { return ((4 / 3) * PI * 40 * 40 * 40) / p.q; }, t0: 0.002, tbook: function (p) { return ((4 / 3) * PI * 25 * 25 * 25) / p.q; },
+        state: function (t, p) { var V = p.q * t; return { V: V, r: Math.cbrt((3 * V) / (4 * PI)) }; },
+        want: "r", wname: "radius, <em>r</em> (cm)", gname: "r (cm)", tunit: "s",
+        rate: function (s, p) { return p.q / (4 * PI * s.r * s.r); },
+        steps: function (s, p, r) {
+          return ["Given d<em>V</em>/d<em>t</em> = " + num(p.q) + " cm³/s; find d<em>r</em>/d<em>t</em>.",
+            "Equation: <em>V</em> = ⁴⁄₃π<em>r</em><sup>3</sup>.",
+            "Differentiate: d<em>V</em>/d<em>t</em> = 4π<em>r</em><sup>2</sup> d<em>r</em>/d<em>t</em>, so d<em>r</em>/d<em>t</em> = (d<em>V</em>/d<em>t</em>)/(4π<em>r</em><sup>2</sup>).",
+            "Now <em>r</em> = " + num(s.r) + " cm, so d<em>r</em>/d<em>t</em> = <b>" + num(r) + " cm/s</b>."];
+        },
+        pic: function (pl, s) {
+          M.setWindow(pl, [-45, 45, -45, 45]);
+          eq(pl); pl.frame();
+          var c = pl.circle(0, 0, 0, "mm-a"); c.setAttribute("r", Math.abs(pl.sx(s.r) - pl.sx(0))); c.style.fill = "var(--mm-b)"; c.style.fillOpacity = ".25"; c.style.stroke = "var(--mm-b)"; c.style.strokeWidth = "2";
+          pl.path([[0, 0], [s.r, 0]], "mm-curve");
+          pl.text(s.r / 2, 0, "r = " + num(s.r, 3), { "text-anchor": "middle", dy: -6 * pl.K });
+        },
+      },
+      cars: {
+        name: "Two cars approaching an intersection",
+        params: { a: ["car A speed (mi/h)", 10, 100, 1, 50, 0], b: ["car B speed (mi/h)", 10, 100, 1, 60, 0] },
+        tmax: function (p) { return 0.999 * Math.min((0.3 + p.a * 0.01) / p.a, (0.4 + p.b * 0.01) / p.b); }, tbook: function () { return 0.01; },
+        state: function (t, p) { var x = 0.3 + p.a * (0.01 - t), y = 0.4 + p.b * (0.01 - t); return { x: x, y: y, z: Math.sqrt(x * x + y * y) }; },
+        want: "z", wname: "distance between the cars, <em>z</em> (mi)", gname: "z (mi)", tunit: "h",
+        rate: function (s, p) { return (s.x * -p.a + s.y * -p.b) / s.z; },
+        steps: function (s, p, r) {
+          return ["Given d<em>x</em>/d<em>t</em> = −" + num(p.a) + " mi/h and d<em>y</em>/d<em>t</em> = −" + num(p.b) + " mi/h (the distances to the intersection shrink); find d<em>z</em>/d<em>t</em>.",
+            "Equation: <em>z</em><sup>2</sup> = <em>x</em><sup>2</sup> + <em>y</em><sup>2</sup>.",
+            "Differentiate: 2<em>z</em> d<em>z</em>/d<em>t</em> = 2<em>x</em> d<em>x</em>/d<em>t</em> + 2<em>y</em> d<em>y</em>/d<em>t</em>.",
+            "Now <em>x</em> = " + num(s.x) + " mi, <em>y</em> = " + num(s.y) + " mi and <em>z</em> = " + num(s.z) + " mi, so d<em>z</em>/d<em>t</em> = <b>" + num(r) + " mi/h</b>: the cars approach each other at " + num(-r) + " mi/h."];
+        },
+        pic: function (pl, s, p) {
+          M.setWindow(pl, [-0.15, 1.0, -0.15, 1.0]);
+          eq(pl); pl.frame();
+          pl.path([[-0.15, 0], [1, 0]], "mm-zero"); pl.path([[0, -0.15], [0, 1]], "mm-zero");
+          var d = pl.path([[s.x, 0], [0, s.y]], "mm-b"); d.style.strokeDasharray = "5 4";
+          var A = pl.circle(s.x, 0, 7, "mm-dot"); A.style.fill = "var(--mm-a)";
+          var B = pl.circle(0, s.y, 7, "mm-dot"); B.style.fill = "var(--mm-c)";
+          pl.text(s.x, 0, "A", { "text-anchor": "middle", dy: 22 * pl.K }); pl.text(0, s.y, "B", { dx: 12 * pl.K, dy: 4 * pl.K });
+          pl.arrow(s.x - 0.08, 0.05, -1, 0, 24, "mm-a"); pl.arrow(0.05, s.y - 0.08, 0, 1, 24, "mm-c");
+          pl.text(s.x / 2, s.y / 2, "z = " + num(s.z, 3), { dx: 8 * pl.K });
+        },
+      },
+      light: {
+        name: "Searchlight following a walker",
+        params: { d: ["distance of the light from the path (ft)", 5, 40, 1, 20, 0], v: ["walking speed (ft/s)", 1, 8, 0.5, 4, 1] },
+        tmax: function (p) { return (3 * p.d) / p.v; }, tbook: function (p) { return (15 + 1.5 * p.d) / p.v; },
+        state: function (t, p) { var x = -1.5 * p.d + p.v * t; return { x: x, th: Math.atan(x / p.d) }; },
+        want: "th", wname: "angle of the beam, θ (rad)", gname: "θ (rad)", tunit: "s",
+        rate: function (s, p) { var c = Math.cos(s.th); return (p.v * c * c) / p.d; },
+        steps: function (s, p, r) {
+          return ["Given d<em>x</em>/d<em>t</em> = " + num(p.v) + " ft/s; find dθ/d<em>t</em>.",
+            "Equation: <em>x</em>/" + num(p.d) + " = tan θ, so <em>x</em> = " + num(p.d) + " tan θ.",
+            "Differentiate: d<em>x</em>/d<em>t</em> = " + num(p.d) + " sec<sup>2</sup>θ dθ/d<em>t</em>, so dθ/d<em>t</em> = (d<em>x</em>/d<em>t</em>) cos<sup>2</sup>θ / " + num(p.d) + ".",
+            "Now <em>x</em> = " + num(s.x) + " ft, so θ = " + num(s.th) + " rad and dθ/d<em>t</em> = <b>" + num(r) + " rad/s</b>."];
+        },
+        pic: function (pl, s, p) {
+          M.setWindow(pl, [-1.6 * p.d, 1.6 * p.d, -0.3 * p.d, 1.3 * p.d]);
+          eq(pl); pl.frame();
+          pl.path([[-1.6 * p.d, p.d], [1.6 * p.d, p.d]], "mm-curve");
+          var b = pl.path([[0, 0], [s.x, p.d]], "mm-b"); b.style.strokeWidth = "3";
+          var pp = pl.path([[0, 0], [0, p.d]], "mm-zero"); pp.style.strokeDasharray = "4 3";
+          pl.circle(0, 0, 6, "mm-dot");
+          var w = pl.circle(s.x, p.d, 6, "mm-dot"); w.style.fill = "var(--mm-a)";
+          pl.text(s.x, p.d, "x = " + num(s.x, 3), { "text-anchor": "middle", dy: -10 * pl.K });
+          pl.text(0, p.d * 0.35, "θ", { dx: (s.x >= 0 ? 6 : -14) * pl.K });
+        },
+      },
+    };
+    var key = "ladder", S = P[key], par = {}, t = 0, playing = false;
+    var pic = new M.Plot(document.getElementById("rr-pic"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, aspect: 0.8, aspectNarrow: 0.8, left: 30 });
+    var gr = new M.Plot(document.getElementById("rr-graph"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "t", yname: "", aspect: 0.8, aspectNarrow: 0.7, left: 34 });
+    // equal scales in the picture, so that lengths and angles look right
+    function eq(pl) {
+      var o = pl.o, w = pl.svg.getBoundingClientRect().width, K = w > 0 ? 640 / w : 1;
+      var inner = 640 - (o.left + 10 + 12) * K, a = ((inner * (o.y1 - o.y0)) / (o.x1 - o.x0) + 38 * K) / 640;
+      o.aspect = o.aspectNarrow = Math.max(0.4, Math.min(1.4, a));
+    }
+    // (π/k) h³, written as π h³ when k = 1
+    function piOver(k) { return Math.abs(k - 1) < 1e-12 ? "π" : "(π/" + num(k) + ")"; }
+    function tmin() { return S.t0 ? S.t0 * S.tmax(par) : 0; } // the cone and the balloon start empty, where the rate is infinite
+    function q(tt) { return S.state(tt, par)[S.want]; }
+    function draw() {
+      var T = S.tmax(par), s = S.state(t, par), r = S.rate(s, par);
+      S.pic(pic, s, par);
+      // graph of the wanted quantity against time, with the tangent line at t
+      var lo = Infinity, hi = -Infinity, i;
+      for (i = 0; i <= 200; i++) { var v = q((T * i) / 200); if (isFinite(v)) { lo = Math.min(lo, v); hi = Math.max(hi, v); } }
+      var pad = (hi - lo) * 0.08 || 1;
+      M.setWindow(gr, [0, T, lo - pad, hi + pad]);
+      gr.o.xname = "time, t (" + S.tunit + ")"; gr.o.yname = S.gname;
+      gr.frame();
+      gr.fn(q, "mm-a", { x0: 0, x1: T, n: 600 });
+      var y = q(t), w = (T * 0.25);
+      if (isFinite(r)) { var tl = gr.path([[t - w, y - r * w], [t + w, y + r * w]], "mm-b"); tl.style.strokeWidth = "1.8"; }
+      gr.circle(t, y, 5, "mm-dot");
+      var h = T * 1e-6, slope = (q(Math.min(T, t + h)) - q(Math.max(0, t - h))) / (Math.min(T, t + h) - Math.max(0, t - h)), agree = isFinite(r) && Math.abs(slope - r) < 1e-3 * (1 + Math.abs(r));
+      var st = S.steps(s, par, r);
+      document.getElementById("rr-out").innerHTML = "<ol style=\"margin:.2rem 0 .4rem 1.2rem;padding:0\">" + st.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ol>" +
+        "<div>Check: at <em>t</em> = " + num(t) + " " + S.tunit + " the graph on the right has slope " + num(slope) + ", computed from the positions alone" + (agree ? ", which matches step 4." : isFinite(r) ? "; step 4 gives " + num(r) + "." : ".") + "</div>";
+    }
+    var top = document.getElementById("rr-top"), box = document.getElementById("rr-controls"), pg;
+    M.select(M.group(top, "Problem"), Object.keys(P).map(function (k) { return [k, P[k].name]; }), key, function (v) { load(v); });
+    var tg = M.group(box, "Time");
+    var tS = M.slider(tg, { label: "<em>t</em>", min: 0, max: 1, step: 0.001, value: 0, digits: 3, onInput: function (v) { t = v; draw(); } });
+    var playB = M.button(tg, "Play", function () { playing = !playing; playB.textContent = playing ? "Pause" : "Play"; if (playing) { if (t >= S.tmax(par) * 0.999) t = tmin(); last = null; requestAnimationFrame(step); } });
+    M.button(tg, "Textbook's moment", function () { t = Math.min(S.tbook(par), S.tmax(par)); tS.set(t); draw(); });
+    pg = M.group(box, "Parameters");
+    var last = null;
+    function step(now) {
+      if (!playing) return;
+      var T = S.tmax(par);
+      if (last !== null) t = Math.min(T, t + ((now - last) / 8000) * T);
+      last = now; tS.set(t); draw();
+      if (t >= T) { playing = false; playB.textContent = "Play"; return; }
+      requestAnimationFrame(step);
+    }
+    function rescale() { var T = S.tmax(par), t0 = tmin(); tS.input.min = t0; tS.input.max = T; tS.input.step = (T - t0) / 100000; if (t > T) t = T; if (t < t0) t = t0; tS.set(t); }
+    function load(k) {
+      key = k; S = P[k]; par = {}; playing = false; playB.textContent = "Play";
+      while (pg.childNodes.length > 1) pg.removeChild(pg.lastChild);
+      Object.keys(S.params).forEach(function (n) {
+        var sp = S.params[n]; par[n] = sp[4];
+        M.slider(pg, { label: sp[0], min: sp[1], max: sp[2], step: sp[3], value: sp[4], digits: sp[5], onInput: function (v) { par[n] = v; rescale(); draw(); } });
+      });
+      t = S.tbook(par); rescale(); tS.set(t);
+      draw();
+    }
+    M.onResize(draw);
+    load(key);
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-101-calculus-1",
+          title: 'MATH 101: Calculus 1',
+          description: "Limits, continuity, derivatives and their applications, and integrals of functions of one variable.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math101/";
+            },},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

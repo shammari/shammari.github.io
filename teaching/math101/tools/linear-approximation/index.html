@@ -1,0 +1,271 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Linear approximations and differentials | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 101, week 8. Approximate a function by its tangent line, compare the change Δy with the differential dy, and find where the approximation is accurate to a given tolerance."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Linear approximations and differentials"> <meta property="og:url" content="https://shammari.github.io/teaching/math101/tools/linear-approximation/"> <meta property="og:description" content="An interactive tool for MATH 101, week 8. Approximate a function by its tangent line, compare the change Δy with the differential dy, and find where the approximation is accurate to a given tolerance."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Linear approximations and differentials"> <meta name="twitter:description" content="An interactive tool for MATH 101, week 8. Approximate a function by its tangent line, compare the change Δy with the differential dy, and find where the approximation is accurate to a given tolerance."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math101/tools/linear-approximation/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 101, week 8. Approximate a function by its tangent line, compare the change Δy with the differential dy, and find where the approximation is accurate to a given tolerance.",
+        "headline": "Linear approximations and differentials",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math101/tools/linear-approximation/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Linear approximations and differentials</h1> <p class="post-description">An interactive tool for MATH 101, week 8. Approximate a function by its tangent line, compare the change Δy with the differential dy, and find where the approximation is accurate to a given tolerance.</p> </header> <article> <p><a href="/teaching/math101/">← MATH 101</a></p> <p>Near a point \(a\), the graph of a differentiable function is almost straight, so it is close to its tangent line. The <strong>linearization</strong> of \(f\) at \(a\) is</p> \[L(x) = f(a) + f'(a)(x - a),\] <p>and the <strong>linear approximation</strong> \(f(x) \approx L(x)\) is good for \(x\) near \(a\). In the language of <strong>differentials</strong>, if \(x\) changes by \(dx = \Delta x\), the actual change in \(y\) is \(\Delta y = f(a + dx) - f(a)\), and the differential \(dy = f'(a)\,dx\) is the change along the tangent line. This tool shows both, and how fast the error grows as you move away from \(a\). It supports learning outcome 6.</p> <div class="mm-wrap" id="la"> <div class="mm-controls" id="la-top"></div> <div class="mm-controls" id="la-input"></div> <svg id="la-plot" role="img" aria-label="Graph of f with its tangent line and the changes Δy and dy"></svg> <div class="mm-controls" id="la-controls"></div> <p class="mm-help">Move <em>x</em> with the slider or drag the point on the curve. Zoom in around <em>a</em> to see the curve and its tangent line become indistinguishable. With a tolerance set, the shaded strip shows where |<em>f</em>(<em>x</em>) − <em>L</em>(<em>x</em>)| is smaller than it.</p> <div class="mm-readout" id="la-out"></div> <div class="mm-scroll"><table class="mm-table" id="la-tab" style="width:100%"></table></div> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>For \(f(x) = \sqrt{x + 3}\) at \(a = 1\), check the textbook’s linearization \(L(x) = \tfrac{7}{4} + \tfrac{x}{4}\), and its approximations \(\sqrt{3.98} \approx 1.995\) and \(\sqrt{4.05} \approx 2.0125\). Are they overestimates or underestimates? How can you tell from the picture?</li> <li>Still with \(\sqrt{x + 3}\), set the tolerance to 0.5 and then 0.1. Over which intervals is the approximation that accurate? Compare with the textbook’s answers, \(-2.6 &lt; x &lt; 8.6\) and \(-1.1 &lt; x &lt; 3.9\).</li> <li>For \(y = x^3 + x^2 - 2x + 1\) at \(a = 2\), compare \(\Delta y\) and \(dy\) when \(dx = 0.05\) and when \(dx = 0.01\). Which is easier to compute? How does the difference \(\Delta y - dy\) shrink when \(dx\) shrinks?</li> <li>Near 0, \(\sin x \approx x\) and \(e^x \approx 1 + x\). For which \(x\) are these accurate to within 0.01?</li> <li>For \(\cos x\) at 0 the linearization is the constant 1. Why? Is the approximation better or worse than for \(\sin x\) near 0?</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>\(f'(a)\) is approximated by the central difference \([f(a + h) - f(a - h)]/(2h)\) with a small \(h\), so \(L\), \(\Delta y = f(a + dx) - f(a)\) and \(dy = f'(a)\,dx\) follow directly. The interval where \(\lvert f(x) - L(x)\rvert &lt;\) tolerance is found by moving out from \(a\) in each direction until the error first reaches the tolerance, refined by bisection.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    var presets = {
+      sqrt: { name: "√(x + 3) at a = 1", f: "sqrt(x + 3)", a: "1", x: 1.05, tab: [0.9, 0.98, 1, 1.05, 1.1, 2, 3], win: [-4, 10, -1, 4.3] },
+      cubic: { name: "x³ + x² − 2x + 1 at a = 2", f: "x^3 + x^2 - 2x + 1", a: "2", x: 2.05, tab: [2.05, 2.01], win: [1.8, 2.5, 6, 18] },
+      sin: { name: "sin x at a = 0", f: "sin x", a: "0", x: 0.5, win: [-3, 3, -1.6, 1.6] },
+      exp: { name: "e^x at a = 0", f: "e^x", a: "0", x: 0.5, win: [-2, 2, -0.5, 4] },
+      ln: { name: "ln x at a = 1", f: "ln x", a: "1", x: 1.5, win: [0, 3, -2, 1.5] },
+      cos: { name: "cos x at a = 0", f: "cos x", a: "0", x: 0.5, win: [-3, 3, -1.6, 1.6] },
+    };
+    var key = "sqrt", P = presets[key], f = null, a = 1, x = 1.05, tol = 0;
+    var plot = new M.Plot(document.getElementById("la-plot"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y", aspect: 0.55, aspectNarrow: 0.85, left: 30 });
+    function num(v, d) { if (!isFinite(v)) return "undefined"; if (Math.abs(v) < 1e-12) return "0"; return String(+v.toPrecision(d || 6)).replace("-", "−"); }
+    function parse(v, box) { try { var g = M.expr(v); box.showError(""); return g; } catch (e) { box.showError(e.message); return null; } }
+    function val(v, box) { try { var r = M.expr(v)(0); box.showError(isFinite(r) ? "" : "not a number"); return r; } catch (e) { box.showError(e.message); return NaN; } }
+    function d1() { return M.deriv(f, a, 1e-5 * Math.max(1, Math.abs(a))); }
+    // why f is not differentiable at a, or null if it is: one-sided difference quotients must exist, stay bounded and agree
+    function notDiff() {
+      var fa = f(a), s = Math.max(1, Math.abs(a)), h1 = 1e-4 * s, h2 = 1e-6 * s;
+      function q(h) { return (f(a + h) - fa) / h; }
+      var r1 = q(h1), r2 = q(h2), l1 = q(-h1), l2 = q(-h2);
+      if (!isFinite(r2) || !isFinite(l2)) return "an end of the domain of <em>f</em>, so only a one-sided derivative could exist";
+      var dR = f(a + h2) - fa, dR1 = f(a + 100 * h2) - fa, dL = f(a - h2) - fa, dL1 = f(a - 100 * h2) - fa;
+      if ((Math.abs(dR) > 1e-9 * (1 + Math.abs(fa)) && Math.abs(dR) > 0.5 * Math.abs(dR1)) || (Math.abs(dL) > 1e-9 * (1 + Math.abs(fa)) && Math.abs(dL) > 0.5 * Math.abs(dL1))) return "a point where <em>f</em> is not continuous";
+      if ((Math.abs(r2) > 50 && Math.abs(r2) > 3 * Math.abs(r1)) || (Math.abs(l2) > 50 && Math.abs(l2) > 3 * Math.abs(l1))) return "a point where the tangent line is vertical";
+      var g1 = Math.abs(l1 - r1), g2 = Math.abs(l2 - r2);
+      if (g2 > 1e-3 * (1 + Math.abs(l2) + Math.abs(r2)) && g2 > 0.3 * g1) return "a corner (slopes " + num(l2, 3) + " from the left and " + num(r2, 3) + " from the right)";
+      return null;
+    }
+    // where |f − L| < tol, moving out from a on each side
+    function reach(s, m, fa, R) {
+      function ok(z) { var y = f(z); return isFinite(y) && Math.abs(y - (fa + m * (z - a))) < tol; }
+      var n = 4000, prev = 0;
+      for (var i = 1; i <= n; i++) {
+        var d = (R * i) / n;
+        if (!ok(a + s * d)) { var u = prev, v = d; for (var k = 0; k < 60; k++) { var mm = (u + v) / 2; if (ok(a + s * mm)) u = mm; else v = mm; } return u; }
+        prev = d;
+      }
+      return Infinity;
+    }
+    function draw() {
+      plot.frame();
+      var out = document.getElementById("la-out"), tab = document.getElementById("la-tab");
+      if (!f || !isFinite(a) || !isFinite(f(a))) { out.innerHTML = "Enter a formula and a number <em>a</em> where <em>f</em> is defined."; tab.innerHTML = ""; return; }
+      var why = notDiff();
+      if (why) {
+        plot.fn(f, "mm-a", { n: 1500 }); plot.circle(a, f(a), 4.5, "mm-dot");
+        out.innerHTML = "<em>f</em> is not differentiable at <em>a</em> = " + num(a) + ": it is " + why + ". There is no tangent line there, so <em>f</em> has no linearization at " + num(a) + ".";
+        tab.innerHTML = ""; return;
+      }
+      var o = plot.o, fa = f(a), m = d1(), m6 = +m.toPrecision(6);
+      if (Math.abs(m - m6) < 1e-8 * Math.max(1e-6, Math.abs(m))) m = m6; // 2 rather than 2.0000000000131
+      var Lf = function (z) { return fa + m * (z - a); }, K = plot.K;
+      var R = Math.max(10, 3 * (o.x1 - o.x0)), lo = NaN, hi = NaN;
+      if (tol > 0) {
+        lo = a - reach(-1, m, fa, R); hi = a + reach(1, m, fa, R);
+        var x0 = Math.max(o.x0, lo), x1 = Math.min(o.x1, hi);
+        M.el("rect", { x: plot.sx(x0), y: plot.sy(o.y1), width: Math.max(0, plot.sx(x1) - plot.sx(x0)), height: plot.sy(o.y0) - plot.sy(o.y1), style: "fill:var(--mm-c);opacity:.14;stroke:none" }, plot.data);
+      }
+      var tl = plot.path([[o.x0, Lf(o.x0)], [o.x1, Lf(o.x1)]], "mm-b"); tl.style.strokeWidth = "1.8";
+      plot.fn(f, "mm-a", { n: 1500 });
+      plot.circle(a, fa, 4.5, "mm-dot");
+      var fx = f(x), Lx = Lf(x), dx = x - a, dy = m * dx, Dy = fx - fa;
+      if (isFinite(fx)) {
+        // dx along the bottom, then dy (to the tangent line) and Δy (to the curve)
+        var g1 = plot.path([[a, fa], [x, fa]], "mm-curve"); g1.style.strokeDasharray = "3 3"; g1.style.strokeWidth = "1.2";
+        var g2 = plot.path([[x, fa], [x, Lx]], "mm-b"); g2.style.strokeWidth = "3.5";
+        var g3 = plot.path([[x + (o.x1 - o.x0) * 0.006, fa], [x + (o.x1 - o.x0) * 0.006, fx]], "mm-c"); g3.style.strokeWidth = "3.5";
+        var hp = plot.circle(x, fx, 6, "mm-handle"); hp.setAttribute("stroke", "var(--mm-a)");
+      }
+      var mm = Math.abs(m) < 1e-9 ? 0 : +m.toPrecision(6), bb = +(fa - m * a).toPrecision(6), X = "<em>x</em>";
+      // tidy forms: f(a) + f′(a)(x − a), and b + mx
+      function term(c, v, first) { if (c === 0) return ""; var s = c < 0 ? (first ? "−" : " − ") : first ? "" : " + "; var k = Math.abs(c); return s + (k === 1 ? "" : num(k)) + v; }
+      var xa = a === 0 ? X : "(" + X + (a < 0 ? " + " + num(-a) : " − " + num(a)) + ")";
+      var f1 = (fa !== 0 || mm === 0 ? num(fa) : "") + term(mm, xa, fa === 0), f2 = (bb !== 0 || mm === 0 ? num(bb) : "") + term(mm, X, bb === 0);
+      if (f1.charAt(0) === "(" && f1.charAt(f1.length - 1) === ")") f1 = f1.slice(1, -1);
+      var t = "<div><em>f</em>(" + num(a) + ") = " + num(fa) + " and <em>f</em>′(" + num(a) + ") ≈ " + num(mm) + ", so <em>L</em>(<em>x</em>) = " + f1 + (f1 !== f2 ? " = " + f2 : "") + ".</div>";
+      t += "<div>At <em>x</em> = " + num(x) + ": <em>f</em>(<em>x</em>) = " + num(fx, 9) + " and <em>L</em>(<em>x</em>) = " + num(Lx, 9) + (Math.abs(Lx - fx) <= 1e-12 * (1 + Math.abs(fx)) ? ", exactly equal" + (x === a ? " (at <em>x</em> = <em>a</em> the linearization always equals <em>f</em>(<em>a</em>))" : "") : ", an " + (Lx > fx ? "over" : "under") + "estimate by " + num(Math.abs(Lx - fx), 3)) + ".</div>";
+      t += "<div>With <em>dx</em> = Δ<em>x</em> = " + num(dx) + ": <span style=\"color:var(--mm-c)\">Δ<em>y</em> = " + num(Dy, 7) + "</span> and <span style=\"color:var(--mm-b)\"><em>dy</em> = <em>f</em>′(" + num(a) + ") <em>dx</em> = " + num(dy, 7) + "</span>.</div>";
+      if (tol > 0 && !isFinite(lo) && !isFinite(hi)) t += "<div>|<em>f</em>(<em>x</em>) − <em>L</em>(<em>x</em>)| &lt; " + num(tol) + " for every <em>x</em> the tool checked (within " + num(R, 3) + " of <em>a</em>).</div>";
+      else if (tol > 0) t += "<div>|<em>f</em>(<em>x</em>) − <em>L</em>(<em>x</em>)| &lt; " + num(tol) + " for " + (isFinite(lo) ? num(lo, 4) : "−∞") + " &lt; <em>x</em> &lt; " + (isFinite(hi) ? num(hi, 4) : "∞") + (lo < a - R * 0.999 || hi > a + R * 0.999 ? " (at least)" : "") + ".</div>";
+      out.innerHTML = t;
+      var xs = P.tab && P.f === fIn.input.value && a === val(P.a, aIn) ? P.tab : [];
+      if (xs.length) {
+        var h = "<thead><tr><th><em>x</em></th><th><em>L</em>(<em>x</em>)</th><th>actual <em>f</em>(<em>x</em>)</th><th>error</th><th>Δ<em>y</em></th><th><em>dy</em></th></tr></thead><tbody>";
+        xs.forEach(function (z) { h += "<tr><td>" + num(z) + "</td><td>" + num(Lf(z), 9) + "</td><td>" + num(f(z), 9) + "</td><td>" + num(Lf(z) - f(z), 3) + "</td><td>" + num(f(z) - fa, 7) + "</td><td>" + num(m * (z - a), 7) + "</td></tr>"; });
+        tab.innerHTML = h + "</tbody>";
+      } else tab.innerHTML = "";
+    }
+    var top = document.getElementById("la-top"), inp = document.getElementById("la-input"), box = document.getElementById("la-controls");
+    M.select(M.group(top, "Example"), Object.keys(presets).map(function (k) { return [k, presets[k].name]; }), key, function (v) { load(v); });
+    var fIn = M.textInput(inp, "<em>f</em>(<em>x</em>) =", P.f, function (v) { f = parse(v, fIn); draw(); });
+    var aIn = M.textInput(inp, "<em>a</em> =", P.a, function (v) { a = val(v, aIn); draw(); }, "4.5rem");
+    var g1 = M.group(box, "Point");
+    var xS = M.slider(g1, { label: "<em>x</em>", min: -1, max: 3, step: 0.0001, value: x, digits: 4, onInput: function (v) { x = v; draw(); } });
+    M.select(M.group(box, "Tolerance"), [["0", "none"], ["0.5", "0.5"], ["0.1", "0.1"], ["0.01", "0.01"], ["0.001", "0.001"]], "0", function (v) { tol = +v; draw(); });
+    M.zoomControls(box, plot, function () { return P.win; }, function () { var o = plot.o; xS.input.min = o.x0; xS.input.max = o.x1; xS.input.step = (o.x1 - o.x0) / 10000; draw(); });
+    function load(k) {
+      key = k; P = presets[k];
+      fIn.set(P.f); f = parse(P.f, fIn); aIn.set(P.a); a = val(P.a, aIn);
+      M.setWindow(plot, P.win);
+      xS.input.min = P.win[0]; xS.input.max = P.win[1]; xS.input.step = (P.win[1] - P.win[0]) / 10000;
+      x = P.x; xS.set(x); draw();
+    }
+    var svg = plot.svg, dragging = false;
+    svg.addEventListener("pointerdown", function (evt) { var p = plot.at(evt); if (plot.inside(p.x, p.y)) { dragging = true; svg.setPointerCapture(evt.pointerId); evt.preventDefault(); x = p.x; xS.set(x); draw(); } });
+    svg.addEventListener("pointermove", function (evt) { if (!dragging) return; var p = plot.at(evt); x = Math.min(plot.o.x1, Math.max(plot.o.x0, p.x)); xS.set(x); draw(); });
+    svg.addEventListener("pointerup", function () { dragging = false; });
+    svg.addEventListener("pointercancel", function () { dragging = false; });
+    M.onResize(draw);
+    load(key);
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-101-calculus-1",
+          title: 'MATH 101: Calculus 1',
+          description: "Limits, continuity, derivatives and their applications, and integrals of functions of one variable.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math101/";
+            },},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>
