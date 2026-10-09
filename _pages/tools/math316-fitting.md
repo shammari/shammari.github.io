@@ -45,7 +45,7 @@ permalink: /teaching/math316/tools/fitting/
 
 [← MATH 316]({{ '/teaching/math316/' | relative_url }})
 
-Given some data and a model with unknown parameters, which parameters give the "best" fit? The answer depends on what we mean by best. This tool compares two criteria from the lectures for a straight line or a line through the origin. It supports learning outcomes 2 and 3.
+Given some data and a model with unknown parameters, which parameters give the "best" fit? The answer depends on what we mean by best. This tool compares two criteria from the lectures for a straight line or a line through the origin, on made-up data or on real data for Kuwait. It supports learning outcomes 2 and 3.
 
 <div class="ft-wrap">
   <svg class="ft-plot" id="ft-plot" viewBox="0 0 640 400" role="img" aria-label="Scatter plot of data points with the least-squares and Chebyshev fits"></svg>
@@ -67,8 +67,10 @@ Given some data and a model with unknown parameters, which parameters give the "
       <button type="button" data-preset="linear">Nearly linear</button>
       <button type="button" data-preset="outlier">With an outlier</button>
       <button type="button" data-preset="curved">Curved</button>
+      <button type="button" data-preset="kuwait">Kuwait population</button>
     </fieldset>
   </div>
+  <p class="ft-help ft-source" id="ft-source" hidden>Kuwait's total population each year from 1995 to 2025, in millions (<em>P</em>), against <em>t</em>, the number of years since 1995. Source: World Bank, <a href="https://data.worldbank.org/indicator/SP.POP.TOTL?locations=KW">World Development Indicators</a> (indicator SP.POP.TOTL), CC BY 4.0.</p>
   <p class="ft-help">Drag a point to move it. Click an empty spot to add a point; double-click a point, or drag it off the plot, to remove it. Circled points are where the Chebyshev fit reaches its largest deviation.</p>
   <table class="ft-table">
     <thead>
@@ -86,6 +88,8 @@ Given some data and a model with unknown parameters, which parameters give the "
 4. Turn on the **Chebyshev band**. How many points touch its edges, and on which side of the line does each lie, from left to right? Move a point and see whether the pattern survives.
 5. Switch to **y = kx** with the **Curved** data. Is either fit adequate? What would you try next?
 6. Describe one modelling problem where the largest deviation matters more than the typical one, and one where the reverse is true.
+7. Load **Kuwait population**. Is a straight line a reasonable model over the whole period? Look at the years around 2020–21: what was happening then, and should those years count the same as the others? Remove them with a double-click and see how each fit changes.
+8. Use each fit to estimate Kuwait's population in 2030. How far apart are the two estimates, and how much would you trust either of them?
 
 ## How the fits are computed
 
@@ -100,15 +104,23 @@ For data $$(x_i, y_i)$$, $$i = 1, \dots, m$$, and a model $$y = f(x)$$:
   (function () {
     var NS = "http://www.w3.org/2000/svg";
     var W = 640, H = 400, L = 44, R = 16, T = 14, B = 34, K = 1;
-    var X0 = 0, X1 = 10, Y0 = 0, Y1 = 10, MAXPTS = 20, MINPTS = 3;
+    var MAXPTS = 40, MINPTS = 3;
+    // A view sets the axis ranges, grid and label steps, label offset (for years), variable names and rounding of added points.
+    var plain = { x0: 0, x1: 10, y0: 0, y1: 10, gx: 1, gy: 1, lx: 2, ly: 2, xoff: 0, xname: "x", yname: "y", xv: "x", yv: "y", xr: 0.1, yr: 0.1, source: false };
+    var kuwait = { x0: -1, x1: 31, y0: 0, y1: 6, gx: 5, gy: 1, lx: 5, ly: 1, xoff: 1995, xname: "year", yname: "P (millions)", xv: "t", yv: "P", xr: 1, yr: 0.01, source: true };
     var presets = {
-      linear: [[1, 1.5], [2, 2.3], [3, 3.2], [4, 3.8], [5, 5.2], [6, 5.7], [7, 6.7], [8, 7.6], [9, 8.6]],
-      outlier: [[1, 1.5], [2, 2.3], [3, 3.2], [4, 3.8], [5, 5.2], [6, 9.4], [7, 6.7], [8, 7.6], [9, 8.6]],
-      curved: [[1, 0.6], [2, 1.0], [3, 1.6], [4, 2.3], [5, 3.1], [6, 4.1], [7, 5.3], [8, 6.7], [9, 8.4]]
+      linear: { view: plain, pts: [[1, 1.5], [2, 2.3], [3, 3.2], [4, 3.8], [5, 5.2], [6, 5.7], [7, 6.7], [8, 7.6], [9, 8.6]] },
+      outlier: { view: plain, pts: [[1, 1.5], [2, 2.3], [3, 3.2], [4, 3.8], [5, 5.2], [6, 9.4], [7, 6.7], [8, 7.6], [9, 8.6]] },
+      curved: { view: plain, pts: [[1, 0.6], [2, 1.0], [3, 1.6], [4, 2.3], [5, 3.1], [6, 4.1], [7, 5.3], [8, 6.7], [9, 8.4]] },
+      // World Bank, World Development Indicators, SP.POP.TOTL (CC BY 4.0): Kuwait, 1995–2025. t = years since 1995, P in millions.
+      kuwait: { view: kuwait, pts: [[0, 1.682], [1, 1.730], [2, 1.788], [3, 1.844], [4, 1.900], [5, 1.955], [6, 2.008], [7, 2.060], [8, 2.110], [9, 2.157], [10, 2.237], [11, 2.365], [12, 2.508], [13, 2.651], [14, 2.795], [15, 2.943], [16, 3.133], [17, 3.337], [18, 3.508], [19, 3.666], [20, 3.835], [21, 4.004], [22, 4.155], [23, 4.324], [24, 4.442], [25, 4.400], [26, 4.361], [27, 4.590], [28, 4.853], [29, 4.897], [30, 4.865]] }
     };
     window.addEventListener("resize", function () { draw(); });
-    var pts = presets.linear.map(function (p) { return p.slice(); });
-    var model = "line", drag = -1;
+    var V = plain, X0, X1, Y0, Y1;
+    function setView(v) { V = v; X0 = v.x0; X1 = v.x1; Y0 = v.y0; Y1 = v.y1; document.getElementById("ft-source").hidden = !v.source; }
+    setView(plain);
+    var pts = presets.linear.pts.map(function (p) { return p.slice(); });
+    var model = "line", drag = -1, lastTap = { i: -1, t: 0 };
     var svg = document.getElementById("ft-plot"), out = document.getElementById("ft-out");
     var show = { ls: "ft-show-ls", ch: "ft-show-ch", res: "ft-show-res", band: "ft-show-band" };
     function on(k) { return document.getElementById(show[k]).checked; }
@@ -169,15 +181,15 @@ For data $$(x_i, y_i)$$, $$i = 1, \dots, m$$, and a model $$y = f(x)$$:
     function fmt(v, d) { var s = v.toFixed(d); return s === "-" + (0).toFixed(d) ? (0).toFixed(d) : s; }
     function label(fit) {
       if (!fit) return "—";
-      if (model === "prop") return "y = " + fmt(fit.b, 3) + "x";
-      return "y = " + fmt(fit.a, 3) + (fit.b < 0 ? " − " : " + ") + fmt(Math.abs(fit.b), 3) + "x";
+      if (model === "prop") return V.yv + " = " + fmt(fit.b, 3) + V.xv;
+      return V.yv + " = " + fmt(fit.a, 3) + (fit.b < 0 ? " − " : " + ") + fmt(Math.abs(fit.b), 3) + V.xv;
     }
     function layout() {
       // On narrow screens the plot is drawn taller, with larger labels and points, so it stays usable by touch.
       var w = svg.getBoundingClientRect().width || W;
       K = Math.max(1, W / w);
       H = w < 500 ? 560 : 400;
-      L = 30 + 14 * K; B = 20 + 14 * K; T = 8 + 6 * K;
+      L = 30 + 14 * K; B = 20 + 14 * K; T = 8 + 6 * K + (V.source ? 14 * K : 0);
       svg.setAttribute("viewBox", "0 0 " + W + " " + H);
       svg.style.fontSize = 12 * K + "px";
     }
@@ -186,18 +198,21 @@ For data $$(x_i, y_i)$$, $$i = 1, \dots, m$$, and a model $$y = f(x)$$:
       while (svg.firstChild) svg.removeChild(svg.firstChild);
       var defs = el("defs", {}), cp = el("clipPath", { id: "ft-clip" }, defs);
       el("rect", { x: L, y: T, width: W - L - R, height: H - T - B }, cp);
-      for (var g = 0; g <= 10; g++) {
+      function multiple(v, step) { return Math.abs(v / step - Math.round(v / step)) < 1e-9; }
+      var g;
+      for (g = Math.ceil(X0 / V.gx) * V.gx; g <= X1 + 1e-9; g += V.gx) {
         el("line", { x1: sx(g), y1: T, x2: sx(g), y2: H - B, class: "ft-grid" });
+        if (multiple(g, V.lx)) el("text", { x: sx(g), y: H - B + 16 * K, "text-anchor": "middle" }).textContent = Math.round(g + V.xoff);
+      }
+      for (g = Math.ceil(Y0 / V.gy) * V.gy; g <= Y1 + 1e-9; g += V.gy) {
         el("line", { x1: L, y1: sy(g), x2: W - R, y2: sy(g), class: "ft-grid" });
-        if (g % 2 === 0) {
-          el("text", { x: sx(g), y: H - B + 16 * K, "text-anchor": "middle" }).textContent = g;
-          el("text", { x: L - 7 * K, y: sy(g) + 4 * K, "text-anchor": "end" }).textContent = g;
-        }
+        if (multiple(g, V.ly)) el("text", { x: L - 7 * K, y: sy(g) + 4 * K, "text-anchor": "end" }).textContent = Math.round(g);
       }
       el("line", { x1: L, y1: H - B, x2: W - R, y2: H - B, class: "ft-axis" });
       el("line", { x1: L, y1: T, x2: L, y2: H - B, class: "ft-axis" });
-      el("text", { x: W - R, y: H - 3, "text-anchor": "end" }).textContent = "x";
-      el("text", { x: 4, y: T + 10 * K }).textContent = "y";
+      if (!V.source) el("text", { x: W - R, y: H - 3, "text-anchor": "end" }).textContent = V.xname;
+      if (V.source) el("text", { x: L, y: T - 8 * K }).textContent = V.yname;
+      else el("text", { x: 4, y: T + 10 * K }).textContent = V.yname;
       var plot = el("g", { "clip-path": "url(#ft-clip)" });
       var ls = leastSquares(), ch = chebyshev();
       var sl = ls ? stats(ls.f) : null, sc = ch ? stats(ch.f) : null;
@@ -240,14 +255,22 @@ For data $$(x_i, y_i)$$, $$i = 1, \dots, m$$, and a model $$y = f(x)$$:
     function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
     svg.addEventListener("pointerdown", function (evt) {
       var p = svgPoint(evt), i = hit(p);
-      if (i >= 0) { drag = i; svg.setPointerCapture(evt.pointerId); evt.preventDefault(); draw(); return; }
+      if (i >= 0) {
+        // The plot is redrawn on every change, so double-clicks (and double-taps) are detected here rather than with dblclick.
+        var now = Date.now(), dbl = i === lastTap.i && now - lastTap.t < 400;
+        lastTap = { i: i, t: now };
+        evt.preventDefault();
+        if (dbl && pts.length > MINPTS) { pts.splice(i, 1); lastTap = { i: -1, t: 0 }; draw(); return; }
+        drag = i; svg.setPointerCapture(evt.pointerId); draw(); return;
+      }
       var x = ix(p.x), y = iy(p.y);
-      if (inside(x, y) && pts.length < MAXPTS) { pts.push([Math.round(x * 10) / 10, Math.round(y * 10) / 10]); draw(); }
+      if (inside(x, y) && pts.length < MAXPTS) { pts.push([Math.round(x / V.xr) * V.xr, Math.round(y / V.yr) * V.yr]); draw(); }
     });
     svg.addEventListener("pointermove", function (evt) {
       if (drag < 0) return;
       var p = svgPoint(evt);
-      pts[drag] = [clamp(ix(p.x), X0 - 1, X1 + 1), clamp(iy(p.y), Y0 - 1, Y1 + 1)];
+      var mx = 0.1 * (X1 - X0), my = 0.1 * (Y1 - Y0);
+      pts[drag] = [clamp(ix(p.x), X0 - mx, X1 + mx), clamp(iy(p.y), Y0 - my, Y1 + my)];
       draw();
     });
     function release() {
@@ -262,16 +285,17 @@ For data $$(x_i, y_i)$$, $$i = 1, \dots, m$$, and a model $$y = f(x)$$:
     }
     svg.addEventListener("pointerup", release);
     svg.addEventListener("pointercancel", release);
-    svg.addEventListener("dblclick", function (evt) {
-      var i = hit(svgPoint(evt));
-      if (i >= 0 && pts.length > MINPTS) { pts.splice(i, 1); draw(); }
-    });
     document.querySelectorAll("input[name=ft-model]").forEach(function (r) {
       r.addEventListener("change", function () { model = r.value; draw(); });
     });
     Object.keys(show).forEach(function (k) { document.getElementById(show[k]).addEventListener("change", draw); });
     document.querySelectorAll("[data-preset]").forEach(function (btn) {
-      btn.addEventListener("click", function () { pts = presets[btn.getAttribute("data-preset")].map(function (p) { return p.slice(); }); draw(); });
+      btn.addEventListener("click", function () {
+        var pr = presets[btn.getAttribute("data-preset")];
+        setView(pr.view);
+        pts = pr.pts.map(function (p) { return p.slice(); });
+        draw();
+      });
     });
     draw();
   })();
