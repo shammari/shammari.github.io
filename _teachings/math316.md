@@ -44,6 +44,7 @@ weeks:
     slides:
     problems:
     code:
+    explore: /teaching/math316/tools/proportionality/
   - week: 5
     topic: Model fitting
     details: Fitting models to data graphically; least-squares and Chebyshev criteria
@@ -271,10 +272,15 @@ Small tools for exploring ideas from the lectures. They run in your browser, nee
     <span class="cp-card-title">Systems of difference equations</span>
     <span class="cp-card-text">Iterate the textbook’s systems, from a car rental company and the Battle of Trafalgar to owls and hawks and a discrete epidemic, and test their equilibrium values.</span>
   </a>
+  <a class="cp-card" href="{{ '/teaching/math316/tools/proportionality/' | relative_url }}">
+    <span class="cp-meta">Week 4 · Proportionality and geometric similarity</span>
+    <span class="cp-card-title">Proportionality and geometric similarity</span>
+    <span class="cp-card-text">Test proportionality graphically with Kepler’s planets, bass, birds and dinosaurs, build the vehicular stopping distance model and test the rules of thumb, and see how area and volume scale.</span>
+  </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/fitting/' | relative_url }}">
     <span class="cp-meta">Weeks 5–6 · Model fitting</span>
     <span class="cp-card-title">Least squares or Chebyshev?</span>
-    <span class="cp-card-text">Drag data points, or load real data on Kuwait’s population, and compare the fit that minimizes the sum of squared deviations with the fit that minimizes the largest deviation.</span>
+    <span class="cp-card-text">Drag data points, or load the textbook’s stopping distance data or real data on Kuwait’s population, and compare the fit that minimizes the sum of squared deviations with the fit that minimizes the largest deviation.</span>
   </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/ladder-of-powers/' | relative_url }}">
     <span class="cp-meta">Week 7 · Experimental modeling</span>
