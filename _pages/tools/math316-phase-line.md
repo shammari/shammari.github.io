@@ -12,12 +12,12 @@ For an autonomous differential equation $$dy/dt = f(y)$$, the graph of $$f$$ tel
 <div class="mm-wrap" id="pl">
   <div class="mm-controls" id="pl-model"></div>
   <p class="mm-eqn" id="pl-eqn"></p>
-  <div class="mm-panels mm-side">
+  <div class="mm-panels mm-2">
     <svg id="pl-f" role="img" aria-label="Graph of f against the dependent variable, with the phase line"></svg>
     <svg id="pl-sol" role="img" aria-label="Solution curves against time, with equilibrium solutions and slope field"></svg>
   </div>
   <div class="mm-controls" id="pl-controls"></div>
-  <p class="mm-help">Click the solution panel to draw the solution through that point, and drag to move it. On the phase line, arrows show whether solutions rise or fall; filled dots are stable equilibria, open dots unstable ones and grey dots semi-stable. Untick the boxes under <b>Show</b> to sketch first, then reveal.</p>
+  <p class="mm-help">The first panel is the graph of <em>f</em> against the dependent variable, with the phase line along its horizontal axis: arrows point right where <em>f</em> &gt; 0, so solutions increase, and left where <em>f</em> &lt; 0. Filled dots are stable equilibria, open dots unstable ones and grey dots semi-stable. Click the panel of solution curves to draw the solution through that point, and drag to move it. Untick the boxes under <b>Show</b> to sketch first, then reveal.</p>
   <p class="mm-readout" id="pl-out"></p>
 </div>
 
@@ -93,8 +93,8 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
     };
     var key = "cooling", mdl, par = {}, starts = [], dragging = false;
     var show = { f: true, line: true, field: false, sol: true };
-    var fp = new M.Plot(document.getElementById("pl-f"), { x0: -1, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "f", yname: "", aspect: 1.25, aspectNarrow: 0.75, left: 26 });
-    var sp = new M.Plot(document.getElementById("pl-sol"), { x0: 0, x1: 30, y0: 0, y1: 1, gx: 5, gy: 1, xname: "time, t", yname: "", aspect: 0.62, aspectNarrow: 0.75, left: 26 });
+    var fp = new M.Plot(document.getElementById("pl-f"), { x0: 0, x1: 1, y0: -1, y1: 1, gx: 1, gy: 1, xname: "y", yname: "f", aspect: 0.7, aspectNarrow: 0.7, left: 26 });
+    var sp = new M.Plot(document.getElementById("pl-sol"), { x0: 0, x1: 30, y0: 0, y1: 1, gx: 5, gy: 1, xname: "time, t", yname: "", aspect: 0.7, aspectNarrow: 0.75, left: 26 });
     function f(y) { return mdl.f(y, par); }
     function niceStep(range) {
       var raw = range / 4, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p;
@@ -134,25 +134,25 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
     function draw() {
       var eqs = equilibria(), span = mdl.y1 - mdl.y0;
       document.getElementById("pl-eqn").innerHTML = mdl.eq(par);
-      // graph of f, with y vertical so it lines up with the solution panel
-      // Horizontal range: fit the positive and negative parts of f, but do not let a steep tail squash the rest.
+      // Graph of f against y (y horizontal), with the phase line drawn along the axis f = 0.
+      // Vertical range: fit the positive and negative parts of f, but do not let a steep tail squash the rest.
       var fpos = 0, fneg = 0;
       for (var i = 0; i <= 400; i++) { var fv = f(mdl.y0 + (span * i) / 400); fpos = Math.max(fpos, fv); fneg = Math.max(fneg, -fv); }
       var big = Math.max(fpos, fneg), small = Math.min(fpos, fneg);
       var fmax = small > 0 ? Math.min(big, 3 * small) : big;
       fmax = fmax > 0 ? fmax * 1.15 : 1;
       var st = niceStep(fmax);
-      fp.o.x0 = -fmax; fp.o.x1 = fmax; fp.o.gx = st; fp.o.lx = st * 2; fp.o.y0 = mdl.y0; fp.o.y1 = mdl.y1; fp.o.gy = mdl.gy; fp.o.ly = mdl.ly;
-      fp.o.xname = "f(" + mdl.v + ")"; fp.o.yname = mdl.v;
+      fp.o.y0 = -fmax; fp.o.y1 = fmax; fp.o.gy = st; fp.o.ly = st * 2; fp.o.x0 = mdl.y0; fp.o.x1 = mdl.y1; fp.o.gx = mdl.gy; fp.o.lx = mdl.ly;
+      fp.o.xname = mdl.vname; fp.o.yname = "d" + mdl.v + "/dt = f(" + mdl.v + ")";
       fp.frame();
-      fp.path([[0, mdl.y0], [0, mdl.y1]], "mm-zero");
+      fp.path([[mdl.y0, 0], [mdl.y1, 0]], show.line ? "mm-curve" : "mm-zero");
       if (show.f) {
         var pts = [];
-        for (var k = 0; k <= 400; k++) { var yv = mdl.y0 + (span * k) / 400; pts.push([f(yv), yv]); }
+        for (var k = 0; k <= 400; k++) { var yv = mdl.y0 + (span * k) / 400; pts.push([yv, f(yv)]); }
         fp.path(pts, "mm-a");
       }
       if (show.line) {
-        // arrows between equilibria
+        // arrows between equilibria: right where f > 0 (y increases), left where f < 0
         var cuts = [mdl.y0].concat(eqs.map(function (e) { return e.y; })).concat([mdl.y1]);
         for (var c = 0; c < cuts.length - 1; c++) {
           var a = cuts[c], b = cuts[c + 1];
@@ -160,10 +160,10 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
           var nArr = Math.max(1, Math.min(3, Math.round(((b - a) / span) * 6)));
           for (var q = 1; q <= nArr; q++) {
             var ym = a + ((b - a) * q) / (nArr + 1), s = f(ym);
-            if (Math.abs(s) > 1e-12) fp.tri(0, ym, 0, s > 0 ? -1 : 1, 6, "mm-arrow");
+            if (Math.abs(s) > 1e-12) fp.tri(ym, 0, s > 0 ? 1 : -1, 0, 6, "mm-arrow");
           }
         }
-        eqs.forEach(function (e) { fp.circle(0, e.y, 5, e.kind === "stable" ? "mm-eq-s" : e.kind === "unstable" ? "mm-eq-u" : "mm-eq-n"); });
+        eqs.forEach(function (e) { fp.circle(e.y, 0, 5, e.kind === "stable" ? "mm-eq-s" : e.kind === "unstable" ? "mm-eq-u" : "mm-eq-n"); });
       }
       // solution panel
       sp.o.x1 = mdl.t1; sp.o.gx = mdl.gt; sp.o.lx = mdl.gt * 2; sp.o.y0 = mdl.y0; sp.o.y1 = mdl.y1; sp.o.gy = mdl.gy; sp.o.ly = mdl.ly;

@@ -54,7 +54,16 @@
     ".mm-key{display:inline-block;width:1.4rem;height:0;border-top:3px solid;vertical-align:middle;margin-right:.35rem}",
     ".mm-key.mm-dash{border-top-style:dashed}",
     ".mm-note{font-size:.875rem;color:var(--global-text-color-light);border-left:3px solid var(--global-theme-color);padding:.4rem .8rem;margin:1.5rem 0}",
-    "@media (max-width:576px){.mm-slider input[type=range]{width:7rem}}",
+    ".mm-table{border-collapse:collapse;font-size:.9rem;margin:.2rem 0 .8rem;font-variant-numeric:tabular-nums}",
+    ".mm-table th,.mm-table td{padding:.25rem .45rem;border-top:1px solid var(--global-divider-color);text-align:right;vertical-align:middle}",
+    ".mm-table th{font-weight:500;color:var(--global-text-color-light);font-size:.82rem}",
+    ".mm-table th:first-child,.mm-table td:first-child{text-align:left}",
+    ".mm-table input{width:4.6rem;font:inherit;font-size:.88rem;text-align:right;padding:.1rem .25rem;border:1px solid var(--global-divider-color);border-radius:4px;background:var(--global-bg-color);color:var(--global-text-color)}",
+    ".mm-table .mm-best td{font-weight:600}",
+    ".mm-table .mm-pc{background:color-mix(in srgb,var(--global-theme-color) 12%,transparent)}",
+    ".mm-table .mm-pe{outline:2px solid var(--global-theme-color);outline-offset:-2px;font-weight:600}",
+    ".mm-scroll{overflow-x:auto}",
+    "@media (max-width:576px){.mm-slider input[type=range]{width:7rem}.mm-table input{width:3.8rem}}",
   ].join("\n");
   function injectCSS() {
     if (document.getElementById("mm-tools-css")) return;
