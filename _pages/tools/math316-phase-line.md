@@ -17,13 +17,18 @@ For an autonomous differential equation $$dy/dt = f(y)$$, the graph of $$f$$ tel
     <svg id="pl-sol" role="img" aria-label="Solution curves against time, with equilibrium solutions and slope field"></svg>
   </div>
   <div class="mm-controls" id="pl-controls"></div>
-  <p class="mm-help">The first panel is the graph of <em>f</em> against the dependent variable, with the phase line along its horizontal axis: arrows point right where <em>f</em> &gt; 0, so solutions increase, and left where <em>f</em> &lt; 0. Filled dots are stable equilibria, open dots unstable ones and grey dots semi-stable. Click the panel of solution curves to draw the solution through that point, and drag to move it. Untick the boxes under <b>Show</b> to sketch first, then reveal.</p>
+  <p class="mm-help">The first panel is the graph of <em>f</em> against the dependent variable, with the phase line along its horizontal axis: arrows point right where <em>f</em> &gt; 0, so solutions increase, and left where <em>f</em> &lt; 0. Filled dots are stable equilibria, open dots unstable ones and grey dots semi-stable. Click the panel of solution curves to draw the solution through that point, and drag to move it. Untick the boxes under <b>Show</b> to sketch first, then reveal. Tick <b>Concavity</b> to see where solution curves are concave up or down, with a sign chart below.</p>
   <p class="mm-readout" id="pl-out"></p>
+  <div id="pl-conc" hidden>
+    <h3 style="font-size:1.05rem;margin:1.2rem 0 .3rem">Sign chart</h3>
+    <div class="mm-scroll"><table class="mm-table" id="pl-signs"></table></div>
+    <p class="mm-help">The intervals are cut at the equilibria and where <em>f</em>′ = 0. Since <em>y</em>″ = <em>f</em>′(<em>y</em>) <em>f</em>(<em>y</em>), the sign of <em>y</em>″ is the product of the signs in the two rows above it. On the solution curves, bands where curves are concave up are shaded in colour and bands where they are concave down in grey; on the graph of <em>f</em>, a ring marks each point where <em>f</em>′ = 0.</p>
+  </div>
 </div>
 
 ## Things to try
 
-1. Start with the **textbook example**, $$dy/dt = (y + 1)(y - 2)$$. Hide everything, draw the phase line and mark where $$y'$$ and $$y''$$ are positive and negative, then sketch solution curves. Reveal them, with **concavity** on, and compare.
+1. Start with the **textbook example**, $$dy/dt = (y + 1)(y - 2)$$. Hide everything, draw the phase line and make your own sign chart for $$f(y)$$, $$f'(y)$$ and $$y'' = f'(y)\,f(y)$$, then sketch solution curves. Reveal them, tick **concavity** and compare with the shaded bands and the sign chart. Why does concavity change at $$y = 1/2$$, and why also at each equilibrium?
 2. Choose **Newton's law of cooling** (the cooling soup, in a room at 15 °C) and hide everything except the axes. Sketch $$f$$, the phase line and the solution curves starting at 90 °C and at 5 °C. Then reveal them and compare.
 3. Change <em>k</em>. What happens to the solution curves, and what does <em>k</em> mean physically? Compare a cup of tea in a thin glass with one in a vacuum flask.
 4. Switch to **diffusion across a membrane**. Why does the same equation describe both situations? What plays the part of the room temperature?
@@ -34,7 +39,7 @@ For an autonomous differential equation $$dy/dt = f(y)$$, the graph of $$f$$ tel
 
 ## How it is computed
 
-Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is stable if $$f'(y^*) < 0$$, unstable if $$f'(y^*) > 0$$, and semi-stable if $$f$$ has the same sign on both sides of it. Since $$y'' = f'(y)\,f(y)$$, solution curves change concavity at the equilibria and where $$f'(y) = 0$$; the concavity option marks the latter. Solution curves are computed forwards and backwards in time from the chosen point with the fourth-order Runge–Kutta method. The models are
+Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is stable if $$f'(y^*) < 0$$, unstable if $$f'(y^*) > 0$$, and semi-stable if $$f$$ has the same sign on both sides of it. Since $$y'' = f'(y)\,f(y)$$, solution curves change concavity where $$f$$ or $$f'$$ changes sign: at the equilibria and where $$f'(y) = 0$$. The concavity option finds the roots of $$f'$$ numerically, takes the signs of $$f$$, $$f'$$ and $$y''$$ at the middle of each interval between these points, shades the bands on the solution curves accordingly and lists the signs in a sign chart. Solution curves are computed forwards and backwards in time from the chosen point with the fourth-order Runge–Kutta method. The models are
 
 - the textbook's example $$dy/dt = (y + 1)(y - 2)$$;
 - Newton's law of cooling: $$dH/dt = -k\,(H - H_s)$$, where $$H_s$$ is the temperature of the surroundings;
@@ -109,6 +114,42 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
       return M.roots(function (y) { return (f(y + d) - f(y - d)) / (2 * d); }, mdl.y0, mdl.y1, 1000).filter(function (y) {
         return !eqs.some(function (e) { return Math.abs(e.y - y) < span * 1e-3; });
       });
+    }
+    // Intervals between the equilibria and the roots of f', with the signs of f, f' and y'' = f' f in each.
+    function concavity(eqs, infl) {
+      var span = mdl.y1 - mdl.y0, d = span * 1e-5;
+      var cuts = eqs.map(function (e) { return e.y; }).concat(infl).filter(function (y) { return y > mdl.y0 + span * 1e-3 && y < mdl.y1 - span * 1e-3; }).sort(function (a, b) { return a - b; });
+      // no "below" interval when the range starts at an equilibrium or at the model's floor (populations are not negative)
+      var floorCut = mdl.floor === mdl.y0 || eqs.some(function (e) { return Math.abs(e.y - mdl.y0) <= span * 1e-3; });
+      var ends = [mdl.y0].concat(cuts).concat([mdl.y1]), out = [];
+      function sg(v) { return Math.abs(v) < 1e-12 ? 0 : v > 0 ? 1 : -1; }
+      for (var i = 0; i < ends.length - 1; i++) {
+        var m = (ends[i] + ends[i + 1]) / 2, fv = f(m), fd = (f(m + d) - f(m - d)) / (2 * d);
+        out.push({ lo: ends[i], hi: ends[i + 1], open: i === 0 && !floorCut ? "below" : i === ends.length - 2 ? "above" : "", f: sg(fv), fp: sg(fd), ypp: sg(fv) * sg(fd) });
+      }
+      return out;
+    }
+    function signChart(bands) {
+      var wrap = document.getElementById("pl-conc");
+      wrap.hidden = !show.conc;
+      if (!show.conc) return;
+      var span = mdl.y1 - mdl.y0, v = "<em>" + mdl.v + "</em>";
+      function nf(y) { return String(+y.toFixed(span > 20 ? 1 : 2)).replace("-", "−"); }
+      function sgn(s) { return s > 0 ? "+" : s < 0 ? "−" : "0"; }
+      var head = bands.map(function (b) {
+        if (b.open === "below") return v + " &lt; " + nf(b.hi);
+        if (b.open === "above") return v + " &gt; " + nf(b.lo);
+        return nf(b.lo) + " &lt; " + v + " &lt; " + nf(b.hi);
+      });
+      var rows = [
+        ["<em>f</em>(" + v + ") = " + v + "′", bands.map(function (b) { return sgn(b.f); })],
+        ["<em>f</em>′(" + v + ")", bands.map(function (b) { return sgn(b.fp); })],
+        [v + "″ = <em>f</em>′(" + v + ") <em>f</em>(" + v + ")", bands.map(function (b) { return sgn(b.ypp); })],
+        ["solution curves", bands.map(function (b) { return (b.f > 0 ? "rising" : b.f < 0 ? "falling" : "constant") + (b.ypp > 0 ? ", concave up" : b.ypp < 0 ? ", concave down" : ""); })],
+      ];
+      var h = "<thead><tr><th></th>" + head.map(function (x) { return "<th style=\"white-space:nowrap;text-align:center\">" + x + "</th>"; }).join("") + "</tr></thead><tbody>";
+      rows.forEach(function (r, i) { h += "<tr><td style=\"white-space:nowrap\">" + r[0] + "</td>" + r[1].map(function (x) { return "<td style=\"text-align:center" + (i < 3 ? ";font-weight:600" : "") + "\">" + x + "</td>"; }).join("") + "</tr>"; });
+      document.getElementById("pl-signs").innerHTML = h + "</tbody>";
     }
     var fp = new M.Plot(document.getElementById("pl-f"), { x0: 0, x1: 1, y0: -1, y1: 1, gx: 1, gy: 1, xname: "y", yname: "f", aspect: 0.7, aspectNarrow: 0.7, left: 26 });
     var sp = new M.Plot(document.getElementById("pl-sol"), { x0: 0, x1: 30, y0: 0, y1: 1, gx: 5, gy: 1, xname: "time, t", yname: "", aspect: 0.7, aspectNarrow: 0.75, left: 26 });
@@ -195,8 +236,23 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
           }
       }
       if (show.line) eqs.forEach(function (e) { sp.path([[0, e.y], [mdl.t1, e.y]], e.kind === "stable" ? "mm-null-a" : "mm-null-b"); });
-      var infl = inflections(eqs);
-      if (show.conc) infl.forEach(function (y) { var l = sp.path([[0, y], [mdl.t1, y]], "mm-zero"); l.style.strokeDasharray = "1 3"; l.style.strokeWidth = "1.6"; });
+      var infl = inflections(eqs), bands = concavity(eqs, infl);
+      if (show.conc) {
+        // shade each band by the sign of y'' = f'(y) f(y): colour where solution curves are concave up, grey where concave down
+        bands.forEach(function (b) {
+          if (!b.ypp) return;
+          var y0 = sp.sy(b.hi), y1 = sp.sy(b.lo);
+          M.el("rect", { x: sp.sx(0), y: y0, width: sp.sx(mdl.t1) - sp.sx(0), height: y1 - y0, style: "stroke:none;fill:" + (b.ypp > 0 ? "var(--mm-c);opacity:.13" : "var(--global-text-color);opacity:.07") }, sp.data);
+          if (y1 - y0 > 18 * sp.K) M.el("text", { x: sp.sx(mdl.t1) - 6 * sp.K, y: (y0 + y1) / 2 + 4 * sp.K, "text-anchor": "end", style: "font-size:" + 11 * sp.K + "px;fill:var(--global-text-color-light)" }, sp.data).textContent = b.ypp > 0 ? "concave up" : "concave down";
+        });
+        infl.forEach(function (y) { var l = sp.path([[0, y], [mdl.t1, y]], "mm-zero"); l.style.strokeDasharray = "1 3"; l.style.strokeWidth = "1.6"; });
+        // on the graph of f, mark where f' = 0
+        infl.forEach(function (y) {
+          var l = fp.path([[y, 0], [y, f(y)]], "mm-zero"); l.style.strokeDasharray = "1 3"; l.style.strokeWidth = "1.6";
+          var r = fp.circle(y, f(y), 5.5, "mm-handle"); r.setAttribute("stroke", "var(--mm-c)");
+        });
+      }
+      signChart(bands);
       if (show.sol)
         starts.forEach(function (s0, idx) {
           sp.path(solution(s0[0], s0[1]), idx === starts.length - 1 ? "mm-curve" : "mm-curve mm-faded");
@@ -206,7 +262,7 @@ Equilibria are the roots of $$f$$, found numerically. An equilibrium $$y^*$$ is 
       var txt = eqs.length
         ? "Equilibria: " + eqs.map(function (e) { return mdl.v + " = <b>" + M.fmt(e.y, span > 20 ? 1 : 2) + "</b> (" + e.kind + ")"; }).join(", ") + "."
         : "No equilibria in this range.";
-      if (show.conc && infl.length) txt += " Solution curves change concavity (<em>" + mdl.v + "</em>″ changes sign) where they cross " + infl.map(function (y) { return mdl.v + " = <b>" + M.fmt(y, span > 20 ? 1 : 2) + "</b>"; }).join(", ") + " (dotted).";
+      if (show.conc) txt += infl.length ? " Besides the equilibria, solution curves change concavity where <em>f</em>′ = 0, at " + infl.map(function (y) { return mdl.v + " = <b>" + M.fmt(y, span > 20 ? 1 : 2) + "</b>"; }).join(" and ") + " (dotted)." : " Here <em>f</em>′ never changes sign, so solution curves change concavity only at the equilibria.";
       if (key === "harvest") {
         var msy = (par.r * par.K) / 4;
         txt += " The largest harvest the population can sustain is <em>rK</em>/4 = <b>" + M.fmt(msy, 1) + "</b>" + (par.H > msy ? "; at this harvest every population declines to zero." : ".");
