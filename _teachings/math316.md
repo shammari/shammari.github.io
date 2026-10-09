@@ -257,7 +257,7 @@ Small tools for exploring ideas from the lectures. They run in your browser, nee
   <a class="cp-card" href="{{ '/teaching/math316/tools/fitting/' | relative_url }}">
     <span class="cp-meta">Weeks 5–6 · Model fitting</span>
     <span class="cp-card-title">Least squares or Chebyshev?</span>
-    <span class="cp-card-text">Drag data points and compare the fit that minimizes the sum of squared deviations with the fit that minimizes the largest deviation.</span>
+    <span class="cp-card-text">Drag data points, or load real data on Kuwait’s population, and compare the fit that minimizes the sum of squared deviations with the fit that minimizes the largest deviation.</span>
   </a>
 </div>
 
