@@ -29,6 +29,7 @@ permalink: /teaching/math316/tools/fitting/
   .ft-controls button { font: inherit; font-size: 0.85rem; padding: 0.15rem 0.6rem; border: 1px solid var(--global-divider-color); border-radius: 4px; background: transparent; color: var(--global-text-color); cursor: pointer; }
   .ft-controls button:hover { border-color: var(--global-theme-color); }
   .ft-help { font-size: 0.85rem; color: var(--global-text-color-light); margin: 0.4rem 0 0; }
+  .ft-source span { color: inherit; font-weight: inherit; }
   .ft-table { width: 100%; font-size: 0.9rem; margin: 0.8rem 0 0; border-collapse: collapse; }
   .ft-table th, .ft-table td { padding: 0.35rem 0.5rem; border-top: 1px solid var(--global-divider-color); text-align: left; vertical-align: top; }
   .ft-table th { font-weight: 500; color: var(--global-text-color-light); font-size: 0.8rem; }
@@ -67,10 +68,11 @@ Given some data and a model with unknown parameters, which parameters give the "
       <button type="button" data-preset="linear">Nearly linear</button>
       <button type="button" data-preset="outlier">With an outlier</button>
       <button type="button" data-preset="curved">Curved</button>
-      <button type="button" data-preset="kuwait">Kuwait population</button>
+      <button type="button" data-preset="kuwait">Kuwait 1995–2025</button>
+      <button type="button" data-preset="kuwait80">Kuwait 1980–2005</button>
     </fieldset>
   </div>
-  <p class="ft-help ft-source" id="ft-source" hidden>Kuwait's total population each year from 1995 to 2025, in millions (<em>P</em>), against <em>t</em>, the number of years since 1995. Source: World Bank, <a href="https://data.worldbank.org/indicator/SP.POP.TOTL?locations=KW">World Development Indicators</a> (indicator SP.POP.TOTL), CC BY 4.0.</p>
+  <p class="ft-help ft-source" id="ft-source" hidden>Kuwait's total population each year from <span id="ft-src-from">1995</span> to <span id="ft-src-to">2025</span>, in millions (<em>P</em>), against <em>t</em>, the number of years since <span id="ft-src-base">1995</span>. Source: World Bank, <a href="https://data.worldbank.org/indicator/SP.POP.TOTL?locations=KW">World Development Indicators</a> (indicator SP.POP.TOTL), CC BY 4.0.</p>
   <p class="ft-help">Drag a point to move it. Click an empty spot to add a point; double-click a point, or drag it off the plot, to remove it. Circled points are where the Chebyshev fit reaches its largest deviation.</p>
   <table class="ft-table">
     <thead>
@@ -88,8 +90,9 @@ Given some data and a model with unknown parameters, which parameters give the "
 4. Turn on the **Chebyshev band**. How many points touch its edges, and on which side of the line does each lie, from left to right? Move a point and see whether the pattern survives.
 5. Switch to **y = kx** with the **Curved** data. Is either fit adequate? What would you try next?
 6. Describe one modelling problem where the largest deviation matters more than the typical one, and one where the reverse is true.
-7. Load **Kuwait population**. Is a straight line a reasonable model over the whole period? Look at the years around 2020–21: what was happening then, and should those years count the same as the others? Remove them with a double-click and see how each fit changes.
+7. Load **Kuwait 1995–2025**. Is a straight line a reasonable model over the whole period? Look at the years around 2020–21: what was happening then, and should those years count the same as the others? Remove them with a double-click and see how each fit changes.
 8. Use each fit to estimate Kuwait's population in 2030. How far apart are the two estimates, and how much would you trust either of them?
+9. Load **Kuwait 1980–2005**. The points for 1990 and 1991 lie far below the rest: what happened then? Which fit is pulled further by those years? Should they be removed as outliers, or are they data that a model of Kuwait's population ought to explain?
 
 ## How the fits are computed
 
@@ -107,17 +110,27 @@ For data $$(x_i, y_i)$$, $$i = 1, \dots, m$$, and a model $$y = f(x)$$:
     var MAXPTS = 40, MINPTS = 3;
     // A view sets the axis ranges, grid and label steps, label offset (for years), variable names and rounding of added points.
     var plain = { x0: 0, x1: 10, y0: 0, y1: 10, gx: 1, gy: 1, lx: 2, ly: 2, xoff: 0, xname: "x", yname: "y", xv: "x", yv: "y", xr: 0.1, yr: 0.1, source: false };
-    var kuwait = { x0: -1, x1: 31, y0: 0, y1: 6, gx: 5, gy: 1, lx: 5, ly: 1, xoff: 1995, xname: "year", yname: "P (millions)", xv: "t", yv: "P", xr: 1, yr: 0.01, source: true };
+    var kuwait = { x0: -1, x1: 31, y0: 0, y1: 6, gx: 5, gy: 1, lx: 5, ly: 1, xoff: 1995, xname: "year", yname: "P (millions)", xv: "t", yv: "P", xr: 1, yr: 0.01, source: [1995, 2025] };
+    var kuwait80 = { x0: -1, x1: 26, y0: 0, y1: 3, gx: 5, gy: 0.5, lx: 5, ly: 1, xoff: 1980, xname: "year", yname: "P (millions)", xv: "t", yv: "P", xr: 1, yr: 0.01, source: [1980, 2005] };
     var presets = {
       linear: { view: plain, pts: [[1, 1.5], [2, 2.3], [3, 3.2], [4, 3.8], [5, 5.2], [6, 5.7], [7, 6.7], [8, 7.6], [9, 8.6]] },
       outlier: { view: plain, pts: [[1, 1.5], [2, 2.3], [3, 3.2], [4, 3.8], [5, 5.2], [6, 9.4], [7, 6.7], [8, 7.6], [9, 8.6]] },
       curved: { view: plain, pts: [[1, 0.6], [2, 1.0], [3, 1.6], [4, 2.3], [5, 3.1], [6, 4.1], [7, 5.3], [8, 6.7], [9, 8.4]] },
-      // World Bank, World Development Indicators, SP.POP.TOTL (CC BY 4.0): Kuwait, 1995–2025. t = years since 1995, P in millions.
+      // World Bank, World Development Indicators, SP.POP.TOTL (CC BY 4.0). t = years since the first year shown, P in millions.
+      kuwait80: { view: kuwait80, pts: [[0, 1.505], [1, 1.583], [2, 1.662], [3, 1.744], [4, 1.821], [5, 1.894], [6, 1.973], [7, 2.053], [8, 2.135], [9, 2.217], [10, 1.685], [11, 1.351], [12, 1.635], [13, 1.672], [14, 1.664], [15, 1.682], [16, 1.730], [17, 1.788], [18, 1.844], [19, 1.900], [20, 1.955], [21, 2.008], [22, 2.060], [23, 2.110], [24, 2.157], [25, 2.237]] },
       kuwait: { view: kuwait, pts: [[0, 1.682], [1, 1.730], [2, 1.788], [3, 1.844], [4, 1.900], [5, 1.955], [6, 2.008], [7, 2.060], [8, 2.110], [9, 2.157], [10, 2.237], [11, 2.365], [12, 2.508], [13, 2.651], [14, 2.795], [15, 2.943], [16, 3.133], [17, 3.337], [18, 3.508], [19, 3.666], [20, 3.835], [21, 4.004], [22, 4.155], [23, 4.324], [24, 4.442], [25, 4.400], [26, 4.361], [27, 4.590], [28, 4.853], [29, 4.897], [30, 4.865]] }
     };
     window.addEventListener("resize", function () { draw(); });
     var V = plain, X0, X1, Y0, Y1;
-    function setView(v) { V = v; X0 = v.x0; X1 = v.x1; Y0 = v.y0; Y1 = v.y1; document.getElementById("ft-source").hidden = !v.source; }
+    function setView(v) {
+      V = v; X0 = v.x0; X1 = v.x1; Y0 = v.y0; Y1 = v.y1;
+      document.getElementById("ft-source").hidden = !v.source;
+      if (v.source) {
+        document.getElementById("ft-src-from").textContent = v.source[0];
+        document.getElementById("ft-src-base").textContent = v.source[0];
+        document.getElementById("ft-src-to").textContent = v.source[1];
+      }
+    }
     setView(plain);
     var pts = presets.linear.pts.map(function (p) { return p.slice(); });
     var model = "line", drag = -1, lastTap = { i: -1, t: 0 };
