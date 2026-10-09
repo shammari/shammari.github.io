@@ -1,0 +1,338 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Predators and prey | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 316, week 13. Explore the Lotka–Volterra model in the phase plane, then add harvesting, limited resources and saturating predation."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Predators and prey"> <meta property="og:url" content="https://shammari.github.io/teaching/math316/tools/predator-prey/"> <meta property="og:description" content="An interactive tool for MATH 316, week 13. Explore the Lotka–Volterra model in the phase plane, then add harvesting, limited resources and saturating predation."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Predators and prey"> <meta name="twitter:description" content="An interactive tool for MATH 316, week 13. Explore the Lotka–Volterra model in the phase plane, then add harvesting, limited resources and saturating predation."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math316/tools/predator-prey/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 316, week 13. Explore the Lotka–Volterra model in the phase plane, then add harvesting, limited resources and saturating predation.",
+        "headline": "Predators and prey",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math316/tools/predator-prey/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Predators and prey</h1> <p class="post-description">An interactive tool for MATH 316, week 13. Explore the Lotka–Volterra model in the phase plane, then add harvesting, limited resources and saturating predation.</p> </header> <article> <p><a href="/teaching/math316/">← MATH 316</a></p> <p>A prey population <em>x</em> grows on its own; a predator population <em>y</em> declines without prey and grows by eating them. This tool draws the trajectories of the model in the phase plane, next to the populations over time. It supports learning outcomes 9 and 11.</p> <div class="mm-wrap" id="pp"> <p class="mm-eqn" id="pp-eqn"></p> <div class="mm-panels mm-2"> <svg id="pp-phase" role="img" aria-label="Phase plane of predators against prey with trajectories and nullclines"></svg> <svg id="pp-time" role="img" aria-label="Prey and predator populations against time for the latest trajectory"></svg> </div> <div class="mm-controls" id="pp-controls"></div> <p class="mm-help">Click the phase plane to start a trajectory there, and drag to move it. Arrowheads show the direction of motion. Dashed lines are nullclines, where one population is momentarily not changing. Filled dots are stable equilibria, open dots unstable ones, and a grey dot is a centre. The time plot follows the latest trajectory.</p> <p class="mm-readout" id="pp-out"></p> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>Start several trajectories. Do they spiral in, spiral out, or close up? Where does a trajectory cross each nullcline, and in which direction is it moving there?</li> <li>In the time plot, which population peaks first? Explain the lag in terms of the model.</li> <li>Compare the averages over a cycle with the equilibrium values, for trajectories that start in different places. What do you notice?</li> <li>Turn on <strong>harvesting</strong> and increase the effort <em>E</em>. What happens to the average numbers of prey and of predators? In the 1920s, D’Ancona noticed that the share of predatory fish in Adriatic catches had risen during the First World War, when fishing was reduced. Can the model explain this?</li> <li>Turn on <strong>limited resources</strong>. What happens to the closed orbits? How small can the carrying capacity <em>K</em> be before the predators die out?</li> <li>With limited resources on, turn on <strong>saturating predation</strong> and slowly increase <em>K</em>. Does giving the prey more resources always make the system settle down?</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>The model is</p> \[\frac{dx}{dt} = a x \left(1 - \frac{x}{K}\right) - \frac{b x y}{1 + h x} - E x, \qquad \frac{dy}{dt} = -c y + \frac{d x y}{1 + h x} - E y.\] <p>With the extensions off (\(K \to \infty\), \(h = 0\), \(E = 0\)) this is the Lotka–Volterra model, \(x' = a x - b x y\), \(y' = -c y + d x y\). Trajectories are computed with the fourth-order Runge–Kutta method, with a time step of 0.01. The nullclines come from setting each right-hand side to zero, and the type of the interior equilibrium from the eigenvalues of the Jacobian matrix there.</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    var P = { a: 1, b: 0.5, c: 0.75, d: 0.25, E: 0.2, K: 10, h: 0.1 };
+    var on = { E: false, K: false, h: false, field: true, nullc: true };
+    var X1 = 12, Y1 = 8, T1 = 200, TP = 100, DT = 0.01;
+    // The phase plane widens with the carrying capacity so that large cycles stay in view.
+    function domain() {
+      X1 = on.K ? Math.max(12, Math.ceil((P.K * 1.1) / 4) * 4) : 12;
+      Y1 = (X1 * 2) / 3;
+      var step = X1 > 24 ? 4 : X1 > 12 ? 2 : 1;
+      phase.o.x1 = X1; phase.o.y1 = Y1; phase.o.gx = step; phase.o.gy = step; phase.o.lx = 2 * step; phase.o.ly = 2 * step;
+    }
+    var starts = [[5, 2]], dragging = false;
+    var phase = new M.Plot(document.getElementById("pp-phase"), { x0: 0, x1: X1, y0: 0, y1: Y1, gx: 1, gy: 1, lx: 2, ly: 2, xname: "prey, x", yname: "predators, y", aspect: 0.7, aspectNarrow: 0.8, left: 18 });
+    var time = new M.Plot(document.getElementById("pp-time"), { x0: 0, x1: TP, y0: 0, y1: X1, gx: 10, gy: 1, lx: 20, ly: 2, xname: "time, t", yname: "population", aspect: 0.7, aspectNarrow: 0.6, left: 18 });
+    function par() {
+      return { a: P.a, b: P.b, c: P.c, d: P.d, E: on.E ? P.E : 0, K: on.K ? P.K : Infinity, h: on.h ? P.h : 0 };
+    }
+    function rhs(q) {
+      return function (t, s) {
+        var x = s[0], y = s[1], sat = 1 + q.h * x;
+        return [q.a * x * (1 - x / q.K) - (q.b * x * y) / sat - q.E * x, -q.c * y + (q.d * x * y) / sat - q.E * y];
+      };
+    }
+    function interior(q) {
+      var den = q.d - q.h * (q.c + q.E);
+      if (den <= 0) return null;
+      var xs = (q.c + q.E) / den;
+      var ys = ((q.a * (1 - xs / q.K) - q.E) * (1 + q.h * xs)) / q.b;
+      return ys > 1e-6 ? [xs, ys] : null;
+    }
+    function jacobianType(q, e) {
+      var f = rhs(q), eps = 1e-5;
+      var fx1 = f(0, [e[0] + eps, e[1]]), fx0 = f(0, [e[0] - eps, e[1]]), fy1 = f(0, [e[0], e[1] + eps]), fy0 = f(0, [e[0], e[1] - eps]);
+      var A = (fx1[0] - fx0[0]) / (2 * eps), B = (fy1[0] - fy0[0]) / (2 * eps), C = (fx1[1] - fx0[1]) / (2 * eps), D = (fy1[1] - fy0[1]) / (2 * eps);
+      var tr = A + D, det = A * D - B * C, disc = tr * tr - 4 * det;
+      if (det < 0) return { kind: "a saddle", stable: false };
+      if (Math.abs(tr) < 1e-6) return { kind: "a centre, with closed orbits around it", stable: null };
+      var spiral = disc < 0;
+      if (tr < 0) return { kind: spiral ? "a stable spiral" : "a stable node", stable: true };
+      return { kind: spiral ? "an unstable spiral" : "an unstable node", stable: false };
+    }
+    function equation() {
+      var x = "<em>x</em>", y = "<em>y</em>";
+      var prey = "<em>a</em>" + x + (on.K ? "(1 − " + x + "/<em>K</em>)" : "") + " − " + (on.h ? "<em>b</em>" + x + y + "/(1 + <em>h</em>" + x + ")" : "<em>b</em>" + x + y) + (on.E ? " − <em>E</em>" + x : "");
+      var pred = "−<em>c</em>" + y + " + " + (on.h ? "<em>d</em>" + x + y + "/(1 + <em>h</em>" + x + ")" : "<em>d</em>" + x + y) + (on.E ? " − <em>E</em>" + y : "");
+      document.getElementById("pp-eqn").innerHTML = x + "′ = " + prey + ", &nbsp;&nbsp; " + y + "′ = " + pred;
+    }
+    function draw() {
+      domain();
+      var q = par(), f = rhs(q), e = interior(q);
+      equation();
+      phase.frame();
+      // direction field
+      if (on.field) {
+        for (var i = 0; i <= 18; i++)
+          for (var j = 0; j <= 12; j++) {
+            var gx = 0.3 + (i * (X1 - 0.6)) / 18, gy = 0.3 + (j * (Y1 - 0.6)) / 12, v = f(0, [gx, gy]);
+            phase.arrow(gx, gy, phase.sx(gx + v[0]) - phase.sx(gx), phase.sy(gy + v[1]) - phase.sy(gy), 13);
+          }
+      }
+      // nullclines
+      if (on.nullc) {
+        var pn = [];
+        for (var k = 0; k <= 300; k++) {
+          var xx = (k * X1) / 300;
+          pn.push([xx, ((q.a * (1 - xx / q.K) - q.E) * (1 + q.h * xx)) / q.b]);
+        }
+        phase.path(pn, "mm-null-a");
+        phase.path([[0, 0], [0, Y1]], "mm-null-a");
+        if (e || q.d - q.h * (q.c + q.E) > 0) {
+          var xn = (q.c + q.E) / (q.d - q.h * (q.c + q.E));
+          phase.path([[xn, 0], [xn, Y1]], "mm-null-b");
+        }
+        phase.path([[0, 0], [X1, 0]], "mm-null-b");
+      }
+      // trajectories
+      var last = null;
+      starts.forEach(function (s, idx) {
+        var sol = M.solve(f, s, 0, T1, DT, function (t, y) { return y[0] > 60 || y[1] > 60; });
+        var latest = idx === starts.length - 1;
+        var pts = sol.y.map(function (v) { return [v[0], v[1]]; });
+        phase.path(pts, latest ? "mm-a" : "mm-a mm-faded");
+        for (var m = 100; latest && m < Math.min(pts.length, 1300); m += 170) {
+          var p0 = sol.y[m - 1], p1 = sol.y[m];
+          if (phase.inside(p1[0], p1[1])) phase.tri(p1[0], p1[1], phase.sx(p1[0]) - phase.sx(p0[0]), phase.sy(p1[1]) - phase.sy(p0[1]), 5.5, latest ? "mm-arrow" : "mm-arrow mm-faded", phase.data);
+        }
+        phase.circle(s[0], s[1], 4, "mm-dot");
+        if (latest) last = sol;
+      });
+      // equilibria
+      var eqs = [[[0, 0], false]];
+      if (q.K < Infinity && q.E < q.a) eqs.push([[q.K * (1 - q.E / q.a), 0], e ? false : true]);
+      var info = null;
+      if (e) {
+        info = jacobianType(q, e);
+        eqs.push([e, info.stable]);
+      }
+      eqs.forEach(function (r) { if (phase.inside(r[0][0], r[0][1])) phase.circle(r[0][0], r[0][1], 5, r[1] === true ? "mm-eq-s" : r[1] === null ? "mm-eq-n" : "mm-eq-u"); });
+      // time series of the latest trajectory, with the vertical range fitted to it
+      var top = 4;
+      if (last) last.y.forEach(function (v, i) { if (last.t[i] <= TP) top = Math.max(top, v[0], v[1]); });
+      top = Math.min(X1 * 2, Math.ceil(top * 1.15));
+      time.o.y1 = top; time.o.gy = top > 10 ? 2 : 1; time.o.ly = top > 10 ? 4 : 2;
+      time.frame();
+      if (e) {
+        time.path([[0, e[0]], [TP, e[0]]], "mm-null-a");
+        time.path([[0, e[1]], [TP, e[1]]], "mm-null-b");
+      }
+      if (last) {
+        var n1 = Math.min(last.t.length, Math.round(TP / DT) + 1);
+        time.path(last.t.slice(0, n1).map(function (t, i) { return [t, last.y[i][0]]; }), "mm-a");
+        time.path(last.t.slice(0, n1).map(function (t, i) { return [t, last.y[i][1]]; }), "mm-b");
+      }
+      var lg = time.top;
+      var ly = time.T - 14 * time.K;
+      M.el("line", { x1: time.W - time.R - 150 * time.K, y1: ly, x2: time.W - time.R - 128 * time.K, y2: ly, class: "mm-a" }, lg);
+      M.el("text", { x: time.W - time.R - 122 * time.K, y: ly + 4 * time.K }, lg).textContent = "prey";
+      M.el("line", { x1: time.W - time.R - 80 * time.K, y1: ly, x2: time.W - time.R - 58 * time.K, y2: ly, class: "mm-b" }, lg);
+      M.el("text", { x: time.W - time.R - 52 * time.K, y: ly + 4 * time.K }, lg).textContent = "predators";
+      // readout
+      var out = "";
+      if (e) out += "Interior equilibrium: prey <b>" + M.fmt(e[0]) + "</b>, predators <b>" + M.fmt(e[1]) + "</b>; it is " + info.kind + ". ";
+      else out += "There is no equilibrium with both species present: the predators cannot persist. ";
+      if (last && last.t.length > 2) {
+        var ref = e ? e[0] : 0, cross = [];
+        for (var n = 1; n < last.y.length; n++) if (last.y[n - 1][0] < ref && last.y[n][0] >= ref) cross.push(n);
+        var i0 = 0, i1 = last.y.length - 1, whole = cross.length >= 2;
+        if (whole) { i0 = cross[0]; i1 = cross[cross.length - 1]; }
+        var sx = 0, sy = 0;
+        for (var r = i0; r < i1; r++) { sx += last.y[r][0]; sy += last.y[r][1]; }
+        var cnt = Math.max(1, i1 - i0);
+        out += (whole ? "Averages over whole cycles of the latest trajectory" : "Averages over the latest trajectory") + ": prey <b>" + M.fmt(sx / cnt) + "</b>, predators <b>" + M.fmt(sy / cnt) + "</b>.";
+      }
+      document.getElementById("pp-out").innerHTML = out;
+    }
+    // controls
+    var box = document.getElementById("pp-controls");
+    var g1 = M.group(box, "Rates");
+    M.slider(g1, { label: "<em>a</em>", min: 0.1, max: 2, step: 0.05, value: P.a, onInput: function (v) { P.a = v; draw(); } });
+    M.slider(g1, { label: "<em>b</em>", min: 0.1, max: 1, step: 0.05, value: P.b, onInput: function (v) { P.b = v; draw(); } });
+    M.slider(g1, { label: "<em>c</em>", min: 0.1, max: 2, step: 0.05, value: P.c, onInput: function (v) { P.c = v; draw(); } });
+    M.slider(g1, { label: "<em>d</em>", min: 0.05, max: 1, step: 0.05, value: P.d, onInput: function (v) { P.d = v; draw(); } });
+    var g2 = M.group(box, "Extensions");
+    // Each extension is a checkbox with its own slider; the slider is dimmed while the extension is off.
+    function extension(label, key, spec) {
+      var pair = M.html("span", { class: "mm-pair" }, g2);
+      var sl;
+      M.checkbox(pair, label, on[key], function (c) { on[key] = c; sl.el.classList.toggle("mm-dim", !c); draw(); });
+      spec.onInput = function (v) { P[key] = v; if (!on[key]) return; draw(); };
+      sl = M.slider(pair, spec);
+      sl.el.classList.toggle("mm-dim", !on[key]);
+    }
+    extension("Harvesting", "E", { label: "<em>E</em>", min: 0, max: 0.9, step: 0.05, value: P.E });
+    extension("Limited resources", "K", { label: "<em>K</em>", min: 2, max: 40, step: 0.5, value: P.K, digits: 1 });
+    extension("Saturating predation", "h", { label: "<em>h</em>", min: 0, max: 0.3, step: 0.01, value: P.h });
+    var g3 = M.group(box, "Show");
+    M.checkbox(g3, "Direction field", on.field, function (c) { on.field = c; draw(); });
+    M.checkbox(g3, "Nullclines", on.nullc, function (c) { on.nullc = c; draw(); });
+    M.button(g3, "Clear trajectories", function () { starts = starts.slice(-1); draw(); });
+    // pointer: click to start a trajectory, drag to move it
+    var svg = phase.svg;
+    svg.addEventListener("pointerdown", function (evt) {
+      var p = phase.at(evt);
+      if (!phase.inside(p.x, p.y)) return;
+      evt.preventDefault();
+      starts.push([Math.max(p.x, 0.01), Math.max(p.y, 0.01)]);
+      if (starts.length > 6) starts.shift();
+      dragging = true;
+      svg.setPointerCapture(evt.pointerId);
+      draw();
+    });
+    svg.addEventListener("pointermove", function (evt) {
+      if (!dragging) return;
+      var p = phase.at(evt);
+      starts[starts.length - 1] = [Math.min(Math.max(p.x, 0.01), X1), Math.min(Math.max(p.y, 0.01), Y1)];
+      draw();
+    });
+    function release() { dragging = false; }
+    svg.addEventListener("pointerup", release);
+    svg.addEventListener("pointercancel", release);
+    M.onResize(draw);
+    draw();
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

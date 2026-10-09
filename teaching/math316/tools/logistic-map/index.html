@@ -1,0 +1,276 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> The discrete logistic model | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="An interactive tool for MATH 316, weeks 2–3. Explore equilibria, stability, cycles and chaos in a difference equation with cobweb diagrams."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | The discrete logistic model"> <meta property="og:url" content="https://shammari.github.io/teaching/math316/tools/logistic-map/"> <meta property="og:description" content="An interactive tool for MATH 316, weeks 2–3. Explore equilibria, stability, cycles and chaos in a difference equation with cobweb diagrams."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="The discrete logistic model"> <meta name="twitter:description" content="An interactive tool for MATH 316, weeks 2–3. Explore equilibria, stability, cycles and chaos in a difference equation with cobweb diagrams."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/teaching/math316/tools/logistic-map/",
+        "@type": "WebSite",
+        "description": "An interactive tool for MATH 316, weeks 2–3. Explore equilibria, stability, cycles and chaos in a difference equation with cobweb diagrams.",
+        "headline": "The discrete logistic model",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/teaching/math316/tools/logistic-map/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/teaching/">teaching <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">The discrete logistic model</h1> <p class="post-description">An interactive tool for MATH 316, weeks 2–3. Explore equilibria, stability, cycles and chaos in a difference equation with cobweb diagrams.</p> </header> <article> <p><a href="/teaching/math316/">← MATH 316</a></p> <p>A population that grows in discrete generations, and is held back as it nears its limit, can be modelled by the difference equation \(x_{n+1} = r\,x_n (1 - x_n)\). The same model can settle to an equilibrium, oscillate between several values, or never settle at all, depending only on <em>r</em>. This tool shows the cobweb diagram, the sequence itself and a summary of the long-run behaviour for every <em>r</em>. It supports learning outcomes 1 and 11.</p> <div class="mm-wrap" id="lm"> <p class="mm-eqn" id="lm-eqn"></p> <div class="mm-panels mm-side"> <svg id="lm-cob" role="img" aria-label="Cobweb diagram"></svg> <svg id="lm-seq" role="img" aria-label="The sequence x_n against n"></svg> </div> <div class="mm-controls" id="lm-controls"></div> <p class="mm-readout" id="lm-out"></p> <svg id="lm-bif" role="img" aria-label="Long-run values of x_n for each value of r"></svg> <p class="mm-help">The cobweb diagram follows the sequence: up to the curve, across to the diagonal, and repeat. The bottom panel shows, for each <em>r</em>, the values the sequence keeps visiting after it has run for a long time; click it to choose <em>r</em>. Drag the starting point along the horizontal axis of the cobweb diagram to change <em>x</em><sub>0</sub>.</p> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>Set <em>r</em> = 2.5 and then <em>r</em> = 2.9. Both sequences approach the same kind of equilibrium, but in different ways. How do the cobweb diagrams differ? Relate this to the slope of the curve where it meets the diagonal.</li> <li>Find the equilibria by solving \(x = r x (1 - x)\). For which values of <em>r</em> is the nonzero equilibrium stable? Check your answer with the tool.</li> <li>Increase <em>r</em> slowly past 3. What does the sequence do now? Find where the 2-cycle gives way to a 4-cycle.</li> <li>Set <em>r</em> = 3.83. What do you see, and where is this in the bottom panel?</li> <li>Set <em>r</em> = 3.9 and turn on <strong>compare</strong>, which starts a second sequence at <em>x</em><sub>0</sub> + 0.001. How long do the two sequences stay close? What does this mean for long-term prediction?</li> <li>The continuous logistic equation \(dP/dt = rP(1 - P/K)\) never oscillates. Why can the discrete model oscillate when the continuous one cannot?</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>The sequence is computed directly from the difference equation. The equilibria are \(x^* = 0\) and \(x^* = 1 - 1/r\), and an equilibrium is stable when \(\lvert f'(x^*) \rvert &lt; 1\), where \(f(x) = r x (1 - x)\). To find the long-run behaviour, the tool discards the first 1000 terms and then looks for a repeating cycle of length up to 64. The textbook form \(\Delta p_n = k\,p_n (M - p_n)\) becomes this model after the change of variable \(x_n = k p_n / (1 + kM)\), with \(r = 1 + kM\).</p> <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p> <script src="/assets/js/teaching/mm-tools.js"></script> <script>
+  (function () {
+    var M = window.MMTools;
+    var r = 2.9, x0 = 0.1, N = 40, compare = false, dragging = false;
+    var R0 = 2.4, R1 = 4;
+    var cob = new M.Plot(document.getElementById("lm-cob"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 0.1, gy: 0.1, lx: 0.2, ly: 0.2, xname: "xₙ", yname: "xₙ₊₁", aspect: 1, aspectNarrow: 0.9, left: 22 });
+    var seq = new M.Plot(document.getElementById("lm-seq"), { x0: 0, x1: N, y0: 0, y1: 1, gx: 5, gy: 0.1, lx: 10, ly: 0.2, xname: "n", yname: "xₙ", aspect: 0.5, aspectNarrow: 0.6, left: 22 });
+    var bif = new M.Plot(document.getElementById("lm-bif"), { x0: R0, x1: R1, y0: 0, y1: 1, gx: 0.1, gy: 0.1, lx: 0.2, ly: 0.2, xname: "r", yname: "long-run values of xₙ", aspect: 0.32, aspectNarrow: 0.6, left: 22 });
+    function f(x) { return r * x * (1 - x); }
+    function orbit(start, n) { var xs = [start]; for (var i = 0; i < n; i++) xs.push(f(xs[i])); return xs; }
+    function longRun() {
+      var x = x0, i;
+      for (i = 0; i < 1000; i++) x = f(x);
+      var tail = [];
+      for (i = 0; i < 128; i++) { tail.push(x); x = f(x); }
+      for (var p = 1; p <= 64; p++) {
+        var ok = true;
+        for (i = 0; i + p < tail.length; i++) if (Math.abs(tail[i] - tail[i + p]) > 1e-6) { ok = false; break; }
+        if (ok) return { period: p, values: tail.slice(0, p).sort(function (a, b) { return a - b; }) };
+      }
+      return { period: 0 };
+    }
+    function drawCobweb() {
+      cob.frame();
+      var curve = [];
+      for (var i = 0; i <= 200; i++) { var x = i / 200; curve.push([x, f(x)]); }
+      cob.path([[0, 0], [1, 1]], "mm-zero");
+      cob.path(curve, "mm-a");
+      var xs = orbit(x0, N), web = [[x0, 0]];
+      for (var k = 0; k < N; k++) { web.push([xs[k], xs[k + 1]]); web.push([xs[k + 1], xs[k + 1]]); }
+      cob.path(web, "mm-curve");
+      // equilibria on the diagonal
+      var eqs = [0];
+      if (r > 1) eqs.push(1 - 1 / r);
+      eqs.forEach(function (e) { cob.circle(e, e, 4.5, Math.abs(r * (1 - 2 * e)) < 1 ? "mm-eq-s" : "mm-eq-u"); });
+      var h = cob.circle(x0, 0, 7, "mm-handle");
+      h.setAttribute("stroke", "var(--mm-b)");
+      return { xs: xs, eqs: eqs };
+    }
+    function drawSeq(xs) {
+      seq.o.x1 = N; seq.o.gx = N > 60 ? 10 : 5; seq.o.lx = N > 60 ? 20 : 10;
+      seq.frame();
+      var pts = xs.map(function (v, i) { return [i, v]; });
+      if (compare) {
+        var ys = orbit(x0 + 0.001, N);
+        seq.path(ys.map(function (v, i) { return [i, v]; }), "mm-b");
+      }
+      seq.path(pts, "mm-a");
+      if (N <= 80) pts.forEach(function (p) { seq.circle(p[0], p[1], 2.4, "mm-dot", seq.data); });
+    }
+    // The long-run diagram does not depend on r or x0, so it is computed once and redrawn only on resize.
+    var bifPts = null, marker = null;
+    function bifData() {
+      var cols = 420, out = [];
+      for (var c = 0; c <= cols; c++) {
+        var rr = R0 + ((R1 - R0) * c) / cols, x = 0.3, i;
+        for (i = 0; i < 400; i++) x = rr * x * (1 - x);
+        for (i = 0; i < 100; i++) { x = rr * x * (1 - x); out.push([rr, x]); }
+      }
+      return out;
+    }
+    function drawBif() {
+      if (!bifPts) bifPts = bifData();
+      bif.frame();
+      var d = "";
+      for (var i = 0; i < bifPts.length; i++) d += "M" + bif.sx(bifPts[i][0]).toFixed(1) + "," + bif.sy(bifPts[i][1]).toFixed(1) + "h" + (1.2 * bif.K).toFixed(1);
+      M.el("path", { d: d, class: "mm-curve", style: "stroke-width:1.2;opacity:.7" }, bif.data);
+      marker = M.el("line", { class: "mm-b", y1: bif.sy(0), y2: bif.sy(1) }, bif.top);
+      moveMarker();
+    }
+    function moveMarker() {
+      if (!marker) return;
+      var vis = r >= R0 && r <= R1;
+      marker.setAttribute("x1", bif.sx(r)); marker.setAttribute("x2", bif.sx(r));
+      marker.style.display = vis ? "" : "none";
+    }
+    function draw() {
+      document.getElementById("lm-eqn").innerHTML = "<em>x</em><sub><em>n</em>+1</sub> = " + M.fmt(r, 3) + " <em>x</em><sub><em>n</em></sub>(1 − <em>x</em><sub><em>n</em></sub>), &nbsp; <em>x</em><sub>0</sub> = " + M.fmt(x0, 3);
+      var c = drawCobweb();
+      drawSeq(c.xs);
+      moveMarker();
+      var lr = longRun(), txt = "Equilibria: " + c.eqs.map(function (e) {
+        var s = Math.abs(r * (1 - 2 * e));
+        return "<b>" + M.fmt(e, 3) + "</b> (" + (s < 1 ? "stable" : "unstable") + ", |<em>f</em>′| = " + M.fmt(s) + ")";
+      }).join(", ") + ". Long run: ";
+      if (lr.period === 1) txt += "the sequence settles at <b>" + M.fmt(lr.values[0], 3) + "</b>.";
+      else if (lr.period > 1) txt += "a <b>" + lr.period + "-cycle</b> through " + lr.values.map(function (v) { return M.fmt(v, 3); }).join(", ") + ".";
+      else txt += "no repeating cycle of length up to 64; the sequence does not settle.";
+      document.getElementById("lm-out").innerHTML = txt;
+    }
+    // controls
+    var box = document.getElementById("lm-controls");
+    var g1 = M.group(box, "Parameters");
+    var rs = M.slider(g1, { label: "<em>r</em>", min: 0, max: 4, step: 0.001, value: r, digits: 3, onInput: function (v) { r = v; draw(); } });
+    rs.input.style.width = "12rem";
+    var xs0 = M.slider(g1, { label: "<em>x</em><sub>0</sub>", min: 0, max: 1, step: 0.001, value: x0, digits: 3, onInput: function (v) { x0 = v; draw(); } });
+    M.slider(g1, { label: "steps", min: 10, max: 200, step: 1, value: N, digits: 0, onInput: function (v) { N = v; draw(); } });
+    var g2 = M.group(box, "Show");
+    M.checkbox(g2, "Compare with <em>x</em><sub>0</sub> + 0.001", compare, function (c) { compare = c; draw(); });
+    // pointer: drag x0 on the cobweb axis; click the long-run diagram to choose r
+    cob.svg.addEventListener("pointerdown", function (evt) {
+      var p = cob.at(evt);
+      if (Math.abs(cob.sy(0) - p.py) > 18 * cob.K || p.x < 0 || p.x > 1) return;
+      evt.preventDefault(); dragging = true; cob.svg.setPointerCapture(evt.pointerId);
+      x0 = Math.min(Math.max(p.x, 0), 1); xs0.set(x0); draw();
+    });
+    cob.svg.addEventListener("pointermove", function (evt) {
+      if (!dragging) return;
+      x0 = Math.min(Math.max(cob.at(evt).x, 0), 1); xs0.set(x0); draw();
+    });
+    function release() { dragging = false; }
+    cob.svg.addEventListener("pointerup", release);
+    cob.svg.addEventListener("pointercancel", release);
+    var bifDrag = false;
+    function pickR(evt) { var p = bif.at(evt); r = Math.round(Math.min(Math.max(p.x, R0), R1) * 1000) / 1000; rs.set(r); draw(); }
+    bif.svg.addEventListener("pointerdown", function (evt) { evt.preventDefault(); bifDrag = true; bif.svg.setPointerCapture(evt.pointerId); pickR(evt); });
+    bif.svg.addEventListener("pointermove", function (evt) { if (bifDrag) pickR(evt); });
+    bif.svg.addEventListener("pointerup", function () { bifDrag = false; });
+    bif.svg.addEventListener("pointercancel", function () { bifDrag = false; });
+    M.onResize(function () { drawBif(); draw(); });
+    drawBif();
+    draw();
+  })();
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>
