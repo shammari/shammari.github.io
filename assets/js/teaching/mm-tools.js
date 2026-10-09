@@ -1,6 +1,6 @@
 /*
  * Shared helpers for the interactive teaching tools: SVG plots that scale for phones,
- * pointer handling, controls, a Runge–Kutta solver and root finding.
+ * pointer handling, controls, a Runge–Kutta solver, root finding and a parser for typed formulas.
  * Each tool page loads this file and then runs its own short script.
  */
 (function () {
@@ -63,6 +63,11 @@
     ".mm-table .mm-pc{background:color-mix(in srgb,var(--global-theme-color) 12%,transparent)}",
     ".mm-table .mm-pe{outline:2px solid var(--global-theme-color);outline-offset:-2px;font-weight:600}",
     ".mm-scroll{overflow-x:auto}",
+    ".mm-text input{font:inherit;font-size:.9rem;padding:.12rem .35rem;border:1px solid var(--global-divider-color);border-radius:4px;background:var(--global-bg-color);color:var(--global-text-color);max-width:60vw}",
+    ".mm-text input.mm-bad{border-color:#c0392b}",
+    ".mm-err{color:#c0392b;font-size:.82rem}",
+    // a wide displayed formula scrolls inside its own box on a narrow screen instead of widening the page
+    'mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden}',
     "@media (max-width:576px){.mm-slider input[type=range]{width:7rem}.mm-table input{width:3.8rem}}",
   ].join("\n");
   function injectCSS() {
@@ -153,11 +158,13 @@
       g;
     for (g = Math.ceil(o.x0 / o.gx - 1e-9) * o.gx; g <= o.x1 + 1e-9; g += o.gx) {
       el("line", { x1: this.sx(g), y1: this.T, x2: this.sx(g), y2: this.H - this.B, class: "mm-grid" }, svg);
-      if (mult(g, o.lx || o.gx)) el("text", { x: this.sx(g), y: this.H - this.B + 16 * K, "text-anchor": "middle" }, svg).textContent = fx(g);
+      if (!o.noTicks && mult(g, o.lx || o.gx))
+        el("text", { x: this.sx(g), y: this.H - this.B + 16 * K, "text-anchor": "middle" }, svg).textContent = fx(g);
     }
     for (g = Math.ceil(o.y0 / o.gy - 1e-9) * o.gy; g <= o.y1 + 1e-9; g += o.gy) {
       el("line", { x1: this.L, y1: this.sy(g), x2: this.W - this.R, y2: this.sy(g), class: "mm-grid" }, svg);
-      if (mult(g, o.ly || o.gy)) el("text", { x: this.L - 6 * K, y: this.sy(g) + 4 * K, "text-anchor": "end" }, svg).textContent = fy(g);
+      if (!o.noTicks && mult(g, o.ly || o.gy))
+        el("text", { x: this.L - 6 * K, y: this.sy(g) + 4 * K, "text-anchor": "end" }, svg).textContent = fy(g);
     }
     el("line", { x1: this.L, y1: this.H - this.B, x2: this.W - this.R, y2: this.H - this.B, class: "mm-axis" }, svg);
     el("line", { x1: this.L, y1: this.T, x2: this.L, y2: this.H - this.B, class: "mm-axis" }, svg);
@@ -604,7 +611,594 @@
     };
   }
 
+  // Graph y = f(x) across the plot (or [o.x0, o.x1] of opts), breaking the curve where f is undefined
+  // and at jumps and vertical asymptotes, which are found by bisecting any large step between samples.
+  Plot.prototype.fn = function (f, cls, opts) {
+    opts = opts || {};
+    var o = this.o,
+      a = opts.x0 !== undefined ? opts.x0 : o.x0,
+      b = opts.x1 !== undefined ? opts.x1 : o.x1,
+      n = opts.n || 700;
+    var H = o.y1 - o.y0,
+      lo = o.y0 - 3 * H,
+      hi = o.y1 + 3 * H,
+      pts = [],
+      px = NaN,
+      py = NaN;
+    function clamp(y) {
+      return Math.max(lo, Math.min(hi, y));
+    }
+    function jump(x1, y1, x2, y2) {
+      // does f jump (or blow up) between x1 and x2, rather than climb steeply?
+      var d0 = Math.abs(y2 - y1);
+      for (var k = 0; k < 40; k++) {
+        var m = (x1 + x2) / 2,
+          ym = f(m);
+        if (!isFinite(ym)) return true;
+        if (Math.abs(ym - y1) >= Math.abs(y2 - ym)) {
+          x2 = m;
+          y2 = ym;
+        } else {
+          x1 = m;
+          y1 = ym;
+        }
+        if (x2 - x1 < 1e-12 * Math.max(1, Math.abs(x1))) break;
+      }
+      return Math.abs(y2 - y1) > Math.min(0.02 * H, 0.5 * d0);
+    }
+    for (var i = 0; i <= n; i++) {
+      var x = a + ((b - a) * i) / n,
+        y = f(x);
+      if (!isFinite(y)) {
+        pts.push([NaN, NaN]);
+        px = NaN;
+        continue;
+      }
+      if (isFinite(py) && Math.abs(y - py) > 0.04 * H && jump(px, py, x, y)) pts.push([NaN, NaN]);
+      pts.push([x, clamp(y)]);
+      px = x;
+      py = y;
+    }
+    return this.path(pts, cls, opts.parent);
+  };
+
+  // Points in [lo, hi] where f breaks: "gap" (an end of the domain), "pole" (|f| grows without bound) or "jump".
+  // A large step between samples is examined by a search for the largest |f| in it (which finds a pole, even a
+  // symmetric one such as 1/x² at 0), and then by bisection on the size of the step (which finds a jump).
+  function breaks(f, lo, hi, n) {
+    n = n || 3000;
+    var xs = [],
+      ys = [],
+      out = [],
+      i,
+      k;
+    for (i = 0; i <= n; i++) {
+      xs.push(lo + ((hi - lo) * i) / n);
+      ys.push(f(xs[i]));
+    }
+    var fin = ys
+        .filter(isFinite)
+        .map(Math.abs)
+        .sort(function (p, q) {
+          return p - q;
+        }),
+      Hs = fin.length ? fin[Math.floor(0.9 * (fin.length - 1))] + 1 : 1;
+    function A(x) {
+      var y = f(x);
+      return isNaN(y) ? Infinity : Math.abs(y);
+    }
+    // a step much bigger than the typical step is worth a closer look, even if it is small next to the values
+    var st = [];
+    for (i = 1; i <= n; i++) if (isFinite(ys[i]) && isFinite(ys[i - 1])) st.push(Math.abs(ys[i] - ys[i - 1]));
+    st.sort(function (p, q) {
+      return p - q;
+    });
+    var big = Math.min(0.05 * Hs, 20 * (st.length ? st[Math.floor(st.length / 2)] : 0) + 1e-12 * Hs);
+    for (i = 1; i <= n; i++) {
+      var a = ys[i - 1],
+        b = ys[i],
+        u = xs[i - 1],
+        v = xs[i];
+      if (isFinite(a) !== isFinite(b)) {
+        for (k = 0; k < 60; k++) {
+          var m0 = (u + v) / 2;
+          if (isFinite(f(m0)) === isFinite(a)) u = m0;
+          else v = m0;
+        }
+        out.push({ x: (u + v) / 2, kind: Math.abs(isFinite(a) ? a : b) > 1e6 * Hs ? "pole" : "gap" });
+        continue;
+      }
+      if (!isFinite(a) || Math.abs(b - a) <= big) continue;
+      var p = u,
+        q = v;
+      for (k = 0; k < 90; k++) {
+        var m1 = p + (q - p) / 3,
+          m2 = q - (q - p) / 3;
+        if (A(m1) < A(m2)) p = m1;
+        else q = m2;
+      }
+      var peak = A((p + q) / 2);
+      if (!isFinite(peak) || peak > 1e6 * Hs) {
+        out.push({ x: (p + q) / 2, kind: "pole" });
+        continue;
+      }
+      var gu = a,
+        gv = b;
+      for (k = 0; k < 50; k++) {
+        var m = (u + v) / 2,
+          gm = f(m);
+        if (!isFinite(gm)) break;
+        if (Math.abs(gm - gu) > Math.abs(gv - gm)) {
+          v = m;
+          gv = gm;
+        } else {
+          u = m;
+          gu = gm;
+        }
+      }
+      if (Math.abs(gv - gu) > 1e-3 * Hs) out.push({ x: (u + v) / 2, kind: "jump" });
+    }
+    return out;
+  }
+  // Isolated points in [lo, hi] where f is undefined although it is defined, and nearly equal, just to either side:
+  // removable holes such as x = 1 for (x² − 1)/(x − 1). Sampling would almost always step over them, so test the
+  // numbers people tend to use: multiples of decimal steps and of π/12.
+  function holes(f, lo, hi) {
+    var out = [],
+      span = hi - lo,
+      seen = {};
+    if (!(span > 0)) return out;
+    var p = Math.pow(10, Math.floor(Math.log10(span))),
+      steps = [p, p / 2, p / 4, p / 10, p / 20, p / 100, Math.PI / 12];
+    steps.forEach(function (st) {
+      for (var k = Math.ceil(lo / st - 1e-9); k * st <= hi + 1e-9 * span; k++) {
+        var c = +(k * st).toPrecision(12),
+          key = String(c);
+        if (seen[key] || c < lo || c > hi) continue;
+        seen[key] = 1;
+        if (isFinite(f(c))) continue;
+        var e = 1e-7 * Math.max(1, Math.abs(c)),
+          yl = f(c - e),
+          yr = f(c + e);
+        if (isFinite(yl) && isFinite(yr) && Math.abs(yl - yr) < 1e-3 * (1 + Math.abs(yl))) out.push(c);
+      }
+    });
+    return out.sort(function (a, b) {
+      return a - b;
+    });
+  }
+  // A step of 1, 2 or 5 times a power of ten, about range/n.
+  function niceStep(range, n) {
+    var raw = range / (n || 8),
+      p = Math.pow(10, Math.floor(Math.log10(raw))),
+      m = raw / p;
+    return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p;
+  }
+  // Labels with as many decimals as the grid step needs, and a proper minus sign.
+  function stepFormat(step) {
+    var d = Math.max(0, Math.min(10, -Math.floor(Math.log10(step) + 1e-9)));
+    return function (v) {
+      if (Math.abs(v) < step * 1e-6) return "0";
+      return v.toFixed(d).replace("-", "−");
+    };
+  }
+  // Set the window [x0, x1] × [y0, y1] with grid lines and labels to suit it.
+  function setWindow(plot, w) {
+    var o = plot.o,
+      narrow = window.innerWidth < 768;
+    o.x0 = w[0];
+    o.x1 = w[1];
+    o.y0 = w[2];
+    o.y1 = w[3];
+    o.gx = niceStep(o.x1 - o.x0, narrow ? 6 : 10);
+    o.gy = niceStep(o.y1 - o.y0, narrow ? 6 : 8);
+    o.lx = (o.x1 - o.x0) / o.gx > (narrow ? 6 : 10) ? 2 * o.gx : o.gx;
+    o.ly = (o.y1 - o.y0) / o.gy > 8 ? 2 * o.gy : o.gy;
+    o.fx = stepFormat(o.lx);
+    o.fy = stepFormat(o.ly);
+  }
+  // Zoom in, zoom out and reset buttons. getHome() returns the window to reset to; after a change redraw() is called.
+  function zoomControls(parent, plots, getHome, redraw) {
+    plots = plots.length ? plots : [plots];
+    var g = group(parent, "View");
+    function zoom(k) {
+      plots.forEach(function (plot) {
+        var o = plot.o,
+          cx = (o.x0 + o.x1) / 2,
+          cy = (o.y0 + o.y1) / 2,
+          wx = ((o.x1 - o.x0) * k) / 2,
+          wy = ((o.y1 - o.y0) * k) / 2;
+        setWindow(plot, [cx - wx, cx + wx, cy - wy, cy + wy]);
+      });
+      redraw();
+    }
+    button(g, "Zoom in", function () {
+      zoom(0.5);
+    });
+    button(g, "Zoom out", function () {
+      zoom(2);
+    });
+    button(g, "Reset", function () {
+      var h = getHome();
+      plots.forEach(function (plot, i) {
+        setWindow(plot, h[i] && h[i].length ? h[i] : h);
+      });
+      redraw();
+    });
+    return g;
+  }
+
+  // Typed formulas ---------------------------------------------------------------------------
+  // expr("x^2 sin(1/x)") compiles a formula into a function of the given variables (default x) without eval.
+  // It accepts + − * / ^, implicit multiplication (2x, 3sin x, (x+1)(x−1), xy), absolute value bars |x|, the constants pi and e,
+  // functions such as sin, cos, tan, sec, csc, cot, arcsin (or asin, or sin^-1), sinh, cosh, tanh, exp, ln,
+  // log (base 10, as in the textbook), sqrt, cbrt, abs, floor (the greatest integer function), H (the Heaviside function), and
+  // function names without brackets (sin 2x means sin(2x); sin x cos x means (sin x)(cos x)). Odd roots of negative numbers are real.
+  var FN = {
+    sin: Math.sin,
+    cos: Math.cos,
+    tan: Math.tan,
+    sec: function (v) {
+      return rec(Math.cos(v));
+    },
+    csc: function (v) {
+      return rec(Math.sin(v));
+    },
+    cot: function (v) {
+      return rec(Math.tan(v));
+    },
+    asin: Math.asin,
+    acos: Math.acos,
+    atan: Math.atan,
+    arcsin: Math.asin,
+    arccos: Math.acos,
+    arctan: Math.atan,
+    sinh: Math.sinh,
+    cosh: Math.cosh,
+    tanh: Math.tanh,
+    sech: function (v) {
+      return rec(Math.cosh(v));
+    },
+    csch: function (v) {
+      return rec(Math.sinh(v));
+    },
+    coth: function (v) {
+      return rec(Math.tanh(v));
+    },
+    asinh: Math.asinh,
+    acosh: Math.acosh,
+    atanh: Math.atanh,
+    exp: Math.exp,
+    ln: Math.log,
+    log: Math.log10,
+    sqrt: Math.sqrt,
+    cbrt: Math.cbrt,
+    abs: Math.abs,
+    floor: Math.floor,
+    H: function (v) {
+      return v >= 0 ? 1 : v < 0 ? 0 : NaN;
+    }, // the Heaviside function, as in the textbook
+  };
+  var INV = { sin: "asin", cos: "acos", tan: "atan", sinh: "asinh", cosh: "acosh", tanh: "atanh" };
+  var CONST = { pi: Math.PI, e: Math.E };
+  // a^b with real odd roots of negative numbers (b = p/q with q odd)
+  function rec(v) {
+    return v === 0 ? NaN : 1 / v;
+  }
+  function rpow(a, b) {
+    if (a === 0 && b <= 0) return NaN; // 0^0 and 1/0^n are undefined
+    if (a >= 0 || b === Math.round(b)) return Math.pow(a, b);
+    for (var q = 3; q <= 15; q += 2) {
+      var p = b * q;
+      if (Math.abs(p - Math.round(p)) < 1e-9) return (Math.round(p) % 2 ? -1 : 1) * Math.pow(-a, b);
+    }
+    return NaN;
+  }
+  function expr(src, vars) {
+    vars = vars || ["x"];
+    var s = String(src)
+      .replace(/[−–]/g, "-")
+      .replace(/[×·⋅]/g, "*")
+      .replace(/÷/g, "/")
+      .replace(/π/g, "pi")
+      .replace(/√/g, "sqrt")
+      .replace(/²/g, "^2")
+      .replace(/³/g, "^3");
+    // tokens
+    var toks = [],
+      i = 0,
+      names = Object.keys(FN)
+        .concat(Object.keys(CONST))
+        .concat(vars)
+        .sort(function (a, b) {
+          return b.length - a.length;
+        });
+    while (i < s.length) {
+      var c = s[i],
+        m;
+      if (/\s/.test(c)) {
+        i++;
+        continue;
+      }
+      // numbers (no scientific notation, so that 2e-1 means 2e − 1)
+      if ((m = /^(\d+\.?\d*|\.\d+)/.exec(s.slice(i)))) {
+        if (s[i + m[0].length] === ".") throw new Error("Unexpected \u201c.\u201d");
+        toks.push({ t: "n", v: parseFloat(m[0]) });
+        i += m[0].length;
+        continue;
+      }
+      if (/[a-zA-Z]/.test(c)) {
+        var run = /^[a-zA-Z]+/.exec(s.slice(i))[0],
+          j = 0;
+        while (j < run.length) {
+          var hit = null;
+          for (var k = 0; k < names.length; k++)
+            if (run.substr(j, names[k].length) === names[k]) {
+              hit = names[k];
+              break;
+            }
+          if (!hit) throw new Error("Unknown name “" + run.slice(j) + "”");
+          toks.push(
+            FN[hit] && vars.indexOf(hit) < 0
+              ? { t: "f", v: hit }
+              : CONST[hit] !== undefined && vars.indexOf(hit) < 0
+                ? { t: "n", v: CONST[hit] }
+                : { t: "v", v: vars.indexOf(hit) }
+          );
+          j += hit.length;
+        }
+        i += run.length;
+        continue;
+      }
+      if ("+-*/^(),[]|".indexOf(c) >= 0) {
+        toks.push({ t: c === "[" ? "(" : c === "]" ? ")" : c });
+        i++;
+        continue;
+      }
+      throw new Error("Unexpected “" + c + "”");
+    }
+    var p = 0,
+      absDepth = 0;
+    function peek() {
+      return toks[p] || { t: "end" };
+    }
+    function eat(t) {
+      if (peek().t !== t) throw new Error(t === ")" ? "Missing “)”" : "Unexpected end of formula");
+      p++;
+    }
+    // a bar starts a factor only when no absolute value is waiting to be closed
+    function startsFactor(tk) {
+      return tk.t === "n" || tk.t === "v" || tk.t === "f" || tk.t === "(" || (tk.t === "|" && absDepth === 0);
+    }
+    function sum() {
+      var a = term();
+      while (peek().t === "+" || peek().t === "-") {
+        var op = toks[p++].t;
+        a = (function (A, b, plus) {
+          return plus
+            ? function (e) {
+                return A(e) + b(e);
+              }
+            : function (e) {
+                return A(e) - b(e);
+              };
+        })(a, term(), op === "+");
+      }
+      return a;
+    }
+    function term() {
+      var a = unary();
+      for (;;) {
+        var tk = peek(),
+          A = a,
+          b;
+        if (tk.t === "*" || tk.t === "/") {
+          p++;
+          b = unary();
+          a =
+            tk.t === "*"
+              ? (function (A, b) {
+                  return function (e) {
+                    return A(e) * b(e);
+                  };
+                })(A, b)
+              : (function (A, b) {
+                  return function (e) {
+                    var d = b(e);
+                    return d === 0 ? NaN : A(e) / d;
+                  };
+                })(A, b); // 1/0 is undefined, not ∞
+        } else if (startsFactor(tk)) {
+          b = power();
+          a = (function (A, b) {
+            return function (e) {
+              return A(e) * b(e);
+            };
+          })(A, b);
+        } else return a;
+      }
+    }
+    function unary() {
+      if (peek().t === "-") {
+        p++;
+        var a = unary();
+        return function (e) {
+          return -a(e);
+        };
+      }
+      if (peek().t === "+") {
+        p++;
+        return unary();
+      }
+      return power();
+    }
+    function power() {
+      var a = primary();
+      if (peek().t === "^") {
+        p++;
+        var b = unary();
+        return function (e) {
+          return rpow(a(e), b(e));
+        };
+      }
+      return a;
+    }
+    // an argument written without brackets, as in sin 2x or ln x^2: a product of factors, up to the next
+    // operator or function name (so sin x cos x is (sin x)(cos x))
+    function argument() {
+      var a = power();
+      while (startsFactor(peek()) && peek().t !== "f") {
+        var b = power();
+        a = (function (A, B) {
+          return function (e) {
+            return A(e) * B(e);
+          };
+        })(a, b);
+      }
+      return a;
+    }
+    function primary() {
+      var tk = peek();
+      if (tk.t === "n") {
+        p++;
+        var v = tk.v;
+        return function () {
+          return v;
+        };
+      }
+      if (tk.t === "v") {
+        p++;
+        var ix = tk.v;
+        return function (e) {
+          return e[ix];
+        };
+      }
+      if (tk.t === "(") {
+        p++;
+        var a = sum();
+        eat(")");
+        return a;
+      }
+      if (tk.t === "|") {
+        p++;
+        absDepth++;
+        var inner = sum();
+        if (peek().t !== "|") throw new Error("Missing closing \u201c|\u201d");
+        p++;
+        absDepth--;
+        return function (e) {
+          return Math.abs(inner(e));
+        };
+      }
+      if (tk.t === "f") {
+        p++;
+        var f = FN[tk.v],
+          ex = null;
+        if (peek().t === "^") {
+          // sin^2 x means (sin x)^2; sin^-1 x (or sin^(-1) x) means arcsin x, as in the textbook
+          p++;
+          var k2,
+            neg = false;
+          if (peek().t === "(") {
+            p++;
+            var kx = sum();
+            eat(")");
+            k2 = kx([0, 0, 0]);
+          } else {
+            if (peek().t === "-") {
+              neg = true;
+              p++;
+            }
+            if (peek().t !== "n") throw new Error("Expected a number after " + tk.v + "^");
+            k2 = toks[p++].v * (neg ? -1 : 1);
+          }
+          if (!isFinite(k2)) throw new Error("Expected a number after " + tk.v + "^");
+          if (k2 === -1 && INV[tk.v]) f = FN[INV[tk.v]];
+          else ex = k2;
+        }
+        var arg;
+        if (peek().t === "(") {
+          p++;
+          arg = sum();
+          eat(")");
+        } else if (peek().t === "-") {
+          p++;
+          var na = argument();
+          arg = function (e) {
+            return -na(e);
+          };
+        } else if (startsFactor(peek()) && peek().t !== "f") arg = argument();
+        else if (peek().t === "f") arg = power();
+        else throw new Error("Missing argument for " + tk.v);
+        if (ex === null)
+          return function (e) {
+            return f(arg(e));
+          };
+        return function (e) {
+          return rpow(f(arg(e)), ex);
+        };
+      }
+      throw new Error(tk.t === "end" ? "Unexpected end of formula" : "Unexpected “" + tk.t + "”");
+    }
+    if (!toks.length) throw new Error("Enter a formula");
+    var root = sum();
+    if (p < toks.length) throw new Error(peek().t === ")" ? "Unmatched “)”" : "Unexpected “" + (peek().v !== undefined ? peek().v : peek().t) + "”");
+    if (vars.length === 1)
+      return function (x) {
+        return root([x]);
+      };
+    return function () {
+      return root(arguments);
+    };
+  }
+  // Numerical calculus: central differences and composite Simpson's rule.
+  function deriv(f, x, h) {
+    h = h || 1e-5 * Math.max(1, Math.abs(x));
+    return (f(x + h) - f(x - h)) / (2 * h);
+  }
+  function deriv2(f, x, h) {
+    h = h || 1e-4 * Math.max(1, Math.abs(x));
+    return (f(x + h) - 2 * f(x) + f(x - h)) / (h * h);
+  }
+  function integrate(f, a, b, n) {
+    n = n || 2000;
+    if (n % 2) n++;
+    var h = (b - a) / n,
+      s = f(a) + f(b);
+    for (var i = 1; i < n; i++) s += (i % 2 ? 4 : 2) * f(a + i * h);
+    return (s * h) / 3;
+  }
+  // A labelled text box for a formula. onChange(text) is called as the user types; call showError(msg) to flag a problem.
+  function textInput(parent, label, value, onChange, width) {
+    var lab = html("label", { class: "mm-text" }, parent);
+    var name = html("span", null, lab);
+    name.innerHTML = label;
+    var input = html(
+      "input",
+      { type: "text", value: value, spellcheck: "false", autocomplete: "off", autocapitalize: "off", style: "width:" + (width || "12rem") },
+      lab
+    );
+    var err = html("span", { class: "mm-err" }, lab);
+    input.addEventListener("input", function () {
+      onChange(input.value);
+    });
+    return {
+      input: input,
+      showError: function (msg) {
+        err.textContent = msg || "";
+        input.classList.toggle("mm-bad", !!msg);
+      },
+      set: function (v) {
+        input.value = v;
+      },
+    };
+  }
+
   injectCSS();
+  // The widgets write their own HTML; keep MathJax from reading a $ in a readout as the start of mathematics.
+  Array.prototype.forEach.call(document.querySelectorAll(".mm-wrap"), function (w) {
+    w.classList.add("tex2jax_ignore");
+  });
   window.MMTools = {
     el: el,
     html: html,
@@ -625,5 +1219,17 @@
     lsq: lsq,
     tridiag: tridiag,
     editPoints: editPoints,
+    expr: expr,
+    rpow: rpow,
+    deriv: deriv,
+    deriv2: deriv2,
+    integrate: integrate,
+    textInput: textInput,
+    niceStep: niceStep,
+    stepFormat: stepFormat,
+    setWindow: setWindow,
+    zoomControls: zoomControls,
+    breaks: breaks,
+    holes: holes,
   };
 })();
