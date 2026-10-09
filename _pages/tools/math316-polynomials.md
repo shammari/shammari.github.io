@@ -33,6 +33,7 @@ A polynomial of high enough degree can pass through every data point, but that d
 6. With **Few points**, add points one at a time. How does the highest possible degree depend on the number of points?
 7. Load the textbook's **tape recorder** data. Compare the polynomial through all eight points with a quadratic. Which would you use to predict the elapsed time at a counter reading of 900, and why? Check the difference table: which differences are nearly constant?
 8. Load **points on y = x²** and show plain differences. Why are the second differences constant and the third differences zero?
+9. Load the textbook's **stopping distance** data. Which divided differences are roughly constant, and where do negative signs start to appear? With degree 2 the fit should be the textbook's quadratic, $$P(v) = 50.0594 - 1.9701v + 0.0886v^2$$. It fits better than $$d = 1.104v + 0.0542v^2$$ from Section 3.4, but what does it predict for a car that is not moving?
 
 ## How it is computed
 
@@ -68,6 +69,11 @@ A polynomial $$p(x) = c_0 + c_1 x + \dots + c_k x^k$$ of degree $$k$$ is fitted 
       runge: { name: "Runge's example", pts: function () { return lin(0.5, 9.5, 11).map(function (x) { var u = (x - 5) / 4.5; return [x, +(1.5 + 7 / (1 + 25 * u * u)).toFixed(3)]; }); } },
       line: { name: "Noisy straight line", pts: function () { return make(22, lin(0.8, 9.2, 13), function (x) { return 1.5 + 0.7 * x; }, 0.45); } },
       few: { name: "Few points", pts: function () { return [[1.5, 3], [4, 6.5], [6.5, 5], [8.5, 7.5]]; } },
+      stop: {
+        name: "Stopping distance (textbook)", deg: 2,
+        view: { x0: 0, x1: 85, y0: 0, y1: 500, gx: 5, gy: 25, lx: 10, ly: 50, xname: "speed, v (mph)", yname: "total stopping distance, d (ft)", xv: "v", yv: "d", xr: 1, yr: 0.5 },
+        pts: function () { return [[20, 42], [25, 56], [30, 73.5], [35, 91.5], [40, 116], [45, 142.5], [50, 173], [55, 209.5], [60, 248], [65, 292.5], [70, 343], [75, 401], [80, 464]]; },
+      },
     };
     var key = "cubic", pts = sets[key].pts(), deg = 3, hold = false, V = plain;
     var plot = new M.Plot(document.getElementById("pf-plot"), { x0: X0, x1: X1, y0: Y0, y1: Y1, gx: 1, gy: 1, lx: 2, ly: 2, xname: "x", yname: "y", aspect: 0.68, aspectNarrow: 0.78, left: 18 });
@@ -93,6 +99,7 @@ A polynomial $$p(x) = c_0 + c_1 x + \dots + c_k x^k$$ of degree $$k$$ is fitted 
       data.forEach(function (q) { var r = q[1] - f(q[0]); s += r * r; });
       return Math.sqrt(s / data.length);
     }
+    function cfmt(v) { return Math.abs(v) >= 0.001 || v === 0 ? M.fmt(v, 4) : v.toExponential(3).replace("-", "−"); }
     function maxDeg(n) { return Math.min(MAXDEG, n - 1); }
     var degSlider;
     function draw() {
@@ -138,7 +145,17 @@ A polynomial $$p(x) = c_0 + c_1 x + \dots + c_k x^k$$ of degree $$k$$ is fitted 
       // readout
       var t = "Degree <b>" + deg + "</b>, fitted to <b>" + sp.fit.length + "</b> points" + (deg === sp.fit.length - 1 ? ", so it passes through every one of them" : "") + ". Typical error on those points: <b>" + M.fmt(rms(f, sp.fit), 3) + "</b>";
       if (hold && sp.test.length) t += "; on the <b>" + sp.test.length + "</b> held-back points: <b>" + M.fmt(rms(f, sp.test), 3) + "</b>";
-      document.getElementById("pf-out").innerHTML = t + ".";
+      t += ".";
+      // for low degrees, also give the polynomial in powers of x, as the textbook writes it
+      if (deg <= 3 && sp.fit.length > deg) {
+        var c = M.lsq(sp.fit.map(function (q) { var r = [], p = 1; for (var j = 0; j <= deg; j++) { r.push(p); p *= q[0]; } return r; }), sp.fit.map(function (q) { return q[1]; }));
+        if (c) {
+          var xv = "<em>" + (V.xv || "x") + "</em>", e = "<em>" + (V.yv || "y") + "</em> = " + cfmt(c[0]);
+          for (var j = 1; j <= deg; j++) e += (c[j] < 0 ? " − " : " + ") + cfmt(Math.abs(c[j])) + xv + (j > 1 ? "<sup>" + j + "</sup>" : "");
+          t += " Fitted polynomial: " + e + ".";
+        }
+      }
+      document.getElementById("pf-out").innerHTML = t;
       divided();
     }
     function divided() {
@@ -153,12 +170,14 @@ A polynomial $$p(x) = c_0 + c_1 x + \dots + c_k x^k$$ of degree $$k$$ is fitted 
         D.push(cur);
       }
       function cell(v) { if (!isFinite(v)) return "—"; var a = Math.abs(v); if (a < 1e-9) return "0"; return (a !== 0 && (a < 1e-3 || a >= 1e4) ? v.toExponential(2) : v.toPrecision(3)).replace("-", "−"); }
+      // the data themselves are shown as entered
+      function datum(v) { return String(+v.toPrecision(6)).replace("-", "−"); }
       var h = "<thead><tr><th><em>x</em></th><th><em>f</em>[ ]</th>";
       for (var j2 = 1; j2 <= cols; j2++) h += "<th>" + (plainDiffs ? "Δ" + (j2 > 1 ? "<sup>" + j2 + "</sup>" : "") : j2 === 1 ? "1st" : j2 === 2 ? "2nd" : j2 === 3 ? "3rd" : j2 + "th") + "</th>";
       h += "</tr></thead><tbody>";
       for (var r = 0; r < n; r++) {
-        h += "<tr><td>" + cell(s[r][0]) + "</td>";
-        for (var c = 0; c <= cols; c++) h += "<td" + (c === deg && D[c][r] !== undefined ? " class=\"mm-pc\"" : "") + ">" + (D[c][r] !== undefined ? cell(D[c][r]) : "") + "</td>";
+        h += "<tr><td>" + datum(s[r][0]) + "</td>";
+        for (var c = 0; c <= cols; c++) h += "<td" + (c === deg && D[c][r] !== undefined ? " class=\"mm-pc\"" : "") + ">" + (D[c][r] !== undefined ? (c === 0 ? datum(D[c][r]) : cell(D[c][r])) : "") + "</td>";
         h += "</tr>";
       }
       document.getElementById("pf-dd").innerHTML = h + "</tbody>";
@@ -170,7 +189,9 @@ A polynomial $$p(x) = c_0 + c_1 x + \dots + c_k x^k$$ of degree $$k$$ is fitted 
       ["x0", "x1", "y0", "y1", "gx", "gy", "lx", "ly", "xname", "yname"].forEach(function (k) { plot.o[k] = v[k]; });
     }
     M.select(M.group(top, "Data"), Object.keys(sets).map(function (k) { return [k, sets[k].name]; }), key, function (v) {
-      key = v; pts = sets[v].pts(); setView(sets[v].view || plain); draw();
+      key = v; pts = sets[v].pts(); setView(sets[v].view || plain);
+      if (sets[v].deg !== undefined) deg = sets[v].deg;
+      draw();
     });
     M.select(M.group(top, "Table"), [["div", "Divided differences"], ["diff", "Differences"]], "div", function (v) { plainDiffs = v === "diff"; draw(); });
     var box = document.getElementById("pf-controls"), g = M.group(box, "Fit");

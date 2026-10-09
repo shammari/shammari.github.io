@@ -109,7 +109,7 @@
     this.H = Math.round(W * (narrow && o.aspectNarrow ? o.aspectNarrow : o.aspect || 0.62));
     var K = this.K;
     this.L = ((o.left || 30) + 10) * K;
-    this.R = 12 * K;
+    this.R = (o.right || 12) * K;
     this.T = (o.yname ? 26 : 12) * K;
     this.B = (o.xname ? 40 : 26) * K;
     this.svg.setAttribute("viewBox", "0 0 " + W + " " + this.H);
