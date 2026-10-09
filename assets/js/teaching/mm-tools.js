@@ -14,9 +14,9 @@
     "@media (min-width:768px){.mm-panels.mm-2{grid-template-columns:1fr 1fr}.mm-panels.mm-side{grid-template-columns:1fr 2fr}}",
     ".mm-plot{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}",
     ".mm-plot line,.mm-plot circle,.mm-plot path,.mm-plot polyline,.mm-plot rect{vector-effect:non-scaling-stroke}",
-    ".mm-plot .mm-grid{stroke:var(--global-divider-color);stroke-width:1}",
-    ".mm-plot .mm-axis{stroke:var(--global-text-color-light);stroke-width:1}",
-    ".mm-plot .mm-zero{stroke:var(--global-text-color-light);stroke-width:1;stroke-dasharray:4 3}",
+    ".mm-plot .mm-grid{stroke:var(--global-divider-color);stroke-width:1;fill:none}",
+    ".mm-plot .mm-axis{stroke:var(--global-text-color-light);stroke-width:1;fill:none}",
+    ".mm-plot .mm-zero{stroke:var(--global-text-color-light);stroke-width:1;stroke-dasharray:4 3;fill:none}",
     ".mm-plot text{fill:var(--global-text-color-light);font-family:inherit}",
     ".mm-plot .mm-title{fill:var(--global-text-color);font-weight:500}",
     ".mm-plot .mm-field{stroke:var(--global-text-color-light);stroke-width:1;opacity:.55;fill:none}",
@@ -104,7 +104,8 @@
       w = this.svg.getBoundingClientRect().width;
     this.W = W;
     this.K = w > 0 ? W / w : 1;
-    var narrow = w > 0 && w < 520;
+    // "Narrow" means the panels are stacked (phone layout), which is decided by the window width.
+    var narrow = window.innerWidth < 768;
     this.H = Math.round(W * (narrow && o.aspectNarrow ? o.aspectNarrow : o.aspect || 0.62));
     var K = this.K;
     this.L = ((o.left || 30) + 10) * K;
@@ -256,15 +257,16 @@
     return { px: q.x, py: q.y, x: this.ix(q.x), y: this.iy(q.y) };
   };
 
+  // Tick labels: as few digits as needed, with a proper minus sign.
   function fmtTick(v) {
-    var a = Math.abs(v);
-    if (a < 1e-9) return "0";
-    if (Math.abs(v - Math.round(v)) < 1e-9) return String(Math.round(v));
-    return a < 1 ? v.toFixed(2).replace(/0+$/, "") : v.toFixed(1);
+    if (Math.abs(v) < 1e-9) return "0";
+    var s = Math.abs(v) >= 1 ? +v.toFixed(2) : +v.toPrecision(3);
+    return String(s).replace("-", "\u2212");
   }
   function fmt(v, d) {
     var s = v.toFixed(d === undefined ? 2 : d);
-    return /^-0(\.0+)?$/.test(s) ? s.slice(1) : s;
+    if (/^-0(\.0+)?$/.test(s)) s = s.slice(1);
+    return s.replace("-", "\u2212");
   }
 
   // Classical fourth-order Runge–Kutta step for y' = f(t, y), y an array.
@@ -413,6 +415,195 @@
     });
   }
 
+  // Data helpers ---------------------------------------------------------------------------
+  // Seeded random numbers (mulberry32), so that "noisy" example data are the same on every visit.
+  function rng(seed) {
+    var a = seed >>> 0;
+    return function () {
+      a = (a + 0x6d2b79f5) >>> 0;
+      var t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  // Approximately normal random numbers from a uniform generator.
+  function gauss(u) {
+    return function () {
+      return Math.sqrt(-2 * Math.log(u() + 1e-12)) * Math.cos(2 * Math.PI * u());
+    };
+  }
+  // A tidy axis range and grid step covering [lo, hi], about n grid lines.
+  function niceRange(lo, hi, n) {
+    if (!(hi > lo)) {
+      hi = lo + 1;
+      lo = lo - 1;
+    }
+    var raw = (hi - lo) / (n || 6),
+      p = Math.pow(10, Math.floor(Math.log10(raw))),
+      m = raw / p,
+      step = (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p;
+    return { lo: Math.floor(lo / step + 1e-9) * step, hi: Math.ceil(hi / step - 1e-9) * step, step: step };
+  }
+  // Least squares: minimise |A c - b| by Householder QR. A is an array of rows. Returns c, or null if rank deficient.
+  function lsq(A, b) {
+    var m = A.length,
+      n = A[0].length,
+      R = A.map(function (r) {
+        return r.slice();
+      }),
+      y = b.slice(),
+      i,
+      j,
+      k;
+    if (m < n) return null;
+    for (k = 0; k < n; k++) {
+      var norm = 0;
+      for (i = k; i < m; i++) norm += R[i][k] * R[i][k];
+      norm = Math.sqrt(norm);
+      if (norm < 1e-12) return null;
+      var alpha = R[k][k] > 0 ? -norm : norm,
+        v = [];
+      for (i = 0; i < m; i++) v.push(i < k ? 0 : R[i][k]);
+      v[k] -= alpha;
+      var vv = 0;
+      for (i = k; i < m; i++) vv += v[i] * v[i];
+      if (vv < 1e-30) continue;
+      for (j = k; j < n; j++) {
+        var d = 0;
+        for (i = k; i < m; i++) d += v[i] * R[i][j];
+        d = (2 * d) / vv;
+        for (i = k; i < m; i++) R[i][j] -= d * v[i];
+      }
+      var dy = 0;
+      for (i = k; i < m; i++) dy += v[i] * y[i];
+      dy = (2 * dy) / vv;
+      for (i = k; i < m; i++) y[i] -= dy * v[i];
+    }
+    var c = new Array(n);
+    for (k = n - 1; k >= 0; k--) {
+      var sum = y[k];
+      for (j = k + 1; j < n; j++) sum -= R[k][j] * c[j];
+      if (Math.abs(R[k][k]) < 1e-12) return null;
+      c[k] = sum / R[k][k];
+    }
+    return c;
+  }
+  // Solve a tridiagonal system: sub-diagonal a, diagonal b, super-diagonal c, right-hand side d (Thomas algorithm).
+  function tridiag(a, b, c, d) {
+    var n = b.length,
+      cp = new Array(n),
+      dp = new Array(n),
+      x = new Array(n),
+      i;
+    cp[0] = c[0] / b[0];
+    dp[0] = d[0] / b[0];
+    for (i = 1; i < n; i++) {
+      var den = b[i] - a[i] * cp[i - 1];
+      cp[i] = i < n - 1 ? c[i] / den : 0;
+      dp[i] = (d[i] - a[i] * dp[i - 1]) / den;
+    }
+    x[n - 1] = dp[n - 1];
+    for (i = n - 2; i >= 0; i--) x[i] = dp[i] - cp[i] * x[i + 1];
+    return x;
+  }
+
+  /*
+   * Editable data points on a plot: drag to move, click an empty spot to add, double-click (or double-tap)
+   * or drag off the plot to remove. The plot is redrawn on every change, so double-clicks are detected here.
+   * o = { get: () => points array (mutated in place), min, max, xr, yr (rounding of added points),
+   *       sorted (keep points ordered by x), add (default true), onChange }
+   */
+  function editPoints(plot, o) {
+    var svg = plot.svg,
+      drag = -1,
+      last = { i: -1, t: 0 },
+      min = o.min || 2,
+      max = o.max || 30;
+    function round(v, r) {
+      return r ? Math.round(v / r) * r : v;
+    }
+    function hit(p, pts) {
+      var best = -1,
+        bd = Math.pow(16 * plot.K, 2);
+      pts.forEach(function (q, i) {
+        var dx = plot.sx(q[0]) - p.px,
+          dy = plot.sy(q[1]) - p.py,
+          d = dx * dx + dy * dy;
+        if (d < bd) {
+          bd = d;
+          best = i;
+        }
+      });
+      return best;
+    }
+    function resort(pts, i) {
+      if (!o.sorted) return i;
+      var moved = pts[i];
+      pts.sort(function (u, v) {
+        return u[0] - v[0];
+      });
+      return pts.indexOf(moved);
+    }
+    svg.addEventListener("pointerdown", function (evt) {
+      var p = plot.at(evt),
+        pts = o.get(),
+        i = hit(p, pts);
+      if (i >= 0) {
+        evt.preventDefault();
+        var now = Date.now(),
+          dbl = i === last.i && now - last.t < 400;
+        last = { i: i, t: now };
+        if (dbl && pts.length > min) {
+          pts.splice(i, 1);
+          last = { i: -1, t: 0 };
+          o.onChange();
+          return;
+        }
+        drag = i;
+        svg.setPointerCapture(evt.pointerId);
+        o.onChange();
+        return;
+      }
+      if (o.add !== false && plot.inside(p.x, p.y) && pts.length < max) {
+        evt.preventDefault();
+        pts.push([round(p.x, o.xr), round(p.y, o.yr)]);
+        resort(pts, pts.length - 1);
+        o.onChange();
+      }
+    });
+    svg.addEventListener("pointermove", function (evt) {
+      if (drag < 0) return;
+      var p = plot.at(evt),
+        pts = o.get(),
+        b = plot.o,
+        mx = 0.1 * (b.x1 - b.x0),
+        my = 0.1 * (b.y1 - b.y0);
+      pts[drag] = [Math.min(Math.max(p.x, b.x0 - mx), b.x1 + mx), Math.min(Math.max(p.y, b.y0 - my), b.y1 + my)];
+      drag = resort(pts, drag);
+      o.onChange();
+    });
+    function release() {
+      if (drag < 0) return;
+      var pts = o.get(),
+        q = pts[drag],
+        b = plot.o;
+      if (!plot.inside(q[0], q[1])) {
+        if (pts.length > min) pts.splice(drag, 1);
+        else pts[drag] = [Math.min(Math.max(q[0], b.x0), b.x1), Math.min(Math.max(q[1], b.y0), b.y1)];
+      }
+      drag = -1;
+      o.onChange();
+    }
+    svg.addEventListener("pointerup", release);
+    svg.addEventListener("pointercancel", release);
+    return {
+      dragging: function () {
+        return drag;
+      },
+    };
+  }
+
   injectCSS();
   window.MMTools = {
     el: el,
@@ -428,5 +619,11 @@
     button: button,
     select: select,
     onResize: onResize,
+    rng: rng,
+    gauss: gauss,
+    niceRange: niceRange,
+    lsq: lsq,
+    tridiag: tridiag,
+    editPoints: editPoints,
   };
 })();
