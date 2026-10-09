@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Predators and prey
-description: An interactive tool for MATH 316, week 13. Explore the Lotka–Volterra model in the phase plane, then add harvesting, limited resources and saturating predation.
+description: An interactive tool for MATH 316, week 13. Explore the Lotka–Volterra model in the phase plane, then add harvesting, limited growth and saturating predation.
 permalink: /teaching/math316/tools/predator-prey/
 ---
 
@@ -25,17 +25,17 @@ A prey population <em>x</em> grows on its own; a predator population <em>y</em> 
 1. Start several trajectories. Do they spiral in, spiral out, or close up? Where does a trajectory cross each nullcline, and in which direction is it moving there?
 2. In the time plot, which population peaks first? Explain the lag in terms of the model.
 3. Compare the averages over a cycle with the equilibrium values, for trajectories that start in different places. What do you notice?
-4. Turn on **harvesting** and increase the effort <em>E</em>. What happens to the average numbers of prey and of predators? In the 1920s, D'Ancona noticed that the share of predatory fish in Adriatic catches had risen during the First World War, when fishing was reduced. Can the model explain this?
-5. Turn on **limited resources**. What happens to the closed orbits? How small can the carrying capacity <em>K</em> be before the predators die out?
-6. With limited resources on, turn on **saturating predation** and slowly increase <em>K</em>. Does giving the prey more resources always make the system settle down?
+4. Turn on **harvesting**, which removes both species at the rate <em>r</em>, as in the textbook, and increase <em>r</em>. What happens to the average numbers of prey and of predators? In the 1920s, D'Ancona noticed that the share of predatory fish in Adriatic catches had risen during the First World War, when fishing was reduced. Can the model explain this?
+5. Turn on **limited growth** for the prey. What happens to the closed orbits? How small can the carrying capacity <em>K</em> be before the predators die out?
+6. With limited growth on, turn on **saturating predation** and slowly increase <em>K</em>. Does giving the prey more resources always make the system settle down?
 
 ## How it is computed
 
 The model is
 
-$$\frac{dx}{dt} = a x \left(1 - \frac{x}{K}\right) - \frac{b x y}{1 + h x} - E x, \qquad \frac{dy}{dt} = -c y + \frac{d x y}{1 + h x} - E y.$$
+$$\frac{dx}{dt} = a x \left(1 - \frac{x}{K}\right) - \frac{b x y}{1 + h x} - r x, \qquad \frac{dy}{dt} = -m y + \frac{n x y}{1 + h x} - r y.$$
 
-With the extensions off ($$K \to \infty$$, $$h = 0$$, $$E = 0$$) this is the Lotka–Volterra model, $$x' = a x - b x y$$, $$y' = -c y + d x y$$. Trajectories are computed with the fourth-order Runge–Kutta method, with a time step of 0.01. The nullclines come from setting each right-hand side to zero, and the type of the interior equilibrium from the eigenvalues of the Jacobian matrix there.
+With the extensions off ($$K \to \infty$$, $$h = 0$$, $$r = 0$$) this is the Lotka–Volterra model of the textbook, $$x' = (a - b y)\,x$$, $$y' = (-m + n x)\,y$$; harvesting both species at the rate $$r$$ follows the textbook's refined model. Trajectories are computed with the fourth-order Runge–Kutta method, with a time step of 0.01. The nullclines come from setting each right-hand side to zero, and the type of the interior equilibrium from the eigenvalues of the Jacobian matrix there.
 
 <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p>
 
@@ -85,8 +85,8 @@ With the extensions off ($$K \to \infty$$, $$h = 0$$, $$E = 0$$) this is the Lot
     }
     function equation() {
       var x = "<em>x</em>", y = "<em>y</em>";
-      var prey = "<em>a</em>" + x + (on.K ? "(1 − " + x + "/<em>K</em>)" : "") + " − " + (on.h ? "<em>b</em>" + x + y + "/(1 + <em>h</em>" + x + ")" : "<em>b</em>" + x + y) + (on.E ? " − <em>E</em>" + x : "");
-      var pred = "−<em>c</em>" + y + " + " + (on.h ? "<em>d</em>" + x + y + "/(1 + <em>h</em>" + x + ")" : "<em>d</em>" + x + y) + (on.E ? " − <em>E</em>" + y : "");
+      var prey = "<em>a</em>" + x + (on.K ? "(1 − " + x + "/<em>K</em>)" : "") + " − " + (on.h ? "<em>b</em>" + x + y + "/(1 + <em>h</em>" + x + ")" : "<em>b</em>" + x + y) + (on.E ? " − <em>r</em>" + x : "");
+      var pred = "−<em>m</em>" + y + " + " + (on.h ? "<em>n</em>" + x + y + "/(1 + <em>h</em>" + x + ")" : "<em>n</em>" + x + y) + (on.E ? " − <em>r</em>" + y : "");
       document.getElementById("pp-eqn").innerHTML = x + "′ = " + prey + ", &nbsp;&nbsp; " + y + "′ = " + pred;
     }
     function draw() {
@@ -182,8 +182,8 @@ With the extensions off ($$K \to \infty$$, $$h = 0$$, $$E = 0$$) this is the Lot
     var g1 = M.group(box, "Rates");
     M.slider(g1, { label: "<em>a</em>", min: 0.1, max: 2, step: 0.05, value: P.a, onInput: function (v) { P.a = v; draw(); } });
     M.slider(g1, { label: "<em>b</em>", min: 0.1, max: 1, step: 0.05, value: P.b, onInput: function (v) { P.b = v; draw(); } });
-    M.slider(g1, { label: "<em>c</em>", min: 0.1, max: 2, step: 0.05, value: P.c, onInput: function (v) { P.c = v; draw(); } });
-    M.slider(g1, { label: "<em>d</em>", min: 0.05, max: 1, step: 0.05, value: P.d, onInput: function (v) { P.d = v; draw(); } });
+    M.slider(g1, { label: "<em>m</em>", min: 0.1, max: 2, step: 0.05, value: P.c, onInput: function (v) { P.c = v; draw(); } });
+    M.slider(g1, { label: "<em>n</em>", min: 0.05, max: 1, step: 0.05, value: P.d, onInput: function (v) { P.d = v; draw(); } });
     var g2 = M.group(box, "Extensions");
     // Each extension is a checkbox with its own slider; the slider is dimmed while the extension is off.
     function extension(label, key, spec) {
@@ -194,8 +194,8 @@ With the extensions off ($$K \to \infty$$, $$h = 0$$, $$E = 0$$) this is the Lot
       sl = M.slider(pair, spec);
       sl.el.classList.toggle("mm-dim", !on[key]);
     }
-    extension("Harvesting", "E", { label: "<em>E</em>", min: 0, max: 0.9, step: 0.05, value: P.E });
-    extension("Limited resources", "K", { label: "<em>K</em>", min: 2, max: 40, step: 0.5, value: P.K, digits: 1 });
+    extension("Harvesting", "E", { label: "<em>r</em>", min: 0, max: 0.9, step: 0.05, value: P.E });
+    extension("Limited growth", "K", { label: "<em>K</em>", min: 2, max: 40, step: 0.5, value: P.K, digits: 1 });
     extension("Saturating predation", "h", { label: "<em>h</em>", min: 0, max: 0.3, step: 0.01, value: P.h });
     var g3 = M.group(box, "Show");
     M.checkbox(g3, "Direction field", on.field, function (c) { on.field = c; draw(); });

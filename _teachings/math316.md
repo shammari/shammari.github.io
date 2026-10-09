@@ -83,7 +83,6 @@ weeks:
     slides:
     problems:
     code:
-    explore: /teaching/math316/tools/linear-programming/
   - week: 10
     topic: Discrete optimization
     details: Linear programming and the simplex method
@@ -99,7 +98,6 @@ weeks:
     slides:
     problems:
     code:
-    explore: /teaching/math316/tools/phase-line/
   - week: 12
     topic: Modeling with a differential equation
     details: Graphical solutions of autonomous differential equations
@@ -288,12 +286,12 @@ Small tools for exploring ideas from the lectures. They run in your browser, nee
     <span class="cp-card-text">Compare linear, natural and clamped cubic splines through points you can drag, with their derivatives and coefficients.</span>
   </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/linear-programming/' | relative_url }}">
-    <span class="cp-meta">Weeks 9–10 · Discrete optimization</span>
+    <span class="cp-meta">Week 10 · Linear programming</span>
     <span class="cp-card-title">Linear programming</span>
     <span class="cp-card-text">Solve the carpenter’s problem, or a randomly generated coffee-shop problem, on the graph and step through the simplex method one pivot at a time.</span>
   </a>
   <a class="cp-card" href="{{ '/teaching/math316/tools/phase-line/' | relative_url }}">
-    <span class="cp-meta">Weeks 11–12 · Differential equations</span>
+    <span class="cp-meta">Week 12 · Differential equations</span>
     <span class="cp-card-title">Phase lines and solution curves</span>
     <span class="cp-card-text">Read the behaviour of an autonomous equation from the graph of its right-hand side: Newton’s law of cooling, diffusion across a membrane, and logistic growth with and without harvesting.</span>
   </a>

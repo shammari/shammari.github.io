@@ -7,7 +7,7 @@ permalink: /teaching/math316/tools/ladder-of-powers/
 
 [← MATH 316]({{ '/teaching/math316/' | relative_url }})
 
-When data curve, a transformation of one or both variables can often straighten them. The transformations are arranged in a ladder, $$\dots,\ z^{-2},\ z^{-1},\ z^{-1/2},\ \ln z,\ z^{1/2},\ z,\ z^{2},\ z^{3}, \dots$$, and moving up or down a rung changes the shape of the data in a predictable way. Once the transformed data lie close to a straight line, fitting that line gives a simple model of the original data. This tool shows the original and the transformed data side by side, with the residuals of the line. It supports learning outcomes 2 and 7.
+When data curve, a transformation of one or both variables can often straighten them. The transformations are arranged in a ladder, $$\dots,\ z^{-2},\ z^{-1},\ z^{-1/2},\ \log z,\ z^{1/2},\ z,\ z^{2},\ z^{3}, \dots$$, and moving up or down a rung changes the shape of the data in a predictable way. Once the transformed data lie close to a straight line, fitting that line gives a simple model of the original data. This tool shows the original and the transformed data side by side, with the residuals of the line. It supports learning outcomes 2 and 7.
 
 <div class="mm-wrap" id="ld">
   <div class="mm-controls" id="ld-top"></div>
@@ -23,15 +23,16 @@ When data curve, a transformation of one or both variables can often straighten 
 
 ## Things to try
 
-1. Start with the **planets**. Which pair of rungs makes the data straightest? What model does that give, and what is the power? This is Kepler's third law.
-2. For each data set, look at the residual plot as well as $$r^2$$. Why can a high $$r^2$$ still hide a curved pattern?
-3. For **Kuwait's population, 1960–1985**, which transformation straightens the data best? Estimate the annual growth rate from the slope. Does the residual pattern suggest the growth rate stayed the same over the whole period?
-4. For the **mystery** data sets, decide which way to move on the ladder by looking at the shape of the data first, then check. When the data bend downwards, which way should you move <em>y</em>? Which way should you move <em>x</em>?
-5. Choose a transformation that straightens a data set well, then look at what the model predicts outside the range of the data. Would you trust it there?
+1. Start with the textbook's **bluefish** data. Which rungs reproduce the textbook's model, log <em>y</em> = 0.7231 + 0.1654<em>x</em>? Then try the **blue crabs**: why does √<em>x</em> work there, and why does the line not quite pass through the origin as the textbook's does?
+2. Try the **planets**. Which pair of rungs makes the data straightest? What model does that give, and what is the power? This is Kepler's third law.
+3. For each data set, look at the residual plot as well as $$r^2$$. Why can a high $$r^2$$ still hide a curved pattern?
+4. For **Kuwait's population, 1960–1985**, which transformation straightens the data best? Estimate the annual growth rate from the slope. Does the residual pattern suggest the growth rate stayed the same over the whole period?
+5. For the **mystery** data sets, decide which way to move on the ladder by looking at the shape of the data first, then check. When the data bend downwards, which way should you move <em>y</em>? Which way should you move <em>x</em>?
+6. Choose a transformation that straightens a data set well, then look at what the model predicts outside the range of the data. Would you trust it there?
 
 ## How it is computed
 
-Each variable is transformed by the chosen rung: a power $$z^p$$, or the natural logarithm $$\ln z$$ in place of $$p = 0$$. A straight line $$Y = A + BX$$ is fitted to the transformed data $$(X, Y)$$ by least squares, and $$r^2$$ is the square of the correlation of $$X$$ and $$Y$$. The fitted line is then transformed back to give a model for the original data; for example, $$\ln y = A + B \ln x$$ gives $$y = e^{A} x^{B}$$. Logarithms and negative powers need positive values.
+Each variable is transformed by the chosen rung: a power $$z^p$$, or the logarithm $$\log z$$ in place of $$p = 0$$, to base 10 as in the textbook or, if chosen, the natural logarithm. A straight line $$Y = A + BX$$ is fitted to the transformed data $$(X, Y)$$ by least squares, and $$r^2$$ is the square of the correlation of $$X$$ and $$Y$$. The fitted line is then transformed back to give a model for the original data; for example, $$\log y = A + B x$$ gives $$y = 10^{A} (10^{B})^{x}$$, the form used in the textbook. Logarithms and negative powers need positive values.
 
 <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p>
 
@@ -46,6 +47,16 @@ Each variable is transformed by the chosen rung: a power $$z^p$$, or the natural
     }
     function range(a, b, n) { var o = []; for (var i = 0; i < n; i++) o.push(+(a + ((b - a) * i) / (n - 1)).toFixed(3)); return o; }
     var sets = {
+      bluefish: {
+        name: "Chesapeake Bay: bluefish", xv: "x", yv: "y", xname: "x, base year (5-year steps from 1940)", yname: "bluefish harvested, y (10⁴ lb)",
+        pts: [[0, 1.5], [1, 15], [2, 25], [3, 27.5], [4, 27], [5, 28], [6, 29], [7, 65], [8, 120], [9, 155], [10, 275]],
+        src: "Harvests of bluefish in the Chesapeake Bay, 1940–1990, from the textbook. The textbook fits log <em>y</em> = 0.7231 + 0.1654<em>x</em>.",
+      },
+      crabs: {
+        name: "Chesapeake Bay: blue crabs", xv: "x", yv: "y", xname: "x, base year (5-year steps from 1940)", yname: "blue crabs harvested, y (10⁴ lb)",
+        pts: [[0, 10], [1, 85], [2, 133], [3, 250], [4, 300], [5, 370], [6, 440], [7, 466], [8, 480], [9, 442], [10, 500]],
+        src: "Harvests of blue crabs in the Chesapeake Bay, 1940–1990, from the textbook. The textbook fits <em>y</em> = 158.344√<em>x</em>, a line through the origin.",
+      },
       planets: {
         name: "Planets", xv: "a", yv: "T", xname: "semi-major axis, a (AU)", yname: "orbital period, T (years)",
         pts: [[0.387, 0.241], [0.723, 0.615], [1.0, 1.0], [1.524, 1.881], [5.203, 11.862], [9.537, 29.457], [19.19, 84.01], [30.07, 164.8]],
@@ -60,28 +71,31 @@ Each variable is transformed by the chosen rung: a power $$z^p$$, or the natural
       b: { name: "Mystery data B", xv: "x", yv: "y", xname: "x", yname: "y", pts: noisy(12, range(0, 10, 11), function (x) { return 0.6 * Math.exp(0.3 * x); }, 0.04), src: "Made-up data with a little random noise." },
       c: { name: "Mystery data C", xv: "x", yv: "y", xname: "x", yname: "y", pts: noisy(13, range(0.5, 8, 10), function (x) { return 12 / x; }, 0.04), src: "Made-up data with a little random noise." },
     };
-    var key = "planets", px = 1, py = 1;
+    var key = "bluefish", px = 1, py = 1, base = 10;
+    // Logarithms are to base 10, as in the textbook, unless the natural logarithm is chosen.
+    function lg(v) { return base === 10 ? Math.log10(v) : Math.log(v); }
+    function lname() { return base === 10 ? "log" : "ln"; }
     function T(v, p) {
-      if (p === 0) return v > 0 ? Math.log(v) : NaN;
+      if (p === 0) return v > 0 ? lg(v) : NaN;
       if (p < 0) return v > 0 ? Math.pow(v, p) : NaN;
       if (p !== Math.round(p)) return v >= 0 ? Math.pow(v, p) : NaN;
       return Math.pow(v, p);
     }
     function Tinv(Y, p) {
-      if (p === 0) return Math.exp(Y);
+      if (p === 0) return Math.pow(base === 10 ? 10 : Math.E, Y);
       if (p === 1) return Y;
       if (p === 3) return Math.cbrt(Y);
       return Y > 0 ? Math.pow(Y, 1 / p) : NaN;
     }
     function rungHTML(v, p) {
       var e = "<em>" + v + "</em>";
-      if (p === 0) return "ln " + e;
+      if (p === 0) return lname() + " " + e;
       if (p === 1) return e;
       var s = { "-2": "−2", "-1": "−1", "-0.5": "−1/2", "0.5": "1/2", "2": "2", "3": "3" }[String(p)];
       return e + "<sup>" + s + "</sup>";
     }
     function rungText(v, p) {
-      if (p === 0) return "ln " + v;
+      if (p === 0) return lname() + " " + v;
       if (p === 1) return v;
       return v + "^" + { "-2": "(−2)", "-1": "(−1)", "-0.5": "(−1/2)", "0.5": "(1/2)", "2": "2", "3": "3" }[String(p)];
     }
@@ -151,10 +165,12 @@ Each variable is transformed by the chosen rung: a power $$z^p$$, or the natural
         var sgn = fit.b < 0 ? " − " : " + ", B = M.fmt(Math.abs(fit.b), 4), Aa = M.fmt(fit.a, 4);
         out = "Line: " + Yh + " = " + Aa + sgn + B + " " + Xh + ", with <em>r</em><sup>2</sup> = <b>" + M.fmt(fit.r2, 4) + "</b>. ";
         var model = "";
-        if (py === 0 && px === 0) model = ye + " = " + M.fmt(Math.exp(fit.a), 4) + " " + xe + "<sup>" + M.fmt(fit.b, 3) + "</sup>";
+        var bs = base === 10 ? 10 : Math.E, bh = base === 10 ? "10" : "<em>e</em>";
+        if (py === 0 && px === 0) model = ye + " = " + M.fmt(Math.pow(bs, fit.a), 4) + " " + xe + "<sup>" + M.fmt(fit.b, 3) + "</sup>";
+        else if (py === 0 && px === 1 && base === 10) model = ye + " = " + M.fmt(Math.pow(10, fit.a), 4) + " (" + M.fmt(Math.pow(10, fit.b), 4) + ")<sup>" + xe + "</sup>";
         else if (py === 0 && px === 1) model = ye + " = " + M.fmt(Math.exp(fit.a), 4) + " <em>e</em><sup>" + M.fmt(fit.b, 4) + xe + "</sup>";
         else if (py === 1) model = ye + " = " + Aa + sgn + B + " " + Xh;
-        else if (py === 0) model = ye + " = <em>e</em><sup>" + Aa + sgn + B + " " + Xh + "</sup>";
+        else if (py === 0) model = ye + " = " + bh + "<sup>" + Aa + sgn + B + " " + Xh + "</sup>";
         else model = ye + " = (" + Aa + sgn + B + " " + Xh + ")<sup>" + { "0.5": "2", "-0.5": "−2", "2": "1/2", "-1": "−1", "-2": "−1/2", "3": "1/3" }[String(py)] + "</sup>";
         out += "Model: <b>" + model + "</b>.";
       } else out = "The chosen transformation needs positive values, and this data set includes zero or negative values.";
@@ -163,6 +179,7 @@ Each variable is transformed by the chosen rung: a power $$z^p$$, or the natural
     // controls
     var top = document.getElementById("ld-top");
     M.select(M.group(top, "Data"), Object.keys(sets).map(function (k) { return [k, sets[k].name]; }), key, function (v) { key = v; draw(); });
+    M.select(M.group(top, "Logarithm"), [["10", "base 10, as in the textbook"], ["e", "natural (ln)"]], "10", function (v) { base = v === "10" ? 10 : Math.E; relabel(); draw(); });
     var box = document.getElementById("ld-controls"), g = M.group(box, "Ladder");
     function rungSlider(which) {
       var sl = M.slider(g, {
@@ -172,10 +189,10 @@ Each variable is transformed by the chosen rung: a power $$z^p$$, or the natural
       var out = sl.el.querySelector("output");
       function label() { out.innerHTML = rungHTML(which === "x" ? "x" : "y", RUNGS[sl.get()]); }
       label();
-      return sl;
+      return label;
     }
-    rungSlider("x");
-    rungSlider("y");
+    var labelers = [rungSlider("x"), rungSlider("y")];
+    function relabel() { labelers.forEach(function (f) { f(); }); }
     M.onResize(draw);
     draw();
   })();

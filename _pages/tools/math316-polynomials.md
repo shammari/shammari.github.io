@@ -18,9 +18,9 @@ A polynomial of high enough degree can pass through every data point, but that d
   <div class="mm-controls" id="pf-controls"></div>
   <p class="mm-help">Drag a point to move it; click an empty spot to add one; double-click a point, or drag it off the plot, to remove it. With <b>hold back</b> on, every third point (open circles) is left out of the fit and used to test it. The small panel shows the typical error at each degree on the points used in the fit and, when some are held back, on those points.</p>
   <p class="mm-readout" id="pf-out"></p>
-  <h3 style="font-size:1.05rem;margin:1.2rem 0 .3rem">Divided differences</h3>
+  <h3 style="font-size:1.05rem;margin:1.2rem 0 .3rem">Difference table</h3>
   <div class="mm-scroll"><table class="mm-table" id="pf-dd"></table></div>
-  <p class="mm-help">Data sorted by <em>x</em>. If the <em>k</em>th divided differences are roughly constant, and the next ones are small and change sign, a polynomial of degree <em>k</em> is a reasonable choice.</p>
+  <p class="mm-help">Data sorted by <em>x</em>. Choose plain differences (Δ, Δ², …) or divided differences above. If the <em>k</em>th divided differences are roughly constant, and the next ones are small and change sign, a polynomial of degree <em>k</em> is a reasonable choice.</p>
 </div>
 
 ## Things to try
@@ -31,6 +31,8 @@ A polynomial of high enough degree can pass through every data point, but that d
 4. Choose **Runge's example**, which samples a smooth curve at equally spaced points. What happens near the ends of the interval as the degree increases? Would adding more equally spaced points help?
 5. Drag one point a little. How much does a degree 2 fit change? How much does the fit through every point change?
 6. With **Few points**, add points one at a time. How does the highest possible degree depend on the number of points?
+7. Load the textbook's **tape recorder** data. Compare the polynomial through all eight points with a quadratic. Which would you use to predict the elapsed time at a counter reading of 900, and why? Check the difference table: which differences are nearly constant?
+8. Load **points on y = x²** and show plain differences. Why are the second differences constant and the third differences zero?
 
 ## How it is computed
 
@@ -42,20 +44,32 @@ A polynomial $$p(x) = c_0 + c_1 x + \dots + c_k x^k$$ of degree $$k$$ is fitted 
 <script>
   (function () {
     var M = window.MMTools;
-    var X0 = 0, X1 = 10, Y0 = 0, Y1 = 10, MAXDEG = 14;
+    var X0 = 0, X1 = 10, Y0 = 0, Y1 = 10, MAXDEG = 14, plainDiffs = false;
+    // Each data set may have its own axes; made-up data use the square 0–10.
+    var plain = { x0: 0, x1: 10, y0: 0, y1: 10, gx: 1, gy: 1, lx: 2, ly: 2, xname: "x", yname: "y", xr: 0.1, yr: 0.1 };
     function make(seed, xs, f, sd) {
       var g = M.gauss(M.rng(seed));
       return xs.map(function (x) { return [x, +(f(x) + sd * g()).toFixed(3)]; });
     }
     function lin(a, b, n) { var o = []; for (var i = 0; i < n; i++) o.push(+(a + ((b - a) * i) / (n - 1)).toFixed(3)); return o; }
     var sets = {
+      tape: {
+        name: "Tape recorder (textbook)",
+        view: { x0: 0, x1: 9, y0: 0, y1: 2500, gx: 1, gy: 250, lx: 1, ly: 500, xname: "counter reading ÷ 100", yname: "elapsed time (s)", xr: 0.1, yr: 1 },
+        pts: function () { return [[1, 205], [2, 430], [3, 677], [4, 945], [5, 1233], [6, 1542], [7, 1872], [8, 2224]]; },
+      },
+      squares: {
+        name: "Points on y = x² (textbook)",
+        view: { x0: 0, x1: 9, y0: 0, y1: 70, gx: 1, gy: 10, lx: 1, ly: 10, xname: "x", yname: "y", xr: 0.1, yr: 0.5 },
+        pts: function () { return [[0, 0], [2, 4], [4, 16], [6, 36], [8, 64]]; },
+      },
       cubic: { name: "Cubic trend, small errors", pts: function () { return make(21, lin(0.6, 9.4, 12), function (x) { return 5 + 0.08 * (x - 5) * (x - 2) * (x - 8.5); }, 0.004); } },
       noisy: { name: "Cubic trend, larger errors", pts: function () { return make(23, lin(0.6, 9.4, 12), function (x) { return 5 + 0.08 * (x - 5) * (x - 2) * (x - 8.5); }, 0.3); } },
       runge: { name: "Runge's example", pts: function () { return lin(0.5, 9.5, 11).map(function (x) { var u = (x - 5) / 4.5; return [x, +(1.5 + 7 / (1 + 25 * u * u)).toFixed(3)]; }); } },
       line: { name: "Noisy straight line", pts: function () { return make(22, lin(0.8, 9.2, 13), function (x) { return 1.5 + 0.7 * x; }, 0.45); } },
       few: { name: "Few points", pts: function () { return [[1.5, 3], [4, 6.5], [6.5, 5], [8.5, 7.5]]; } },
     };
-    var key = "cubic", pts = sets[key].pts(), deg = 3, hold = false;
+    var key = "cubic", pts = sets[key].pts(), deg = 3, hold = false, V = plain;
     var plot = new M.Plot(document.getElementById("pf-plot"), { x0: X0, x1: X1, y0: Y0, y1: Y1, gx: 1, gy: 1, lx: 2, ly: 2, xname: "x", yname: "y", aspect: 0.68, aspectNarrow: 0.78, left: 18 });
     var err = new M.Plot(document.getElementById("pf-err"), { x0: 0, x1: 10, y0: 0, y1: 1, gx: 1, gy: 1, lx: 2, ly: 1, xname: "degree", yname: "typical error", aspect: 1.36, aspectNarrow: 0.55, left: 26 });
     function sorted() { return pts.slice().sort(function (a, b) { return a[0] - b[0]; }); }
@@ -128,15 +142,19 @@ A polynomial $$p(x) = c_0 + c_1 x + \dots + c_k x^k$$ of degree $$k$$ is fitted 
       divided();
     }
     function divided() {
+      // Differences (Δ, Δ², ...) or divided differences, as in the textbook's difference tables.
       var s = sorted(), n = s.length, cols = Math.min(n - 1, 8), D = [s.map(function (q) { return q[1]; })];
       for (var j = 1; j <= cols; j++) {
         var prev = D[j - 1], cur = [];
-        for (var i = 0; i + j < n; i++) { var dx = s[i + j][0] - s[i][0]; cur.push(Math.abs(dx) < 1e-12 ? NaN : (prev[i + 1] - prev[i]) / dx); }
+        for (var i = 0; i + j < n; i++) {
+          var dx = s[i + j][0] - s[i][0];
+          cur.push(plainDiffs ? prev[i + 1] - prev[i] : Math.abs(dx) < 1e-12 ? NaN : (prev[i + 1] - prev[i]) / dx);
+        }
         D.push(cur);
       }
       function cell(v) { if (!isFinite(v)) return "—"; var a = Math.abs(v); if (a < 1e-9) return "0"; return (a !== 0 && (a < 1e-3 || a >= 1e4) ? v.toExponential(2) : v.toPrecision(3)).replace("-", "−"); }
       var h = "<thead><tr><th><em>x</em></th><th><em>f</em>[ ]</th>";
-      for (var j2 = 1; j2 <= cols; j2++) h += "<th>" + (j2 === 1 ? "1st" : j2 === 2 ? "2nd" : j2 === 3 ? "3rd" : j2 + "th") + "</th>";
+      for (var j2 = 1; j2 <= cols; j2++) h += "<th>" + (plainDiffs ? "Δ" + (j2 > 1 ? "<sup>" + j2 + "</sup>" : "") : j2 === 1 ? "1st" : j2 === 2 ? "2nd" : j2 === 3 ? "3rd" : j2 + "th") + "</th>";
       h += "</tr></thead><tbody>";
       for (var r = 0; r < n; r++) {
         h += "<tr><td>" + cell(s[r][0]) + "</td>";
@@ -147,11 +165,18 @@ A polynomial $$p(x) = c_0 + c_1 x + \dots + c_k x^k$$ of degree $$k$$ is fitted 
     }
     // controls
     var top = document.getElementById("pf-top");
-    M.select(M.group(top, "Data"), Object.keys(sets).map(function (k) { return [k, sets[k].name]; }), key, function (v) { key = v; pts = sets[v].pts(); draw(); });
+    function setView(v) {
+      V = v; X0 = v.x0; X1 = v.x1; Y0 = v.y0; Y1 = v.y1;
+      ["x0", "x1", "y0", "y1", "gx", "gy", "lx", "ly", "xname", "yname"].forEach(function (k) { plot.o[k] = v[k]; });
+    }
+    M.select(M.group(top, "Data"), Object.keys(sets).map(function (k) { return [k, sets[k].name]; }), key, function (v) {
+      key = v; pts = sets[v].pts(); setView(sets[v].view || plain); draw();
+    });
+    M.select(M.group(top, "Table"), [["div", "Divided differences"], ["diff", "Differences"]], "div", function (v) { plainDiffs = v === "diff"; draw(); });
     var box = document.getElementById("pf-controls"), g = M.group(box, "Fit");
     degSlider = M.slider(g, { label: "degree", min: 0, max: MAXDEG, step: 1, value: deg, digits: 0, onInput: function (v) { deg = v; draw(); } });
     M.checkbox(g, "Hold back every third point", hold, function (c) { hold = c; draw(); });
-    M.editPoints(plot, { get: function () { return pts; }, min: 2, max: 20, xr: 0.1, yr: 0.1, onChange: draw });
+    M.editPoints(plot, { get: function () { return pts; }, min: 2, max: 20, get xr() { return V.xr; }, get yr() { return V.yr; }, onChange: draw });
     M.onResize(draw);
     draw();
   })();

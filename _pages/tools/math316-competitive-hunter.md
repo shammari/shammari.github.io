@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Competing species
-description: An interactive tool for MATH 316, week 13. Explore the competitive hunter model in the phase plane, then add limited resources and harvesting.
+description: An interactive tool for MATH 316, week 13. Explore the competitive hunter model in the phase plane, then add limited growth and harvesting.
 permalink: /teaching/math316/tools/competitive-hunter/
 ---
 
@@ -22,10 +22,10 @@ Two species, <em>x</em> and <em>y</em>, compete for the same food. Each grows on
 
 ## Things to try
 
-1. In the **textbook model**, start trajectories in different places. Can the two species ever settle down together? Find the curve that separates the starting points where <em>x</em> wins from those where <em>y</em> wins.
+1. In the model with **unlimited growth**, start trajectories in different places. Can the two species ever settle down together? Find the curve that separates the starting points where <em>x</em> wins from those where <em>y</em> wins.
 2. Change <em>a</em>, <em>b</em>, <em>m</em> and <em>n</em>. How does the saddle point move, and how does the region where <em>x</em> wins change?
-3. Switch to **limited resources** and drag the ends of the nullclines to produce each of the four cases. For each case, sketch the direction of motion in every region between the nullclines before you look at the trajectories.
-4. Which condition on the four intercepts gives coexistence? Write it in terms of <em>K</em><sub>1</sub>, <em>K</em><sub>2</sub>, <em>α</em> and <em>β</em>.
+3. Switch to **limited growth** and drag the ends of the nullclines to produce each of the four cases. For each case, sketch the direction of motion in every region between the nullclines before you look at the trajectories.
+4. Which condition on the four intercepts gives coexistence? Write it in terms of <em>a</em>, <em>b</em>, <em>m</em>, <em>n</em>, <em>k</em><sub>1</sub> and <em>k</em><sub>2</sub>.
 5. In the case where the winner depends on the start, begin two trajectories very close together on either side of the boundary. What does this say about predicting the outcome from imperfect data?
 6. Turn on **harvesting** of <em>x</em>. Can harvesting one species change which species wins? Can it bring about coexistence?
 
@@ -37,11 +37,11 @@ The textbook competitive hunter model is
 
 $$\frac{dx}{dt} = (a - b y)\, x, \qquad \frac{dy}{dt} = (m - n x)\, y.$$
 
-With limited resources, each species grows logistically and is held back by the other:
+With limited growth, as in the textbook's problems on this model, each species grows logistically on its own and is held back by the other:
 
-$$\frac{dx}{dt} = r_1 x \left(1 - \frac{x + \alpha y}{K_1}\right), \qquad \frac{dy}{dt} = r_2 y \left(1 - \frac{y + \beta x}{K_2}\right).$$
+$$\frac{dx}{dt} = a\left(1 - \frac{x}{k_1}\right)x - b x y, \qquad \frac{dy}{dt} = m\left(1 - \frac{y}{k_2}\right)y - n x y.$$
 
-The nullclines are then straight lines. The one for <em>x</em> meets the axes at $$x = K_1$$ and $$y = K_1/\alpha$$, and the one for <em>y</em> at $$y = K_2$$ and $$x = K_2/\beta$$; dragging these four points sets $$K_1, K_2, \alpha$$ and $$\beta$$. Harvesting subtracts $$E x$$ from the equation for <em>x</em>. Trajectories use the fourth-order Runge–Kutta method. The shading comes from following a trajectory from the centre of each small square of the plane and recording which equilibrium it approaches.
+The nullclines are then straight lines. The one for <em>x</em> meets the axes at $$x = k_1$$ and $$y = a/b$$, and the one for <em>y</em> at $$y = k_2$$ and $$x = m/n$$; dragging these four points sets $$k_1$$ and $$k_2$$, and $$b$$ and $$n$$ for the chosen $$a$$ and $$m$$. Harvesting subtracts $$E x$$ from the equation for <em>x</em>. Trajectories use the fourth-order Runge–Kutta method. The shading comes from following a trajectory from the centre of each small square of the plane and recording which equilibrium it approaches.
 
 <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p>
 
@@ -113,7 +113,7 @@ The nullclines are then straight lines. The one for <em>x</em> meets the axes at
       var key = [model, P.a, P.b, P.m, P.n, P.r1, P.r2, P.K1, P.A1, P.B2, P.K2, harvest(), n].join(",");
       if (key === basinKey) return basin;
       var nx = n, ny = n, f = rhs(), cells = [];
-      // With limited resources the outcome is the same everywhere unless two equilibria are stable.
+      // With limited growth the outcome is the same everywhere unless two equilibria are stable.
       var stab = eqs.filter(function (e) { return e.stable; });
       if (model === "logistic" && stab.length === 1) {
         var e0 = stab[0], c0 = e0.x > 1e-6 && e0.y > 1e-6 ? 3 : e0.x > 1e-6 ? 1 : 2;
@@ -134,7 +134,7 @@ The nullclines are then straight lines. The one for <em>x</em> meets the axes at
       var x = "<em>x</em>", y = "<em>y</em>", E = on.E ? " − <em>E</em>" + x : "";
       var s = model === "hunter"
         ? x + "′ = (<em>a</em> − <em>b</em>" + y + ")" + x + E + ", &nbsp;&nbsp; " + y + "′ = (<em>m</em> − <em>n</em>" + x + ")" + y
-        : x + "′ = <em>r</em><sub>1</sub>" + x + "(1 − (" + x + " + <em>α</em>" + y + ")/<em>K</em><sub>1</sub>)" + E + ", &nbsp;&nbsp; " + y + "′ = <em>r</em><sub>2</sub>" + y + "(1 − (" + y + " + <em>β</em>" + x + ")/<em>K</em><sub>2</sub>)";
+        : x + "′ = <em>a</em>(1 − " + x + "/<em>k</em><sub>1</sub>)" + x + " − <em>b</em>" + x + y + E + ", &nbsp;&nbsp; " + y + "′ = <em>m</em>(1 − " + y + "/<em>k</em><sub>2</sub>)" + y + " − <em>n</em>" + x + y;
       document.getElementById("ch-eqn").innerHTML = s;
       document.getElementById("ch-help").textContent = model === "hunter"
         ? "Click the phase plane to start a trajectory, and drag to move it. Dashed lines are nullclines. Filled dots are stable equilibria and open dots unstable ones. Shading shows which species wins from each starting point, and the solid curve is the boundary between the two outcomes."
@@ -226,14 +226,15 @@ The nullclines are then straight lines. The one for <em>x</em> meets the axes at
         else if (st1.length >= 2) txt = "Either species can win: the outcome depends on where the populations start.";
         else if (st1.length === 1) txt = st1[0].x > 1e-6 ? "Species x wins from every starting point with both species present." : "Species y wins from every starting point with both species present.";
         else txt = "";
-        txt += " α = <b>" + M.fmt((P.K1) / P.A1) + "</b>, β = <b>" + M.fmt(P.K2 / P.B2) + "</b>.";
+        // In the textbook's notation the handles give k1 = K1, a/b = A1, k2 = K2 and m/n = B2.
+        txt += " <em>k</em><sub>1</sub> = <b>" + M.fmt(P.K1, 1) + "</b>, <em>k</em><sub>2</sub> = <b>" + M.fmt(P.K2, 1) + "</b>, <em>b</em> = <b>" + M.fmt(P.r1 / P.A1, 3) + "</b>, <em>n</em> = <b>" + M.fmt(P.r2 / P.B2, 3) + "</b>.";
       }
       document.getElementById("ch-out").innerHTML = txt + " Shading: <span style=\"color:var(--mm-a)\">■</span> x wins, <span style=\"color:var(--mm-b)\">■</span> y wins, <span style=\"color:var(--mm-c)\">■</span> both persist.";
     }
     // controls
     var box = document.getElementById("ch-controls"), hunterG, logG;
     var g0 = M.group(box, "Model");
-    M.select(g0, [["hunter", "Textbook model"], ["logistic", "Limited resources"]], model, function (v) {
+    M.select(g0, [["hunter", "Unlimited growth (textbook model)"], ["logistic", "Limited growth"]], model, function (v) {
       model = v; hunterG.style.display = v === "hunter" ? "" : "none"; logG.style.display = v === "hunter" ? "none" : ""; draw();
     });
     hunterG = M.group(box, "Rates");
@@ -241,8 +242,8 @@ The nullclines are then straight lines. The one for <em>x</em> meets the axes at
       M.slider(hunterG, { label: "<em>" + r[0] + "</em>", min: r[1], max: r[2], step: 0.01, value: P[r[0]], onInput: function (v) { P[r[0]] = v; draw(); } });
     });
     logG = M.group(box, "Rates");
-    M.slider(logG, { label: "<em>r</em><sub>1</sub>", min: 0.2, max: 2, step: 0.05, value: P.r1, onInput: function (v) { P.r1 = v; draw(); } });
-    M.slider(logG, { label: "<em>r</em><sub>2</sub>", min: 0.2, max: 2, step: 0.05, value: P.r2, onInput: function (v) { P.r2 = v; draw(); } });
+    M.slider(logG, { label: "<em>a</em>", min: 0.2, max: 2, step: 0.05, value: P.r1, onInput: function (v) { P.r1 = v; draw(); } });
+    M.slider(logG, { label: "<em>m</em>", min: 0.2, max: 2, step: 0.05, value: P.r2, onInput: function (v) { P.r2 = v; draw(); } });
     logG.style.display = "none";
     var g2 = M.group(box, "Extensions");
     var pair = M.html("span", { class: "mm-pair" }, g2), esl;

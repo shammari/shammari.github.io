@@ -21,21 +21,22 @@ A spline joins data points with a separate simple curve on each interval. A line
   <h3 style="font-size:1.05rem;margin:1.2rem 0 .3rem">Coefficients</h3>
   <div class="mm-controls" id="sp-coef-ctl"></div>
   <div class="mm-scroll"><table class="mm-table" id="sp-coef"></table></div>
-  <p class="mm-help">Piece <em>i</em> is <em>S<sub>i</sub></em>(<em>x</em>) = <em>a<sub>i</sub></em> + <em>b<sub>i</sub></em><em>x</em> + <em>c<sub>i</sub></em><em>x</em><sup>2</sup> + <em>d<sub>i</sub></em><em>x</em><sup>3</sup> on the interval shown.</p>
+  <p class="mm-help">Piece <em>i</em> is <em>S<sub>i</sub></em>(<em>x</em>) = <em>a<sub>i</sub></em> + <em>b<sub>i</sub></em><em>x</em> + <em>c<sub>i</sub></em><em>x</em><sup>2</sup> + <em>d<sub>i</sub></em><em>x</em><sup>3</sup> on the interval shown (<em>a<sub>i</sub></em> + <em>b<sub>i</sub></em><em>x</em> for the linear spline), with the knots numbered <em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>, … as in the textbook.</p>
 </div>
 
 ## Things to try
 
-1. Compare the **linear** spline with the **natural cubic** spline. Where do they differ most? Which looks smoother, and what exactly is smoother about it?
-2. Show the **second derivative**. Check that it is continuous, and straight between knots, for both cubic splines. Where is the natural spline's second derivative zero?
-3. Drag the end slopes of the **clamped** spline. How far into the interval does a change at one end make a difference?
-4. Choose **Runge's function** and compare the cubic splines with the **interpolating polynomial** as you add knots. Which comes closer to the true curve?
-5. Choose **A step**. Where does each cubic spline overshoot the data? Would the linear spline be a better model here?
-6. Move a single knot. Which pieces of the linear spline change? Which pieces of the cubic splines change, and by how much?
+1. Load the **textbook example** and compare the natural spline's coefficients with your own solution of the eight equations. Use the plot to estimate <em>y</em>(1.67) and <em>y</em>(2.33) from the linear and the natural cubic spline. Which estimates do you trust more?
+2. Compare the **linear** spline with the **natural cubic** spline. Where do they differ most? Which looks smoother, and what exactly is smoother about it?
+3. Show the **second derivative**. Check that it is continuous, and straight between knots, for both cubic splines. Where is the natural spline's second derivative zero?
+4. Drag the end slopes of the **clamped** spline. How far into the interval does a change at one end make a difference?
+5. Choose **Runge's function** and compare the cubic splines with the **interpolating polynomial** as you add knots. Which comes closer to the true curve?
+6. Choose **A step**. Where does each cubic spline overshoot the data? Would the linear spline be a better model here?
+7. Move a single knot. Which pieces of the linear spline change? Which pieces of the cubic splines change, and by how much?
 
 ## How it is computed
 
-On each interval between neighbouring knots, a cubic spline is a cubic written, as in the textbook, in powers of $$x$$: $$S_i(x) = a_i + b_i x + c_i x^2 + d_i x^3$$. Requiring each piece to pass through the knots at its two ends, and neighbouring pieces to have the same slope and the same second derivative where they meet, gives a system of linear equations for the coefficients. The natural spline adds $$S''(x_0) = S''(x_n) = 0$$; the clamped spline adds $$S'(x_0) = s_0$$ and $$S'(x_n) = s_n$$. The tool solves an equivalent, smaller system for the second derivatives at the knots, $$M_i = S''(x_i)$$, which is tridiagonal, and then expands each piece in powers of $$x$$. The interpolating polynomial is the polynomial of lowest degree through all the knots.
+On each interval between neighbouring knots, a cubic spline is a cubic written, as in the textbook, in powers of $$x$$: $$S_i(x) = a_i + b_i x + c_i x^2 + d_i x^3$$. Requiring each piece to pass through the knots at its two ends, and neighbouring pieces to have the same slope and the same second derivative where they meet, gives a system of linear equations for the coefficients. With the knots numbered $$x_1, \dots, x_n$$, the natural spline adds $$S''(x_1) = S''(x_n) = 0$$, and the clamped spline adds $$S'(x_1) = f'(x_1)$$ and $$S'(x_n) = f'(x_n)$$ for given end slopes. The tool solves an equivalent, smaller system for the second derivatives at the knots, $$M_i = S''(x_i)$$, which is tridiagonal, and then expands each piece in powers of $$x$$. The interpolating polynomial is the polynomial of lowest degree through all the knots.
 
 <p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p>
 
@@ -44,16 +45,23 @@ On each interval between neighbouring knots, a cubic spline is a cubic written, 
   (function () {
     var M = window.MMTools;
     var X0 = 0, X1 = 10, Y0 = 0, Y1 = 10;
+    var plain = { x0: 0, x1: 10, y0: 0, y1: 10, gx: 1, gy: 1, lx: 2, ly: 2, xr: 0.1, yr: 0.1 };
     function runge(x) { var u = (x - 5) / 4.5; return 1.5 + 7 / (1 + 25 * u * u); }
     function wave(x) { return 5 + 3 * Math.sin(0.7 * x); }
     function lin(a, b, n) { var o = []; for (var i = 0; i < n; i++) o.push(+(a + ((b - a) * i) / (n - 1)).toFixed(3)); return o; }
     var sets = {
+      book: { name: "Textbook example: (1, 5), (2, 8), (3, 25)", f: null, view: { x0: 0, x1: 4, y0: 0, y1: 30, gx: 0.5, gy: 5, lx: 1, ly: 5, xr: 0.05, yr: 0.5 }, pts: function () { return [[1, 5], [2, 8], [3, 25]]; } },
       runge: { name: "Runge's function", f: runge, pts: function () { return lin(0.5, 9.5, 7).map(function (x) { return [x, +runge(x).toFixed(3)]; }); } },
       wave: { name: "A smooth wave", f: wave, pts: function () { return lin(0.5, 9.5, 6).map(function (x) { return [x, +wave(x).toFixed(3)]; }); } },
       step: { name: "A step", f: null, pts: function () { return [[1, 2], [2.5, 2], [4, 2], [5.5, 7], [7, 7], [8.5, 7]]; } },
       few: { name: "Three points", f: null, pts: function () { return [[2, 3], [5, 7], [8, 4]]; } },
     };
-    var key = "runge", pts = sets[key].pts(), slopes = [1, -1];
+    var key = "runge", pts = sets[key].pts(), slopes = [1, -1], V = plain;
+    function setView(v) {
+      V = v; X0 = v.x0; X1 = v.x1; Y0 = v.y0; Y1 = v.y1;
+      ["x0", "x1", "y0", "y1", "gx", "gy", "lx", "ly"].forEach(function (k) { plot.o[k] = v[k]; });
+      dp.o.x0 = v.x0; dp.o.x1 = v.x1; dp.o.gx = v.lx; dp.o.lx = v.lx;
+    }
     var show = { lin: true, nat: true, cla: false, poly: false, truef: true }, der = "2", coefKind = "nat";
     var plot = new M.Plot(document.getElementById("sp-plot"), { x0: X0, x1: X1, y0: Y0, y1: Y1, gx: 1, gy: 1, lx: 2, ly: 2, xname: "x", yname: "y", aspect: 0.68, aspectNarrow: 0.78, left: 18 });
     var dp = new M.Plot(document.getElementById("sp-der"), { x0: X0, x1: X1, y0: -1, y1: 1, gx: 2, gy: 1, lx: 2, ly: 1, xname: "x", yname: "S″(x)", aspect: 1.36, aspectNarrow: 0.5, left: 26 });
@@ -149,9 +157,15 @@ On each interval between neighbouring knots, a cubic spline is a cubic written, 
       if (show.lin && dd === 2) dp.text((X0 + X1) / 2, rr.hi - rr.step * 0.4, "linear spline: zero between knots, undefined at them", { "text-anchor": "middle", style: "font-size:" + 10 * dp.K + "px" });
       // readout and coefficient table
       var t = "<b>" + k.length + "</b> knots, so each spline has <b>" + (k.length - 1) + "</b> pieces.";
-      if (show.cla) t += " Clamped end slopes: <em>s</em><sub>0</sub> = <b>" + M.fmt(slopes[0]) + "</b>, <em>s</em><sub><em>n</em></sub> = <b>" + M.fmt(slopes[1]) + "</b>.";
+      if (show.cla) t += " Clamped end slopes: <em>f</em>′(<em>x</em><sub>1</sub>) = <b>" + M.fmt(slopes[0]) + "</b>, <em>f</em>′(<em>x</em><sub><em>n</em></sub>) = <b>" + M.fmt(slopes[1]) + "</b>.";
       document.getElementById("sp-out").innerHTML = t;
-      var S = coefKind === "nat" ? nat : cla, h = "<thead><tr><th><em>i</em></th><th>interval</th><th><em>a<sub>i</sub></em></th><th><em>b<sub>i</sub></em></th><th><em>c<sub>i</sub></em></th><th><em>d<sub>i</sub></em></th></tr></thead><tbody>";
+      var S = coefKind === "nat" ? nat : coefKind === "cla" ? cla : null, lin1 = coefKind === "lin";
+      var h = "<thead><tr><th><em>i</em></th><th>interval</th><th><em>a<sub>i</sub></em></th><th><em>b<sub>i</sub></em></th>" + (lin1 ? "" : "<th><em>c<sub>i</sub></em></th><th><em>d<sub>i</sub></em></th>") + "</tr></thead><tbody>";
+      // linear spline pieces S_i(x) = a_i + b_i x through neighbouring knots
+      if (lin1) for (var q = 0; q < k.length - 1; q++) {
+        var sl = (k[q + 1][1] - k[q][1]) / (k[q + 1][0] - k[q][0]);
+        h += "<tr><td>" + (q + 1) + "</td><td>[" + M.fmt(k[q][0]) + ", " + M.fmt(k[q + 1][0]) + "]</td><td>" + M.fmt(k[q][1] - sl * k[q][0], 4) + "</td><td>" + M.fmt(sl, 4) + "</td></tr>";
+      }
       if (S) S.co.forEach(function (p, j) {
         var x1 = j < S.co.length - 1 ? S.co[j + 1].x : S.x1;
         // expand a + b(x − xi) + c(x − xi)^2 + d(x − xi)^3 in powers of x, as the textbook writes it
@@ -163,7 +177,7 @@ On each interval between neighbouring knots, a cubic spline is a cubic written, 
     // controls
     var top = document.getElementById("sp-top");
     M.select(M.group(top, "Data"), Object.keys(sets).map(function (k) { return [k, sets[k].name]; }), key, function (v) {
-      key = v; pts = sets[v].pts();
+      key = v; pts = sets[v].pts(); setView(sets[v].view || plain);
       trueBox.parentNode.style.display = sets[v].f ? "" : "none"; // only some data sets come from a known curve
       draw();
     });
@@ -176,7 +190,7 @@ On each interval between neighbouring knots, a cubic spline is a cubic written, 
     var g2 = M.group(box, "Small panel");
     M.select(g2, [["2", "Second derivative"], ["1", "First derivative"]], der, function (v) { der = v; draw(); });
     var cg = M.group(document.getElementById("sp-coef-ctl"), "Spline");
-    M.select(cg, [["nat", "Natural cubic"], ["cla", "Clamped cubic"]], coefKind, function (v) { coefKind = v; draw(); });
+    M.select(cg, [["nat", "Natural cubic"], ["cla", "Clamped cubic"], ["lin", "Linear"]], coefKind, function (v) { coefKind = v; draw(); });
     // pointer: slope handles first, then the knots
     var svg = plot.svg, slopeDrag = -1;
     svg.addEventListener("pointerdown", function (evt) {
@@ -197,7 +211,7 @@ On each interval between neighbouring knots, a cubic spline is a cubic written, 
       draw();
     });
     svg.addEventListener("pointerup", function (evt) { if (slopeDrag >= 0) { slopeDrag = -1; evt.stopImmediatePropagation(); } });
-    M.editPoints(plot, { get: function () { return pts; }, min: 2, max: 16, xr: 0.1, yr: 0.1, sorted: true, onChange: draw });
+    M.editPoints(plot, { get: function () { return pts; }, min: 2, max: 16, get xr() { return V.xr; }, get yr() { return V.yr; }, sorted: true, onChange: draw });
     M.onResize(draw);
     draw();
   })();
