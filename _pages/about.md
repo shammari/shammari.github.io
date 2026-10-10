@@ -4,15 +4,6 @@ title: about
 permalink: /
 subtitle: Assistant Professor of Mathematical Biology, Department of Mathematics, <a href='https://www.ku.edu.kw/'>Kuwait University</a>
 
-profile:
-  align: right
-  image: prof_pic.jpg
-  image_circular: false # crops the image to make it circular
-  more_info: >
-    <p>Department of Mathematics</p>
-    <p>Kuwait University</p>
-    <p>Kuwait City, Kuwait</p>
-
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 
@@ -24,6 +15,31 @@ announcements:
 latest_posts:
   enabled: false
 ---
+
+<style>
+  /* A compact header: a small round photo beside the name, role and links, in place of the theme's large photo */
+  .post-header { display: none; }
+  .home-profile { display: flex; align-items: center; gap: 1.1rem; margin: 0.4rem 0 1.6rem; }
+  .home-profile img { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; flex: none; }
+  .home-profile h1 { font-size: 1.6rem; font-weight: 700; margin: 0 0 0.2rem; }
+  .home-profile p { margin: 0; color: var(--global-text-color-light); font-size: 0.95rem; line-height: 1.45; }
+  .home-profile .home-links { margin-top: 0.3rem; font-size: 0.9rem; }
+  @media (max-width: 575px) {
+    .home-profile { gap: 0.9rem; }
+    .home-profile img { width: 72px; height: 72px; }
+    .home-profile h1 { font-size: 1.3rem; }
+    .home-profile p { font-size: 0.88rem; }
+  }
+</style>
+
+<div class="home-profile">
+  <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Abdullah A. Al-Shammari" width="92" height="92">
+  <div>
+    <h1>Abdullah A. Al-Shammari</h1>
+    <p>Assistant Professor of Mathematical Biology, Department of Mathematics, <a href="https://www.ku.edu.kw/">Kuwait University</a></p>
+    <p class="home-links"><a href="https://orcid.org/0000-0002-4512-1151">ORCID</a> · <a href="https://scholar.google.com/citations?user=4hTO4WMAAAAJ">Google Scholar</a> · <a href="mailto:abdullah.alshammari@ku.edu.kw">Email</a></p>
+  </div>
+</div>
 
 I am an applied mathematician working in **mathematical biology**. My research investigates how the organization of a biological system influences what it can do. My particular focus is **heterogeneity**: when variation in how a system's components are arranged or composed, beyond their averages, changes the system's behaviour, and when it is tolerated.
 
