@@ -164,7 +164,7 @@
     var fIn = M.textInput(inp, "<em>f</em>(<em>x</em>) =", P.f, function (v) { f = parse(v, fIn); draw(); });
     var aIn = M.textInput(inp, "<em>a</em> =", P.a, function (v) { A = val(v, aIn); draw(); }, "4.5rem");
     var bIn = M.textInput(inp, "<em>b</em> =", P.b, function (v) { B = val(v, bIn); draw(); }, "4.5rem");
-    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    M.zoomControls(box, plot, function () { return P.win; }, draw, { pan: true });
     function load(k) {
       key = k; P = presets[k];
       fIn.set(P.f); f = parse(P.f, fIn); aIn.set(P.a); A = val(P.a, aIn); bIn.set(P.b); B = val(P.b, bIn);
@@ -189,7 +189,7 @@
     M.onResize(draw);
     load(key);
   })();
-</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 10, 2026. </div> </footer> <script>
   window.alFolio = {
     compatBootstrap: false
   };

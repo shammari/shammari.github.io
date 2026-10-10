@@ -165,7 +165,7 @@
     M.select(M.group(top, "Example"), Object.keys(presets).map(function (k) { return [k, presets[k].name]; }), key, function (v) { load(v); });
     var eqIn = M.textInput(inp, "Equation", P.eq, function (v) { setEq(v); cache.key = ""; if (pt && G) pt = project(pt[0], pt[1]); draw(); }, "18rem");
     M.checkbox(M.group(box, "Show"), "Horizontal and vertical tangents", showHV, function (v) { showHV = v; draw(); });
-    M.zoomControls(box, plot, function () { return P.win; }, function () { cache.key = ""; draw(); });
+    M.zoomControls(box, plot, function () { return P.win; }, function () { cache.key = ""; draw(); }, { focus: function () { return pt; } });
     function setEq(v) {
       var parts = v.split("=");
       if (parts.length > 2) { G = null; eqIn.showError("Use one = sign"); return; }
@@ -193,7 +193,7 @@
     M.onResize(function () { cache.key = ""; draw(); });
     load(key);
   })();
-</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 10, 2026. </div> </footer> <script>
   window.alFolio = {
     compatBootstrap: false
   };

@@ -128,7 +128,7 @@
     var eS = logSlider(g1, "ε", -3, 0.3, eps, function (v) { eps = v; follow = true; fc.checked = true; });
     var dS = logSlider(g1, "δ", -5, 0.3, delta, function (v) { delta = v; });
     M.button(g1, "Largest δ", function () { if (isFinite(lastD) && lastD > 0) { delta = lastD * 0.999; dS.set(delta); draw(); } });
-    var g2 = M.zoomControls(box, plot, function () { return P.win; }, function () { follow = false; fc.checked = false; draw(); });
+    var g2 = M.zoomControls(box, plot, function () { return P.win; }, function () { follow = false; fc.checked = false; draw(); }, { focus: function () { return [a, L]; }, pan: true });
     var fc = M.checkbox(g2, "Follow ε", follow, function (v) { follow = v; draw(); });
     function val(v, box) { try { var r = M.expr(v)(0); box.showError(isFinite(r) ? "" : "not a number"); return r; } catch (e) { box.showError(e.message); return NaN; } }
     function setF(v) { try { f = M.expr(v); fIn.showError(""); } catch (e) { f = null; fIn.showError(e.message); } }
@@ -145,7 +145,7 @@
     M.onResize(draw);
     load(key);
   })();
-</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 10, 2026. </div> </footer> <script>
   window.alFolio = {
     compatBootstrap: false
   };

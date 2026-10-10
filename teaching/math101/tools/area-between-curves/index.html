@@ -159,7 +159,7 @@
       try { g = M.expr(gIn.input.value, v); gIn.showError(""); } catch (e) { g = null; gIn.showError(e.message); }
     }
     M.slider(M.group(box, "Rectangle"), { label: "position", min: 0, max: 1, step: 0.01, value: strip, digits: 2, onInput: function (v) { strip = v; draw(); } });
-    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    M.zoomControls(box, plot, function () { return P.win; }, draw, { pan: true });
     function load(k) {
       key = k; P = presets[k];
       mode = P.mode; modeSel.value = mode; relabel();
@@ -171,7 +171,7 @@
     M.onResize(draw);
     load(key);
   })();
-</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 10, 2026. </div> </footer> <script>
   window.alFolio = {
     compatBootstrap: false
   };

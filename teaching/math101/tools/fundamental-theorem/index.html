@@ -63,12 +63,14 @@
       return pts;
     }
     function at(pts, x) { for (var i = 1; i < pts.length; i++) if ((pts[i - 1][0] - x) * (pts[i][0] - x) <= 0) { var t = (x - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0] || 1); return pts[i - 1][1] + t * (pts[i][1] - pts[i - 1][1]); } return NaN; }
+    var lastG = NaN;
     function draw() {
       fp.frame(); gp.frame();
       var out = document.getElementById("ft-out");
       if (!f || !isFinite(A)) { out.innerHTML = "Enter a formula and a number <em>a</em>."; return; }
       var o = fp.o, lo = Math.min(o.x0, gp.o.x0), hi = Math.max(o.x1, gp.o.x1), brk = M.breaks(f, lo - 0.01 * (hi - lo), hi + 0.01 * (hi - lo)), G = area(f, lo, hi, brk), T = area(function (t) { return Math.abs(f(t)); }, lo, hi, brk);
       var g = at(G, X), tot = Math.abs(at(T, X)), reach = isFinite(g);
+      lastG = g;
       // for the readout, integrate from a to x directly, split at the jumps and stopping just short of each one
       if (reach && X !== A) {
         var s0 = X > A ? 1 : -1, cuts = [A].concat(brk.filter(function (q) { return q.kind === "jump" && (q.x - A) * s0 > 0 && (X - q.x) * s0 > 0; }).map(function (q) { return q.x; }).sort(function (p, q) { return s0 * (p - q); })).concat([X]);
@@ -121,7 +123,7 @@
     var g1 = M.group(box, "Upper limit");
     var xS = M.slider(g1, { label: "<em>x</em>", min: -3, max: 3, step: 0.001, value: X, digits: 3, onInput: function (v) { X = v; draw(); } });
     M.checkbox(M.group(box, "Show"), "Graph of <em>g</em>", showG, function (v) { showG = v; draw(); });
-    M.zoomControls(box, [fp, gp], function () { return [P.win, P.gwin]; }, function () { rangeX(fp.o.x0, fp.o.x1); draw(); });
+    M.zoomControls(box, [fp, gp], function () { return [P.win, P.gwin]; }, function () { rangeX(fp.o.x0, fp.o.x1); draw(); }, { focus: function () { return f ? [[X, f(X)], [X, lastG]] : null; }, linkX: true });
     // a round step, and a slider that starts at a multiple of it, so that whole numbers can be reached
     function rangeX(l, r) { var st = M.niceStep(r - l, 1000); xS.input.step = st; xS.input.min = Math.ceil(l / st - 1e-9) * st; xS.input.max = Math.floor(r / st + 1e-9) * st; }
     function load(k) {
@@ -142,7 +144,7 @@
     M.onResize(draw);
     load(key);
   })();
-</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 09, 2026. </div> </footer> <script>
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 10, 2026. </div> </footer> <script>
   window.alFolio = {
     compatBootstrap: false
   };
