@@ -26,6 +26,7 @@ latest_posts:
   .home-profile p { margin: 0; font-size: 1rem; line-height: 1.45; }
   .home-profile .home-links { margin-top: 0.3rem; font-size: 0.9rem; color: var(--global-text-color-light); }
   @media (max-width: 575px) {
+    .home-title { font-size: min(2rem, 7.6vw); }
     .home-profile { gap: 0.9rem; }
     .home-profile img { width: 72px; height: 72px; }
     .home-profile p { font-size: 0.92rem; }
