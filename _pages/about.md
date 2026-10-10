@@ -59,6 +59,6 @@ I build mechanistic models that make their assumptions explicit and lead to test
 
 Recent work in _The Journal of Physiology_ (2025–26) uses image-based modelling to assess which common indices of capillary supply are transport-relevant measures that predict fibre oxygenation; one of these papers features in the journal's special issue on computational modelling of the cardiovascular system. More on the [research]({{ '/research/' | relative_url }}) page.
 
-**Background.** DPhil in Mathematical Biology, University of Oxford; MS in Mathematics, New York University; BS in Mathematics, Creighton University. I am a Research Associate at the Dasman Diabetes Institute, and was previously a Visiting Research Fellow at the University of Leeds.
+**Background.** DPhil in Mathematical Biology, University of Oxford; MS in Mathematics, Courant Institute of Mathematical Sciences, New York University; BS in Mathematics, Creighton University. I am a Research Associate at the Dasman Diabetes Institute, and was previously a Visiting Research Fellow at the School of Medicine, University of Leeds.
 
 **Joining the group.** I welcome enquiries from prospective **graduate students, postdocs and collaborators** — see the [group]({{ '/group/' | relative_url }}#joining) page for project ideas and how to get in touch.
