@@ -207,7 +207,7 @@ The graph of $$f$$ is drawn from about 700 sample points, broken at gaps and jum
     M.checkbox(gs, "Line <em>y</em> = <em>x</em>", show.yx, function (v) { show.yx = v; draw(); });
     M.checkbox(gs, "Horizontal line", show.hl, function (v) { show.hl = v; draw(); });
     var cTan = M.checkbox(gs, "Tangent at <em>x</em> = 0", show.tan, function (v) { show.tan = v; draw(); });
-    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    M.zoomControls(box, plot, function () { return P.win; }, draw, { pan: true });
     function setF(v) {
       try { f = parse(v); fIn.showError(""); var h = M.expr(v, ["x", "b"]); usesB = Math.abs(h(1.3, 2) - h(1.3, 3)) > 1e-12; }
       catch (e) { f = null; usesB = false; fIn.showError(e.message); }

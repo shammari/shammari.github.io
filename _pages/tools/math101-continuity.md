@@ -96,6 +96,7 @@ One-sided limits are estimated from values of $$f$$ at $$a \pm 10^{-2}$$, $$a \p
     var ck = "rem", CP = cps[ck], cf = null, ca = 2, cv = null;
     var cplot = new M.Plot(document.getElementById("ct-plot"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 1, gy: 1, xname: "x", yname: "y", aspect: 0.55, aspectNarrow: 0.85, left: 30 });
     function F(x) { var y = cv !== null && x === ca ? cv : cf(x); return Math.abs(y) > 1e12 ? NaN : y; } // tan(π/2) = 1.6×10¹⁶ is really undefined
+    var cFocus = null; // the point x = a, which Zoom in keeps in view
     function cdraw() {
       cplot.frame();
       var out = document.getElementById("ct-out");
@@ -104,6 +105,7 @@ One-sided limits are estimated from values of $$f$$ at $$a \pm 10^{-2}$$, $$a \p
       cplot.fn(cf, "mm-a", { n: 3000 });
       var fa = F(ca), tl = trend(cf, ca, -1), tr = trend(cf, ca, 1), lim = null;
       if (tl.kind === "lim" && tr.kind === "lim" && same(tl.L, tr.L)) lim = tr.L;
+      cFocus = [ca, tl.kind === "lim" && tr.kind === "lim" ? (tl.L + tr.L) / 2 : tl.kind === "lim" ? tl.L : tr.kind === "lim" ? tr.L : isFinite(fa) ? fa : (o.y0 + o.y1) / 2, lim !== null && (!isFinite(fa) || same(lim, fa)) ? "" : "x"];
       // markers: open circles at one-sided limits that differ from f(a), a dot at f(a)
       [tl, tr].forEach(function (t) { if (t.kind === "lim" && !(isFinite(fa) && same(t.L, fa))) { var h = cplot.circle(ca, t.L, 5, "mm-eq-u"); h.style.stroke = "var(--mm-a)"; } });
       if (isFinite(fa)) cplot.circle(ca, fa, 4.5, "mm-dot");
@@ -141,7 +143,7 @@ One-sided limits are estimated from values of $$f$$ at $$a \pm 10^{-2}$$, $$a \p
     var caIn = M.textInput(cin, "<em>a</em> =", CP.a, function (v) { ca = val(v, caIn); cdraw(); }, "4.5rem");
     var cvIn = M.textInput(cin, "value at <em>a</em>:", "", function (v) { setCV(v); cdraw(); }, "4.5rem");
     function setCV(v) { if (!v.trim()) { cv = null; cvIn.showError(""); return; } var r = val(v, cvIn); cv = isFinite(r) ? r : null; }
-    M.zoomControls(cbox, cplot, function () { return CP.win; }, cdraw);
+    M.zoomControls(cbox, cplot, function () { return CP.win; }, cdraw, { focus: function () { return cFocus; }, pan: true });
     function cload(k) {
       ck = k; CP = cps[k];
       cfIn.set(CP.f); cf = parse(CP.f, cfIn); caIn.set(CP.a); ca = val(CP.a, caIn); cvIn.set(CP.v || ""); setCV(CP.v || "");

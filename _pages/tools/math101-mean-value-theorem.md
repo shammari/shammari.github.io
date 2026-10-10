@@ -184,7 +184,7 @@ The slope of the secant line is $$m = [f(b) - f(a)]/(b - a)$$, and the numbers $
     var fIn = M.textInput(inp, "<em>f</em>(<em>x</em>) =", P.f, function (v) { f = parse(v, fIn); draw(); });
     var aIn = M.textInput(inp, "<em>a</em> =", P.a, function (v) { A = val(v, aIn); draw(); }, "4.5rem");
     var bIn = M.textInput(inp, "<em>b</em> =", P.b, function (v) { B = val(v, bIn); draw(); }, "4.5rem");
-    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    M.zoomControls(box, plot, function () { return P.win; }, draw, { pan: true });
     function load(k) {
       key = k; P = presets[k];
       fIn.set(P.f); f = parse(P.f, fIn); aIn.set(P.a); A = val(P.a, aIn); bIn.set(P.b); B = val(P.b, bIn);

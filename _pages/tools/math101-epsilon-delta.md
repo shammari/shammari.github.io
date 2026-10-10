@@ -146,7 +146,7 @@ The tool tests the condition $$\lvert f(x) - L\rvert < \varepsilon$$ at several 
     var eS = logSlider(g1, "ε", -3, 0.3, eps, function (v) { eps = v; follow = true; fc.checked = true; });
     var dS = logSlider(g1, "δ", -5, 0.3, delta, function (v) { delta = v; });
     M.button(g1, "Largest δ", function () { if (isFinite(lastD) && lastD > 0) { delta = lastD * 0.999; dS.set(delta); draw(); } });
-    var g2 = M.zoomControls(box, plot, function () { return P.win; }, function () { follow = false; fc.checked = false; draw(); });
+    var g2 = M.zoomControls(box, plot, function () { return P.win; }, function () { follow = false; fc.checked = false; draw(); }, { focus: function () { return [a, L]; }, pan: true });
     var fc = M.checkbox(g2, "Follow ε", follow, function (v) { follow = v; draw(); });
     function val(v, box) { try { var r = M.expr(v)(0); box.showError(isFinite(r) ? "" : "not a number"); return r; } catch (e) { box.showError(e.message); return NaN; } }
     function setF(v) { try { f = M.expr(v); fIn.showError(""); } catch (e) { f = null; fIn.showError(e.message); } }
