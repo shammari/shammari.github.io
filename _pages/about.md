@@ -14,6 +14,11 @@ announcements:
 
 latest_posts:
   enabled: false
+
+alternate_langs: # this page and its Arabic counterpart, for search engines
+  en: /
+  ar: /ar/
+  x-default: /
 ---
 
 <style>
