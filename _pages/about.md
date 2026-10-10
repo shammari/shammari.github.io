@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: Assistant Professor of Mathematical Biology, Department of Mathematics, <a href='https://www.ku.edu.kw/'>Kuwait University</a>
+subtitle: Assistant Professor in Mathematical Modeling & Biology at <a href='https://www.ku.edu.kw/'>Kuwait University</a>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -17,26 +17,27 @@ latest_posts:
 ---
 
 <style>
-  /* A compact header: a small round photo beside the name, role and links, in place of the theme's large photo */
+  /* The name as the page title, like the other pages, then a small round photo beside a brief bio and links,
+     in place of the theme's header (which would print the middle initial) and its large photo */
   .post-header { display: none; }
-  .home-profile { display: flex; align-items: center; gap: 1.1rem; margin: 0.4rem 0 1.6rem; }
+  .home-title { margin-bottom: 1rem; }
+  .home-profile { display: flex; align-items: center; gap: 1.1rem; margin: 0 0 1.6rem; }
   .home-profile img { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; flex: none; }
-  .home-profile h1 { font-size: 1.6rem; font-weight: 700; margin: 0 0 0.2rem; }
-  .home-profile p { margin: 0; color: var(--global-text-color-light); font-size: 0.95rem; line-height: 1.45; }
-  .home-profile .home-links { margin-top: 0.3rem; font-size: 0.9rem; }
+  .home-profile p { margin: 0; font-size: 1rem; line-height: 1.45; }
+  .home-profile .home-links { margin-top: 0.3rem; font-size: 0.9rem; color: var(--global-text-color-light); }
   @media (max-width: 575px) {
     .home-profile { gap: 0.9rem; }
     .home-profile img { width: 72px; height: 72px; }
-    .home-profile h1 { font-size: 1.3rem; }
-    .home-profile p { font-size: 0.88rem; }
+    .home-profile p { font-size: 0.92rem; }
   }
 </style>
 
+<h1 class="post-title home-title"><span class="font-weight-bold">Abdullah</span> <span style="white-space: nowrap">Al-Shammari</span></h1>
+
 <div class="home-profile">
-  <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Abdullah A. Al-Shammari" width="92" height="92">
+  <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Abdullah Al-Shammari" width="92" height="92">
   <div>
-    <h1>Abdullah A. Al-Shammari</h1>
-    <p>Assistant Professor of Mathematical Biology, Department of Mathematics, <a href="https://www.ku.edu.kw/">Kuwait University</a></p>
+    <p>Assistant Professor in Mathematical Modeling &amp; Biology at <a href="https://www.ku.edu.kw/">Kuwait University</a></p>
     <p class="home-links"><a href="https://orcid.org/0000-0002-4512-1151">ORCID</a> · <a href="https://scholar.google.com/citations?user=4hTO4WMAAAAJ">Google Scholar</a> · <a href="mailto:abdullah.alshammari@ku.edu.kw">Email</a></p>
   </div>
 </div>
