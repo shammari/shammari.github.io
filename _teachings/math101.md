@@ -7,7 +7,7 @@ course_id: math101
 year: 2026
 level: Undergraduate
 credit_hours: 3
-instructor: Abdullah Al-Shammari
+instructor: Abdullah A. Al-Shammari
 next_offering: To be announced
 # Weekly plan. To add a file, give its path after notes:, slides:, problems: or worksheet:
 # (for example  worksheet: /assets/pdf/teaching/math101/week01-worksheet.pdf). Empty slots show greyed out.
