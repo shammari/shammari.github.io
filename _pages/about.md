@@ -20,7 +20,7 @@ latest_posts:
   /* The name as the page title, like the other pages, then a small round photo beside a brief bio and links,
      in place of the theme's header (which would print the middle initial) and its large photo */
   .post-header { display: none; }
-  .home-title { margin-bottom: 1rem; }
+  .home-title { margin-bottom: 1rem; font-weight: 300; letter-spacing: 0.01em; }
   .home-profile { display: flex; align-items: center; gap: 1.1rem; margin: 0 0 1.6rem; }
   .home-profile img { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; flex: none; }
   .home-profile p { margin: 0; font-size: 1rem; line-height: 1.45; }
@@ -32,7 +32,7 @@ latest_posts:
   }
 </style>
 
-<h1 class="post-title home-title"><span class="font-weight-bold">Abdullah</span> <span style="white-space: nowrap">Al-Shammari</span></h1>
+<h1 class="post-title home-title">Abdullah <span style="white-space: nowrap">Al-Shammari</span></h1>
 
 <div class="home-profile">
   <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Abdullah Al-Shammari" width="92" height="92">

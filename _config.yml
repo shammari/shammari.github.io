@@ -4,12 +4,12 @@
 
 title: blank # the website title (if blank, full name will be used instead)
 first_name: Abdullah
-middle_name: A.
+middle_name: # left empty so the name reads "Abdullah Al-Shammari" everywhere
 last_name: Al-Shammari
 contact_note: >
   Email is the best way to reach me. Prospective graduate students and collaborators are welcome to get in touch.
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  Abdullah A. Al-Shammari, Assistant Professor of Mathematical Biology at Kuwait University. Mathematical modelling, dynamical systems, oxygen transport, epidemiology and clinical data analysis.
+  Abdullah Al-Shammari, Assistant Professor in Mathematical Modeling & Biology at Kuwait University. Mathematical modelling, dynamical systems, oxygen transport, epidemiology and clinical data analysis.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.

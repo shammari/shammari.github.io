@@ -1,6 +1,6 @@
 # shammari.github.io
 
-Source for the academic website of Abdullah A. Al-Shammari: <https://shammari.github.io>
+Source for the academic website of Abdullah Al-Shammari: <https://shammari.github.io>
 
 Built with [Jekyll](https://jekyllrb.com/) and the [al-folio](https://github.com/alshedivat/al-folio) theme (v1.x). The site is built by GitHub Actions and published to the `gh-pages` branch.
 
