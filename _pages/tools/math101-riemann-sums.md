@@ -114,7 +114,7 @@ With $$\Delta x = (b - a)/n$$ and $$x_i = a + i\,\Delta x$$, the tool computes $
     var g1 = M.group(box, "Sum");
     var nS = M.slider(g1, { label: "<em>n</em>", min: 1, max: 100, step: 1, value: n, digits: 0, onInput: function (v) { n = v; draw(); } });
     var rSel = M.select(g1, [["L", "left end points (Lₙ)"], ["R", "right end points (Rₙ)"], ["M", "midpoints (Mₙ)"]], rule, function (v) { rule = v; draw(); });
-    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    M.zoomControls(box, plot, function () { return P.win; }, draw, { pan: true });
     function load(k) {
       key = k; P = presets[k];
       fIn.set(P.f); f = M.expr(P.f); fIn.showError(""); aIn.set(P.a); A = val(P.a, aIn); bIn.set(P.b); B = val(P.b, bIn);

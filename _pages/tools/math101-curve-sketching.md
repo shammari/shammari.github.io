@@ -436,7 +436,7 @@ The derivatives are approximated by central differences, $$f'(x) \approx [f(x + 
         M.setWindow(q[0], [o.x0, o.x1, lo - pad, hi + pad]);
       });
     }
-    M.zoomControls(box, pf, function () { return P.win; }, function () { derivWindows(); draw(); });
+    M.zoomControls(box, pf, function () { return P.win; }, function () { derivWindows(); draw(); }, { pan: true });
     function load(k) {
       key = k; P = presets[k];
       fIn.set(P.f); f0 = M.expr(P.f); fIn.showError("");

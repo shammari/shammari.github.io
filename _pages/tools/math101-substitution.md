@@ -90,7 +90,7 @@ The integrand on the left is $$f(g(x))\,g'(x)$$, with $$g'$$ approximated by cen
     function val(v, b) { try { var r = M.expr(v)(0); b.showError(isFinite(r) ? "" : "not a number"); return r; } catch (e) { b.showError(e.message); return NaN; } }
     var xS = M.slider(M.group(box, "Upper limit"), { label: "<em>x</em>", min: 0, max: 4, step: 0.001, value: X, digits: 3, onInput: function (v) { X = v; draw(); } });
     function rescale() { if (isFinite(A) && isFinite(B)) { xS.input.min = Math.min(A, B); xS.input.max = Math.max(A, B); xS.input.step = Math.abs(B - A) / 1000; } }
-    M.zoomControls(box, [px, pu], function () { return [P.xwin, P.uwin]; }, draw);
+    M.zoomControls(box, [px, pu], function () { return [P.xwin, P.uwin]; }, draw, { pan: true });
     function load(k) {
       key = k; P = presets[k];
       gIn.set(P.g); g = M.expr(P.g); gIn.showError(""); fIn.set(P.f); fu = M.expr(P.f, ["u"]); fIn.showError("");

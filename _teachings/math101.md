@@ -228,13 +228,14 @@ By the end of the course, students should be able to:
 
 <table class="table table-sm cp-table cp-weights">
   <tbody>
-    <tr><td>First midterm exam (Sections 1.2–2.8)</td><td>30%</td></tr>
-    <tr><td>Second midterm exam (Sections 3.1–4.2)</td><td>30%</td></tr>
+    <tr><td>Quizzes in the tutorial sessions (best four of five)</td><td>10%</td></tr>
+    <tr><td>First midterm exam (Sections 1.2–2.8)</td><td>25%</td></tr>
+    <tr><td>Second midterm exam (Sections 3.1–4.2)</td><td>25%</td></tr>
     <tr><td>Comprehensive final exam</td><td>40%</td></tr>
   </tbody>
 </table>
 
-The exams are common to all sections of the course. Students who miss a midterm exam for a genuine reason may sit a make-up exam with the instructor's approval; students who miss the final exam through illness must apply formally for a deferred exam. Past exams from the Department of Mathematics are good practice before each exam.
+The exams are common to all sections of the course and are graded with the emphasis on the method of solution. Five quizzes are given in the tutorial sessions, and the quiz mark is based on the best four. Students who miss a midterm exam for a genuine reason may sit a make-up exam with the instructor's approval; students who miss the final exam through illness must apply formally for a deferred exam. Past exams from the Department of Mathematics are good practice before each exam.
 
 <details class="cp-details-box">
   <summary>Definitions and theorems that may be asked on exams</summary>
@@ -338,6 +339,8 @@ An indicative weekly plan for a 15-week semester, following the department's sch
 Small tools for exploring ideas from the lectures, checked against the examples in the textbook. They run in your browser, need no installation, and are not assessed. Most of them also accept functions you type yourself, so you can use them to check your own work.
 
 Type formulas much as you would write them: `2x`, `x^2`, `sin x`, `sin^2 x`, `sqrt(x)`, `e^x`, `ln x`, `log x` (base 10), `abs(x)` or `|x|`, `floor(x)`, `H(x)` (the Heaviside function) and `pi`. Write small numbers as decimals, such as `0.001`: `1e-3` would be read as $$e - 3$$.
+
+To look closely at a graph, use **Zoom in**: where a tool has a point of interest, such as the number a limit is taken at, zooming keeps that point in view. You can also drag most graphs to move them, and zoom at the pointer with Ctrl (or ⌘) and the scroll wheel, or with a pinch on a trackpad or touch screen.
 
 <div class="cp-cards">
   <a class="cp-card" href="{{ '/teaching/math101/tools/functions/' | relative_url }}">

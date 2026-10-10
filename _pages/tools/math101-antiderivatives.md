@@ -74,6 +74,7 @@ The antiderivative through $$(x_0, y_0)$$ is $$F(x) = y_0 + \int_{x_0}^{x} f(t)\
       return pts;
     }
     function value(pts, x) { for (var i = 1; i < pts.length; i++) if ((pts[i - 1][0] - x) * (pts[i][0] - x) <= 0) { var t = (x - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0] || 1); return pts[i - 1][1] + t * (pts[i][1] - pts[i - 1][1]); } return NaN; }
+    var lastFx = NaN;
     function draw() {
       fp.frame(); Fp.frame();
       var out = document.getElementById("ad-out");
@@ -115,6 +116,7 @@ The antiderivative through $$(x_0, y_0)$$ is $$F(x) = y_0 + \int_{x_0}^{x} f(t)\
       if (Fb && P.f === fIn.input.value) { var tp = Fp.fn(Fb, "mm-b", { n: 800 }); tp.style.strokeDasharray = "6 5"; tp.style.strokeWidth = "1.6"; }
       var hp = Fp.circle(x0, y0, 6, "mm-handle"); hp.setAttribute("stroke", "var(--mm-b)");
       var Fx = value(main, xp), sl = f(xp);
+      lastFx = Fx;
       if (isFinite(Fx) && isFinite(sl)) { var w = W * 0.12, tl = Fp.path([[xp - w, Fx - sl * w], [xp + w, Fx + sl * w]], "mm-b"); tl.style.strokeWidth = "1.8"; Fp.circle(xp, Fx, 4.5, "mm-dot"); }
       var V = P.var && P.f === fIn.input.value ? P.var : "x", t = [];
       t.push("The bold curve is the antiderivative with <em>F</em>(" + num(x0) + ") = " + num(y0) + ".");
@@ -139,7 +141,7 @@ The antiderivative through $$(x_0, y_0)$$ is $$F(x) = y_0 + \int_{x_0}^{x} f(t)\
     var g1 = M.group(box, "Probe");
     var xS = M.slider(g1, { label: "<em>x</em>", min: -7, max: 7, step: 0.01, value: xp, digits: 2, onInput: function (v) { xp = v; draw(); } });
     M.checkbox(M.group(box, "Show"), "Family <em>F</em>(<em>x</em>) + <em>C</em>", showFam, function (v) { showFam = v; draw(); });
-    M.zoomControls(box, [Fp, fp], function () { return [P.win, P.fwin]; }, draw);
+    M.zoomControls(box, [Fp, fp], function () { return [P.win, P.fwin]; }, draw, { focus: function () { return f ? [[xp, lastFx], [xp, f(xp)]] : null; }, pan: true, linkX: true });
     function load(k) {
       key = k; P = presets[k];
       fIn.set(P.f); f = M.expr(P.f); fIn.showError("");

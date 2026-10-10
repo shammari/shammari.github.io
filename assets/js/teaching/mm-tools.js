@@ -113,7 +113,18 @@
     var narrow = window.innerWidth < 768;
     this.H = Math.round(W * (narrow && o.aspectNarrow ? o.aspectNarrow : o.aspect || 0.62));
     var K = this.K;
-    this.L = ((o.left || 30) + 10) * K;
+    // room for the longest tick label on the y-axis, which grows as you zoom in (0.50005)
+    var left = o.left || 30;
+    if (!o.noTicks && o.gy && isFinite(o.y0) && isFinite(o.y1)) {
+      var fy = o.fy || fmtTick,
+        st = o.ly || o.gy,
+        chars = 0;
+      [Math.ceil(o.y0 / st - 1e-9) * st, Math.floor(o.y1 / st + 1e-9) * st].forEach(function (v) {
+        chars = Math.max(chars, String(fy(v)).length);
+      });
+      left = Math.max(left, chars * 6.8 + 4);
+    }
+    this.L = (left + 10) * K;
     this.R = (o.right || 12) * K;
     this.T = (o.yname ? 26 : 12) * K;
     this.B = (o.xname ? 40 : 26) * K;
@@ -798,17 +809,69 @@
     o.fy = stepFormat(o.ly);
   }
   // Zoom in, zoom out and reset buttons. getHome() returns the window to reset to; after a change redraw() is called.
-  function zoomControls(parent, plots, getHome, redraw) {
+  // opts.focus() can return the point of interest, [x, y] (or one per plot): the buttons then zoom around it, so it stays
+  // in view however far you zoom; [x, y, "x"] zooms only the horizontal axis around x. Everywhere, Ctrl (or ⌘) with the scroll wheel, or a pinch on a trackpad, zooms around
+  // the pointer. With opts.pan, dragging the plot moves the view (two fingers on a touch screen pinch and move it); on a
+  // plot that has its own drag actions, panning starts only where the tool does not take the drag itself.
+  // opts.linkX makes all the plots share their horizontal axis.
+  function zoomControls(parent, plots, getHome, redraw, opts) {
     plots = plots.length ? plots : [plots];
-    var g = group(parent, "View");
-    function zoom(k) {
-      plots.forEach(function (plot) {
-        var o = plot.o,
-          cx = (o.x0 + o.x1) / 2,
-          cy = (o.y0 + o.y1) / 2,
-          wx = ((o.x1 - o.x0) * k) / 2,
+    opts = opts || {};
+    var g = group(parent, "View"),
+      pending = false;
+    g.title =
+      (opts.focus ? "Zoom in keeps the point of interest in view. " : "") +
+      (opts.pan ? "Drag the graph to move it. " : "") +
+      "Ctrl (or ⌘) with the scroll wheel, or a pinch, zooms at the pointer.";
+    function later() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () {
+        pending = false;
+        redraw();
+      });
+    }
+    function focusOf(i) {
+      var f = opts.focus ? opts.focus() : null;
+      if (f && f.length && f[0] && f[0].length !== undefined) f = f[i];
+      return f && isFinite(f[0]) && isFinite(f[1]) ? f : null;
+    }
+    function scale(plot, k, cx, cy, keep) {
+      var o = plot.o,
+        x0,
+        x1,
+        y0,
+        y1;
+      if (keep) {
+        // the point (cx, cy) stays where it is on the screen
+        x0 = cx - (cx - o.x0) * k;
+        x1 = cx + (o.x1 - cx) * k;
+        y0 = cy - (cy - o.y0) * k;
+        y1 = cy + (o.y1 - cy) * k;
+      } else {
+        // the window is centred on (cx, cy)
+        var wx = ((o.x1 - o.x0) * k) / 2,
           wy = ((o.y1 - o.y0) * k) / 2;
-        setWindow(plot, [cx - wx, cx + wx, cy - wy, cy + wy]);
+        x0 = cx - wx;
+        x1 = cx + wx;
+        y0 = cy - wy;
+        y1 = cy + wy;
+      }
+      var mid = Math.max(Math.abs(x0), Math.abs(x1), Math.abs(y0), Math.abs(y1), 1);
+      if (x1 - x0 < 1e-9 * mid || y1 - y0 < 1e-9 * mid || x1 - x0 > 1e9 || y1 - y0 > 1e12) return; // beyond what the arithmetic can show
+      setWindow(plot, [x0, x1, y0, y1]);
+    }
+    function zoom(k) {
+      plots.forEach(function (plot, i) {
+        var o = plot.o,
+          f = focusOf(i);
+        // zoom around the point of interest if it is in view, otherwise around the middle of the window
+        if (f && !plot.inside(f[0], f[2] === "x" ? (o.y0 + o.y1) / 2 : f[1])) f = null;
+        if (f && f[2] === "x") {
+          // only the horizontal axis (a jump or an asymptote: shrinking the vertical axis would lose the graph)
+          var wx = ((o.x1 - o.x0) * k) / 2;
+          if (2 * wx > 1e-9 * Math.max(1, Math.abs(f[0])) && 2 * wx < 1e9) setWindow(plot, [f[0] - wx, f[0] + wx, o.y0, o.y1]);
+        } else scale(plot, k, f ? f[0] : (o.x0 + o.x1) / 2, f ? f[1] : (o.y0 + o.y1) / 2, false);
       });
       redraw();
     }
@@ -824,6 +887,87 @@
         setWindow(plot, h[i] && h[i].length ? h[i] : h);
       });
       redraw();
+    });
+    plots.forEach(function (plot) {
+      var svg = plot.svg;
+      // Ctrl/⌘ + wheel, or a trackpad pinch, zooms around the pointer
+      svg.addEventListener(
+        "wheel",
+        function (evt) {
+          if (!(evt.ctrlKey || evt.metaKey)) return;
+          evt.preventDefault();
+          var p = plot.at(evt),
+            k = Math.exp(Math.max(-0.5, Math.min(0.5, evt.deltaY * 0.01)));
+          plots.forEach(function (q) {
+            if (q === plot) scale(q, k, p.x, p.y, true);
+            else if (opts.linkX) scale(q, k, p.x, (q.o.y0 + q.o.y1) / 2, true);
+          });
+          later();
+        },
+        { passive: false }
+      );
+      if (!opts.pan) return;
+      svg.style.cursor = "grab";
+      var pts = {},
+        last = null;
+      function state() {
+        var ids = Object.keys(pts);
+        if (!ids.length) return null;
+        var a = pts[ids[0]],
+          b = pts[ids[1]] || a;
+        return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, d: Math.hypot(a.x - b.x, a.y - b.y), n: ids.length };
+      }
+      svg.addEventListener("pointerdown", function (evt) {
+        var id = evt.pointerId,
+          p = { x: evt.clientX, y: evt.clientY };
+        // let the tool's own drag (a handle, a point) take precedence: decide once the event has been handled
+        setTimeout(function () {
+          if (evt.defaultPrevented && !Object.keys(pts).length) return;
+          pts[id] = p;
+          try {
+            svg.setPointerCapture(id);
+          } catch (e) {}
+          last = state();
+          svg.style.cursor = "grabbing";
+        }, 0);
+      });
+      svg.addEventListener("pointermove", function (evt) {
+        if (!pts[evt.pointerId]) return;
+        pts[evt.pointerId] = { x: evt.clientX, y: evt.clientY };
+        var now = state(),
+          o = plot.o,
+          r = svg.getBoundingClientRect(),
+          sx = (o.x1 - o.x0) / ((r.width * (plot.W - plot.L - plot.R)) / plot.W),
+          sy = (o.y1 - o.y0) / ((r.height * (plot.H - plot.T - plot.B)) / plot.H);
+        if (!last || now.n !== last.n) {
+          last = now;
+          return;
+        }
+        var dx = (now.x - last.x) * sx,
+          dy = (now.y - last.y) * sy;
+        plots.forEach(function (q) {
+          if (q !== plot && !opts.linkX) return;
+          var qo = q.o;
+          setWindow(q, [qo.x0 - dx, qo.x1 - dx, q === plot ? qo.y0 + dy : qo.y0, q === plot ? qo.y1 + dy : qo.y1]);
+        });
+        // two fingers: the change in their distance zooms around their midpoint
+        if (now.n > 1 && last.d > 10 && now.d > 10) {
+          var c = plot.at({ clientX: now.x, clientY: now.y });
+          plots.forEach(function (q) {
+            if (q === plot) scale(q, last.d / now.d, c.x, c.y, true);
+            else if (opts.linkX) scale(q, last.d / now.d, c.x, (q.o.y0 + q.o.y1) / 2, true);
+          });
+        }
+        last = now;
+        later();
+      });
+      function up(evt) {
+        delete pts[evt.pointerId];
+        last = state();
+        if (!last) svg.style.cursor = "grab";
+      }
+      svg.addEventListener("pointerup", up);
+      svg.addEventListener("pointercancel", up);
     });
     return g;
   }

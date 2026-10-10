@@ -150,7 +150,7 @@ The secant slope is $$m_{PQ} = [f(x) - f(a)]/(x - a)$$. The derivative is approx
     var g1 = M.group(sbox, "Point Q");
     var xS = M.slider(g1, { label: "<em>x</em>", min: -1, max: 3, step: 0.001, value: sx, digits: 3, onInput: function (v) { sx = v; sdraw(); } });
     M.checkbox(M.group(sbox, "Show"), "Tangent line (dashed)", showTan, function (v) { showTan = v; sdraw(); });
-    M.zoomControls(sbox, splot, function () { return SP.win; }, sdraw);
+    M.zoomControls(sbox, splot, function () { return SP.win; }, sdraw, { focus: function () { return sf ? [sa, sf(sa)] : null; }, pan: true });
     function sload(k) {
       sk = k; SP = sps[k];
       sfIn.set(SP.f); sf = parse(SP.f, sfIn); saIn.set(SP.a); sa = val(SP.a, saIn);
@@ -225,7 +225,7 @@ The secant slope is $$m_{PQ} = [f(x) - f(a)]/(x - a)$$. The derivative is approx
     var dBox = M.checkbox(gs2, "Graph of <em>f</em>′", showD, function (v) { showD = v; ddraw(); });
     var bookBox = M.checkbox(gs2, "Textbook's formula (dashed)", showBook, function (v) { showBook = v; ddraw(); });
     M.button(gs2, "Clear trail", function () { trail = []; ddraw(); });
-    M.zoomControls(dbox, [fplot, dplot], function () { return [DP.win, DP.dwin]; }, ddraw);
+    M.zoomControls(dbox, [fplot, dplot], function () { return [DP.win, DP.dwin]; }, ddraw, { focus: function () { if (!df) return null; var s = slope(df, x0); return [[x0, df(x0)], [x0, s.kind === "ok" ? s.m : NaN]]; }, pan: true, linkX: true });
     function addTrail() { var s = slope(df, x0); if (s.kind === "ok") trail.push([x0, s.m]); if (trail.length > 400) trail.shift(); }
     function dload(k) {
       dk = k; DP = dps[k];

@@ -181,7 +181,7 @@ with the partial derivatives approximated by central differences. The point you 
     M.select(M.group(top, "Example"), Object.keys(presets).map(function (k) { return [k, presets[k].name]; }), key, function (v) { load(v); });
     var eqIn = M.textInput(inp, "Equation", P.eq, function (v) { setEq(v); cache.key = ""; if (pt && G) pt = project(pt[0], pt[1]); draw(); }, "18rem");
     M.checkbox(M.group(box, "Show"), "Horizontal and vertical tangents", showHV, function (v) { showHV = v; draw(); });
-    M.zoomControls(box, plot, function () { return P.win; }, function () { cache.key = ""; draw(); });
+    M.zoomControls(box, plot, function () { return P.win; }, function () { cache.key = ""; draw(); }, { focus: function () { return pt; } });
     function setEq(v) {
       var parts = v.split("=");
       if (parts.length > 2) { G = null; eqIn.showError("Use one = sign"); return; }

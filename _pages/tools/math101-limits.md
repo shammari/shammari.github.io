@@ -104,8 +104,10 @@ For a number $$a$$, the table lists $$f(a - h)$$ and $$f(a + h)$$ for steps $$h 
       xs.forEach(function (x) { h += "<tr><td>" + num(x, 7) + "</td><td>" + num(f(x)) + "</td></tr>"; });
       return h + "</tbody></table><p class=\"mm-help\" style=\"margin-top:-.4rem\">" + title + "</p></div>";
     }
+    var focusPt = null; // the limit point, which Zoom in keeps in view
     function draw() {
       var o = plot.o, out = [], tabs = "";
+      focusPt = null;
       plot.frame();
       if (!f || (!isFinite(a) && Math.abs(a) !== Infinity)) { document.getElementById("lm-out").innerHTML = "Enter a formula and a number for <em>x</em> to approach."; document.getElementById("lm-tables").innerHTML = ""; return; }
       var finite = isFinite(a);
@@ -120,6 +122,9 @@ For a number $$a$$, the table lists $$f(a - h)$$ and $$f(a + h)$$ for steps $$h 
         var tR = trend(hseq(2, 4, 1).map(function (h) { return a + h; }), hseq(2, 4, 1).map(function (h) { return a + 0.7371 * h; }));
         var fa = f(a);
         if (Math.abs(fa) > 1e12) fa = NaN; // such as tan(π/2) = 1.6×10¹⁶: really undefined
+        var fy = tL.kind === "lim" && tR.kind === "lim" ? (tL.L + tR.L) / 2 : tL.kind === "lim" ? tL.L : tR.kind === "lim" ? tR.L : isFinite(fa) ? fa : (o.y0 + o.y1) / 2;
+        // zoom both axes when the limit exists; only the x-axis at a jump or an asymptote, where shrinking y loses the graph
+        focusPt = [a, fy, tL.kind === "lim" && tR.kind === "lim" && Math.abs(tL.L - tR.L) <= 2e-6 * (1 + Math.abs(tL.L)) ? "" : "x"];
         out.push(isFinite(fa) ? "<em>f</em>(" + num(a, 6) + ") = " + num(fa, 6) + "." : "<em>f</em>(" + num(a, 6) + ") is not defined.");
         out.push("From the left (<em>x</em> → " + num(a, 6) + "<sup>−</sup>): " + describe(tL) + ". From the right (<em>x</em> → " + num(a, 6) + "<sup>+</sup>): " + describe(tR) + ".");
         if (tL.kind === "lim" && tR.kind === "lim" && Math.abs(tL.L - tR.L) <= 2e-6 * (1 + Math.abs(tL.L))) {
@@ -157,7 +162,7 @@ For a number $$a$$, the table lists $$f(a - h)$$ and $$f(a + h)$$ for steps $$h 
     var gt = M.group(box, "Table");
     var bookBox = M.checkbox(gt, "Textbook's values", useBook, function (v) { useBook = v; draw(); });
     var kS = M.slider(gt, { label: "smallest step 10<sup>−<em>k</em></sup>, <em>k</em> =", min: 2, max: 10, step: 1, value: kmax, digits: 0, onInput: function (v) { kmax = v; if (useBook) { useBook = false; bookBox.checked = false; } draw(); } });
-    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    M.zoomControls(box, plot, function () { return P.win; }, draw, { focus: function () { return focusPt; }, pan: true });
     function setF(v) { try { f = M.expr(v); fIn.showError(""); } catch (e) { f = null; fIn.showError(e.message); } }
     function setA(v) {
       var t = v.trim().toLowerCase().replace("∞", "inf").replace("−", "-");

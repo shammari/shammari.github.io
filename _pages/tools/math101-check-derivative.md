@@ -96,7 +96,7 @@ The true derivative is approximated by the central difference $$[f(x + h) - f(x 
     var g = M.group(box, "Answer");
     M.button(g, "Show a correct answer", function () { if (P.f === fIn.input.value) { dIn.set(P.right); setD(P.right); draw(); } });
     M.button(g, "Clear", function () { dIn.set(""); setD(""); draw(); });
-    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    M.zoomControls(box, plot, function () { return P.win; }, draw, { pan: true });
     function load(k) {
       key = k; P = presets[k];
       fIn.set(P.f); f = M.expr(P.f); fIn.showError(""); dIn.set(P.wrong); setD(P.wrong);

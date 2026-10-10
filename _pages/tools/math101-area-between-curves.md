@@ -175,7 +175,7 @@ The intersection points are the sign changes of $$f - g$$ on a fine grid, refine
       try { g = M.expr(gIn.input.value, v); gIn.showError(""); } catch (e) { g = null; gIn.showError(e.message); }
     }
     M.slider(M.group(box, "Rectangle"), { label: "position", min: 0, max: 1, step: 0.01, value: strip, digits: 2, onInput: function (v) { strip = v; draw(); } });
-    M.zoomControls(box, plot, function () { return P.win; }, draw);
+    M.zoomControls(box, plot, function () { return P.win; }, draw, { pan: true });
     function load(k) {
       key = k; P = presets[k];
       mode = P.mode; modeSel.value = mode; relabel();

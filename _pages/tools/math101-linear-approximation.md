@@ -135,7 +135,7 @@ $$f'(a)$$ is approximated by the central difference $$[f(a + h) - f(a - h)]/(2h)
     var g1 = M.group(box, "Point");
     var xS = M.slider(g1, { label: "<em>x</em>", min: -1, max: 3, step: 0.0001, value: x, digits: 4, onInput: function (v) { x = v; draw(); } });
     M.select(M.group(box, "Tolerance"), [["0", "none"], ["0.5", "0.5"], ["0.1", "0.1"], ["0.01", "0.01"], ["0.001", "0.001"]], "0", function (v) { tol = +v; draw(); });
-    M.zoomControls(box, plot, function () { return P.win; }, function () { var o = plot.o; xS.input.min = o.x0; xS.input.max = o.x1; xS.input.step = (o.x1 - o.x0) / 10000; draw(); });
+    M.zoomControls(box, plot, function () { return P.win; }, function () { var o = plot.o; xS.input.min = o.x0; xS.input.max = o.x1; xS.input.step = (o.x1 - o.x0) / 10000; draw(); }, { focus: function () { return f ? [a, f(a)] : null; }, pan: true });
     function load(k) {
       key = k; P = presets[k];
       fIn.set(P.f); f = parse(P.f, fIn); aIn.set(P.a); a = val(P.a, aIn);
