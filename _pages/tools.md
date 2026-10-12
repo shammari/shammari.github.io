@@ -24,4 +24,9 @@ Small interactive models built on the mathematics behind my research. They run i
     <span class="cp-card-title">Epidemic dashboard</span>
     <span class="cp-card-text">Watch epidemic curves respond as you change how easily an infection spreads, how long immunity lasts, or add measures and vaccination. Split the population into two groups to see how unequal contacts and mixing change who is infected, and when.</span>
   </a>
+  <a class="cp-card" href="{{ '/tools/oxygen/' | relative_url }}">
+    <span class="cp-meta">Oxygen transport · Skeletal muscle</span>
+    <span class="cp-card-title">Muscle oxygen explorer</span>
+    <span class="cp-card-text">Move capillaries, shut them down or change fibre types in a cross-section of skeletal muscle, and see the predicted oxygen supply respond. Add myoglobin, raise exercise intensity or make the fibres more realistic.</span>
+  </a>
 </div>
