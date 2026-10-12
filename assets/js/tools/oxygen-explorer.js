@@ -1,5 +1,6 @@
-// Muscle oxygen explorer for shammari.github.io/tools/oxygen/: steady-state oxygen transport in a synthetic skeletal muscle cross-section.
-// Runs entirely in the browser. The model core (geometry and solver) comes first; the interface code follows it.
+// Muscle oxygen explorer for shammari.github.io/tools/oxygen/: steady oxygen transport in a synthetic cross-section of skeletal muscle.
+// Runs entirely in the browser: tissue geometry first, then the solver (exact capillary walls, no-flux section edge,
+// nonlinear multigrid on 2 µm and 1 µm grids), then the interface.
 (function () {
   // CORE START
   const L = 384; // section width, µm (periodic)
@@ -23,7 +24,7 @@
     { key: "IIX", name: "Type IIX", rel: KREL[2], mb: mbK(1.55) },
   ];
   // optional physiology, shared by every section
-  const MODEL = { shape: "polygon", kinetics: "mm", mb: false, mbScale: 1, drop: 0, shutFrac: 0, bc: "dirichlet", intensity: 12 };
+  const MODEL = { shape: "polygon", kinetics: "zero", mb: false, mbScale: 1, drop: 0, shutFrac: 0, bc: "dirichlet", intensity: 3 };
   const pmNow = () => (MODEL.kinetics === "zero" ? PM_ZERO : PM_MM);
   const capPO2 = (c) => PC - MODEL.drop * c.u; // capillary PO2 at most PC
   function applyShut(sec) {
@@ -81,8 +82,8 @@
   // polygons: plain Voronoi cells with a uniform gap.
   // realistic: weighted (power) cells sized by fibre type, a mild oblique stretch, a smooth warp that bends the edges,
   // rounded corners that open pockets where fibres meet, and endomysium of varying thickness.
-  const GAP_REAL = 2.0,
-    RHO = 10,
+  const GAP_REAL = 1.0,
+    RHO = 6,
     NCAND = 4;
   function shapeParams(seed, nF, types, shape) {
     if (shape !== "realistic") return { real: false };
@@ -101,7 +102,7 @@
         } while (kx === 0 && ky === 0);
         return { kx: (2 * Math.PI * kx) / L, ky: (2 * Math.PI * ky) / L, ph: 2 * Math.PI * r(), amp: amp / n };
       });
-    return { real: true, w, a, c: Math.cos(th), s: Math.sin(th), wx: modes(6, 3), wy: modes(6, 3), gw: modes(1, 3) };
+    return { real: true, w, a, c: Math.cos(th), s: Math.sin(th), wx: modes(6, 3), wy: modes(6, 3), gw: modes(0.5, 3) };
   }
   const field = (ms, x, y) => {
     let v = 0;
@@ -306,237 +307,665 @@
       p = sec.near[q];
     return { x: (p % N) * H, y: Math.floor(p / N) * H };
   }
-  // solver state for a section
-  function makeSolver(sec) {
-    const n = N * N;
-    const S = {
-      P: new Float64Array(n).fill(PC),
-      K: new Float64Array(n), // consumption M/(Dα), mmHg/µm²
-      kap: new Float64Array(n), // myoglobin facilitation, mmHg
-      fixVal: new Float64Array(n), // Dirichlet capillary PO2
-      beta: new Float64Array(n), // Robin wall exchange, µm⁻²
-      bP: new Float64Array(n), // Robin capillary PO2
-      lumen: new Uint8Array(n),
-      fib: new Int16Array(n), // fibre index or -1
-      fixed: new Uint8Array(n),
-      useMb: false,
-      sweeps: 0,
-      converged: false,
-      lastDelta: Infinity,
-    };
-    S.fib.set(sec.lab);
-    normaliseDemand(S, sec);
-    setCaps(S, sec);
-    return S;
+  // CORE END
+
+  // ENGINE START
+  // Steady oxygen transport on cell-centred grids over the 384 µm section.
+  //  • outer boundary: no flux (mirror condition), as in an image-based section
+  //  • capillary walls on the true circle: Dirichlet (Shortley–Weller arms) or Robin (local logarithmic wall relation)
+  //  • consumption K·P/(P+Pm) weighted by each cell's fibre fraction; myoglobin flux only between fibre cells
+  //  • nonlinear FAS multigrid (W-cycles, red–black Newton–Gauss–Seidel smoothing)
+  // Two levels are kept: 2 µm (fast, while editing) and 1 µm (accurate, after an edit and for export).
+  const NFINE = 384,
+    NCOARSE = 192,
+    BETA = (KWALL / DALPHA) * 1e-4; // µm⁻¹
+  const NOCAP = -1;
+
+  // fibre pieces: fibres cut by the section edge become separate pieces
+  function attachTissue(sec) {
+    const n = NFINE,
+      h = L / n,
+      nn = n * n;
+    const seedOf = new Int16Array(nn).fill(-1),
+      frac = new Float32Array(nn);
+    const cnt = new Map();
+    for (let j = 0; j < n; j++)
+      for (let i = 0; i < n; i++) {
+        cnt.clear();
+        let inF = 0;
+        for (let b = 0; b < 2; b++)
+          for (let a = 0; a < 2; a++) {
+            const x = (i + 0.25 + 0.5 * a) * h,
+              y = (j + 0.25 + 0.5 * b) * h;
+            const q = (Math.round(y / H) % N) * N + (Math.round(x / H) % N);
+            const f = classify(sec, x, y, sec.cand.subarray(q * NCAND, q * NCAND + NCAND)).f;
+            if (f >= 0) {
+              inF++;
+              cnt.set(f, (cnt.get(f) || 0) + 1);
+            }
+          }
+        if (inF) {
+          let bf = -1,
+            bc = 0;
+          for (const [f, c] of cnt)
+            if (c > bc) {
+              bc = c;
+              bf = f;
+            }
+          seedOf[j * n + i] = bf;
+          frac[j * n + i] = inF / 4;
+        }
+      }
+    const piece = new Int32Array(nn).fill(-1),
+      pieceSeed = [],
+      stack = [];
+    for (let c0 = 0; c0 < nn; c0++) {
+      if (seedOf[c0] < 0 || piece[c0] >= 0) continue;
+      const p = pieceSeed.length,
+        s = seedOf[c0];
+      pieceSeed.push(s);
+      piece[c0] = p;
+      stack.push(c0);
+      while (stack.length) {
+        const c = stack.pop(),
+          i = c % n,
+          j = (c - i) / n;
+        for (const [ii, jj] of [
+          [i + 1, j],
+          [i - 1, j],
+          [i, j + 1],
+          [i, j - 1],
+        ]) {
+          if (ii < 0 || jj < 0 || ii >= n || jj >= n) continue;
+          const d = jj * n + ii;
+          if (seedOf[d] === s && piece[d] < 0) {
+            piece[d] = p;
+            stack.push(d);
+          }
+        }
+      }
+    }
+    const P = pieceSeed.length,
+      area = new Float64Array(P),
+      cx = new Float64Array(P),
+      cy = new Float64Array(P);
+    for (let c = 0; c < nn; c++) {
+      const p = piece[c];
+      if (p < 0) continue;
+      const a = frac[c] * h * h,
+        i = c % n,
+        j = (c - i) / n;
+      area[p] += a;
+      cx[p] += a * (i + 0.5) * h;
+      cy[p] += a * (j + 0.5) * h;
+    }
+    const seedTypes = sec.seedTypes || sec.types;
+    sec.seedTypes = seedTypes;
+    sec.types = Int8Array.from(pieceSeed, (s) => seedTypes[s]);
+    sec.pieceSeed = Int16Array.from(pieceSeed);
+    sec.area = area;
+    sec.cent = Array.from({ length: P }, (_, p) => (area[p] > 0 ? { x: cx[p] / area[p], y: cy[p] / area[p] } : null));
+    const sorted = Array.from(area)
+        .filter((a) => a > 0)
+        .sort((a, b) => a - b),
+      med = sorted[Math.floor(sorted.length / 2)] || 1;
+    // unbiased counting frame: a fibre counts unless it touches the exclusion edges (left and bottom);
+    // fibres touching only the inclusion edges (top and right) or lying wholly inside count
+    const excl = new Uint8Array(P);
+    for (let j = 0; j < n; j++) {
+      if (piece[j * n] >= 0) excl[piece[j * n]] = 1;
+    }
+    for (let i = 0; i < n; i++) {
+      const c = (n - 1) * n + i;
+      if (piece[c] >= 0) excl[piece[c]] = 1;
+    }
+    sec.counted = Array.from(area, (a, p) => a > 0 && !excl[p]);
+    sec.nFib = sec.counted.filter(Boolean).length;
+    sec.bigPiece = Array.from(area, (a) => a >= 0.25 * med); // slivers at the edge get no label // fibres cut by the edge count if at least a quarter of a typical fibre is inside
+    sec.geom = { n, h, seedOf, frac, piece };
+    // keep capillaries inside the section
+    for (const c of sec.caps) clampCap(c);
   }
-  // tissue-average demand at rest = M0, with the published ratios between fibre types
-  function normaliseDemand(S, sec) {
-    let rel = 0;
-    for (let q = 0; q < N * N; q++) if (S.fib[q] >= 0) rel += KREL[sec.types[S.fib[q]]];
-    sec.mRest = ((M0 / DALPHA) * 1e-8) / (rel / (N * N)); // type I, mmHg/µm²
+  function clampCap(c) {
+    const m = RC + 1;
+    c.x = Math.min(L - m, Math.max(m, c.x));
+    c.y = Math.min(L - m, Math.max(m, c.y));
+  }
+  // piece at a point (−1 in the interstitium)
+  function pieceAt(sec, x, y, seed) {
+    const g = sec.geom;
+    if (x < 0 || y < 0 || x >= L || y >= L) return -1;
+    const f = seed !== undefined ? seed : fibreAt(sec, x, y);
+    if (f < 0) return -1;
+    const i = Math.min(g.n - 1, Math.floor(x / g.h)),
+      j = Math.min(g.n - 1, Math.floor(y / g.h));
+    for (let r = 0; r <= 3; r++)
+      for (let dj = -r; dj <= r; dj++)
+        for (let di = -r; di <= r; di++) {
+          const ii = i + di,
+            jj = j + dj;
+          if (ii < 0 || jj < 0 || ii >= g.n || jj >= g.n) continue;
+          const c = jj * g.n + ii;
+          if (g.seedOf[c] === f) return g.piece[c];
+        }
+    return -1;
+  }
+  // demand: tissue-average demand at rest equals M0, ratios between types as published
+  function normaliseDemand(sec) {
+    const g = sec.geom;
+    let s = 0;
+    for (let c = 0; c < g.piece.length; c++) if (g.piece[c] >= 0) s += g.frac[c] * KREL[sec.types[g.piece[c]]];
+    sec.mRest = ((M0 / DALPHA) * 1e-8) / (s / g.piece.length);
   }
   const typeUptake = (sec, t) => sec.mRest * MODEL.intensity * KREL[t] * DALPHA * 1e8; // ml O2/(ml·s)
-  function refresh(S, sec) {
+
+  // ----- grid levels -----
+  function newLevel(n) {
+    const nn = n * n,
+      F = () => new Float64Array(nn);
+    return {
+      n,
+      h: L / n,
+      w: [F(), F(), F(), F()],
+      kf: [F(), F(), F(), F()],
+      diag: F(),
+      b: F(),
+      gW: F(),
+      K: F(),
+      kap: F(),
+      area: F(),
+      fixed: new Uint8Array(nn),
+      fixVal: F(),
+      f: F(),
+      u: F(),
+      r: F(),
+      piece: new Int32Array(nn).fill(-1),
+      frac: new Float32Array(nn),
+    };
+  }
+  // geometry for a solving level from the 1 µm sampling (2 µm cells aggregate 2×2)
+  function levelGeometry(sec, n) {
+    const G = newLevel(n),
+      g = sec.geom,
+      k = g.n / n;
+    for (let J = 0; J < n; J++)
+      for (let I = 0; I < n; I++) {
+        const C = J * n + I;
+        let fr = 0;
+        const votes = new Map();
+        for (let b = 0; b < k; b++)
+          for (let a = 0; a < k; a++) {
+            const c = (J * k + b) * g.n + I * k + a;
+            if (g.piece[c] >= 0) {
+              fr += g.frac[c];
+              votes.set(g.piece[c], (votes.get(g.piece[c]) || 0) + g.frac[c]);
+            }
+          }
+        G.frac[C] = fr / (k * k);
+        let bp = -1,
+          bv = 0;
+        for (const [p, v] of votes)
+          if (v > bv) {
+            bv = v;
+            bp = p;
+          }
+        G.piece[C] = bp;
+      }
+    return G;
+  }
+  const hm = (a, b) => (a > 0 && b > 0 ? (2 * a * b) / (a + b) : 0);
+  // physics and capillaries → coefficients
+  function assembleLevel(G, sec) {
+    const { n, h } = G,
+      nn = n * n,
+      w0 = 1 / (h * h),
+      Pm = MODEL.kinetics === "zero" ? PM_ZERO : PM_MM;
+    G.Pm = Pm;
+    G.mb = MODEL.mb;
+    G.P50 = P50_MB;
     const kI = sec.mRest * MODEL.intensity;
-    for (let q = 0; q < N * N; q++) {
-      const f = S.fib[q];
-      if (f < 0 || S.lumen[q]) {
-        S.K[q] = 0;
-        S.kap[q] = 0;
-        continue;
-      }
-      S.K[q] = kI * KREL[sec.types[f]];
-      S.kap[q] = MODEL.mb ? TYPES[sec.types[f]].mb * MODEL.mbScale : 0;
-    }
-    S.useMb = MODEL.mb;
-    S.converged = false;
-  }
-  function setTypes(S, sec) {
-    refresh(S, sec);
-  }
-  function setCaps(S, sec) {
-    S.fixed.fill(0);
-    S.lumen.fill(0);
-    S.beta.fill(0);
-    const rr = Math.ceil(RC / H) + 1,
-      robin = MODEL.bc === "robin";
-    for (const c of sec.caps) {
-      if (c.shut) continue;
-      const ci = Math.round(c.x / H),
-        cj = Math.round(c.y / H);
-      const nodes = [(((cj % N) + N) % N) * N + (((ci % N) + N) % N)];
-      for (let dj = -rr; dj <= rr; dj++)
-        for (let di = -rr; di <= rr; di++) {
-          const i = ci + di,
-            j = cj + dj;
-          const q = (((j % N) + N) % N) * N + (((i % N) + N) % N);
-          if (q !== nodes[0] && Math.hypot(mi(i * H - c.x), mi(j * H - c.y)) <= RC) nodes.push(q);
+    // lumens
+    const lumen = new Int16Array(nn).fill(NOCAP),
+      openLumen = new Uint8Array(nn);
+    sec.caps.forEach((c, ci) => {
+      const r0 = Math.ceil(RC / h) + 1,
+        i0 = Math.floor(c.x / h),
+        j0 = Math.floor(c.y / h);
+      for (let dj = -r0; dj <= r0; dj++)
+        for (let di = -r0; di <= r0; di++) {
+          const i = i0 + di,
+            j = j0 + dj;
+          if (i < 0 || j < 0 || i >= n || j >= n) continue;
+          if (Math.hypot((i + 0.5) * h - c.x, (j + 0.5) * h - c.y) <= RC) {
+            lumen[j * n + i] = ci;
+            if (!c.shut) openLumen[j * n + i] = 1;
+          }
         }
-      // Robin: wall flux k(Pcap − P) over the perimeter 2πRC, spread over the capillary's nodes
-      const b = robin ? ((2 * Math.PI * RC * 1e-4 * KWALL) / (DALPHA * nodes.length * (H * 1e-4) ** 2)) * 1e-8 : 0;
-      for (const q of nodes) {
-        S.lumen[q] = 1;
-        if (robin) {
-          S.beta[q] = b;
-          S.bP[q] = capPO2(c);
+    });
+    for (let c = 0; c < nn; c++) {
+      const p = G.piece[c],
+        inL = lumen[c] !== NOCAP;
+      G.fixed[c] = openLumen[c];
+      G.fixVal[c] = openLumen[c] ? capPO2(sec.caps[lumen[c]]) : 0;
+      const fr = inL ? 0 : G.frac[c];
+      G.area[c] = p >= 0 ? fr * h * h : 0;
+      G.K[c] = p >= 0 ? fr * kI * KREL[sec.types[p]] : 0;
+      G.kap[c] = p >= 0 && MODEL.mb ? fr * TYPES[sec.types[p]].mb * MODEL.mbScale : 0;
+      G.b[c] = 0;
+      G.gW[c] = 0;
+      G.diag[c] = 0;
+      for (let d = 0; d < 4; d++) {
+        G.w[d][c] = 0;
+        G.kf[d][c] = 0;
+      }
+    }
+    const DIR = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ];
+    for (let j = 0; j < n; j++)
+      for (let i = 0; i < n; i++) {
+        const c = j * n + i;
+        if (G.fixed[c]) continue;
+        const x = (i + 0.5) * h,
+          y = (j + 0.5) * h;
+        const arm = [0, 0, 0, 0],
+          kind = [0, 0, 0, 0],
+          capOf = [null, null, null, null]; // kind 0 normal, 1 cut, 2 wall
+        for (let d = 0; d < 4; d++) {
+          const ii = i + DIR[d][0],
+            jj = j + DIR[d][1];
+          if (ii < 0 || jj < 0 || ii >= n || jj >= n) {
+            kind[d] = 2;
+            arm[d] = h;
+            continue;
+          }
+          const nb = jj * n + ii;
+          if (G.fixed[nb]) {
+            const cp = sec.caps[lumen[nb]],
+              px = x - cp.x,
+              py = y - cp.y,
+              bq = px * DIR[d][0] + py * DIR[d][1],
+              cq = px * px + py * py - RC * RC,
+              disc = bq * bq - cq;
+            const t = disc >= 0 ? -bq - Math.sqrt(disc) : h;
+            kind[d] = 1;
+            arm[d] = Math.min(h, Math.max(0.05 * h, t));
+            capOf[d] = cp;
+          } else {
+            kind[d] = 0;
+            arm[d] = h;
+          }
+        }
+        let diag = 0;
+        for (const [d1, d2] of [
+          [0, 1],
+          [2, 3],
+        ]) {
+          const a1 = arm[d1],
+            a2 = arm[d2],
+            w1 = 2 / (a1 * (a1 + a2)),
+            w2 = 2 / (a2 * (a1 + a2));
+          for (const [d, ww] of [
+            [d1, w1],
+            [d2, w2],
+          ]) {
+            if (kind[d] === 2) continue; // mirror: ghost equals this cell, no net flux
+            if (kind[d] === 1) {
+              const cp = capOf[d];
+              let we = ww;
+              if (MODEL.bc === "robin") {
+                const rX = Math.max(Math.hypot(x - cp.x, y - cp.y), RC * 1.0001),
+                  bl = BETA * RC * Math.log(rX / RC);
+                we = (ww * bl) / (1 + bl);
+              }
+              diag += we;
+              G.b[c] += we * capPO2(cp);
+              G.gW[c] += we;
+            } else {
+              diag += ww;
+              G.w[d][c] = ww;
+            }
+          }
+        }
+        G.diag[c] = diag;
+      }
+    // myoglobin faces (no flux across fibre edges)
+    if (MODEL.mb)
+      for (let j = 0; j < n; j++)
+        for (let i = 0; i < n; i++) {
+          const c = j * n + i;
+          if (G.fixed[c] || !G.kap[c]) continue;
+          for (let d = 0; d < 4; d++) {
+            if (!G.w[d][c]) continue;
+            const nb = (j + DIR[d][1]) * n + i + DIR[d][0];
+            G.kf[d][c] = G.w[d][c] * hm(G.kap[c], G.kap[nb]);
+          }
+        }
+    G.robin = MODEL.bc === "robin";
+    G.mg = hierarchy(G);
+  }
+  // coarse levels: standard 5-point weights with mirror edges; a coarse cell is held fixed if any child is
+  function coarsen(G) {
+    const n = G.n / 2,
+      C = newLevel(n),
+      w0 = 1 / (C.h * C.h),
+      nf = G.n;
+    C.Pm = G.Pm;
+    C.mb = G.mb;
+    C.P50 = G.P50;
+    C.robin = G.robin;
+    for (let J = 0; J < n; J++)
+      for (let I = 0; I < n; I++) {
+        const Q = J * n + I;
+        let K = 0,
+          kp = 0,
+          fx = 0,
+          fv = 0,
+          gw = 0,
+          bb = 0;
+        for (let b = 0; b < 2; b++)
+          for (let a = 0; a < 2; a++) {
+            const q = (2 * J + b) * nf + 2 * I + a;
+            K += G.K[q];
+            kp += G.kap[q];
+            gw += G.gW[q];
+            bb += G.b[q];
+            if (G.fixed[q]) {
+              fx = 1;
+              fv = G.fixVal[q];
+            }
+          }
+        C.K[Q] = K / 4;
+        C.kap[Q] = kp / 4;
+        // Robin: coarse levels carry the averaged wall conductance instead of holding lumens fixed
+        if (G.robin) {
+          C.gW[Q] = gw / 4;
+          C.b[Q] = bb / 4;
         } else {
-          S.fixed[q] = 1;
-          S.fixVal[q] = capPO2(c);
-          S.P[q] = capPO2(c);
+          C.fixed[Q] = fx;
+          C.fixVal[Q] = fv;
+        }
+      }
+    for (let J = 0; J < n; J++)
+      for (let I = 0; I < n; I++) {
+        const Q = J * n + I;
+        let dg = 0;
+        const nb = [
+          [I + 1, J],
+          [I - 1, J],
+          [I, J + 1],
+          [I, J - 1],
+        ];
+        for (let d = 0; d < 4; d++) {
+          const [ii, jj] = nb[d];
+          if (ii < 0 || jj < 0 || ii >= n || jj >= n) continue;
+          C.w[d][Q] = w0;
+          dg += w0;
+          if (C.mb) C.kf[d][Q] = w0 * hm(C.kap[Q], C.kap[jj * n + ii]);
+        }
+        C.diag[Q] = dg + C.gW[Q];
+      }
+    return C;
+  }
+  function hierarchy(G) {
+    const lv = [G];
+    while (lv[lv.length - 1].n % 2 === 0 && lv[lv.length - 1].n / 2 >= 12) lv.push(coarsen(lv[lv.length - 1]));
+    return lv;
+  }
+  const sat = (p, P50) => p / (p + P50),
+    dsat = (p, P50) => P50 / ((p + P50) * (p + P50));
+  function cellF(G, u, c, i, j) {
+    // returns [F, dF] at cell c
+    const { n, w, kf, diag, b, K, f, Pm, P50 } = G;
+    const p = u[c] > 0 ? u[c] : 0;
+    const nbs = [i + 1 < n ? c + 1 : c, i > 0 ? c - 1 : c, j + 1 < n ? c + n : c, j > 0 ? c - n : c];
+    let F = b[c] - diag[c] * p - (K[c] * p) / (p + Pm) - f[c],
+      dF = -diag[c] - (K[c] * Pm) / ((p + Pm) * (p + Pm));
+    for (let d = 0; d < 4; d++) F += w[d][c] * u[nbs[d]];
+    if (G.mb) {
+      const sp = sat(p, P50),
+        dsp = dsat(p, P50);
+      for (let d = 0; d < 4; d++) {
+        const k = kf[d][c];
+        if (k) {
+          const q = u[nbs[d]];
+          F += k * (sat(q > 0 ? q : 0, P50) - sp);
+          dF -= k * dsp;
         }
       }
     }
-    refresh(S, sec);
+    return [F, dF];
   }
-  // red–black SOR; Picard-linearised consumption without myoglobin
-  function sweep(S, count) {
-    if (S.useMb) return sweepMb(S, count);
-    const { P, K, fixed, beta, bP } = S,
-      w = 1.9,
-      h2 = H * H,
-      PM = pmNow();
+  function relax(G, sweeps) {
+    const { n, u, fixed, fixVal } = G;
     let maxD = 0;
-    for (let c = 0; c < count; c++) {
-      maxD = 0;
-      for (let colour = 0; colour < 2; colour++) {
-        for (let j = 0; j < N; j++) {
-          const jn = j === 0 ? N - 1 : j - 1,
-            js = j === N - 1 ? 0 : j + 1;
-          const row = j * N,
-            rn = jn * N,
-            rs = js * N;
-          for (let i = (j + colour) & 1; i < N; i += 2) {
-            const q = row + i;
-            if (fixed[q]) continue;
-            const iw = i === 0 ? N - 1 : i - 1,
-              ie = i === N - 1 ? 0 : i + 1;
-            const p = P[q],
-              bq = beta[q];
-            const sum = P[row + iw] + P[row + ie] + P[rn + i] + P[rs + i] + h2 * bq * bP[q];
-            let pn = sum / (4 + (h2 * K[q]) / ((p > 0 ? p : 0) + PM) + h2 * bq);
-            pn = p + w * (pn - p);
+    for (let s = 0; s < sweeps; s++)
+      for (let col = 0; col < 2; col++)
+        for (let j = 0; j < n; j++)
+          for (let i = (j + col) & 1; i < n; i += 2) {
+            const c = j * n + i;
+            if (fixed[c]) {
+              u[c] = fixVal[c];
+              continue;
+            }
+            const [F, dF] = cellF(G, u, c, i, j);
+            let pn = u[c] - F / dF;
             if (pn < 0) pn = 0;
-            const d = Math.abs(pn - p);
+            const d = Math.abs(pn - u[c]);
             if (d > maxD) maxD = d;
-            P[q] = pn;
+            u[c] = pn;
           }
-        }
-      }
-      S.sweeps++;
-      if (maxD < 2e-4) {
-        S.converged = true;
-        break;
-      }
-    }
-    S.lastDelta = maxD;
-    return S.converged;
+    return maxD;
   }
-  // with myoglobin: flux = -Dα[∇P + κ ∇S(P)], S = P/(P + P50); one Newton step per node per sweep
-  function sweepMb(S, count) {
-    const { P, K, kap, fixed, beta, bP } = S,
-      w = 1.9,
-      h2 = H * H,
-      p50 = P50_MB,
-      PM = pmNow();
-    const sat = (p) => p / (p + p50);
-    let maxD = 0;
-    for (let c = 0; c < count; c++) {
-      maxD = 0;
-      for (let colour = 0; colour < 2; colour++) {
-        for (let j = 0; j < N; j++) {
-          const jn = j === 0 ? N - 1 : j - 1,
-            js = j === N - 1 ? 0 : j + 1;
-          const row = j * N,
-            rn = jn * N,
-            rs = js * N;
-          for (let i = (j + colour) & 1; i < N; i += 2) {
-            const q = row + i;
-            if (fixed[q]) continue;
-            const iw = i === 0 ? N - 1 : i - 1,
-              ie = i === N - 1 ? 0 : i + 1;
-            const a = row + iw,
-              b = row + ie,
-              n = rn + i,
-              s = rs + i;
-            const p = P[q],
-              kq = kap[q],
-              bq = beta[q];
-            const ka = 0.5 * (kq + kap[a]),
-              kb = 0.5 * (kq + kap[b]),
-              kn = 0.5 * (kq + kap[n]),
-              ks = 0.5 * (kq + kap[s]);
-            const sq = sat(p);
-            const F =
-              P[a] +
-              P[b] +
-              P[n] +
-              P[s] -
-              4 * p +
-              ka * (sat(P[a]) - sq) +
-              kb * (sat(P[b]) - sq) +
-              kn * (sat(P[n]) - sq) +
-              ks * (sat(P[s]) - sq) -
-              (h2 * K[q] * p) / (p + PM) +
-              h2 * bq * (bP[q] - p);
-            const dF = -4 - ((ka + kb + kn + ks) * p50) / ((p + p50) * (p + p50)) - (h2 * K[q] * PM) / ((p + PM) * (p + PM)) - h2 * bq;
-            let pn = p - (w * F) / dF;
-            if (pn < 0) pn = 0;
-            const d = Math.abs(pn - p);
-            if (d > maxD) maxD = d;
-            P[q] = pn;
-          }
-        }
+  function residual(G) {
+    const { n, u, r, fixed } = G;
+    for (let j = 0; j < n; j++)
+      for (let i = 0; i < n; i++) {
+        const c = j * n + i;
+        r[c] = fixed[c] ? 0 : -cellF(G, u, c, i, j)[0];
       }
-      S.sweeps++;
-      if (maxD < 2e-4) {
-        S.converged = true;
-        break;
-      }
-    }
-    S.lastDelta = maxD;
-    return S.converged;
   }
-  function stats(S, sec, thr) {
-    let a = 0,
-      sum = 0,
-      low = 0,
-      min = Infinity,
+  function cycle(lv, l) {
+    const G = lv[l];
+    if (l === lv.length - 1) {
+      relax(G, 40);
+      return;
+    }
+    relax(G, 2);
+    residual(G);
+    const C = lv[l + 1],
+      nf = G.n,
+      nc = C.n,
+      uc0 = new Float64Array(nc * nc);
+    for (let J = 0; J < nc; J++)
+      for (let I = 0; I < nc; I++) {
+        const Q = J * nc + I,
+          q = 2 * J * nf + 2 * I;
+        uc0[Q] = C.fixed[Q] ? C.fixVal[Q] : 0.25 * (G.u[q] + G.u[q + 1] + G.u[q + nf] + G.u[q + nf + 1]);
+      }
+    C.u.set(uc0);
+    C.f.fill(0);
+    for (let J = 0; J < nc; J++)
+      for (let I = 0; I < nc; I++) {
+        const Q = J * nc + I;
+        if (C.fixed[Q]) {
+          C.f[Q] = 0;
+          continue;
+        }
+        const q = 2 * J * nf + 2 * I,
+          rr = 0.25 * (G.r[q] + G.r[q + 1] + G.r[q + nf] + G.r[q + nf + 1]);
+        C.f[Q] = cellF(C, uc0, Q, I, J)[0] + rr; // f_c = F_c(R u) + R r
+      }
+    for (let g = 0; g < (l + 1 === lv.length - 1 ? 1 : 2); g++) cycle(lv, l + 1);
+    for (let j = 0; j < nf; j++)
+      for (let i = 0; i < nf; i++) {
+        const q = j * nf + i;
+        if (G.fixed[q]) continue;
+        const I = i >> 1,
+          J = j >> 1,
+          Ib = Math.min(nc - 1, Math.max(0, I + (i & 1 ? 1 : -1))),
+          Jb = Math.min(nc - 1, Math.max(0, J + (j & 1 ? 1 : -1)));
+        const e = (Q) => C.u[Q] - uc0[Q];
+        const v = (9 * e(J * nc + I) + 3 * e(J * nc + Ib) + 3 * e(Jb * nc + I) + e(Jb * nc + Ib)) / 16;
+        let un = G.u[q] + v;
+        if (un < 0) un = 0;
+        G.u[q] = un;
+      }
+    relax(G, 2);
+  }
+  // one W-cycle on a solving level; returns the largest change
+  function mgStep(G) {
+    const prev = Float64Array.from(G.u);
+    cycle(G.mg, 0);
+    let d = 0;
+    for (let q = 0; q < prev.length; q++) {
+      const t = Math.abs(G.u[q] - prev[q]);
+      if (t > d) d = t;
+    }
+    return d;
+  }
+  // bilinear sample of a cell-centred field
+  function sampleField(G, x, y) {
+    const n = G.n,
+      h = G.h,
+      gx = Math.min(n - 1, Math.max(0, x / h - 0.5)),
+      gy = Math.min(n - 1, Math.max(0, y / h - 0.5));
+    const i0 = Math.floor(gx),
+      j0 = Math.floor(gy),
+      i1 = Math.min(n - 1, i0 + 1),
+      j1 = Math.min(n - 1, j0 + 1),
+      fx = gx - i0,
+      fy = gy - j0,
+      u = G.u;
+    return (u[j0 * n + i0] * (1 - fx) + u[j0 * n + i1] * fx) * (1 - fy) + (u[j1 * n + i0] * (1 - fx) + u[j1 * n + i1] * fx) * fy;
+  }
+  function stats(G, sec, thr) {
+    let A = 0,
+      s = 0,
+      lo = 0,
+      mn = Infinity,
       up = 0,
       dem = 0;
     const hist = new Float64Array(20),
-      PM = pmNow();
-    for (let q = 0; q < N * N; q++) {
-      if (S.fib[q] < 0) continue;
-      const p = S.P[q];
-      if (S.K) {
-        up += (S.K[q] * p) / (p + PM);
-        dem += S.K[q];
-      }
-      a++;
-      sum += p;
-      if (p < thr) low++;
-      if (p < min) min = p;
-      hist[Math.min(19, Math.floor(p / (PC / 20)))]++;
+      P = sec.types.length,
+      fs = new Float64Array(P),
+      fa = new Float64Array(P),
+      ts = [0, 0, 0],
+      ta = [0, 0, 0];
+    for (let c = 0; c < G.u.length; c++) {
+      const a = G.area[c];
+      if (a <= 0 || G.fixed[c]) continue;
+      const p = G.u[c],
+        pc = G.piece[c],
+        t = sec.types[pc];
+      A += a;
+      s += a * p;
+      if (p < thr) lo += a;
+      if (p < mn) mn = p;
+      hist[Math.min(19, Math.floor(p / (PC / 20)))] += a;
+      fs[pc] += a * p;
+      fa[pc] += a;
+      ts[t] += a * p;
+      ta[t] += a;
+      up += (G.K[c] * p) / (p + G.Pm);
+      dem += G.K[c];
     }
-    for (let b = 0; b < 20; b++) hist[b] /= a;
-    const mm2 = (L / 1000) ** 2;
-    const nPerf = sec.caps.filter((c) => !c.shut).length;
+    for (let b2 = 0; b2 < 20; b2++) hist[b2] /= A;
+    const mm2 = (L / 1000) ** 2,
+      nPerf = sec.caps.filter((c) => !c.shut).length;
     return {
-      mean: sum / a,
-      low: low / a,
-      min,
+      mean: s / A,
+      low: lo / A,
+      min: mn,
       hist,
       met: dem > 0 ? up / dem : 1,
+      fibMean: Float64Array.from(fs, (v, k) => (fa[k] ? v / fa[k] : NaN)),
+      typeMean: ts.map((v, t) => (ta[t] ? v / ta[t] : NaN)),
       nCap: sec.caps.length,
       nFib: sec.nFib,
       nPerf,
-      cfPerf: nPerf / sec.nFib,
-      cdPerf: nPerf / mm2,
       cf: sec.caps.length / sec.nFib,
       cd: sec.caps.length / mm2,
+      cfPerf: nPerf / sec.nFib,
+      cdPerf: nPerf / mm2,
     };
   }
-  // CORE END
+  // ----- the solver used by the page -----
+  function createSolver(sec) {
+    const S = {
+      coarse: levelGeometry(sec, NCOARSE),
+      fine: levelGeometry(sec, NFINE),
+      coarseOK: false,
+      fineOK: false,
+      fineFresh: false,
+      converged: false,
+      sweeps: 0,
+    };
+    S.coarse.u.fill(PC);
+    S.fine.u.fill(PC);
+    S.update = (fineToo) => {
+      assembleLevel(S.coarse, sec);
+      S.fineStarted = false;
+      S.coarseOK = false;
+      S.fineFresh = false;
+      S.fineOK = false;
+      S.fineDirty = true;
+      S.converged = false;
+      if (fineToo) {
+        assembleLevel(S.fine, sec);
+        S.fineDirty = false;
+      }
+    };
+    // advance within a time budget; while editing only the coarse level is solved
+    S.step = (budgetMs, editing) => {
+      const t0 = performance.now();
+      while (performance.now() - t0 < budgetMs) {
+        if (!S.coarseOK) {
+          if (mgStep(S.coarse) < 2e-4) S.coarseOK = true;
+          continue;
+        }
+        if (editing) break;
+        if (!S.fineOK) {
+          if (S.fineDirty) {
+            assembleLevel(S.fine, sec);
+            S.fineDirty = false;
+          }
+          if (!S.fineStarted) {
+            // start from the 2 µm answer
+            const F = S.fine;
+            for (let j = 0; j < F.n; j++)
+              for (let i = 0; i < F.n; i++) {
+                const c = j * F.n + i;
+                F.u[c] = F.fixed[c] ? F.fixVal[c] : sampleField(S.coarse, (i + 0.5) * F.h, (j + 0.5) * F.h);
+              }
+            S.fineStarted = true;
+          }
+          if (mgStep(S.fine) < 2e-4) {
+            S.fineOK = true;
+            S.fineFresh = true;
+            S.fineStarted = false;
+          }
+          continue;
+        }
+        break;
+      }
+      S.converged = S.coarseOK && (S.fineOK || editing);
+      return S.converged;
+    };
+    S.best = () => (S.fineFresh ? S.fine : S.coarse);
+    S.invalidate = () => {
+      S.coarseOK = false;
+      S.fineOK = false;
+      S.fineFresh = false;
+      S.fineStarted = false;
+      S.converged = false;
+    };
+    return S;
+  }
+  // ENGINE END
 
   // UI
   const TYPE_COLORS = ["#9a3446", "#d5824f", "#3f7fbf"];
@@ -550,6 +979,7 @@
       name: "Cividis",
       stops: ["#00224e", "#123570", "#3b496c", "#575d6d", "#707173", "#8a8779", "#a69d75", "#c4b56c", "#e4cf5b", "#fee838"],
     },
+    jet: { name: "Jet", stops: ["#00007f", "#0000ff", "#007fff", "#00ffff", "#7fff7f", "#ffff00", "#ff7f00", "#ff0000", "#7f0000"] },
     turbo: {
       name: "Turbo",
       stops: [
@@ -601,8 +1031,8 @@
   }
 
   const $ = (id) => document.getElementById("ox-" + id);
-  const cv = $("tissue"),
-    ctx = cv.getContext("2d");
+  const cv = $("tissue");
+  let ctx = cv.getContext("2d");
   let sec,
     orig,
     S,
@@ -615,10 +1045,11 @@
   let W = 0,
     CSS = 0,
     disp = null,
-    img = null;
+    img = null,
+    exporting = false;
 
   function cloneSec(s) {
-    return { seed: s.seed, seeds: s.seeds, types: Int8Array.from(s.types), caps: s.caps.map((c) => ({ ...c })), area: s.area };
+    return { seed: s.seed, types: Int8Array.from(s.types), caps: s.caps.map((c) => ({ ...c })) };
   }
 
   function buildDisplay() {
@@ -635,32 +1066,28 @@
         const x = ((px + 0.5) / W) * L,
           y = ((py + 0.5) / W) * L;
         const q = (Math.round(y / H) % N) * N + (Math.round(x / H) % N);
-        disp[py * W + px] = classify(sec, x, y, sec.cand.subarray(q * NCAND, q * NCAND + NCAND)).f;
+        const f = classify(sec, x, y, sec.cand.subarray(q * NCAND, q * NCAND + NCAND)).f;
+        disp[py * W + px] = f < 0 ? -1 : pieceAt(sec, x, y, f);
       }
   }
 
-  function sampleP(arr, x, y) {
-    const gx = x / H,
-      gy = y / H,
-      i0 = Math.floor(gx),
-      j0 = Math.floor(gy),
-      fx = gx - i0,
-      fy = gy - j0;
-    const i1 = (i0 + 1) % N,
-      j1 = (j0 + 1) % N,
-      a = j0 % N,
-      c = i0 % N;
-    return (arr[a * N + c] * (1 - fx) + arr[a * N + i1] * fx) * (1 - fy) + (arr[j1 * N + c] * (1 - fx) + arr[j1 * N + i1] * fx) * fy;
-  }
+  // the current field: 1 µm once refined, 2 µm while editing
+  const cur = () => S.best();
   let divRange = 5;
   function render() {
     if (!img) return;
     const d = img.data;
     let range = 2;
+    const G = cur();
     if (view === "change" && base) {
       // scale to the 99th percentile of |change| in the fibres; larger changes saturate
       const ch = [];
-      for (let q = 0; q < N * N; q++) if (S.fib[q] >= 0) ch.push(Math.abs(S.P[q] - base.P[q]));
+      for (let q = 0; q < G.u.length; q++)
+        if (G.area[q] > 0) {
+          const i = q % G.n,
+            j = (q - i) / G.n;
+          ch.push(Math.abs(G.u[q] - sampleField(base, (i + 0.5) * G.h, (j + 0.5) * G.h)));
+        }
       ch.sort((a, b) => a - b);
       const p99 = ch[Math.floor(ch.length * 0.99)] || 0;
       range = p99 <= 1 ? 1 : p99 <= 2 ? 2 : p99 <= 5 ? 5 : p99 <= 10 ? 10 : 20;
@@ -678,9 +1105,9 @@
           [r, g, b] = tc[sec.types[f]];
         } else {
           const x = ((px + 0.5) / W) * L,
-            p = sampleP(S.P, x, y);
+            p = sampleField(G, x, y);
           if (view === "change") {
-            const dv = base ? p - sampleP(base.P, x, y) : 0;
+            const dv = base ? p - sampleField(base, x, y) : 0;
             const k = Math.max(0, Math.min(255, Math.round((dv / range + 1) * 127.5))) * 3;
             r = DIV[k];
             g = DIV[k + 1];
@@ -707,7 +1134,7 @@
     ctx.textBaseline = "middle";
     ctx.lineJoin = "round";
     sec.cent.forEach((p, k) => {
-      if (!p) return;
+      if (!p || !sec.bigPiece[k]) return;
       const t = TYPES[sec.types[k]].key;
       ctx.lineWidth = 3 * dpr;
       ctx.strokeStyle = "rgba(0,0,0,.6)";
@@ -715,45 +1142,63 @@
       ctx.fillStyle = "#fff";
       ctx.fillText(t, p.x * s, p.y * s);
     });
-    // capillaries (drawn with their periodic images near the edges)
+    // counting frame: inclusion edges (top, right) dashed, exclusion edges (left, bottom) solid; not drawn in exports
+    if (!exporting) {
+      ctx.save();
+      ctx.lineWidth = 2 * dpr;
+      ctx.strokeStyle = "#2e8a4f";
+      ctx.setLineDash([6 * dpr, 4 * dpr]);
+      ctx.beginPath();
+      ctx.moveTo(0, dpr);
+      ctx.lineTo(W - dpr, dpr);
+      ctx.lineTo(W - dpr, W);
+      ctx.stroke();
+      ctx.strokeStyle = "#c2432f";
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(dpr, 0);
+      ctx.lineTo(dpr, W - dpr);
+      ctx.lineTo(W, W - dpr);
+      ctx.stroke();
+      ctx.restore();
+    }
+    // capillaries
     const R = 5 * dpr;
     sec.caps.forEach((c, k) => {
-      for (const ox of [-L, 0, L])
-        for (const oy of [-L, 0, L]) {
-          const X = (c.x + ox) * s,
-            Y = (c.y + oy) * s;
-          if (X < -2 * R || Y < -2 * R || X > W + 2 * R || Y > W + 2 * R) continue;
-          if (k === selCap) {
-            ctx.beginPath();
-            ctx.arc(X, Y, R + 5 * dpr, 0, 7);
-            ctx.lineWidth = 2 * dpr;
-            ctx.strokeStyle = "#fff";
-            ctx.stroke();
-          }
+      {
+        const X = c.x * s,
+          Y = c.y * s;
+        if (k === selCap) {
           ctx.beginPath();
-          ctx.arc(X, Y, R, 0, 7);
-          if (c.shut) {
-            // non-perfused: hollow ring with a bar
-            ctx.fillStyle = "rgba(0,0,0,.35)";
-            ctx.fill();
-            ctx.lineWidth = 1.6 * dpr;
-            ctx.strokeStyle = "#fff";
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(X - R * 0.6, Y + R * 0.6);
-            ctx.lineTo(X + R * 0.6, Y - R * 0.6);
-            ctx.stroke();
-            continue;
-          }
-          if (MODEL.drop > 0) {
-            const k = Math.max(0, Math.min(255, Math.round((capPO2(c) / PC) * 255))) * 3;
-            ctx.fillStyle = `rgb(${SEQ[k]},${SEQ[k + 1]},${SEQ[k + 2]})`;
-          } else ctx.fillStyle = "#c3283b";
+          ctx.arc(X, Y, R + 5 * dpr, 0, 7);
+          ctx.lineWidth = 2 * dpr;
+          ctx.strokeStyle = "#fff";
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.arc(X, Y, R, 0, 7);
+        if (c.shut) {
+          // non-perfused: hollow ring with a bar
+          ctx.fillStyle = "rgba(0,0,0,.35)";
           ctx.fill();
           ctx.lineWidth = 1.6 * dpr;
           ctx.strokeStyle = "#fff";
           ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(X - R * 0.6, Y + R * 0.6);
+          ctx.lineTo(X + R * 0.6, Y - R * 0.6);
+          ctx.stroke();
+          return;
         }
+        if (MODEL.drop > 0) {
+          const k = Math.max(0, Math.min(255, Math.round((capPO2(c) / PC) * 255))) * 3;
+          ctx.fillStyle = `rgb(${SEQ[k]},${SEQ[k + 1]},${SEQ[k + 2]})`;
+        } else ctx.fillStyle = "#c3283b";
+        ctx.fill();
+        ctx.lineWidth = 1.6 * dpr;
+        ctx.strokeStyle = "#fff";
+        ctx.stroke();
+      }
     });
   }
 
@@ -786,7 +1231,7 @@
   }
   let lastStats = null;
   function updateStats() {
-    const st = stats(S, sec, thr);
+    const st = stats(cur(), sec, thr);
     const bs = base ? base.stats(thr) : null;
     lastStats = st;
     $("m-mean").innerHTML = `${fmt(st.mean)} <small>mmHg</small>`;
@@ -805,6 +1250,19 @@
     $("d-low").textContent = bs ? delta(st.low * 100, bs.low * 100, " points") : "";
     $("d-min").textContent = bs ? delta(st.min, bs.min, " mmHg", 2) : "";
     $("lowlab").textContent = `Fibre area below ${thr} mmHg`;
+    $("bytype").innerHTML = TYPES.map((t, i) => {
+      const v = st.typeMean[i],
+        b = bs ? bs.typeMean[i] : NaN;
+      const d =
+        Number.isFinite(v) && Number.isFinite(b) ? delta(v, b, "").replace(" vs baseline", "").replace("no change from baseline", "±0.0") : "";
+      return `<div class="ox-tm"><span class="ox-tmname"><span class="ox-sw" style="background:${TYPE_COLORS[i]}"></span>${t.name}</span><span class="ox-tmv">${Number.isFinite(v) ? fmt(v) : "–"}</span><span class="ox-tmd">${d}</span></div>`;
+    }).join("");
+    $("demtab").innerHTML =
+      `<tr><th>Fibre type</th><th>Relative to type I</th><th>Demand at ${MODEL.intensity}× rest (×10⁻³ ml O₂ ml⁻¹ s⁻¹)</th></tr>` +
+      TYPES.map(
+        (t, i) =>
+          `<tr><td><span class="ox-typechip"><span class="ox-sw" style="background:${TYPE_COLORS[i]}"></span>${t.name}</span></td><td>${t.rel.toFixed(2)}</td><td>${(typeUptake(sec, i) * 1e3).toFixed(2)}</td></tr>`
+      ).join("");
     $("g-n").textContent = st.nCap;
     $("g-f").textContent = st.nFib;
     $("g-cf").textContent = fmt(st.cf, 2);
@@ -815,9 +1273,8 @@
     drawHist(st, bs);
   }
 
-  function drawHist(st, bs) {
-    const svg = $("hist"),
-      w = 340,
+  function drawHist(st, bs, tk = TOK, target = $("hist")) {
+    const w = 340,
       h = 170,
       ml = 34,
       mr = 6,
@@ -832,12 +1289,12 @@
       Y = (v) => mt + ph - (v / ymax) * ph;
     let s = "";
     for (let v = 0; v <= ymax + 1e-9; v += step) {
-      s += `<line x1="${ml}" x2="${w - mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${TOK.line}" stroke-width="1"/>`;
-      s += `<text x="${ml - 6}" y="${Y(v) + 4}" text-anchor="end" font-size="10.5" fill="${TOK.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${Math.round(v * 100)}%</text>`;
+      s += `<line x1="${ml}" x2="${w - mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${tk.line}" stroke-width="1"/>`;
+      s += `<text x="${ml - 6}" y="${Y(v) + 4}" text-anchor="end" font-size="10.5" fill="${tk.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${Math.round(v * 100)}%</text>`;
     }
     for (let p = 0; p <= PC; p += 10)
-      s += `<text x="${X(p)}" y="${h - mb + 15}" text-anchor="middle" font-size="10.5" fill="${TOK.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${p}</text>`;
-    s += `<text x="${ml + pw / 2}" y="${h - 2}" text-anchor="middle" font-size="11" fill="${TOK.muted}" font-family="inherit">Fibre PO₂ (mmHg)</text>`;
+      s += `<text x="${X(p)}" y="${h - mb + 15}" text-anchor="middle" font-size="10.5" fill="${tk.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${p}</text>`;
+    s += `<text x="${ml + pw / 2}" y="${h - 2}" text-anchor="middle" font-size="11" fill="${tk.muted}" font-family="inherit">Fibre PO₂ (mmHg)</text>`;
     const bw = pw / 20;
     st.hist.forEach((v, b) => {
       const x = ml + b * bw + 1,
@@ -853,15 +1310,16 @@
         d += ` V${Y(v)} H${ml + (b + 1) * bw}`;
       });
       d += ` V${mt + ph}`;
-      s += `<path d="${d}" fill="none" stroke="${TOK.ink}" stroke-width="1.5" stroke-linejoin="round"/>`;
+      s += `<path d="${d}" fill="none" stroke="${tk.ink}" stroke-width="1.5" stroke-linejoin="round"/>`;
     }
-    s += `<line x1="${X(thr)}" x2="${X(thr)}" y1="${mt}" y2="${mt + ph}" stroke="${TOK.accent}" stroke-width="1.5" stroke-dasharray="3 3"/>`;
-    s += `<line x1="${ml}" x2="${w - mr}" y1="${mt + ph}" y2="${mt + ph}" stroke="${TOK.muted}" stroke-width="1"/>`;
+    s += `<line x1="${X(thr)}" x2="${X(thr)}" y1="${mt}" y2="${mt + ph}" stroke="${tk.accent}" stroke-width="1.5" stroke-dasharray="3 3"/>`;
+    s += `<line x1="${ml}" x2="${w - mr}" y1="${mt + ph}" y2="${mt + ph}" stroke="${tk.muted}" stroke-width="1"/>`;
     // hit targets
     st.hist.forEach((v, b) => {
       s += `<rect data-b="${b}" x="${ml + b * bw}" y="${mt}" width="${bw}" height="${ph}" fill="transparent"/>`;
     });
-    svg.innerHTML = s;
+    if (target) target.innerHTML = s;
+    return s;
   }
   $("hist").addEventListener("pointermove", (e) => {
     const b = e.target.getAttribute && e.target.getAttribute("data-b");
@@ -884,44 +1342,75 @@
   });
 
   // solver loop
-  let running = false;
+  // coarse (2 µm) answers while a capillary is being dragged; the 1 µm answer follows once the edit is finished
+  let running = false,
+    editing = false,
+    shownCoarse = false;
   function kick() {
-    S.converged = false;
+    S.update(false);
+    shownCoarse = false;
     $("status").textContent = "Solving…";
+    resume();
+  }
+  function resume() {
     if (!running) {
       running = true;
       requestAnimationFrame(loop);
     }
   }
   function loop() {
-    const t0 = performance.now();
-    while (!S.converged && performance.now() - t0 < 12) sweep(S, 4);
+    const done = S.step(14, editing);
     render();
-    if (S.converged) {
-      running = false;
-      if (wantBaseline) setBaseline();
+    if (S.coarseOK && !shownCoarse && !done) {
+      shownCoarse = true;
       updateStats();
       legend();
-      $("status").textContent = "Solved";
-    } else requestAnimationFrame(loop);
+    }
+    if (done) {
+      running = false;
+      if (wantBaseline && S.fineFresh) setBaseline();
+      updateStats();
+      legend();
+      $("status").textContent = S.fineFresh ? "Solved" : "Solved · 2 µm";
+    } else {
+      $("status").textContent = S.coarseOK ? "Refining · 1 µm" : "Solving…";
+      requestAnimationFrame(loop);
+    }
   }
   function setBaseline() {
-    const P = Float64Array.from(S.P),
-      fib = Int16Array.from(S.fib),
-      K = Float64Array.from(S.K);
-    const s2 = { caps: sec.caps.map((c) => ({ ...c })), nFib: sec.nFib };
+    const G = cur();
+    const snap2 = {
+      n: G.n,
+      h: G.h,
+      u: Float64Array.from(G.u),
+      area: Float64Array.from(G.area),
+      fixed: Uint8Array.from(G.fixed),
+      piece: Int32Array.from(G.piece),
+      K: Float64Array.from(G.K),
+      Pm: G.Pm,
+    };
+    const s2 = { caps: sec.caps.map((c) => ({ ...c })), nFib: sec.nFib, types: Int8Array.from(sec.types) };
     const cache = {};
-    base = { P, stats: (t) => cache[t] || (cache[t] = stats({ P, fib, K }, s2, t)) };
+    base = { ...snap2, stats: (t) => cache[t] || (cache[t] = stats(snap2, s2, t)) };
     wantBaseline = false;
   }
 
   function load(seed, keepBase) {
     const prev = sec;
     sec = makeSection(seed, MODEL.shape);
+    attachTissue(sec);
     orig = cloneSec(sec);
-    if (keepBase && prev && prev.seed === seed) sec.types = Int8Array.from(prev.types); // keep retyped fibres when switching shape
+    if (keepBase && prev && prev.seed === seed) {
+      // keep retyped fibres when switching shape (pieces matched by fibre)
+      const bySeed = new Map();
+      prev.pieceSeed.forEach((s, q) => {
+        if (!bySeed.has(s)) bySeed.set(s, prev.types[q]);
+      });
+      sec.types = Int8Array.from(sec.pieceSeed, (s, p) => (bySeed.has(s) ? bySeed.get(s) : sec.types[p]));
+    }
     applyShut(sec);
-    S = makeSolver(sec);
+    normaliseDemand(sec);
+    S = createSolver(sec);
     selCap = -1;
     if (!keepBase) {
       base = null;
@@ -943,7 +1432,7 @@
     let best = -1,
       bd = tol;
     sec.caps.forEach((c, k) => {
-      const d = Math.hypot(mi(p.x - c.x), mi(p.y - c.y));
+      const d = Math.hypot(p.x - c.x, p.y - c.y);
       if (d < bd) {
         bd = d;
         best = k;
@@ -960,6 +1449,7 @@
     down = { ...p, t: performance.now(), moved: false };
     if (drag >= 0) {
       selCap = drag;
+      editing = true;
       cv.classList.add("grabbing");
       render();
     }
@@ -969,9 +1459,9 @@
     if (down && Math.hypot(p.px - down.px, p.py - down.py) > 6) down.moved = true;
     if (drag >= 0 && down.moved) {
       const q = snap(sec, Math.max(0, Math.min(L - 1e-6, p.x)), Math.max(0, Math.min(L - 1e-6, p.y)));
+      clampCap(q);
       sec.caps[drag].x = q.x;
       sec.caps[drag].y = q.y;
-      setCaps(S, sec);
       kick();
     } else if (!down) cv.classList.toggle("grab", hitCap(p) >= 0);
     readout(p);
@@ -981,18 +1471,21 @@
     const p = toMicron(e);
     if (drag >= 0 && !down.moved) {
       // tap on a capillary: shut it or reopen it
+      editing = false;
       sec.caps[drag].shut = !sec.caps[drag].shut;
-      setCaps(S, sec);
       kick();
       readout(p);
     } else if (drag < 0 && !down.moved) {
-      const f = fibreAt(sec, p.x, p.y);
+      const f = pieceAt(sec, p.x, p.y);
       if (f >= 0 && sec.types[f] !== brush) {
         sec.types[f] = brush;
-        setTypes(S, sec);
         kick();
       }
     }
+    if (editing) {
+      editing = false;
+      resume();
+    } // the drag has ended: refine at 1 µm
     drag = -1;
     down = null;
     cv.classList.remove("grabbing");
@@ -1002,6 +1495,10 @@
     drag = -1;
     down = null;
     cv.classList.remove("grabbing");
+    if (editing) {
+      editing = false;
+      resume();
+    }
   });
   cv.addEventListener("pointerleave", (e) => {
     if (e.pointerType === "mouse" && !down) $("readout").textContent = "Point at the section to read PO₂.";
@@ -1009,18 +1506,18 @@
   function readout(p) {
     if (p.x < 0 || p.y < 0 || p.x >= L || p.y >= L) return;
     const hc = hitCap(p);
-    if (hc >= 0 && Math.hypot(mi(p.x - sec.caps[hc].x), mi(p.y - sec.caps[hc].y)) < (8 / CSS) * L + RC) {
+    if (hc >= 0 && Math.hypot(p.x - sec.caps[hc].x, p.y - sec.caps[hc].y) < (8 / CSS) * L + RC) {
       $("readout").textContent = sec.caps[hc].shut
         ? "Non-perfused capillary · tap to reopen"
         : `Capillary · ${capPO2(sec.caps[hc]).toFixed(1)} mmHg · tap to shut`;
       return;
     }
-    const f = fibreAt(sec, p.x, p.y),
-      v = sampleP(S.P, p.x, p.y);
+    const f = pieceAt(sec, p.x, p.y),
+      v = sampleField(cur(), p.x, p.y);
     const where = f < 0 ? "Interstitium" : `${TYPES[sec.types[f]].name} fibre`;
     let txt = `${where} · ${v.toFixed(1)} mmHg`;
     if (base && f >= 0) {
-      const dv = v - sampleP(base.P, p.x, p.y);
+      const dv = v - sampleField(base, p.x, p.y);
       if (Math.abs(dv) >= 0.05) txt += ` (${dv > 0 ? "+" : "−"}${Math.abs(dv).toFixed(1)})`;
     }
     $("readout").textContent = txt;
@@ -1036,9 +1533,9 @@
     if (mv && selCap >= 0) {
       const c = sec.caps[selCap],
         q = snap(sec, c.x + mv[0], c.y + mv[1]);
+      clampCap(q);
       c.x = q.x;
       c.y = q.y;
-      setCaps(S, sec);
       kick();
       e.preventDefault();
     }
@@ -1087,30 +1584,25 @@
   });
   segGroup("intseg", (v) => {
     MODEL.intensity = +v;
-    setTypes(S, sec);
     kick();
   });
   segGroup("bcseg", (v) => {
     MODEL.bc = v;
-    setCaps(S, sec);
     kick();
   });
   segGroup("mbseg", (v) => {
     const k = +v;
     MODEL.mb = k > 0;
     MODEL.mbScale = k || 1;
-    setTypes(S, sec);
     kick();
   });
   segGroup("capseg", (v) => {
     MODEL.drop = +v;
-    setCaps(S, sec);
     kick();
   });
   segGroup("shutseg", (v) => {
     MODEL.shutFrac = +v;
     applyShut(sec);
-    setCaps(S, sec);
     kick();
   });
   $("cmap").innerHTML = Object.entries(MAPS)
@@ -1131,7 +1623,7 @@
     updateStats();
   });
   $("baseline").addEventListener("click", () => {
-    if (S.converged) {
+    if (S.converged && S.fineFresh) {
       setBaseline();
       updateStats();
       render();
@@ -1142,8 +1634,7 @@
     sec.types = Int8Array.from(orig.types);
     sec.caps = orig.caps.map((c) => ({ ...c }));
     applyShut(sec);
-    normaliseDemand(S, sec);
-    setCaps(S, sec);
+    normaliseDemand(sec);
     selCap = -1;
     kick();
   });
@@ -1167,6 +1658,381 @@
   };
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", onTheme);
   new MutationObserver(onTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  readTokens();
-  load(7);
+  // info buttons: one explanation open at a time
+  document.querySelectorAll(".ox-info").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      document.querySelectorAll(".ox-info[aria-expanded='true']").forEach((b) => {
+        b.setAttribute("aria-expanded", "false");
+        document.getElementById(b.getAttribute("aria-controls")).hidden = true;
+      });
+      btn.setAttribute("aria-expanded", String(open));
+      document.getElementById(btn.getAttribute("aria-controls")).hidden = !open;
+    });
+  });
+  // each closed group shows its current settings
+  function summaries() {
+    document.querySelectorAll(".ox-gsum").forEach((el) => {
+      el.textContent = el.dataset.for
+        .split(",")
+        .map((id) => {
+          const n = $(id);
+          if (n.tagName === "SELECT") return n.options[n.selectedIndex].text;
+          const b = n.querySelector("button[aria-pressed='true']");
+          const t = b ? b.textContent.trim() : "";
+          const fmt = {
+            shutseg: (s) => (s === "None" ? "All perfused" : s + " shut"),
+            mbseg: (s) => "Myoglobin " + s.toLowerCase(),
+            brushseg: (s) => "tap → " + s,
+            capseg: (s) => (s.includes("mmHg") ? s : s + " mmHg"),
+          };
+          return t && fmt[id] ? fmt[id](t) : t;
+        })
+        .filter(Boolean)
+        .join(" · ");
+    });
+  }
+  document.querySelector(".ox-model").addEventListener("click", () => setTimeout(summaries, 0));
+  document.querySelector(".ox-model").addEventListener("change", summaries);
+  // on narrow screens only one group stays open
+  const narrow = matchMedia("(max-width: 880px)");
+  document.querySelectorAll(".ox-grp").forEach((d) =>
+    d.addEventListener("toggle", () => {
+      if (d.open && narrow.matches)
+        document.querySelectorAll(".ox-grp").forEach((o) => {
+          if (o !== d) o.open = false;
+        });
+    })
+  );
+  // keep the buttons in step with the model (also after the page is updated while open)
+  const SEGS = { shape: "shapeseg", intensity: "intseg", bc: "bcseg", kinetics: "kinseg", drop: "capseg", shutFrac: "shutseg" };
+  function syncControls() {
+    for (const [k, id] of Object.entries(SEGS))
+      $(id)
+        .querySelectorAll("button")
+        .forEach((b) => b.setAttribute("aria-pressed", String(String(MODEL[k]) === b.dataset.v)));
+    const mbv = String(MODEL.mb ? MODEL.mbScale : 0);
+    $("mbseg")
+      .querySelectorAll("button")
+      .forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === mbv)));
+    $("thr").value = String(thr);
+    $("cmap").value = cmap;
+    summaries();
+  }
+
+  // ---- PDF export ----
+  const LIGHT = {
+    ink: "#1a1e26",
+    muted: "#586172",
+    line: "#d8dce3",
+    accent: "#9a3446",
+    tissue: "#efece4",
+    "div-neg": "#c2432f",
+    "div-mid": "#e6e5e1",
+    "div-pos": "#2f6db0",
+    surface: "#ffffff",
+  };
+  const FIG_MM = 80,
+    MARGIN = 10;
+  const msg = (t) => {
+    $("expmsg").textContent = t;
+  };
+  const segText = (id) => {
+    const b = $(id).querySelector("button[aria-pressed='true']");
+    return b ? b.textContent.trim() : "";
+  };
+  function settingsLine() {
+    return [
+      `Tissue ${sec.seed}`,
+      segText("intseg"),
+      `${segText("bcseg")} wall`,
+      segText("kinseg"),
+      `Myoglobin ${segText("mbseg").toLowerCase()}`,
+      segText("shutseg") === "None" ? "All capillaries perfused" : `${segText("shutseg")} capillaries shut`,
+      `Capillary PO₂ ${segText("capseg")}`,
+      `${segText("shapeseg")} fibres`,
+    ].join(" · ");
+  }
+  // draws text, setting the characters Helvetica lacks (₂, −, ≥, superscripts) by hand
+  function pdfText(doc, str, x, y, size, opts = {}) {
+    str = str.replace(/−/g, "-").replace(/≥/g, ">=").replace(/→/g, "->");
+    const runs = str.split(/(₂|⁻¹|⁻²|⁻³|⁻⁵)/).filter((r) => r !== "");
+    const sup = { "⁻¹": "-1", "⁻²": "-2", "⁻³": "-3", "⁻⁵": "-5" };
+    doc.setFontSize(size);
+    let total = 0;
+    for (const r of runs) {
+      doc.setFontSize(r === "₂" || sup[r] ? size * 0.68 : size);
+      total += doc.getTextWidth(r === "₂" ? "2" : sup[r] || r);
+    }
+    let cx = opts.align === "center" ? x - total / 2 : opts.align === "right" ? x - total : x;
+    const pt = 0.3528;
+    for (const r of runs) {
+      if (r === "₂") {
+        doc.setFontSize(size * 0.68);
+        doc.text("2", cx, y + size * pt * 0.22);
+        cx += doc.getTextWidth("2");
+      } else if (sup[r]) {
+        doc.setFontSize(size * 0.68);
+        doc.text(sup[r], cx, y - size * pt * 0.38);
+        cx += doc.getTextWidth(sup[r]);
+      } else {
+        doc.setFontSize(size);
+        doc.text(r, cx, y);
+        cx += doc.getTextWidth(r);
+      }
+    }
+    doc.setFontSize(size);
+  }
+  function newDoc(heightMM, title) {
+    const { jsPDF } = window.jspdf;
+    const w = FIG_MM + 2 * MARGIN;
+    const doc = new jsPDF({ unit: "mm", format: [w, heightMM], orientation: w > heightMM ? "landscape" : "portrait", compress: true });
+    doc.setProperties({ title, creator: "Muscle oxygen explorer" });
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(26, 30, 38);
+    return doc;
+  }
+  function headerText(doc, title) {
+    doc.setFont("helvetica", "bold");
+    pdfText(doc, title, MARGIN, MARGIN, 9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(88, 97, 114);
+    const lines = doc.splitTextToSize(settingsLine().replace(/₂/g, "2"), FIG_MM);
+    doc.setFontSize(6);
+    doc.text(lines, MARGIN, MARGIN + 4);
+    doc.setTextColor(26, 30, 38);
+    return MARGIN + 4 + lines.length * 2.6 + 1.5;
+  }
+  async function savePdf(doc, filename) {
+    const blob = doc.output("blob");
+    let dl = null;
+    try {
+      dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+    } catch (e) {
+      dl = null;
+    }
+    if (dl) {
+      try {
+        await dl.save({ filename, data: blob });
+        msg(`Saved ${filename}`);
+      } catch (e) {
+        msg(e && e.code === "declined" ? "Export cancelled." : "Saving files is not available in this view.");
+      }
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      URL.revokeObjectURL(a.href);
+      a.remove();
+    }, 2000);
+    msg(`Saved ${filename}`);
+  }
+  const ready = () => {
+    if (!window.jspdf) {
+      msg("The PDF library could not be loaded, so export is unavailable.");
+      return false;
+    }
+    if (!S.converged || !S.fineFresh) {
+      msg("Wait until the 1 µm solution is ready, then export.");
+      return false;
+    }
+    return true;
+  };
+  const pause = () => new Promise((r) => setTimeout(r, 30));
+
+  async function exportMap() {
+    if (!ready()) return;
+    const dpi = +$("dpi").value || 600,
+      Wp = Math.round((FIG_MM / 25.4) * dpi);
+    msg(`Preparing PDF at ${dpi} dpi…`);
+    await pause();
+    const dispP = new Int16Array(Wp * Wp);
+    for (let py = 0; py < Wp; py++)
+      for (let px = 0; px < Wp; px++) {
+        const x = ((px + 0.5) / Wp) * L,
+          y = ((py + 0.5) / Wp) * L;
+        const q = (Math.round(y / H) % N) * N + (Math.round(x / H) % N);
+        const f = classify(sec, x, y, sec.cand.subarray(q * NCAND, q * NCAND + NCAND)).f;
+        dispP[py * Wp + px] = f < 0 ? -1 : pieceAt(sec, x, y, f);
+      }
+    const off = document.createElement("canvas");
+    off.width = off.height = Wp;
+    const keep = { ctx, W, CSS, img, disp, TISSUE, DIV, selCap };
+    // CSS = 400 sets labels to about 6 pt and capillaries to about 2 mm across on the 8 cm figure
+    ctx = off.getContext("2d");
+    W = Wp;
+    CSS = 400;
+    img = ctx.createImageData(Wp, Wp);
+    disp = dispP;
+    selCap = -1;
+    TISSUE = hex(LIGHT.tissue);
+    DIV = lut([LIGHT["div-neg"], LIGHT["div-mid"], LIGHT["div-pos"]]);
+    try {
+      exporting = true;
+      render();
+      exporting = false;
+      // scale bar, 50 µm, drawn into the image so the µ sign survives
+      const k = Wp / FIG_MM,
+        sb = (Wp * 50) / L,
+        sx = 3 * k,
+        sy = Wp - 4 * k;
+      ctx.lineCap = "butt";
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = 0.9 * k;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(sx + sb, sy);
+      ctx.stroke();
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 0.5 * k;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(sx + sb, sy);
+      ctx.stroke();
+      ctx.font = `500 ${2.3 * k}px Helvetica, Arial, sans-serif`;
+      ctx.textAlign = "left";
+      ctx.textBaseline = "alphabetic";
+      ctx.lineWidth = 0.5 * k;
+      ctx.strokeStyle = "rgba(0,0,0,.7)";
+      ctx.strokeText("50 µm", sx, sy - 1.3 * k);
+      ctx.fillStyle = "#fff";
+      ctx.fillText("50 µm", sx, sy - 1.3 * k);
+    } finally {
+      exporting = false;
+      ({ ctx, W, CSS, img, disp, TISSUE, DIV, selCap } = keep);
+      render();
+    }
+    const title = view === "type" ? "Fibre type" : view === "change" ? "Change in PO₂ since baseline (mmHg)" : "Predicted PO₂ (mmHg)";
+    // measure the header first, then size the page
+    const tmp = newDoc(200, title),
+      y = headerText(tmp, title);
+    const pageH = y + FIG_MM + 16;
+    const pdf = newDoc(pageH, title);
+    headerText(pdf, title);
+    pdf.addImage(off.toDataURL("image/png"), "PNG", MARGIN, y, FIG_MM, FIG_MM, undefined, "FAST");
+    pdf.setDrawColor(216, 220, 227);
+    pdf.setLineWidth(0.2);
+    pdf.rect(MARGIN, y, FIG_MM, FIG_MM);
+    // colour bar or type key
+    const cy = y + FIG_MM + 4;
+    if (view === "type") {
+      let kx = MARGIN;
+      TYPES.forEach((t, i) => {
+        const c = hex(TYPE_COLORS[i]);
+        pdf.setFillColor(c[0], c[1], c[2]);
+        pdf.rect(kx, cy, 3, 3, "F");
+        pdf.setFontSize(7);
+        pdf.text(`${t.name} (demand ${t.rel.toFixed(2)} of type I)`, kx + 4, cy + 2.4);
+        kx += 27;
+      });
+    } else {
+      const bar = document.createElement("canvas");
+      bar.width = 512;
+      bar.height = 1;
+      const bctx = bar.getContext("2d"),
+        bd = bctx.createImageData(512, 1);
+      const lu = view === "change" ? lut([LIGHT["div-neg"], LIGHT["div-mid"], LIGHT["div-pos"]]) : SEQ;
+      for (let i = 0; i < 512; i++) {
+        const k = Math.round((i / 511) * 255) * 3;
+        bd.data.set([lu[k], lu[k + 1], lu[k + 2], 255], i * 4);
+      }
+      bctx.putImageData(bd, 0, 0);
+      pdf.addImage(bar.toDataURL("image/png"), "PNG", MARGIN, cy, FIG_MM, 3);
+      pdf.setLineWidth(0.15);
+      pdf.setDrawColor(150, 150, 150);
+      pdf.rect(MARGIN, cy, FIG_MM, 3);
+      const ticks =
+        view === "change"
+          ? [
+              [-divRange, 0],
+              [0, 0.5],
+              [divRange, 1],
+            ]
+          : [
+              [0, 0],
+              [10, 0.25],
+              [20, 0.5],
+              [30, 0.75],
+              [40, 1],
+            ];
+      pdf.setTextColor(88, 97, 114);
+      ticks.forEach(([v, f], i) =>
+        pdfText(
+          pdf,
+          (view === "change" && v > 0 ? "+" : "") + (v === 40 && view !== "change" ? "≥40" : String(v)),
+          MARGIN + f * FIG_MM,
+          cy + 6.2,
+          6.5,
+          { align: i === 0 ? "left" : i === ticks.length - 1 ? "right" : "center" }
+        )
+      );
+      pdf.setTextColor(26, 30, 38);
+    }
+    await savePdf(pdf, `oxygen-${view === "type" ? "fibre-types" : view === "change" ? "po2-change" : "po2-map"}-tissue${sec.seed}.pdf`);
+  }
+
+  async function exportHist() {
+    if (!ready() || !lastStats) return;
+    const dpi = +$("dpi").value || 600,
+      Wp = Math.round((FIG_MM / 25.4) * dpi),
+      Hp = Math.round((Wp * 170) / 340);
+    msg(`Preparing PDF at ${dpi} dpi…`);
+    await pause();
+    const bs = base ? base.stats(thr) : null;
+    const inner = drawHist(lastStats, bs, LIGHT, null)
+      .replace(/<rect data-b[^>]*\/>/g, "")
+      .replace(/font-family="[^"]*"/g, 'font-family="Helvetica, Arial, sans-serif"');
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 170" width="${Wp}" height="${Hp}"><rect width="340" height="170" fill="#ffffff"/>${inner}</svg>`;
+    const im = new Image();
+    const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+    try {
+      im.src = url;
+      await im.decode();
+    } finally {
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+    const c = document.createElement("canvas");
+    c.width = Wp;
+    c.height = Hp;
+    const cx = c.getContext("2d");
+    cx.fillStyle = "#fff";
+    cx.fillRect(0, 0, Wp, Hp);
+    cx.drawImage(im, 0, 0, Wp, Hp);
+    const title = "Distribution of fibre PO₂";
+    const tmp = newDoc(200, title);
+    const y = headerText(tmp, title);
+    const hmm = (FIG_MM * Hp) / Wp,
+      pageH = y + hmm + 15;
+    const pdf = newDoc(pageH, title);
+    headerText(pdf, title);
+    pdf.addImage(c.toDataURL("image/png"), "PNG", MARGIN, y, FIG_MM, hmm, undefined, "FAST");
+    pdf.setTextColor(88, 97, 114);
+    pdfText(pdf, `Bars: share of fibre area in each 2 mmHg band${bs ? "; outline: baseline" : ""}.`, MARGIN, y + hmm + 4, 6);
+    pdfText(pdf, `Dashed line: low-PO₂ threshold (${thr} mmHg).`, MARGIN, y + hmm + 7, 6);
+    pdfText(
+      pdf,
+      `Mean fibre PO₂ ${fmt(lastStats.mean)} mmHg · area below ${thr} mmHg ${fmt(lastStats.low * 100)}% · demand met ${fmt(lastStats.met * 100)}%`,
+      MARGIN,
+      y + hmm + 10,
+      6
+    );
+    await savePdf(pdf, `oxygen-po2-distribution-tissue${sec.seed}.pdf`);
+  }
+  $("exp-map").addEventListener("click", exportMap);
+  $("exp-hist").addEventListener("click", exportHist);
+
+  function start(data) {
+    if (data && data.v !== 3) data = {}; // settings from an older version of the page are not carried over
+    if (data && data.MODEL) Object.assign(MODEL, data.MODEL);
+    if (data && data.thr) thr = data.thr;
+    readTokens();
+    load(data && data.seed ? data.seed : 7);
+    syncControls();
+    setTimeout(syncControls, 400);
+  }
+  start({});
 })();
