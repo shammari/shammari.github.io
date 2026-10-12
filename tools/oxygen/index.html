@@ -1,0 +1,253 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Muscle oxygen explorer | Abdullah A. Al-Shammari </title> <meta name="author" content="Abdullah A. Al-Shammari"> <meta name="description" content="Move capillaries, shut them down or change fibre types in a muscle cross-section and see the predicted oxygen supply respond. Illustrative models that run in your browser."> <meta name="keywords" content="mathematical biology, mathematical modelling, dynamical systems, oxygen transport, capillary networks, epidemiology, COVID-19, Kuwait University"> <meta property="og:site_name" content="Abdullah A. Al-Shammari"> <meta property="og:type" content="website"> <meta property="og:title" content="Abdullah A. Al-Shammari | Muscle oxygen explorer"> <meta property="og:url" content="https://shammari.github.io/tools/oxygen/"> <meta property="og:description" content="Move capillaries, shut them down or change fibre types in a muscle cross-section and see the predicted oxygen supply respond. Illustrative models that run in your browser."> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="Muscle oxygen explorer"> <meta name="twitter:description" content="Move capillaries, shut them down or change fibre types in a muscle cross-section and see the predicted oxygen supply respond. Illustrative models that run in your browser."> <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Abdullah A. Al-Shammari"
+        },
+        "url": "https://shammari.github.io/tools/oxygen/",
+        "@type": "WebSite",
+        "description": "Move capillaries, shut them down or change fibre types in a muscle cross-section and see the predicted oxygen supply respond. Illustrative models that run in your browser.",
+        "headline": "Muscle oxygen explorer",
+        
+        "sameAs": ["https://scholar.google.com/citations?user=4hTO4WMAAAAJ","https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/","https://github.com/shammari","https://orcid.org/0000-0002-4512-1151"],
+        
+        "name": "Abdullah A. Al-Shammari",
+        "@context": "https://schema.org"
+    }
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%93%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://shammari.github.io/tools/oxygen/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span>Abdullah</span> A. Al-Shammari </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item "> <a class="nav-link" href="/teaching/">teaching </a> </li> <li class="nav-item "> <a class="nav-link" href="/group/">group </a> </li> <li class="nav-item active"> <a class="nav-link" href="/tools/">tools <span class="sr-only">(current)</span> </a> </li> <li class="nav-item"> <a class="nav-link" href="/ar/" lang="ar" hreflang="ar">العربية</a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Muscle oxygen explorer</h1> <p class="post-description">Move capillaries, shut them down or change fibre types in a muscle cross-section and see the predicted oxygen supply respond. Illustrative models that run in your browser.</p> </header> <article> <style>
+  .ox-root {
+    --ox-surface: var(--global-bg-color);
+    --ox-bg: var(--global-bg-color);
+    --ox-panel: color-mix(in srgb, var(--global-text-color) 3.5%, var(--global-bg-color));
+    --ox-ink: var(--global-text-color);
+    --ox-muted: var(--global-text-color-light);
+    --ox-line: var(--global-divider-color);
+    --ox-accent: var(--global-theme-color);
+    --ox-tissue: #efece4;
+    --ox-div-neg: #c2432f;
+    --ox-div-mid: #e6e5e1;
+    --ox-div-pos: #2f6db0;
+    --ox-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    container-type: inline-size;
+    margin: 1rem 0 2rem;
+    color: var(--ox-ink);
+  }
+  html[data-theme="dark"] .ox-root {
+    --ox-tissue: #1f2228;
+    --ox-div-neg: #e3684f;
+    --ox-div-mid: #3a3c41;
+    --ox-div-pos: #5f9ae0;
+  }
+  .ox-root button, .ox-root select { font: inherit; color: inherit; }
+  .ox-root :focus-visible { outline: 2px solid var(--ox-accent); outline-offset: 2px; }
+
+  /* Phone: one column. Wide: the section and its options on the left, readouts on the right. */
+  .ox-bench { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @container (min-width: 820px) {
+    .ox-bench { grid-template-columns: minmax(0, 1fr) 290px; }
+    .ox-panel { position: sticky; top: 69px; }
+  }
+  .ox-stage, .ox-panel { display: grid; gap: 12px; min-width: 0; }
+  .ox-panel { gap: 16px; }
+  .ox-toolbar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; }
+  .ox-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .ox-label { font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ox-muted); font-weight: 500; }
+  .ox-seg { display: inline-flex; flex-wrap: wrap; gap: 6px; max-width: 100%; }
+  .ox-seg button { font-size: 0.8125rem; padding: 5px 11px; border: 1px solid var(--ox-line); border-radius: 999px; background: var(--ox-surface); cursor: pointer; line-height: 1.3; }
+  .ox-seg button:hover { border-color: var(--ox-accent); }
+  .ox-seg button[aria-pressed="true"] { background: var(--ox-accent); border-color: var(--ox-accent); color: #fff; }
+  .ox-root .ox-btn { font-size: 0.8125rem; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--ox-line); background: var(--ox-surface); cursor: pointer; }
+  .ox-btn:hover { border-color: var(--ox-accent); }
+  .ox-typechip { display: inline-flex; align-items: center; gap: 6px; }
+  .ox-sw { width: 11px; height: 11px; border-radius: 3px; display: inline-block; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); }
+
+  .ox-canvas-box { position: relative; width: 100%; aspect-ratio: 1 / 1; max-width: 100%; border-radius: 6px; overflow: hidden; background: var(--ox-tissue); box-shadow: 0 0 0 1px var(--ox-line); }
+  #ox-tissue { display: block; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+  #ox-tissue.grab { cursor: grab; }
+  #ox-tissue.grabbing { cursor: grabbing; }
+  .ox-scalebar { position: absolute; left: 10px; bottom: 10px; display: grid; gap: 2px; color: #fff; font-family: var(--ox-mono); font-size: 11px; text-shadow: 0 0 3px #000, 0 0 2px #000; pointer-events: none; }
+  .ox-scalebar .ox-bar { height: 3px; background: #fff; box-shadow: 0 0 2px #000; }
+  .ox-status { position: absolute; right: 10px; top: 10px; font-family: var(--ox-mono); font-size: 11px; padding: 3px 8px; border-radius: 999px; background: rgba(0, 0, 0, 0.55); color: #fff; pointer-events: none; }
+  .ox-readout { font-family: var(--ox-mono); font-size: 0.8125rem; color: var(--ox-muted); min-height: 1.5em; font-variant-numeric: tabular-nums; }
+
+  .ox-legendrow { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: end; }
+  .ox-legend { display: grid; gap: 4px; flex: 1 1 240px; min-width: 0; }
+  .ox-cbar { height: 12px; border-radius: 3px; box-shadow: 0 0 0 1px var(--ox-line); }
+  .ox-cticks { display: flex; justify-content: space-between; font-family: var(--ox-mono); font-size: 11px; color: var(--ox-muted); }
+  .ox-typelegend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8125rem; }
+  .ox-thr { display: flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--ox-muted); }
+  .ox-root select { font-size: 0.8125rem; padding: 3px 6px; border-radius: 6px; border: 1px solid var(--ox-line); background: var(--ox-surface); }
+
+  .ox-card { background: var(--ox-panel); border: 1px solid var(--ox-line); border-radius: 10px; padding: 14px; display: grid; gap: 12px; min-width: 0; }
+  .ox-model { gap: 16px; }
+  .ox-root .ox-ch { font-size: 1.05rem; font-weight: 500; margin: 0; }
+  .ox-opt { display: grid; gap: 6px; justify-items: start; }
+  .ox-note { font-size: 0.8125rem; color: var(--ox-muted); margin: 0; }
+  .ox-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .ox-metric { display: grid; gap: 2px; align-content: start; }
+  .ox-v { font-family: var(--ox-mono); font-size: 1.3rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .ox-v small { font-size: 0.75rem; color: var(--ox-muted); font-weight: 400; }
+  .ox-d { font-family: var(--ox-mono); font-size: 0.72rem; color: var(--ox-muted); font-variant-numeric: tabular-nums; }
+  .ox-geom { display: grid; grid-template-columns: auto auto; justify-content: start; gap: 4px 16px; font-size: 0.875rem; margin: 0; }
+  .ox-geom dt { color: var(--ox-muted); font-weight: 400; }
+  .ox-geom dd { margin: 0; font-family: var(--ox-mono); font-variant-numeric: tabular-nums; }
+  .ox-hist-box { position: relative; }
+  .ox-hist-box svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .ox-tip { position: absolute; pointer-events: none; background: var(--ox-ink); color: var(--ox-bg); font-size: 12px; font-family: var(--ox-mono); padding: 5px 8px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, -100%); }
+
+  .ox-params { width: 100%; font-size: 0.875rem; }
+  .ox-params td:last-child { text-align: right; padding-left: 12px; }
+  .cp-meta { display: block; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--global-text-color-light); }
+  .cp-further { border: 1px solid var(--global-divider-color); border-left: 3px solid var(--global-theme-color); border-radius: 6px; padding: 1rem 1.2rem 0.4rem; margin: 1rem 0 1.5rem; scroll-margin-top: 5rem; }
+  .cp-further h3 { font-size: 1.15rem; margin: 0.3rem 0 0.8rem; }
+  .cp-further p, .cp-further li { font-size: 0.95rem; }
+  .cp-further .cp-label { font-weight: 600; margin-bottom: 0.3rem; }
+</style> <p>Drag a capillary, shut it down or change a fibre’s type, and watch the predicted oxygen partial pressure (PO₂) across a cross-section of skeletal muscle respond. The section is synthetic, the parameters come from our published models, and everything runs in your browser. Predictions assume maximal vascular capacity and are illustrative.</p> <div class="ox-root"> <div class="ox-bench"> <div class="ox-stage"> <div class="ox-toolbar"> <div class="ox-group"> <span class="ox-label" id="ox-viewlab">Show</span> <div class="ox-seg" role="group" aria-labelledby="ox-viewlab" id="ox-viewseg"> <button type="button" data-view="po2" aria-pressed="true">PO₂</button> <button type="button" data-view="change" aria-pressed="false">Change</button> <button type="button" data-view="type" aria-pressed="false">Fibre type</button> </div> </div> <span class="ox-readout" id="ox-secname"></span> </div> <div class="ox-canvas-box"> <canvas id="ox-tissue" tabindex="0" aria-label="Muscle cross-section. Drag a capillary to move it; tap a capillary to shut or reopen it; tap a fibre to change its type. With the keyboard, press [ and ] to select a capillary and the arrow keys to move it."></canvas> <div class="ox-scalebar" aria-hidden="true"> <span class="ox-bar" id="ox-sbar"></span><span>50 µm</span> </div> <div class="ox-status" id="ox-status">Solving…</div> </div> <div class="ox-readout" id="ox-readout" aria-live="polite">Point at the section to read PO₂.</div> <div class="ox-legendrow"> <div class="ox-legend" id="ox-legend"></div> <div class="ox-thr"> <label for="ox-cmap">Colour map</label><select id="ox-cmap"></select> </div> </div> <div class="ox-toolbar"> <div class="ox-group"> <span class="ox-label" id="ox-brushlab">Tap a fibre to make it</span> <div class="ox-seg" role="group" aria-labelledby="ox-brushlab" id="ox-brushseg"></div> </div> <div class="ox-group"> <button type="button" class="ox-btn" id="ox-baseline">Set as baseline</button> <button type="button" class="ox-btn" id="ox-reset">Reset</button> <button type="button" class="ox-btn" id="ox-newsec">New tissue</button> </div> </div> <div class="ox-card ox-model"> <h3 class="ox-ch">Model options</h3> <div class="ox-opt"> <span class="ox-label" id="ox-shapelab">Fibre shape</span> <div class="ox-seg" role="group" aria-labelledby="ox-shapelab" id="ox-shapeseg"> <button type="button" data-v="polygon" aria-pressed="true">Polygons</button> <button type="button" data-v="realistic" aria-pressed="false">Realistic</button> </div> <p class="ox-note">Realistic fibres have rounded corners that leave pockets where fibres meet, gently curved edges, sizes that differ by type (type II larger), a slight oblique stretch and endomysium of varying thickness. Switching keeps the same tissue and the baseline, so <em>Change</em> shows the effect of shape alone.</p> </div> <div class="ox-opt"> <span class="ox-label" id="ox-intlab">Exercise intensity</span> <div class="ox-seg" role="group" aria-labelledby="ox-intlab" id="ox-intseg"> <button type="button" data-v="1" aria-pressed="false">Rest ×1</button> <button type="button" data-v="3" aria-pressed="false">Low ×3</button> <button type="button" data-v="6" aria-pressed="false">Moderate ×6</button> <button type="button" data-v="12" aria-pressed="true">Intense ×12</button> </div> <p class="ox-note" id="ox-uptake"></p> <p class="ox-note">Demand is set so the tissue-average demand at rest equals the published M₀, keeping the ratios between fibre types, then multiplied by the intensity. Fibre-type rates are fixed when a tissue is generated, so retyping a fibre changes the tissue's total demand.</p> </div> <div class="ox-opt"> <span class="ox-label" id="ox-bclab">Capillary wall</span> <div class="ox-seg" role="group" aria-labelledby="ox-bclab" id="ox-bcseg"> <button type="button" data-v="dirichlet" aria-pressed="true">Dirichlet</button> <button type="button" data-v="robin" aria-pressed="false">Robin</button> </div> <p class="ox-note">Dirichlet holds the capillary wall at the capillary PO₂. Robin lets oxygen cross the wall at a rate k(P<sub>cap</sub> − P), so PO₂ falls across the wall and less oxygen reaches the tissue.</p> </div> <div class="ox-opt"> <span class="ox-label" id="ox-kinlab">Oxygen consumption</span> <div class="ox-seg" role="group" aria-labelledby="ox-kinlab" id="ox-kinseg"> <button type="button" data-v="mm" aria-pressed="true">Michaelis–Menten</button> <button type="button" data-v="zero" aria-pressed="false">Constant</button> </div> <p class="ox-note">Michaelis–Menten consumption slows as PO₂ approaches zero. Constant consumption continues at the full rate until oxygen runs out, so anoxic regions can form.</p> </div> <div class="ox-opt"> <span class="ox-label" id="ox-mblab">Myoglobin-facilitated diffusion</span> <div class="ox-seg" role="group" aria-labelledby="ox-mblab" id="ox-mbseg"> <button type="button" data-v="0" aria-pressed="true">Off</button> <button type="button" data-v="1" aria-pressed="false">Published values</button> <button type="button" data-v="2" aria-pressed="false">Doubled</button> </div> <p class="ox-note">Oxygen bound to myoglobin also diffuses inside the fibres, which matters most at low PO₂. Myoglobin content by fibre type follows Al-Shammari et al. (2014); type I fibres carry the most.</p> </div> <div class="ox-opt"> <span class="ox-label" id="ox-caplab">Capillary PO₂</span> <div class="ox-seg" role="group" aria-labelledby="ox-caplab" id="ox-capseg"> <button type="button" data-v="0" aria-pressed="true">All 40 mmHg</button> <button type="button" data-v="10" aria-pressed="false">30–40</button> <button type="button" data-v="20" aria-pressed="false">20–40</button> </div> <p class="ox-note">40 mmHg is the maximum. Varied PO₂ spreads capillary values evenly below it; each capillary keeps its value when moved and is coloured by it.</p> </div> <div class="ox-opt"> <span class="ox-label" id="ox-shutlab">Non-perfused capillaries</span> <div class="ox-seg" role="group" aria-labelledby="ox-shutlab" id="ox-shutseg"> <button type="button" data-v="0" aria-pressed="true">None</button> <button type="button" data-v="0.1" aria-pressed="false">10%</button> <button type="button" data-v="0.2" aria-pressed="false">20%</button> <button type="button" data-v="0.3" aria-pressed="false">30%</button> </div> <p class="ox-note">Shut capillaries stay in place but supply no oxygen, a functional rarefaction. Tap any capillary to shut it or reopen it.</p> </div> </div> </div> <aside class="ox-panel"> <div class="ox-card"> <h3 class="ox-ch">Predicted fibre oxygenation</h3> <div class="ox-metrics"> <div class="ox-metric"> <span class="ox-label">Mean fibre PO₂</span><span class="ox-v" id="ox-m-mean">–</span><span class="ox-d" id="ox-d-mean"></span> </div> <div class="ox-metric"> <span class="ox-label" id="ox-lowlab">Fibre area below 0.5 mmHg</span><span class="ox-v" id="ox-m-low">–</span><span class="ox-d" id="ox-d-low"></span> </div> <div class="ox-metric"> <span class="ox-label">Lowest fibre PO₂</span><span class="ox-v" id="ox-m-min">–</span><span class="ox-d" id="ox-d-min"></span> </div> <div class="ox-metric"> <span class="ox-label">Demand met</span><span class="ox-v" id="ox-m-met">–</span><span class="ox-d" id="ox-d-met"></span> </div> </div> <div class="ox-thr"> <label for="ox-thr">Low-PO₂ threshold</label> <select id="ox-thr"><option value="0.5" selected>0.5 mmHg</option> <option value="1">1 mmHg</option> <option value="2">2 mmHg</option> <option value="5">5 mmHg</option></select> </div> <div class="ox-hist-box" id="ox-histbox"> <svg id="ox-hist" viewbox="0 0 340 170" role="img" aria-label="Distribution of fibre area by PO₂"></svg> <div class="ox-tip" id="ox-tip" hidden=""></div> </div> <p class="ox-note">Bars show the share of fibre area in each 2 mmHg band; the outline shows the baseline.</p> </div> <div class="ox-card"> <h3 class="ox-ch">Capillary geometry</h3> <dl class="ox-geom"> <dt>Capillaries</dt> <dd id="ox-g-n">–</dd> <dt>Fibres</dt> <dd id="ox-g-f">–</dd> <dt>Capillary-to-fibre ratio</dt> <dd id="ox-g-cf">–</dd> <dt>Capillary density</dt> <dd id="ox-g-cd">–</dd> <dt>Perfused capillaries</dt> <dd id="ox-g-np">–</dd> <dt>Perfused capillary-to-fibre ratio</dt> <dd id="ox-g-cfp">–</dd> <dt>Perfused capillary density</dt> <dd id="ox-g-cdp">–</dd> </dl> <p class="ox-note">Moving a capillary leaves all of these descriptors unchanged, while the predicted PO₂ map changes. Shutting capillaries lowers only the perfused values; the anatomical counts stay the same.</p> </div> </aside> </div> </div> <h2 id="things-to-try">Things to try</h2> <ol> <li>Find a fibre with a dark core and drag a nearby capillary toward it. Watch how far the change spreads, including in the fibres the capillary left.</li> <li>Press <em>Set as baseline</em>, then move capillaries without changing how many there are. Capillary density and the capillary-to-fibre ratio stay the same, while the predicted PO₂ map and the low-PO₂ area change.</li> <li>Shut 20% of the capillaries. The anatomical capillary-to-fibre ratio is unchanged, but hypoxic regions appear around the shut ones. Tap individual capillaries to see which ones matter most.</li> <li>Tap a type I fibre to make it type IIX. Its demand falls, so its PO₂ rises, and neighbours sharing the same capillaries can gain too.</li> <li>Switch from <em>Polygons</em> to <em>Realistic</em> fibres with a baseline set, and view <em>Change</em> to see the effect of fibre shape alone.</li> <li>Step the exercise intensity from rest to intense, and compare fixed capillary PO₂ (Dirichlet) with a capillary wall that resists oxygen exchange (Robin).</li> </ol> <h2 id="how-it-is-computed">How it is computed</h2> <p>Oxygen diffuses from the capillaries and is consumed in the fibres. At steady state the PO₂, \(P\), satisfies a reaction–diffusion PDE:</p> \[\nabla\cdot\left[\,D\alpha\,\nabla P + D_{Mb}C_{Mb}\,\nabla S\,\right] = M\,\frac{P}{P + P_m}, \qquad S = \frac{P}{P + P_{50,Mb}},\] <p>where the second term on the left, diffusion of oxygen bound to myoglobin, is included only when myoglobin is switched on. Myoglobin is assumed to be in local equilibrium with dissolved oxygen, with saturation \(S\). Consumption and myoglobin are confined to the fibres. Constant consumption is approximated by a very small \(P_m\).</p> <p>On each perfused capillary, either the PO₂ is fixed (Dirichlet), \(P = P_{cap}\), or oxygen crosses the wall at a rate set by its mass transfer coefficient (Robin), \(-\mathbf{n}\cdot D\alpha\nabla P = k\,(P_{cap} - P)\). In the Robin case the wall exchange of each capillary, \(2\pi r_c\, k\,(P_{cap} - P)\), is spread over the grid points inside it, which keeps its total wall conductance exact.</p> <p>Demand is set so that the volume average over the whole section at rest equals the published \(M_0\), keeping the published ratios between fibre types, and is then multiplied by the exercise intensity factor. The rates are fixed when a tissue is generated, so retyping a fibre changes the tissue’s total demand. <em>Demand met</em> is total uptake divided by total demand.</p> <p>The section repeats at its edges, so a fibre leaving one side reappears on the other. The equation is solved by finite differences on a 2 µm grid with red–black successive over-relaxation (a Newton step at each point when myoglobin is on), restarting from the previous solution after each change.</p> <table class="ox-params"> <tr> <td>Section width · grid spacing</td> <td>384 µm · 2 µm</td> </tr> <tr> <td>Capillary radius · maximum capillary PO₂</td> <td>2.5 µm · 40 mmHg</td> </tr> <tr> <td>Tissue-average demand at rest, \(M_0\)</td> <td>15.7 × 10⁻⁵ ml O₂ ml⁻¹ s⁻¹</td> </tr> <tr> <td>Demand relative to type I: type IIA · IIX</td> <td>0.88 · 0.50</td> </tr> <tr> <td>Intensity factor: rest · low · moderate · intense</td> <td>1 · 3 · 6 · 12</td> </tr> <tr> <td>PO₂ at half demand, \(P_m\): Michaelis–Menten · constant</td> <td>0.5 · 0.02 mmHg</td> </tr> <tr> <td>O₂ diffusivity \(D\) · solubility \(\alpha\)</td> <td>2.41 × 10⁻⁵ cm² s⁻¹ · 3.89 × 10⁻⁵ ml O₂ ml⁻¹ mmHg⁻¹</td> </tr> <tr> <td>Capillary wall mass transfer coefficient, \(k\)</td> <td>4.0 × 10⁻⁶ ml O₂ cm⁻² mmHg⁻¹ s⁻¹</td> </tr> <tr> <td>Myoglobin diffusivity \(D_{Mb}\)</td> <td>1.73 × 10⁻⁷ cm² s⁻¹</td> </tr> <tr> <td>Myoglobin content \(C_{Mb}\): type I · IIA · IIX</td> <td>10.2 · 4.98 · 1.55 × 10⁻³ ml O₂ ml⁻¹</td> </tr> <tr> <td>Myoglobin half-saturation PO₂, \(P_{50,Mb}\)</td> <td>5.3 mmHg</td> </tr> </table> <p>Parameter values are from <a href="/publications/#capillary%20domains%20revisited">Al-Shammari, Gaffney &amp; Egginton, 2014</a> (Table II). Polygon fibres are a relaxed Voronoi tessellation. Realistic fibres start from the same tessellation, reweighted by fibre type, stretched slightly, warped by a smooth periodic field and given rounded corners. Capillaries start where fibres meet, about 1.6 per fibre.</p> <h2 id="what-the-model-leaves-out">What the model leaves out</h2> <ul> <li>The section is two-dimensional: oxygen moves only within the cross-section, not along the fibres or capillaries.</li> <li>Capillary PO₂ is set directly rather than computed from blood flow and the unloading of haemoglobin.</li> <li>Myoglobin is assumed to be in equilibrium with dissolved oxygen everywhere, which cannot hold very close to the fibre boundary.</li> <li>The tissue is synthetic and repeats at its edges; it is not fitted to a real section.</li> </ul> <div class="cp-further" id="going-further"> <span class="cp-meta">Capillary supply · Heterogeneity · Optional</span> <h3>Which measures of capillary supply predict fibre oxygenation?</h3> <p class="cp-label">Read</p> <p>Our image-based models solve for oxygen transport in real muscle sections and compare indices of capillary supply with the predicted fibre PO₂, to ask which are descriptors of capillary geometry and which are transport-relevant measures that predict fibre oxygenation: <a href="/publications/#integrated%20method%20for%20quantitative%20morphometry">Integrated method for quantitative morphometry and oxygen transport modelling in striated muscle</a> (<em>J Appl Physiol</em>, 2019).</p> <p class="cp-label">Try</p> <p>Set a baseline, then rearrange capillaries without adding or removing any. Which readouts change, and which stay fixed? Then shut a fifth of the capillaries and compare the anatomical and perfused capillary-to-fibre ratios with the change in low-PO₂ area.</p> <p class="cp-label">Where it leads</p> <p>Heterogeneity, when variation beyond averages changes how a system behaves, runs through my research; see the <a href="/research/#how-does-the-arrangement-of-capillaries-influence-oxygen-supply-to-muscle">oxygen transport theme</a> on the research page. If you would like to take questions like this further, see <a href="/group/#joining">Joining</a> on the group page.</p> </div> <script src="/assets/js/tools/oxygen-explorer.js" defer></script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Abdullah A. Al-Shammari. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 12, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Structure, heterogeneity and function across biological scales.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses taught at the Department of Mathematics, Kuwait University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-group",
+          title: "group",
+          description: "Graduate students and opportunities.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/group/";
+          },
+        },{id: "nav-tools",
+          title: "tools",
+          description: "Interactive models to explore in your browser.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/tools/";
+          },
+        },{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-stuart-egginton-and-colleagues-published-online-in-the-journal-of-physiology-utility-of-local-capillary-supply-indices-insights-from-computational-image-based-modelling",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney, Stuart Egginton and colleagues published online...',
+          description: "",
+          section: "News",},{id: "news-congratulations-to-jumanah-a-salman-on-completing-her-graduate-thesis-on-oxygen-transport-in-muscle",
+          title: 'Congratulations to Jumanah A. Salman on completing her graduate thesis on oxygen transport...',
+          description: "",
+          section: "News",},{id: "news-new-paper-with-roger-kissane-eamonn-gaffney-and-stuart-egginton-in-the-journal-of-physiology-how-well-does-quantifying-capillary-supply-assess-oxygen-transport-capacity-in-skeletal-muscle",
+          title: 'New paper with Roger Kissane, Eamonn Gaffney and Stuart Egginton in The Journal...',
+          description: "",
+          section: "News",},{id: "news-our-paper-utility-of-local-capillary-supply-indices-appears-in-the-journal-of-physiology-special-issue-computational-modelling-of-the-cardiovascular-system-from-cell-to-circulation-volume-604-issue-19-and-is-highlighted-in-the-issue-s-editorial-by-natalia-trayanova-and-christian-vergara",
+          title: 'Our paper Utility of local capillary supply indices appears in The Journal of...',
+          description: "",
+          section: "News",},{id: "news-the-research-page-now-includes-figures-from-our-work-on-oxygen-supply-to-muscle-epidemic-dynamics-and-clinical-risk-and-the-publications-page-now-shows-figures-beside-most-papers",
+          title: 'The research page now includes figures from our work on oxygen supply to...',
+          description: "",
+          section: "News",},{id: "teachings-math-101-calculus-1",
+          title: 'MATH 101: Calculus 1',
+          description: "Limits, continuity, derivatives and their applications, and integrals of functions of one variable.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math101/";
+            },},{id: "teachings-math-316-elements-of-mathematical-modeling",
+          title: 'MATH 316: Elements of Mathematical Modeling',
+          description: "An introduction to building, analysing and interpreting mathematical models.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teaching/math316/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%62%64%75%6C%6C%61%68.%61%6C%73%68%61%6D%6D%61%72%69@%6B%75.%65%64%75.%6B%77", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=4hTO4WMAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-researchgate',
+        title: 'ResearchGate',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.researchgate.net/profile/Abdullah-Al-Shammari-2/", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/shammari", "_blank");
+        },
+      },{
+        id: 'social-orcid',
+        title: 'ORCID',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://orcid.org/0000-0002-4512-1151", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

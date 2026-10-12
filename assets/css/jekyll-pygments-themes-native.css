@@ -78,7 +78,11 @@
 } /* Generic.Subheading */
 .highlight .gt {
   color: #d22323;
-} /* Generic.Traceback */ /* Keyword.Constant */ /* Keyword.Declaration */ /* Keyword.Namespace */ /* Keyword.Pseudo */ /* Keyword.Reserved */ /* Keyword.Type */
+} /* Generic.Traceback */ /* Keyword.Constant */ /* Keyword.Declaration */ /* Keyword.Namespace */ /* Keyword.Pseudo */ /* Keyword.Reserved */
+.highlight .kt {
+  color: #6ab825;
+  font-weight: bold;
+} /* Keyword.Type */
 .highlight .ld {
   color: #d0d0d0;
 } /* Literal.Date */
