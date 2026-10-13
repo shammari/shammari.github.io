@@ -24,7 +24,7 @@
     { key: "IIX", name: "Type IIX", rel: KREL[2], mb: mbK(1.55) },
   ];
   // optional physiology, shared by every section
-  const MODEL = { shape: "polygon", kinetics: "zero", mb: false, mbScale: 1, drop: 0, shutFrac: 0, bc: "dirichlet", intensity: 3 };
+  const MODEL = { shape: "realistic", kinetics: "mm", mb: true, mbScale: 1, drop: 0, shutFrac: 0, bc: "robin", intensity: 12 };
   const pmNow = () => (MODEL.kinetics === "zero" ? PM_ZERO : PM_MM);
   const capPO2 = (c) => PC - MODEL.drop * c.u; // capillary PO2 at most PC
   function applyShut(sec) {
@@ -1001,9 +1001,9 @@
       ],
     },
   };
-  let cmap = "viridis";
+  let cmap = "jet";
   try {
-    const m = localStorage.getItem("moe-cmap");
+    const m = localStorage.getItem("ox-cmap");
     if (m && MAPS[m]) cmap = m;
   } catch (e) {}
   const hex = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
@@ -2068,7 +2068,7 @@
     cmap = e.target.value;
     SEQ = lut(MAPS[cmap].stops);
     try {
-      localStorage.setItem("moe-cmap", cmap);
+      localStorage.setItem("ox-cmap", cmap);
     } catch (err) {}
     render();
     legend();
