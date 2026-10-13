@@ -1031,6 +1031,388 @@
   }
 
   const $ = (id) => document.getElementById("ox-" + id);
+  // overlays: oxygen flux streamlines and the Voronoi tessellation of capillary centres
+  const OVL = { stream: true, domains: true, density: 300, domSet: "all" };
+  const DOM_COL = "#ff4fc3";
+  let flow = null;
+  // capillaries that seed the tessellation
+  function domainSetOf(caps, mode) {
+    const out = [];
+    caps.forEach((c, k) => {
+      if (mode !== "perfused" || !c.shut) out.push({ x: c.x, y: c.y, k });
+    });
+    return out;
+  }
+  function clipHalf(poly, nx, ny, c) {
+    // keep the part with nx·x + ny·y ≤ c
+    const out = [],
+      n = poly.length;
+    for (let i = 0; i < n; i++) {
+      const P = poly[i],
+        Q = poly[(i + 1) % n];
+      const fp = nx * P[0] + ny * P[1] - c,
+        fq = nx * Q[0] + ny * Q[1] - c;
+      if (fp <= 0) out.push(P);
+      if ((fp < 0 && fq > 0) || (fp > 0 && fq < 0)) {
+        const t = fp / (fp - fq);
+        out.push([P[0] + t * (Q[0] - P[0]), P[1] + t * (Q[1] - P[1])]);
+      }
+    }
+    return out;
+  }
+  // exact Voronoi cells inside the section square
+  function domainCells(pts) {
+    const sq = [
+        [0, 0],
+        [L, 0],
+        [L, L],
+        [0, L],
+      ],
+      e = 1e-6;
+    return pts.map((a, i) => {
+      let poly = sq;
+      for (let j = 0; j < pts.length && poly.length; j++) {
+        if (j === i) continue;
+        const b = pts[j],
+          nx = b.x - a.x,
+          ny = b.y - a.y;
+        if (nx * nx + ny * ny < 1e-12) {
+          if (j < i) poly = [];
+          continue;
+        } // coincident centres: the first keeps the cell
+        poly = clipHalf(poly, nx, ny, (b.x * b.x + b.y * b.y - a.x * a.x - a.y * a.y) / 2);
+      }
+      let A = 0;
+      for (let m = 0; m < poly.length; m++) {
+        const P = poly[m],
+          Q = poly[(m + 1) % poly.length];
+        A += P[0] * Q[1] - Q[0] * P[1];
+      }
+      const edge = poly.some(([x, y]) => x < e || y < e || x > L - e || y > L - e);
+      return { k: a.k, poly, area: Math.abs(A) / 2, edge };
+    });
+  }
+  function domStats(cells) {
+    const a = cells.filter((c) => !c.edge && c.area > 0).map((c) => c.area);
+    const n = a.length;
+    if (n < 2) return { n, total: cells.length, mean: NaN, sd: NaN, logsd: NaN };
+    const mean = a.reduce((s, v) => s + v, 0) / n;
+    const sd = Math.sqrt(a.reduce((s, v) => s + (v - mean) ** 2, 0) / (n - 1));
+    const lg = a.map((v) => Math.log10(v)),
+      lm = lg.reduce((s, v) => s + v, 0) / n;
+    const logsd = Math.sqrt(lg.reduce((s, v) => s + (v - lm) ** 2, 0) / (n - 1));
+    return { n, total: cells.length, mean, sd, logsd };
+  }
+  const curCells = () => domainCells(domainSetOf(sec.caps, OVL.domSet));
+
+  // ---- oxygen flux streamlines ----
+  function sampArr(a, n, h, x, y) {
+    const gx = Math.min(n - 1, Math.max(0, x / h - 0.5)),
+      gy = Math.min(n - 1, Math.max(0, y / h - 0.5));
+    const i0 = Math.floor(gx),
+      j0 = Math.floor(gy),
+      i1 = Math.min(n - 1, i0 + 1),
+      j1 = Math.min(n - 1, j0 + 1),
+      fx = gx - i0,
+      fy = gy - j0;
+    return (a[j0 * n + i0] * (1 - fx) + a[j0 * n + i1] * fx) * (1 - fy) + (a[j1 * n + i0] * (1 - fx) + a[j1 * n + i1] * fx) * fy;
+  }
+  // gradient of PO2 on the cell centres (mirror condition at the section edge)
+  function gradArrays(G) {
+    const n = G.n,
+      h = G.h,
+      u = G.u,
+      gxA = new Float32Array(n * n),
+      gyA = new Float32Array(n * n);
+    for (let j = 0; j < n; j++)
+      for (let i = 0; i < n; i++) {
+        const c = j * n + i;
+        gxA[c] = ((i < n - 1 ? u[c + 1] : u[c]) - (i > 0 ? u[c - 1] : u[c])) / (2 * h);
+        gyA[c] = ((j < n - 1 ? u[c + n] : u[c]) - (j > 0 ? u[c - n] : u[c])) / (2 * h);
+      }
+    return { gxA, gyA };
+  }
+  // streamline tracer on a solved field G: steepest descent of PO2 (the flux direction), midpoint steps of ds.
+  // trace(x, y) returns the points and the reason the line stopped.
+  function makeTracer(G, opt = {}) {
+    const n = G.n,
+      h = G.h,
+      ds = (opt.dsScale || 1) * 0.5 * h,
+      eps = opt.eps || 2e-3,
+      merge = opt.merge !== false;
+    const { gxA, gyA } = opt.grads || gradArrays(G);
+    const cellAt = (x, y) => Math.min(n - 1, Math.max(0, Math.floor(y / h))) * n + Math.min(n - 1, Math.max(0, Math.floor(x / h)));
+    const inside = (x, y) => x >= 0 && y >= 0 && x <= L && y <= L;
+    // no flux at the section edge: the normal component of the gradient falls linearly to zero
+    // across the half cell between the outermost cell centres and the edge, so lines turn and run along it
+    const ramp = (t) => (t < 0.5 * h ? Math.max(0, t) / (0.5 * h) : t > L - 0.5 * h ? Math.max(0, L - t) / (0.5 * h) : 1);
+    const grad = (x, y) => [sampArr(gxA, n, h, x, y) * ramp(x), sampArr(gyA, n, h, x, y) * ramp(y)];
+    // points already drawn, on a 1 µm bucket grid: a line stops when it runs into another one,
+    // so lines that converge towards a PO2 minimum merge instead of piling up on top of each other
+    const NG = Math.ceil(L),
+      head = new Int32Array(NG * NG).fill(-1),
+      PX = [],
+      PY = [],
+      PID = [],
+      NXT = [];
+    const bucket = (x, y) => Math.min(NG - 1, Math.max(0, Math.floor(y))) * NG + Math.min(NG - 1, Math.max(0, Math.floor(x)));
+    const addPt = (x, y, id) => {
+      const b = bucket(x, y);
+      PX.push(x);
+      PY.push(y);
+      PID.push(id);
+      NXT.push(head[b]);
+      head[b] = PX.length - 1;
+    };
+    const DT2 = 0.5 * 0.5;
+    const meets = (x, y, id) => {
+      const bi = Math.floor(x),
+        bj = Math.floor(y);
+      for (let dj = -1; dj <= 1; dj++)
+        for (let di = -1; di <= 1; di++) {
+          const ii = bi + di,
+            jj = bj + dj;
+          if (ii < 0 || jj < 0 || ii >= NG || jj >= NG) continue;
+          for (let k = head[jj * NG + ii]; k >= 0; k = NXT[k]) if (PID[k] !== id && (PX[k] - x) ** 2 + (PY[k] - y) ** 2 < DT2) return PID[k];
+        }
+      return -1;
+    };
+    let lineId = 0;
+    const trace = (x, y, pre) => {
+      const id = lineId++;
+      let run = 0,
+        why = "steps",
+        into = -1;
+      if (!inside(x, y) || G.fixed[cellAt(x, y)]) return null;
+      const pts = pre ? [pre[0], pre[1], x, y] : [x, y],
+        all = opt.keepAll ? [x, y] : null;
+      let P = sampleField(G, x, y),
+        bad = 0,
+        cx16 = x,
+        cy16 = y;
+      for (let st = 0; st < 1600; st++) {
+        const [ax, ay] = grad(x, y),
+          m1 = Math.hypot(ax, ay);
+        if (m1 < eps) {
+          why = "gradient";
+          break;
+        }
+        const hx = x - (0.5 * ds * ax) / m1,
+          hy = y - (0.5 * ds * ay) / m1;
+        const [bx, by] = grad(hx, hy),
+          m2 = Math.hypot(bx, by);
+        if (m2 < eps) {
+          why = "gradient";
+          break;
+        }
+        let nx = x - (ds * bx) / m2,
+          ny = y - (ds * by) / m2;
+        nx = Math.min(L, Math.max(0, nx));
+        ny = Math.min(L, Math.max(0, ny));
+        if (Math.hypot(nx - x, ny - y) < 0.1 * ds) {
+          why = "edge";
+          break;
+        } // pressed against the no-flux edge
+        if (G.fixed[cellAt(nx, ny)]) {
+          why = "lumen";
+          break;
+        }
+        const Pn = sampleField(G, nx, ny);
+        bad = Pn > P + 1e-5 ? bad + 1 : 0;
+        if (bad > 2) {
+          why = "minimum";
+          break;
+        } // no longer descending: at a minimum
+        if ((st & 15) === 15) {
+          if (Math.hypot(nx - cx16, ny - cy16) < 2 * ds) {
+            why = "minimum";
+            break;
+          }
+          cx16 = nx;
+          cy16 = ny;
+        } // circling a minimum
+        run += ds;
+        if (merge && run > 6) {
+          const k = meets(nx, ny, id);
+          if (k >= 0) {
+            pts.push(nx, ny);
+            x = nx;
+            y = ny;
+            why = "merged";
+            into = k;
+            break;
+          }
+        }
+        x = nx;
+        y = ny;
+        P = Pn;
+        if (merge) addPt(x, y, id);
+        if (all) all.push(x, y);
+        if (st & 1) pts.push(x, y);
+      }
+      // anoxic tissue ends a line through the gradient rule like any other sink; the label is kept for the benchmarks
+      if (why === "gradient" && P < 0.02) why = "anoxic";
+      // draw the line all the way to where it stopped
+      if (pts[pts.length - 2] !== x || pts[pts.length - 1] !== y) pts.push(x, y);
+      return { id, pts, why, into, end: [x, y], all };
+    };
+    return { trace, ds };
+  }
+  // opt (benchmarks only): G, dsScale, eps, density, merge
+  function computeFlow(opt = {}) {
+    if (!opt.G && (!S || !S.coarseOK)) return null;
+    const G = opt.G || cur(),
+      n = G.n,
+      h = G.h;
+    const cellAt = (x, y) => Math.min(n - 1, Math.max(0, Math.floor(y / h))) * n + Math.min(n - 1, Math.max(0, Math.floor(x / h)));
+    const inside = (x, y) => x >= 0 && y >= 0 && x <= L && y <= L;
+    // outward flux around each perfused capillary wall, sampled clear of the lumen cells
+    const M = 96,
+      r1 = RC + 1.5 * h,
+      r2 = RC + 2.5 * h,
+      rm = (r1 + r2) / 2;
+    const capFlux = new Float64Array(sec.caps.length),
+      prof = [],
+      wallGrad = [];
+    sec.caps.forEach((c, ci) => {
+      const q = new Float64Array(M);
+      if (!c.shut)
+        for (let m = 0; m < M; m++) {
+          const th = (2 * Math.PI * (m + 0.5)) / M,
+            cs = Math.cos(th),
+            sn = Math.sin(th);
+          const x1 = c.x + r1 * cs,
+            y1 = c.y + r1 * sn,
+            x2 = c.x + r2 * cs,
+            y2 = c.y + r2 * sn;
+          if (!inside(x2, y2)) continue;
+          const P1 = sampleField(G, x1, y1),
+            P2 = sampleField(G, x2, y2);
+          let kf = 1;
+          if (G.mb) {
+            const cl = cellAt(c.x + rm * cs, c.y + rm * sn);
+            kf += G.kap[cl] * dsat(Math.max(0, (P1 + P2) / 2), G.P50);
+          }
+          q[m] = Math.max(0, (kf * (P1 - P2)) / h) * ((2 * Math.PI * rm) / M);
+          capFlux[ci] += q[m];
+          if (P1 > P2) wallGrad.push((P1 - P2) / h);
+        }
+      prof.push(q);
+    });
+    const total = capFlux.reduce((s, v) => s + v, 0);
+    // a line stops where the PO2 gradient falls below 0.1% of the median gradient at the capillary walls,
+    // so the stopping point is equally close to a minimum at every exercise intensity
+    wallGrad.sort((a, b) => a - b);
+    const eps = opt.eps || Math.max(1e-6, 1e-3 * (wallGrad[wallGrad.length >> 1] || 1));
+    const lines = [],
+      arrows = [],
+      meta = [];
+    if (total > 0) {
+      const T = makeTracer(G, { ...opt, eps }),
+        dq = total / (opt.density || OVL.density);
+      sec.caps.forEach((c, ci) => {
+        const F = capFlux[ci];
+        if (F <= 0) return;
+        let nc = Math.round(F / dq);
+        if (nc === 0 && F > 0.3 * dq) nc = 1;
+        if (!nc) return;
+        const q = prof[ci];
+        let cum = 0,
+          m = 0;
+        for (let k = 0; k < nc; k++) {
+          const target = ((k + 0.5) / nc) * F;
+          while (m < M - 1 && cum + q[m] < target) {
+            cum += q[m];
+            m++;
+          }
+          const fr = q[m] > 0 ? Math.min(1, Math.max(0, (target - cum) / q[m])) : 0.5;
+          const th = (2 * Math.PI * (m + fr)) / M,
+            cs = Math.cos(th),
+            sn = Math.sin(th);
+          const r = T.trace(c.x + r1 * cs, c.y + r1 * sn, [c.x + RC * cs, c.y + RC * sn]);
+          if (!r || r.pts.length < 4) continue;
+          const arr = Float32Array.from(r.pts);
+          lines.push(arr);
+          meta.push({ cap: ci, id: r.id, why: r.why, into: r.into, seed: [c.x + r1 * cs, c.y + r1 * sn], end: r.end });
+          // an arrowhead about 40% of the way along
+          let len = 0;
+          for (let k2 = 2; k2 < arr.length; k2 += 2) len += Math.hypot(arr[k2] - arr[k2 - 2], arr[k2 + 1] - arr[k2 - 1]);
+          if (len > 14) {
+            let acc = 0;
+            for (let k2 = 2; k2 < arr.length; k2 += 2) {
+              const sl = Math.hypot(arr[k2] - arr[k2 - 2], arr[k2 + 1] - arr[k2 - 1]);
+              acc += sl;
+              if (acc >= 0.4 * len && sl > 0) {
+                arrows.push([arr[k2], arr[k2 + 1], (arr[k2] - arr[k2 - 2]) / sl, (arr[k2 + 1] - arr[k2 - 1]) / sl]);
+                break;
+              }
+            }
+          }
+        }
+      });
+    }
+    const out = { lines, arrows, capFlux, total, meta, r1, rm, h, eps };
+    if (!opt.G && !opt.noSet) flow = out;
+    return out;
+  }
+  function drawDomains(s, dpr) {
+    const cells = curCells(),
+      e = 1e-6;
+    const onEdge = (P, Q) => (P[0] < e && Q[0] < e) || (P[1] < e && Q[1] < e) || (P[0] > L - e && Q[0] > L - e) || (P[1] > L - e && Q[1] > L - e);
+    const path = new Path2D();
+    for (const c of cells) {
+      const pl = c.poly;
+      for (let m = 0; m < pl.length; m++) {
+        const P = pl[m],
+          Q = pl[(m + 1) % pl.length];
+        if (onEdge(P, Q)) continue;
+        path.moveTo(P[0] * s, P[1] * s);
+        path.lineTo(Q[0] * s, Q[1] * s);
+      }
+    }
+    ctx.save();
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "rgba(0,0,0,.3)";
+    ctx.lineWidth = 3.4 * dpr;
+    ctx.stroke(path);
+    ctx.strokeStyle = DOM_COL;
+    ctx.lineWidth = 1.8 * dpr;
+    ctx.stroke(path);
+    ctx.restore();
+  }
+  function drawFlow(s, dpr) {
+    if (!flow) return;
+    const path = new Path2D();
+    for (const a of flow.lines) {
+      path.moveTo(a[0] * s, a[1] * s);
+      for (let k = 2; k < a.length; k += 2) path.lineTo(a[k] * s, a[k + 1] * s);
+    }
+    const heads = new Path2D(),
+      al = 4.2 * dpr,
+      aw = 2.6 * dpr;
+    for (const [x, y, dx, dy] of flow.arrows) {
+      const X = x * s,
+        Y = y * s;
+      heads.moveTo(X + dx * al * 0.5, Y + dy * al * 0.5);
+      heads.lineTo(X - dx * al * 0.5 - dy * aw, Y - dy * al * 0.5 + dx * aw);
+      heads.lineTo(X - dx * al * 0.5 + dy * aw, Y - dy * al * 0.5 - dx * aw);
+      heads.closePath();
+    }
+    ctx.save();
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "rgba(0,0,0,.32)";
+    ctx.lineWidth = 2.4 * dpr;
+    ctx.stroke(path);
+    ctx.lineWidth = 1.6 * dpr;
+    ctx.stroke(heads);
+    ctx.strokeStyle = "rgba(255,255,255,.92)";
+    ctx.lineWidth = 1 * dpr;
+    ctx.stroke(path);
+    ctx.fillStyle = "#fff";
+    ctx.fill(heads);
+    ctx.restore();
+  }
   const cv = $("tissue");
   let ctx = cv.getContext("2d");
   let sec,
@@ -1128,6 +1510,8 @@
     ctx.putImageData(img, 0, 0);
     const s = W / L,
       dpr = W / CSS;
+    if (OVL.domains) drawDomains(s, dpr);
+    if (OVL.stream) drawFlow(s, dpr);
     // fibre labels
     ctx.font = `500 ${Math.round(10.5 * dpr)}px ui-monospace, SFMono-Regular, Menlo, monospace`;
     ctx.textAlign = "center";
@@ -1220,6 +1604,16 @@
       <div class="ox-cbar" style="background:linear-gradient(90deg,${MAPS[cmap].stops.join(",")})"></div>
       <div class="ox-cticks"><span>0</span><span>10</span><span>20</span><span>30</span><span>≥40</span></div>`;
     }
+    const keys = [];
+    if (OVL.stream)
+      keys.push(
+        `<span><svg class="ox-glyph" viewBox="0 0 18 10" aria-hidden="true"><path d="M1 8 C6 8 9 2 17 2" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="3.4" stroke-linecap="round"/><path d="M1 8 C6 8 9 2 17 2" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>Oxygen flux streamline</span>`
+      );
+    if (OVL.domains)
+      keys.push(
+        `<span><svg class="ox-glyph" viewBox="0 0 18 10" aria-hidden="true"><path d="M1 9 L7 5 L7 1 M7 5 L17 7" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="3.6" stroke-linejoin="round"/><path d="M1 9 L7 5 L7 1 M7 5 L17 7" fill="none" stroke="#ff4fc3" stroke-width="1.8" stroke-linejoin="round"/></svg>Capillary domain boundary (${OVL.domSet === "perfused" ? "perfused capillaries" : "all capillaries"})</span>`
+      );
+    if (keys.length) el.innerHTML += `<div class="ox-ovkey">${keys.join("")}</div>`;
   }
 
   const fmt = (v, n = 1) => v.toFixed(n);
@@ -1270,6 +1664,19 @@
     $("g-np").textContent = st.nPerf;
     $("g-cfp").textContent = fmt(st.cfPerf, 2);
     $("g-cdp").textContent = `${Math.round(st.cdPerf)} mm⁻²`;
+    const dm = domStats(curCells()),
+      bd = base ? base.dom(OVL.domSet) : null;
+    const dd = (v, b, n, unit = "") => {
+      if (!bd || !Number.isFinite(v) || !Number.isFinite(b)) return "";
+      const x = v - b;
+      if (Math.abs(x) < Math.pow(10, -n) / 2) return `<span class="ox-dd">±0</span>`;
+      return `<span class="ox-dd">${x > 0 ? "+" : "−"}${Math.abs(x).toFixed(n)}${unit}</span>`;
+    };
+    $("domlab").textContent = `Capillary domains · ${OVL.domSet === "perfused" ? "perfused capillaries" : "all capillaries"}`;
+    $("g-dn").textContent = `${dm.n} of ${dm.total}`;
+    $("g-da").innerHTML = Number.isFinite(dm.mean) ? `${Math.round(dm.mean)} µm²${dd(dm.mean, bd && bd.mean, 0)}` : "–";
+    $("g-ds").innerHTML = Number.isFinite(dm.sd) ? `${Math.round(dm.sd)} µm²${dd(dm.sd, bd && bd.sd, 0)}` : "–";
+    $("g-dl").innerHTML = Number.isFinite(dm.logsd) ? `${dm.logsd.toFixed(3)}${dd(dm.logsd, bd && bd.logsd, 3)}` : "–";
     drawHist(st, bs);
   }
 
@@ -1360,6 +1767,7 @@
   }
   function loop() {
     const done = S.step(14, editing);
+    if (done || (S.coarseOK && !shownCoarse)) computeFlow();
     render();
     if (S.coarseOK && !shownCoarse && !done) {
       shownCoarse = true;
@@ -1391,7 +1799,12 @@
     };
     const s2 = { caps: sec.caps.map((c) => ({ ...c })), nFib: sec.nFib, types: Int8Array.from(sec.types) };
     const cache = {};
-    base = { ...snap2, stats: (t) => cache[t] || (cache[t] = stats(snap2, s2, t)) };
+    const dcache = {};
+    base = {
+      ...snap2,
+      stats: (t) => cache[t] || (cache[t] = stats(snap2, s2, t)),
+      dom: (m) => dcache[m] || (dcache[m] = domStats(domainCells(domainSetOf(s2.caps, m)))),
+    };
     wantBaseline = false;
   }
 
@@ -1412,6 +1825,7 @@
     normaliseDemand(sec);
     S = createSolver(sec);
     selCap = -1;
+    flow = null;
     if (!keepBase) {
       base = null;
       wantBaseline = true;
@@ -1507,9 +1921,13 @@
     if (p.x < 0 || p.y < 0 || p.x >= L || p.y >= L) return;
     const hc = hitCap(p);
     if (hc >= 0 && Math.hypot(p.x - sec.caps[hc].x, p.y - sec.caps[hc].y) < (8 / CSS) * L + RC) {
+      const share =
+        flow && flow.total > 0 && !sec.caps[hc].shut
+          ? ` · supplies ${((flow.capFlux[hc] / flow.total) * 100).toFixed(1)}% of the oxygen leaving all capillaries`
+          : "";
       $("readout").textContent = sec.caps[hc].shut
         ? "Non-perfused capillary · tap to reopen"
-        : `Capillary · ${capPO2(sec.caps[hc]).toFixed(1)} mmHg · tap to shut`;
+        : `Capillary · ${capPO2(sec.caps[hc]).toFixed(1)} mmHg${share} · tap to shut`;
       return;
     }
     const f = pieceAt(sec, p.x, p.y),
@@ -1519,6 +1937,22 @@
     if (base && f >= 0) {
       const dv = v - sampleField(base, p.x, p.y);
       if (Math.abs(dv) >= 0.05) txt += ` (${dv > 0 ? "+" : "−"}${Math.abs(dv).toFixed(1)})`;
+    }
+    if (OVL.domains) {
+      const pts = domainSetOf(sec.caps, OVL.domSet);
+      let bi = -1,
+        bd2 = Infinity;
+      pts.forEach((q, i) => {
+        const d = (q.x - p.x) ** 2 + (q.y - p.y) ** 2;
+        if (d < bd2) {
+          bd2 = d;
+          bi = i;
+        }
+      });
+      if (bi >= 0) {
+        const c = domainCells(pts)[bi];
+        txt += ` · domain ${Math.round(c.area)} µm²${c.edge ? " (cut by the edge)" : ""}`;
+      }
     }
     $("readout").textContent = txt;
   }
@@ -1551,6 +1985,27 @@
       .forEach((x) => x.setAttribute("aria-pressed", x === b));
     render();
     legend();
+  });
+  $("ovseg").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    const k = b.dataset.o;
+    OVL[k] = !OVL[k];
+    b.setAttribute("aria-pressed", String(OVL[k]));
+    if (k === "stream" && OVL.stream && !flow) computeFlow();
+    render();
+    legend();
+  });
+  $("sdens").addEventListener("change", (e) => {
+    OVL.density = +e.target.value;
+    computeFlow();
+    render();
+  });
+  $("dset").addEventListener("change", (e) => {
+    OVL.domSet = e.target.value;
+    render();
+    legend();
+    if (lastStats) updateStats();
   });
   $("brushseg").innerHTML = TYPES.map(
     (t, i) =>
@@ -1604,6 +2059,7 @@
     MODEL.shutFrac = +v;
     applyShut(sec);
     kick();
+    render();
   });
   $("cmap").innerHTML = Object.entries(MAPS)
     .map(([k, m]) => `<option value="${k}"${k === cmap ? " selected" : ""}>${m.name}</option>`)
@@ -1717,6 +2173,11 @@
       .forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === mbv)));
     $("thr").value = String(thr);
     $("cmap").value = cmap;
+    $("ovseg")
+      .querySelectorAll("button")
+      .forEach((b) => b.setAttribute("aria-pressed", String(!!OVL[b.dataset.o])));
+    $("sdens").value = String(OVL.density);
+    $("dset").value = OVL.domSet;
     summaries();
   }
 
@@ -1910,7 +2371,13 @@
     // measure the header first, then size the page
     const tmp = newDoc(200, title),
       y = headerText(tmp, title);
-    const pageH = y + FIG_MM + 16;
+    const ovText = [
+      OVL.stream ? "White lines: oxygen flux streamlines" : "",
+      OVL.domains ? `pink lines: capillary domains (Voronoi, ${OVL.domSet === "perfused" ? "perfused capillaries" : "all capillaries"})` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+    const pageH = y + FIG_MM + 16 + (ovText ? 4 : 0);
     const pdf = newDoc(pageH, title);
     headerText(pdf, title);
     pdf.addImage(off.toDataURL("image/png"), "PNG", MARGIN, y, FIG_MM, FIG_MM, undefined, "FAST");
@@ -1970,6 +2437,11 @@
           { align: i === 0 ? "left" : i === ticks.length - 1 ? "right" : "center" }
         )
       );
+      pdf.setTextColor(26, 30, 38);
+    }
+    if (ovText) {
+      pdf.setTextColor(88, 97, 114);
+      pdfText(pdf, ovText.charAt(0).toUpperCase() + ovText.slice(1) + ".", MARGIN, y + FIG_MM + (view === "type" ? 11 : 13), 6);
       pdf.setTextColor(26, 30, 38);
     }
     await savePdf(pdf, `oxygen-${view === "type" ? "fibre-types" : view === "change" ? "po2-change" : "po2-map"}-tissue${sec.seed}.pdf`);
