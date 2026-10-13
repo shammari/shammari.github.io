@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Muscle oxygen explorer
-description: Move capillaries, shut them down or change fibre types in a muscle cross-section and see the predicted oxygen supply respond. Illustrative models that run in your browser.
+description: Move capillaries, shut them down or change fibre types in a muscle cross-section and see the predicted oxygen supply respond, with oxygen flux streamlines and capillary domains. Illustrative models that run in your browser.
 permalink: /tools/oxygen/
 ---
 
@@ -126,6 +126,13 @@ permalink: /tools/oxygen/
   .ox-tmv { font-family: var(--ox-mono); font-size: 1.05rem; font-weight: 500; font-variant-numeric: tabular-nums; }
   .ox-tmd { font-family: var(--ox-mono); font-size: 0.6875rem; color: var(--ox-muted); min-height: 1.2em; }
 
+  .ox-ovseg button { display: inline-flex; align-items: center; gap: 7px; }
+  .ox-glyph { width: 22px; height: 14px; padding: 2px; box-sizing: border-box; flex: none; display: inline-block; background: #3f7a70; border-radius: 3px; }
+  .ox-ovkey { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.78rem; color: var(--ox-muted); margin-top: 4px; }
+  .ox-ovkey span { display: inline-flex; align-items: center; gap: 6px; }
+  .ox-geomhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--ox-line); padding-top: 12px; }
+  .ox-geom dd .ox-dd { color: var(--ox-muted); font-size: 0.75rem; margin-left: 6px; }
+
   .ox-params { width: 100%; font-size: 0.875rem; }
   .ox-params td:last-child { text-align: right; padding-left: 12px; }
   .cp-meta { display: block; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--global-text-color-light); }
@@ -135,7 +142,7 @@ permalink: /tools/oxygen/
   .cp-further .cp-label { font-weight: 600; margin-bottom: 0.3rem; }
 </style>
 
-Drag a capillary, tap it to shut it down, or change a fibre's type, and watch the predicted oxygen partial pressure (PO₂) across a cross-section of skeletal muscle respond. The section is synthetic, the parameters come from our published models, and everything runs in your browser. Predictions assume maximal vascular capacity and are illustrative.
+Drag a capillary, tap it to shut it down, or change a fibre's type, and watch the predicted oxygen partial pressure (PO₂) across a cross-section of skeletal muscle respond. Oxygen flux streamlines show where the oxygen from each capillary goes, and the Voronoi tessellation of the capillary centres shows each capillary's domain. The section is synthetic, the parameters come from our published models, and everything runs in your browser. Predictions assume maximal vascular capacity and are illustrative.
 
 <div class="ox-root">
 <div class="ox-bench">
@@ -151,6 +158,17 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
         </div>
         <div class="ox-group"><span class="ox-readout" id="ox-secname"></span><button type="button" class="ox-btn ox-btn-sm" id="ox-exp-map">Export PDF</button></div>
       </div>
+      <div class="ox-toolbar">
+        <div class="ox-group">
+          <span class="ox-label" id="ox-ovlab">Overlay</span>
+          <div class="ox-seg ox-ovseg" role="group" aria-labelledby="ox-ovlab" id="ox-ovseg">
+            <button type="button" data-o="stream" aria-pressed="true"><svg class="ox-glyph" viewBox="0 0 18 10" aria-hidden="true"><path d="M1 8 C6 8 9 2 17 2" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="3.4" stroke-linecap="round"/><path d="M1 8 C6 8 9 2 17 2" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>Flux streamlines</button>
+            <button type="button" data-o="domains" aria-pressed="true"><svg class="ox-glyph" viewBox="0 0 18 10" aria-hidden="true"><path d="M1 9 L7 5 L7 1 M7 5 L17 7" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="3.6" stroke-linejoin="round"/><path d="M1 9 L7 5 L7 1 M7 5 L17 7" fill="none" stroke="#ff4fc3" stroke-width="1.8" stroke-linejoin="round"/></svg>Capillary domains</button>
+          </div>
+          <button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-ovl" aria-label="About the overlays">i</button>
+        </div>
+      </div>
+      <div class="ox-infotext" id="ox-i-ovl" hidden><p><strong>Oxygen flux streamlines</strong> follow the direction of oxygen flux from each perfused capillary into the tissue. Lines leave each capillary wall at equal steps of flux, so they crowd where more oxygen leaves the wall, and a capillary that supplies more oxygen sends out more lines. They end where the flux falls to zero: at the lowest PO₂ between capillaries, or at the edge of anoxic tissue.</p><p><strong>Capillary domains</strong> are the Voronoi tessellation of the capillary centres: each domain is the part of the section closer to its capillary than to any other. Domain areas are descriptors of capillary geometry; compare the domain boundaries with where the streamlines from neighbouring capillaries actually meet.</p><p>Point at a capillary to see its share of the oxygen leaving all capillaries; point at the tissue to see the area of the domain beneath it.</p></div>
       <div class="ox-canvas-box">
         <canvas id="ox-tissue" tabindex="0" aria-label="Muscle cross-section. Drag a capillary to move it; tap a capillary to shut or reopen it; tap a fibre to change its type. With the keyboard, press [ and ] to select a capillary and the arrow keys to move it."></canvas>
         <div class="ox-scalebar" aria-hidden="true"><span class="ox-bar" id="ox-sbar"></span><span>50 µm</span></div>
@@ -162,11 +180,13 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
         <div class="ox-dispset">
           <label class="ox-ds"><span>Colour map</span><select id="ox-cmap"></select></label>
           <label class="ox-ds"><span>Low-PO₂ threshold</span><select id="ox-thr"><option value="0.5" selected>0.5 mmHg</option><option value="1">1 mmHg</option><option value="2">2 mmHg</option><option value="5">5 mmHg</option></select></label>
+          <label class="ox-ds"><span>Streamline density</span><select id="ox-sdens"><option value="150">Sparse</option><option value="300" selected>Medium</option><option value="600">Dense</option></select></label>
+          <label class="ox-ds"><span>Domains from</span><select id="ox-dset"><option value="all" selected>All capillaries</option><option value="perfused">Perfused only</option></select></label>
           <label class="ox-ds"><span>Export resolution</span><select id="ox-dpi"><option value="300">300 dpi</option><option value="600" selected>600 dpi</option><option value="1200">1200 dpi</option></select></label>
           <button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-disp" aria-label="About the display settings">i</button>
         </div>
       </div>
-      <div class="ox-infotext" id="ox-i-disp" hidden><p><strong>Colour map.</strong> Viridis, Magma and Cividis change evenly in lightness, so equal steps in PO₂ look like equal steps in colour; Cividis stays readable with colour-vision deficiency. Turbo and Jet are rainbow maps: familiar, but they can create apparent boundaries where PO₂ changes smoothly.</p><p><strong>Low-PO₂ threshold.</strong> Fibre area below this PO₂ is reported as low. 0.5 mmHg is the hypoxia threshold used in Al-Shammari et al. (2019).</p><p><strong>Export resolution.</strong> Each <em>Export PDF</em> button saves that graphic as a PDF at this resolution, 8 cm wide, on a white background.</p></div>
+      <div class="ox-infotext" id="ox-i-disp" hidden><p><strong>Colour map.</strong> Viridis, Magma and Cividis change evenly in lightness, so equal steps in PO₂ look like equal steps in colour; Cividis stays readable with colour-vision deficiency. Turbo and Jet are rainbow maps: familiar, but they can create apparent boundaries where PO₂ changes smoothly.</p><p><strong>Low-PO₂ threshold.</strong> Fibre area below this PO₂ is reported as low. 0.5 mmHg is the hypoxia threshold used in Al-Shammari et al. (2019).</p><p><strong>Streamline density.</strong> The total number of lines shared among all capillaries: about 150, 300 or 600. Each capillary gets lines in proportion to the oxygen it supplies.</p><p><strong>Domains from.</strong> <em>All capillaries</em> gives the anatomical domains; <em>Perfused only</em> leaves out shut capillaries, so their tissue is shared among the perfused neighbours.</p><p><strong>Export resolution.</strong> Each <em>Export PDF</em> button saves that graphic as a PDF at this resolution, 8 cm wide, on a white background. The section export includes the overlays that are switched on.</p></div>
       <span class="ox-readout" id="ox-expmsg" aria-live="polite"></span>
       <div class="ox-actions">
         <button type="button" class="ox-btn" id="ox-baseline">Set as baseline</button>
@@ -290,7 +310,7 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
       </div>
       <div class="ox-card">
         <div class="ox-cardhead"><h3 class="ox-ch">Capillary geometry</h3><button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-geom" aria-label="About capillary geometry">i</button></div>
-        <div class="ox-infotext" id="ox-i-geom" hidden><p>These are descriptors of capillary geometry. Moving a capillary leaves all of them unchanged, while the predicted PO₂ map changes. Shutting capillaries lowers only the perfused values; the anatomical counts stay the same.</p><p>Fibres are counted with an unbiased counting frame: a fibre counts if it lies inside the section or touches only the top or right edge (dashed green), and is excluded if it touches the left or bottom edge (solid red). This keeps the count independent of where the section edges cut the tissue. All fibres still take part in the oxygen calculation.</p></div>
+        <div class="ox-infotext" id="ox-i-geom" hidden><p>These are descriptors of capillary geometry. Moving a capillary leaves the counts, ratios and densities unchanged, while the predicted PO₂ map changes; the domain areas below do change. Shutting capillaries lowers only the perfused values; the anatomical counts stay the same.</p><p>Fibres are counted with an unbiased counting frame: a fibre counts if it lies inside the section or touches only the top or right edge (dashed green), and is excluded if it touches the left or bottom edge (solid red). This keeps the count independent of where the section edges cut the tissue. All fibres still take part in the oxygen calculation.</p></div>
         <dl class="ox-geom">
           <dt>Capillaries</dt><dd id="ox-g-n">–</dd>
           <dt>Fibres</dt><dd id="ox-g-f">–</dd>
@@ -299,6 +319,14 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
           <dt>Perfused capillaries</dt><dd id="ox-g-np">–</dd>
           <dt>Perfused capillary-to-fibre ratio</dt><dd id="ox-g-cfp">–</dd>
           <dt>Perfused capillary density</dt><dd id="ox-g-cdp">–</dd>
+        </dl>
+        <div class="ox-geomhead"><span class="ox-label" id="ox-domlab">Capillary domains · all capillaries</span><button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-dom" aria-label="About capillary domains">i</button></div>
+        <div class="ox-infotext" id="ox-i-dom" hidden><p>Each domain is a capillary's Voronoi cell. Only domains wholly inside the section are summarised, because the section edge cuts the others short.</p><p><strong>LogSD</strong> is the standard deviation of log₁₀(domain area), a measure of how unevenly the capillaries are spaced that does not depend on the mean domain size (Hoofd et al., 1985). A perfectly regular hexagonal array gives 0.</p><p>Changes are shown against the baseline.</p></div>
+        <dl class="ox-geom">
+          <dt>Domains inside the section</dt><dd id="ox-g-dn">–</dd>
+          <dt>Mean domain area</dt><dd id="ox-g-da">–</dd>
+          <dt>SD of domain area</dt><dd id="ox-g-ds">–</dd>
+          <dt>Domain area LogSD</dt><dd id="ox-g-dl">–</dd>
         </dl>
       </div>
     </aside>
@@ -313,6 +341,8 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
 4. Tap a type I fibre to make it type IIX. Its demand falls, so its PO₂ rises, and neighbours sharing the same capillaries can gain too. Watch the mean PO₂ by fibre type.
 5. Switch from _Polygons_ to _Realistic_ fibres with a baseline set, and compare the means by fibre type: the tissue-wide mean barely moves, but oxygen shifts between fibre types.
 6. At intense exercise, compare fixed capillary PO₂ (Dirichlet) with a capillary wall that resists oxygen exchange (Robin), and switch myoglobin on to see where it helps most.
+7. Follow the streamlines from two neighbouring capillaries to where they meet, and compare that meeting line with the pink domain boundary between them. The two can differ, especially when the capillaries' PO₂ differs (try _Capillary PO₂ 20–40_) or when the fibres between them differ in type.
+8. Shut one capillary and watch its neighbours' streamlines reach into the tissue it used to supply. Switch _Domains from_ to _Perfused only_ to see the matching change in the tessellation.
 
 ## How it is computed
 
@@ -331,6 +361,12 @@ Demand is set so that the volume average over the whole section at rest equals t
 The equation is solved by finite volumes with nonlinear multigrid. The capillary condition is imposed on each capillary's true circular wall: grid lines that cross a wall use the exact distance to it, and with a Robin wall the wall PO₂ seen by each neighbouring cell follows the logarithmic profile around a capillary. While you drag a capillary the model is solved on a 2 µm grid; as soon as you let go it is refined on a 1 µm grid, which the readouts, the baseline and PDF exports use. In tests against 0.25–0.5 µm reference solutions, the 1 µm result was within 0.01 mmHg of mean fibre PO₂ with a Dirichlet wall and within about 0.07 mmHg with a Robin wall.
 
 Fibres are counted with an unbiased counting frame: a fibre counts if it lies inside the section or touches only the top or right edge, and not if it touches the left or bottom edge.
+
+**Oxygen flux streamlines.** Dissolved and myoglobin-bound oxygen both move down the PO₂ gradient, so the flux points along $$-\nabla P$$ and the streamlines are curves of steepest descent of PO₂. The gradient is taken from the 1 µm solution by central differences and interpolated bilinearly, and lines are traced with a midpoint (second-order Runge–Kutta) step of half a grid cell. Seeds sit just outside each perfused capillary wall, at equal steps of the outward flux $$\left(D\alpha + D_{Mb}C_{Mb}\,dS/dP\right)\partial P/\partial r$$ measured around the wall, so each capillary's share of the lines matches its share of the oxygen supplied. A line stops where the gradient falls below 0.1% of the median gradient at the capillary walls (a PO₂ minimum, the edge of an anoxic core, or rarely a saddle), or at a perfused lumen, which happens only when a capillary at lower PO₂ takes up oxygen from its neighbours. At the section edge the no-flux condition makes the flux tangential, so lines run along the edge rather than crossing it; lines that end on the edge end at a PO₂ minimum there, which the no-flux condition favours because it leaves out the capillaries beyond the cut. Lines that converge towards the same minimum stop when they come within 0.5 µm of another line, so they are not drawn on top of one another.
+
+In benchmarks over 105 tissues and seven model settings, lines ended with a median 0.2% of the flux they started with. An independent tracer, using a bicubic spline of the same PO₂ field and an adaptive Runge–Kutta integrator, followed the same paths to within a median 0.14 µm.
+
+**Capillary domains.** The Voronoi tessellation of the capillary centres is computed exactly, by clipping the section square with the perpendicular bisector of each pair of capillaries. Domains cut by the section edge are drawn but left out of the summary statistics.
 
 <table class="ox-params">
   <tr><td>Section width · grids</td><td>384 µm · 2 µm while editing, 1 µm after</td></tr>
