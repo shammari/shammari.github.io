@@ -175,6 +175,14 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
         <div class="ox-status" id="ox-status">Solving…</div>
       </div>
       <div class="ox-readout" id="ox-readout" aria-live="polite">Point at the section to read PO₂.</div>
+      <div class="ox-opt ox-brushrow">
+        <div class="ox-group">
+          <span class="ox-label" id="ox-brushlab">Tap a fibre to make it</span>
+          <div class="ox-seg" role="group" aria-labelledby="ox-brushlab" id="ox-brushseg"></div>
+          <button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-brush" aria-label="About changing fibre type">i</button>
+        </div>
+        <div class="ox-infotext" id="ox-i-brush" hidden><p>Choose a type, then tap fibres in the section to change them. Type I fibres use the most oxygen and carry the most myoglobin; type IIX the least.</p><p>Demand per type is fixed when a tissue is generated, so retyping a fibre changes the tissue's total demand.</p></div>
+      </div>
       <div class="ox-legendrow">
         <div class="ox-legend" id="ox-legend"></div>
         <div class="ox-dispset">
@@ -222,8 +230,8 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
           <div class="ox-opt">
             <div class="ox-optlab"><span class="ox-label" id="ox-bclab">Capillary wall</span><button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-bc" aria-label="About capillary wall">i</button></div>
             <div class="ox-seg" role="group" aria-labelledby="ox-bclab" id="ox-bcseg">
-            <button type="button" data-v="dirichlet" aria-pressed="true">Dirichlet</button>
-            <button type="button" data-v="robin" aria-pressed="false">Robin</button>
+            <button type="button" data-v="dirichlet" aria-pressed="false">Dirichlet</button>
+            <button type="button" data-v="robin" aria-pressed="true">Robin</button>
             </div>
             <div class="ox-infotext" id="ox-i-bc" hidden><p><strong>Dirichlet</strong> holds the capillary wall at the capillary PO₂.</p><p><strong>Robin</strong> lets oxygen cross the wall at a rate k(P<sub>cap</sub> − P), so PO₂ falls across the wall and less oxygen reaches the tissue.</p></div>
           </div>
@@ -236,9 +244,9 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
             <div class="ox-optlab"><span class="ox-label" id="ox-intlab">Exercise intensity</span><button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-int" aria-label="About exercise intensity">i</button></div>
             <div class="ox-seg" role="group" aria-labelledby="ox-intlab" id="ox-intseg">
             <button type="button" data-v="1" aria-pressed="false">Rest ×1</button>
-            <button type="button" data-v="3" aria-pressed="true">Low ×3</button>
+            <button type="button" data-v="3" aria-pressed="false">Low ×3</button>
             <button type="button" data-v="6" aria-pressed="false">Moderate ×6</button>
-            <button type="button" data-v="12" aria-pressed="false">Intense ×12</button>
+            <button type="button" data-v="12" aria-pressed="true">Intense ×12</button>
             </div>
             <div class="ox-infotext" id="ox-i-int" hidden><p id="ox-uptake"></p><p>Demand is set so the tissue-average demand at rest equals the published M₀, keeping the ratios between fibre types, then multiplied by the intensity.</p></div>
           </div>
@@ -249,8 +257,8 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
           <div class="ox-opt">
             <div class="ox-optlab"><span class="ox-label" id="ox-kinlab">Oxygen consumption</span><button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-kin" aria-label="About oxygen consumption">i</button></div>
             <div class="ox-seg" role="group" aria-labelledby="ox-kinlab" id="ox-kinseg">
-            <button type="button" data-v="mm" aria-pressed="false">Michaelis–Menten</button>
-            <button type="button" data-v="zero" aria-pressed="true">Constant</button>
+            <button type="button" data-v="mm" aria-pressed="true">Michaelis–Menten</button>
+            <button type="button" data-v="zero" aria-pressed="false">Constant</button>
             </div>
             <div class="ox-infotext" id="ox-i-kin" hidden><p><strong>Michaelis–Menten</strong> consumption slows as PO₂ approaches zero.</p><p><strong>Constant</strong> consumption continues at the full rate until oxygen runs out, so anoxic regions can form.</p></div>
           </div>
@@ -262,8 +270,8 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
           <div class="ox-opt">
             <div class="ox-optlab"><span class="ox-label" id="ox-mblab">Myoglobin-facilitated diffusion</span><button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-mb" aria-label="About myoglobin-facilitated diffusion">i</button></div>
             <div class="ox-seg" role="group" aria-labelledby="ox-mblab" id="ox-mbseg">
-            <button type="button" data-v="0" aria-pressed="true">Off</button>
-            <button type="button" data-v="1" aria-pressed="false">Published values</button>
+            <button type="button" data-v="0" aria-pressed="false">Off</button>
+            <button type="button" data-v="1" aria-pressed="true">Published values</button>
             <button type="button" data-v="2" aria-pressed="false">Doubled</button>
             <button type="button" data-v="3" aria-pressed="false">Tripled</button>
             </div>
@@ -272,20 +280,15 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
           </div>
         </details>
         <details class="ox-grp" id="ox-g-tissue">
-          <summary><span class="ox-gtitle">Tissue</span><span class="ox-gsum" data-for="shapeseg,brushseg"></span></summary>
+          <summary><span class="ox-gtitle">Tissue</span><span class="ox-gsum" data-for="shapeseg"></span></summary>
           <div class="ox-gbody">
           <div class="ox-opt">
             <div class="ox-optlab"><span class="ox-label" id="ox-shapelab">Fibre shape</span><button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-shape" aria-label="About fibre shape">i</button></div>
             <div class="ox-seg" role="group" aria-labelledby="ox-shapelab" id="ox-shapeseg">
-            <button type="button" data-v="polygon" aria-pressed="true">Polygons</button>
-            <button type="button" data-v="realistic" aria-pressed="false">Realistic</button>
+            <button type="button" data-v="polygon" aria-pressed="false">Polygons</button>
+            <button type="button" data-v="realistic" aria-pressed="true">Realistic</button>
             </div>
             <div class="ox-infotext" id="ox-i-shape" hidden><p>Realistic fibres have rounded corners that leave pockets where fibres meet, gently curved edges, sizes that differ by type (type II larger), a slight oblique stretch and endomysium of varying thickness.</p><p>Switching keeps the same tissue and the baseline, so <em>Change</em> shows the effect of shape alone.</p></div>
-          </div>
-          <div class="ox-opt">
-            <div class="ox-optlab"><span class="ox-label" id="ox-brushlab">Tap a fibre to make it</span><button type="button" class="ox-info" aria-expanded="false" aria-controls="ox-i-brush" aria-label="About changing fibre type">i</button></div>
-            <div class="ox-seg" role="group" aria-labelledby="ox-brushlab" id="ox-brushseg"></div>
-            <div class="ox-infotext" id="ox-i-brush" hidden><p>Choose a type, then tap fibres in the section to change them. Type I fibres use the most oxygen and carry the most myoglobin; type IIX the least.</p><p>Demand per type is fixed when a tissue is generated, so retyping a fibre changes the tissue's total demand.</p></div>
           </div>
           </div>
         </details>
@@ -337,10 +340,10 @@ Drag a capillary, tap it to shut it down, or change a fibre's type, and watch th
 
 1. Find a fibre with a dark core and drag a nearby capillary toward it. Watch how far the change spreads, including in the fibres the capillary left.
 2. Press _Set as baseline_, then move capillaries without changing how many there are. Capillary density and the capillary-to-fibre ratio stay the same, while the predicted PO₂ map and the low-PO₂ area change.
-3. Raise the exercise intensity to _Intense_ and shut 20% of the capillaries. The anatomical capillary-to-fibre ratio is unchanged, but hypoxic regions appear around the shut ones. Tap individual capillaries to see which ones matter most.
+3. Shut 20% of the capillaries. The anatomical capillary-to-fibre ratio is unchanged, but hypoxic regions appear around the shut ones. Tap individual capillaries to see which ones matter most.
 4. Tap a type I fibre to make it type IIX. Its demand falls, so its PO₂ rises, and neighbours sharing the same capillaries can gain too. Watch the mean PO₂ by fibre type.
-5. Switch from _Polygons_ to _Realistic_ fibres with a baseline set, and compare the means by fibre type: the tissue-wide mean barely moves, but oxygen shifts between fibre types.
-6. At intense exercise, compare fixed capillary PO₂ (Dirichlet) with a capillary wall that resists oxygen exchange (Robin), and switch myoglobin on to see where it helps most.
+5. Switch from _Realistic_ to _Polygons_ fibres with a baseline set, and compare the means by fibre type: the tissue-wide mean barely moves, but oxygen shifts between fibre types.
+6. Compare the default capillary wall, which resists oxygen exchange (Robin), with fixed capillary PO₂ (Dirichlet). Then set a baseline and switch myoglobin off to see where it helps most.
 7. Follow the streamlines from two neighbouring capillaries to where they meet, and compare that meeting line with the pink domain boundary between them. The two can differ, especially when the capillaries' PO₂ differs (try _Capillary PO₂ 20–40_) or when the fibres between them differ in type.
 8. Shut one capillary and watch its neighbours' streamlines reach into the tissue it used to supply. Switch _Domains from_ to _Perfused only_ to see the matching change in the tessellation.
 
