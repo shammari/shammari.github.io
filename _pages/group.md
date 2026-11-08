@@ -11,9 +11,9 @@ I supervise graduate students working on projects in **mathematical modelling, d
 
 ## Current students
 
-| Student              | Project area       |
-| :------------------- | :----------------- |
-| **Haya H. Abuhasan** | Epidemic modelling |
+| Student              | Project                                                                                                     |
+| :------------------- | :---------------------------------------------------------------------------------------------------------- |
+| **Haya H. Abuhasan** | Mathematical analysis of a socially-structured SEIRD epidemic model for the COVID-19 transmission in Kuwait |
 
 ## Research team
 
@@ -24,10 +24,10 @@ I supervise graduate students working on projects in **mathematical modelling, d
 
 ## Former students
 
-| Student               | Thesis area                   | Completed | Now                           |
-| :-------------------- | :---------------------------- | :-------- | :---------------------------- |
-| **Jumanah A. Salman** | Oxygen transport              | Apr 2026  | High school teacher           |
-| **Abir Aljassar**     | Multistrain epidemic dynamics | Jan 2025  | Ministry of Education, Kuwait |
+| Student               | Thesis                                                                                                       | Completed | Now                           |
+| :-------------------- | :----------------------------------------------------------------------------------------------------------- | :-------- | :---------------------------- |
+| **Jumanah A. Salman** | Developing Semi-analytical Solutions to Diffusive Oxygen Transport in General Polygonal Domains              | Apr 2026  | High school teacher           |
+| **Abir Aljassar**     | Mathematical Analysis of a Two-Strain SEIR Epidemic Model: Immune Evasiveness vs. Intrinsic Transmissibility | Jan 2025  | Ministry of Education, Kuwait |
 
 ## Joining
 
