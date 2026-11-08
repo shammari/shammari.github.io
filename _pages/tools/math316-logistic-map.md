@@ -1,0 +1,234 @@
+---
+layout: page
+title: The discrete logistic model
+description: An interactive tool for MATH 316, weeks 2–3. Explore equilibria, stability, cycles and chaos in a difference equation with cobweb diagrams.
+permalink: /teaching/math316/tools/logistic-map/
+---
+
+[← MATH 316]({{ '/teaching/math316/' | relative_url }})
+
+A population that grows in discrete generations, and is held back as it nears its limit, can be modelled by the difference equation $$x_{n+1} = r\,x_n (1 - x_n)$$. The same model can settle to an equilibrium, oscillate between several values, or never settle at all, depending only on <em>r</em>. This tool shows the cobweb diagram, the sequence itself and a summary of the long-run behaviour for every <em>r</em>. It supports learning outcomes 1 and 11.
+
+## The yeast culture
+
+The textbook builds this model from data on a yeast culture growing in a limited space. The change in biomass each hour, $$\Delta p_n = p_{n+1} - p_n$$, slows as the biomass approaches a limit of about 665, which suggests the model $$\Delta p_n = k\,(665 - p_n)\,p_n$$. Plotting $$\Delta p_n$$ against $$p_n (665 - p_n)$$ tests the model, and the slope of the line through the origin estimates $$k$$.
+
+<div class="mm-wrap" id="ye">
+  <div class="mm-panels mm-2">
+    <svg id="ye-fit" role="img" aria-label="Change in biomass against p(M − p), with a line through the origin"></svg>
+    <svg id="ye-time" role="img" aria-label="Observed yeast biomass and the model's predictions against time"></svg>
+  </div>
+  <div class="mm-controls" id="ye-controls"></div>
+  <p class="mm-readout" id="ye-out"></p>
+  <p class="mm-help">Yeast biomass each hour from R. Pearl, “The Growth of Population,” <em>Quarterly Review of Biology</em> 2 (1927), as given in the textbook.</p>
+</div>
+
+## The model for any growth rate
+
+<div class="mm-wrap" id="lm">
+  <p class="mm-eqn" id="lm-eqn"></p>
+  <div class="mm-panels mm-side">
+    <svg id="lm-cob" role="img" aria-label="Cobweb diagram"></svg>
+    <svg id="lm-seq" role="img" aria-label="The sequence x_n against n"></svg>
+  </div>
+  <div class="mm-controls" id="lm-controls"></div>
+  <p class="mm-readout" id="lm-out"></p>
+  <svg id="lm-bif" role="img" aria-label="Long-run values of x_n for each value of r"></svg>
+  <p class="mm-help">The cobweb diagram follows the sequence: up to the curve, across to the diagonal, and repeat. The bottom panel shows, for each <em>r</em>, the values the sequence keeps visiting after it has run for a long time; click it to choose <em>r</em>. Drag the starting point along the horizontal axis of the cobweb diagram to change <em>x</em><sub>0</sub>.</p>
+</div>
+
+## Things to try
+
+1. In **the yeast culture**, press **least-squares k**. How close is the estimate to the textbook's 0.00082? Change <em>M</em>: how sensitive is the fit, and the prediction, to the carrying capacity?
+2. Use the yeast model's growth rate in the logistic map. The textbook rescales the model to $$a_{n+1} = r(1 - a_n)a_n$$ with $$r = 1.546$$. Why does the sequence approach its limit without oscillating?
+3. Step through the textbook's values of <em>r</em>: 1.546, 2.75, 3.25, 3.525, 3.555 and 3.75, starting at 0.1. Describe each long-run behaviour and find it in the bottom panel.
+4. Find the equilibria by solving $$x = r x (1 - x)$$. For which values of <em>r</em> is the nonzero equilibrium stable? Check your answer with the tool, and relate it to the slope of the curve where it meets the diagonal.
+5. Set <em>r</em> = 3.83. What do you see, and where is this in the bottom panel?
+6. Set <em>r</em> = 3.75 and turn on **compare**, which starts a second sequence at <em>x</em><sub>0</sub> + 0.001. How long do the two sequences stay close? What does this mean for long-term prediction?
+7. The continuous logistic equation $$dP/dt = rP(1 - P/K)$$ never oscillates. Why can the discrete model oscillate when the continuous one cannot?
+
+## How it is computed
+
+The sequence is computed directly from the difference equation. The equilibria are $$x^* = 0$$ and $$x^* = 1 - 1/r$$, and an equilibrium is stable when $$\lvert f'(x^*) \rvert < 1$$, where $$f(x) = r x (1 - x)$$. To find the long-run behaviour, the tool discards the first 1000 terms and then looks for a repeating cycle of length up to 64. The textbook form $$\Delta p_n = k\,p_n (M - p_n)$$ becomes this model after the change of variable $$x_n = k p_n / (1 + kM)$$, with $$r = 1 + kM$$; for the yeast culture, $$k = 0.00082$$ and $$M = 665$$ give $$r = 1.5453$$, which the textbook rounds to 1.546.
+
+<p class="mm-note">The tool runs entirely in your browser; nothing is recorded or sent anywhere. It is a learning aid and is not assessed.</p>
+
+<script src="{{ '/assets/js/teaching/mm-tools.js' | relative_url }}"></script>
+<script>
+  (function () {
+    var M = window.MMTools;
+    var r = 2.9, x0 = 0.1, N = 40, compare = false, dragging = false;
+    var R0 = 2.4, R1 = 4;
+    var cob = new M.Plot(document.getElementById("lm-cob"), { x0: 0, x1: 1, y0: 0, y1: 1, gx: 0.1, gy: 0.1, lx: 0.2, ly: 0.2, xname: "xₙ", yname: "xₙ₊₁", aspect: 1, aspectNarrow: 0.9, left: 22 });
+    var seq = new M.Plot(document.getElementById("lm-seq"), { x0: 0, x1: N, y0: 0, y1: 1, gx: 5, gy: 0.1, lx: 10, ly: 0.2, xname: "n", yname: "xₙ", aspect: 0.5, aspectNarrow: 0.6, left: 22 });
+    var bif = new M.Plot(document.getElementById("lm-bif"), { x0: R0, x1: R1, y0: 0, y1: 1, gx: 0.1, gy: 0.1, lx: 0.2, ly: 0.2, xname: "r", yname: "long-run values of xₙ", aspect: 0.32, aspectNarrow: 0.6, left: 22 });
+    function f(x) { return r * x * (1 - x); }
+    function orbit(start, n) { var xs = [start]; for (var i = 0; i < n; i++) xs.push(f(xs[i])); return xs; }
+    function longRun() {
+      var x = x0, i;
+      for (i = 0; i < 1000; i++) x = f(x);
+      var tail = [];
+      for (i = 0; i < 128; i++) { tail.push(x); x = f(x); }
+      for (var p = 1; p <= 64; p++) {
+        var ok = true;
+        for (i = 0; i + p < tail.length; i++) if (Math.abs(tail[i] - tail[i + p]) > 1e-6) { ok = false; break; }
+        if (ok) return { period: p, values: tail.slice(0, p).sort(function (a, b) { return a - b; }) };
+      }
+      return { period: 0 };
+    }
+    function drawCobweb() {
+      cob.frame();
+      var curve = [];
+      for (var i = 0; i <= 200; i++) { var x = i / 200; curve.push([x, f(x)]); }
+      cob.path([[0, 0], [1, 1]], "mm-zero");
+      cob.path(curve, "mm-a");
+      var xs = orbit(x0, N), web = [[x0, 0]];
+      for (var k = 0; k < N; k++) { web.push([xs[k], xs[k + 1]]); web.push([xs[k + 1], xs[k + 1]]); }
+      cob.path(web, "mm-curve");
+      // equilibria on the diagonal
+      var eqs = [0];
+      if (r > 1) eqs.push(1 - 1 / r);
+      eqs.forEach(function (e) { cob.circle(e, e, 4.5, Math.abs(r * (1 - 2 * e)) < 1 ? "mm-eq-s" : "mm-eq-u"); });
+      var h = cob.circle(x0, 0, 7, "mm-handle");
+      h.setAttribute("stroke", "var(--mm-b)");
+      return { xs: xs, eqs: eqs };
+    }
+    function drawSeq(xs) {
+      seq.o.x1 = N; seq.o.gx = N > 60 ? 10 : 5; seq.o.lx = N > 60 ? 20 : 10;
+      seq.frame();
+      var pts = xs.map(function (v, i) { return [i, v]; });
+      if (compare) {
+        var ys = orbit(x0 + 0.001, N);
+        seq.path(ys.map(function (v, i) { return [i, v]; }), "mm-b");
+      }
+      seq.path(pts, "mm-a");
+      if (N <= 80) pts.forEach(function (p) { seq.circle(p[0], p[1], 2.4, "mm-dot", seq.data); });
+    }
+    // The long-run diagram does not depend on r or x0, so it is computed once and redrawn only on resize.
+    var bifPts = null, marker = null;
+    function bifData() {
+      var cols = 420, out = [];
+      for (var c = 0; c <= cols; c++) {
+        var rr = R0 + ((R1 - R0) * c) / cols, x = 0.3, i;
+        for (i = 0; i < 400; i++) x = rr * x * (1 - x);
+        for (i = 0; i < 100; i++) { x = rr * x * (1 - x); out.push([rr, x]); }
+      }
+      return out;
+    }
+    function drawBif() {
+      if (!bifPts) bifPts = bifData();
+      bif.frame();
+      var d = "";
+      for (var i = 0; i < bifPts.length; i++) d += "M" + bif.sx(bifPts[i][0]).toFixed(1) + "," + bif.sy(bifPts[i][1]).toFixed(1) + "h" + (1.2 * bif.K).toFixed(1);
+      M.el("path", { d: d, class: "mm-curve", style: "stroke-width:1.2;opacity:.7" }, bif.data);
+      marker = M.el("line", { class: "mm-b", y1: bif.sy(0), y2: bif.sy(1) }, bif.top);
+      moveMarker();
+    }
+    function moveMarker() {
+      if (!marker) return;
+      var vis = r >= R0 && r <= R1;
+      marker.setAttribute("x1", bif.sx(r)); marker.setAttribute("x2", bif.sx(r));
+      marker.style.display = vis ? "" : "none";
+    }
+    function draw() {
+      document.getElementById("lm-eqn").innerHTML = "<em>x</em><sub><em>n</em>+1</sub> = " + M.fmt(r, 3) + " <em>x</em><sub><em>n</em></sub>(1 − <em>x</em><sub><em>n</em></sub>), &nbsp; <em>x</em><sub>0</sub> = " + M.fmt(x0, 3);
+      var c = drawCobweb();
+      drawSeq(c.xs);
+      moveMarker();
+      var lr = longRun(), txt = "Equilibria: " + c.eqs.map(function (e) {
+        var s = Math.abs(r * (1 - 2 * e));
+        return "<b>" + M.fmt(e, 3) + "</b> (" + (s < 1 ? "stable" : "unstable") + ", |<em>f</em>′| = " + M.fmt(s) + ")";
+      }).join(", ") + ". Long run: ";
+      if (lr.period === 1) txt += "the sequence settles at <b>" + M.fmt(lr.values[0], 3) + "</b>.";
+      else if (lr.period > 1) txt += (/^(8|11|18)$/.test(String(lr.period)) || String(lr.period).charAt(0) === "8" ? "an" : "a") + " <b>" + lr.period + "-cycle</b> through " + lr.values.map(function (v) { return M.fmt(v, 3); }).join(", ") + ".";
+      else txt += "no repeating cycle of length up to 64; the sequence does not settle.";
+      document.getElementById("lm-out").innerHTML = txt;
+    }
+    // controls
+    var box = document.getElementById("lm-controls");
+    var g1 = M.group(box, "Parameters");
+    var rs = M.slider(g1, { label: "<em>r</em>", min: 0, max: 4, step: 0.001, value: r, digits: 3, onInput: function (v) { r = v; draw(); } });
+    rs.input.style.width = "12rem";
+    var xs0 = M.slider(g1, { label: "<em>x</em><sub>0</sub>", min: 0, max: 1, step: 0.001, value: x0, digits: 3, onInput: function (v) { x0 = v; draw(); } });
+    M.slider(g1, { label: "steps", min: 10, max: 200, step: 1, value: N, digits: 0, onInput: function (v) { N = v; draw(); } });
+    // The values of r in the textbook's figure for this model, each started at 0.1.
+    var gt = M.group(box, "Textbook values of r");
+    [1.546, 2.75, 3.25, 3.525, 3.555, 3.75].forEach(function (v) {
+      M.button(gt, String(v), function () { r = v; x0 = 0.1; rs.set(r); xs0.set(x0); draw(); });
+    });
+    window.lmSetR = function (v) { r = Math.round(v * 1000) / 1000; x0 = 0.1; rs.set(r); xs0.set(x0); draw(); };
+    var g2 = M.group(box, "Show");
+    M.checkbox(g2, "Compare with <em>x</em><sub>0</sub> + 0.001", compare, function (c) { compare = c; draw(); });
+    // pointer: drag x0 on the cobweb axis; click the long-run diagram to choose r
+    cob.svg.addEventListener("pointerdown", function (evt) {
+      var p = cob.at(evt);
+      if (Math.abs(cob.sy(0) - p.py) > 18 * cob.K || p.x < 0 || p.x > 1) return;
+      evt.preventDefault(); dragging = true; cob.svg.setPointerCapture(evt.pointerId);
+      x0 = Math.min(Math.max(p.x, 0), 1); xs0.set(x0); draw();
+    });
+    cob.svg.addEventListener("pointermove", function (evt) {
+      if (!dragging) return;
+      x0 = Math.min(Math.max(cob.at(evt).x, 0), 1); xs0.set(x0); draw();
+    });
+    function release() { dragging = false; }
+    cob.svg.addEventListener("pointerup", release);
+    cob.svg.addEventListener("pointercancel", release);
+    var bifDrag = false;
+    function pickR(evt) { var p = bif.at(evt); r = Math.round(Math.min(Math.max(p.x, R0), R1) * 1000) / 1000; rs.set(r); draw(); }
+    bif.svg.addEventListener("pointerdown", function (evt) { evt.preventDefault(); bifDrag = true; bif.svg.setPointerCapture(evt.pointerId); pickR(evt); });
+    bif.svg.addEventListener("pointermove", function (evt) { if (bifDrag) pickR(evt); });
+    bif.svg.addEventListener("pointerup", function () { bifDrag = false; });
+    bif.svg.addEventListener("pointercancel", function () { bifDrag = false; });
+    M.onResize(function () { drawBif(); draw(); });
+    drawBif();
+    draw();
+  })();
+</script>
+
+<script>
+  (function () {
+    var M = window.MMTools;
+    // Yeast biomass by hour (Pearl 1927, as tabulated in the textbook).
+    var P = [9.6, 18.3, 29.0, 47.2, 71.1, 119.1, 174.6, 257.3, 350.7, 441.0, 513.3, 559.7, 594.8, 629.4, 640.8, 651.1, 655.9, 659.6, 661.8];
+    var k = 0.00082, Mc = 665;
+    var fit = new M.Plot(document.getElementById("ye-fit"), { x0: 0, x1: 120000, y0: 0, y1: 100, gx: 20000, gy: 10, lx: 40000, ly: 20, xname: "pₙ(M − pₙ)", yname: "Δpₙ", aspect: 0.7, aspectNarrow: 0.75, left: 22 });
+    var time = new M.Plot(document.getElementById("ye-time"), { x0: 0, x1: 18, y0: 0, y1: 700, gx: 2, gy: 100, lx: 4, ly: 200, xname: "time (hours)", yname: "yeast biomass", aspect: 0.7, aspectNarrow: 0.75, left: 22 });
+    fit.o.fx = function (v) { return v === 0 ? "0" : v / 1000 + "k"; };
+    function draw() {
+      var X = [], D = [];
+      for (var i = 0; i < P.length - 1; i++) { X.push(P[i] * (Mc - P[i])); D.push(P[i + 1] - P[i]); }
+      var xmax = Math.max.apply(null, X.concat([1])), rx = M.niceRange(Math.min(0, Math.min.apply(null, X)), xmax * 1.05, 6);
+      fit.o.x0 = rx.lo; fit.o.x1 = rx.hi; fit.o.gx = rx.step; fit.o.lx = rx.step * 2;
+      fit.frame();
+      fit.path([[0, 0], [rx.hi, k * rx.hi]], "mm-a");
+      X.forEach(function (x, j) { fit.circle(x, D[j], 3.5, "mm-dot", fit.data); });
+      var pred = [P[0]];
+      for (var n = 0; n < P.length - 1; n++) pred.push(pred[n] + k * (Mc - pred[n]) * pred[n]);
+      time.frame();
+      time.path(pred.map(function (v, j) { return [j, v]; }), "mm-a");
+      P.forEach(function (v, j) { time.circle(j, v, 3.5, "mm-dot", time.data); });
+      var ly = time.T - 14 * time.K, Rr = time.W - time.R, K = time.K;
+      time.circle(time.ix(Rr - 160 * K), time.iy(ly), 3.5, "mm-dot");
+      M.el("text", { x: Rr - 150 * K, y: ly + 4 * K }, time.top).textContent = "observed";
+      M.el("line", { x1: Rr - 82 * K, y1: ly, x2: Rr - 62 * K, y2: ly, class: "mm-a" }, time.top);
+      M.el("text", { x: Rr - 56 * K, y: ly + 4 * K }, time.top).textContent = "model";
+      var r = 1 + k * Mc;
+      document.getElementById("ye-out").innerHTML = "Model: <em>p</em><sub><em>n</em>+1</sub> = <em>p<sub>n</sub></em> + " + M.fmt(k, 5) + " (" + M.fmt(Mc, 0) + " − <em>p<sub>n</sub></em>) <em>p<sub>n</sub></em>, starting from <em>p</em><sub>0</sub> = 9.6, so <em>p</em><sub>1</sub> = <b>" + M.fmt(pred[1], 2) + "</b>. Rescaled with <em>a<sub>n</sub></em> = " + M.fmt(k / r, 7) + " <em>p<sub>n</sub></em>, it becomes <em>a</em><sub><em>n</em>+1</sub> = <em>r</em>(1 − <em>a<sub>n</sub></em>)<em>a<sub>n</sub></em> with <em>r</em> = 1 + <em>kM</em> = <b>" + M.fmt(r, 3) + "</b>.";
+    }
+    var box = document.getElementById("ye-controls"), g = M.group(box, "Model");
+    var ks = M.slider(g, { label: "<em>k</em>", min: 0.0004, max: 0.0014, step: 0.00001, value: k, digits: 5, onInput: function (v) { k = v; draw(); } });
+    M.slider(g, { label: "<em>M</em>", min: 600, max: 720, step: 1, value: Mc, digits: 0, onInput: function (v) { Mc = v; draw(); } });
+    M.button(g, "Least-squares <em>k</em>", function () {
+      // slope of the line through the origin that best fits Δp against p(M − p)
+      var sxy = 0, sxx = 0;
+      for (var i = 0; i < P.length - 1; i++) { var x = P[i] * (Mc - P[i]); sxy += x * (P[i + 1] - P[i]); sxx += x * x; }
+      k = sxy / sxx; ks.set(k); draw();
+    });
+    M.button(g, "Use this <em>r</em> in the logistic map", function () {
+      if (window.lmSetR) window.lmSetR(1 + k * Mc);
+      document.getElementById("lm").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    M.onResize(draw);
+    draw();
+  })();
+</script>
