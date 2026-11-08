@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://shammari.github.io/sitemap.xml
