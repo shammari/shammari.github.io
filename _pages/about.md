@@ -44,7 +44,7 @@ alternate_langs: # this page and its Arabic counterpart, for search engines
   <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Abdullah A. Al-Shammari" width="92" height="92">
   <div>
     <p>Assistant Professor in Mathematical Modeling &amp; Biology at <a href="https://www.ku.edu.kw/">Kuwait University</a></p>
-    <p class="home-links"><a href="https://orcid.org/0000-0002-4512-1151">ORCID</a> · <a href="https://scholar.google.com/citations?user=4hTO4WMAAAAJ">Google Scholar</a> · <a href="mailto:abdullah.alshammari@ku.edu.kw">Email</a></p>
+    <p class="home-links"><a href="https://orcid.org/0000-0002-4512-1151">ORCID</a> · <a href="https://scholar.google.com/citations?user=4hTO4WMAAAAJ">Google Scholar</a> · <a href="https://math.sci.kuniv.edu.kw/people/faculty/abdullah_alshammari">KU profile</a> · <a href="mailto:abdullah.alshammari@ku.edu.kw">Email</a></p>
   </div>
 </div>
 
@@ -59,6 +59,6 @@ I build mechanistic models that make their assumptions explicit and lead to test
 
 Recent work in _The Journal of Physiology_ (2025–26) uses image-based modelling to assess which common indices of capillary supply are transport-relevant measures that predict fibre oxygenation; one of these papers features in the journal's special issue on computational modelling of the cardiovascular system. More on the [research]({{ '/research/' | relative_url }}) page.
 
-**Background.** DPhil in Mathematical Biology, University of Oxford; MS in Mathematics, Courant Institute of Mathematical Sciences, New York University; BS in Mathematics, Creighton University. I am a Research Associate at the Dasman Diabetes Institute, and was previously a Visiting Research Fellow at the School of Medicine, University of Leeds.
+**Background.** DPhil in Mathematical Biology, University of Oxford; MS in Mathematics, Courant Institute of Mathematical Sciences, New York University; BS in Mathematics, Creighton University. I am a Research Associate at the Dasman Diabetes Institute. I was previously a visiting researcher at the Mathematical Institute, University of Oxford, and a Visiting Research Fellow at the School of Medicine, University of Leeds.
 
 **Joining the group.** I welcome enquiries from prospective **graduate students, postdocs and collaborators** — see the [group]({{ '/group/' | relative_url }}#joining) page for project ideas and how to get in touch.

@@ -43,7 +43,7 @@ alternate_langs: # this page and its English counterpart, for search engines
   <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="د. عبدالله أحمد الشمري" width="92" height="92">
   <div>
     <p>أستاذ مساعد في علم الأحياء الرياضي والنمذجة الرياضية بقسم الرياضيات في <a href="https://www.ku.edu.kw/">جامعة الكويت</a>.</p>
-    <p class="home-links"><a href="https://orcid.org/0000-0002-4512-1151" class="ltr">ORCID</a> &rlm;·&rlm; <a href="https://scholar.google.com/citations?user=4hTO4WMAAAAJ" class="ltr">Google Scholar</a> &rlm;·&rlm; <a href="mailto:abdullah.alshammari@ku.edu.kw">البريد الإلكتروني</a></p>
+    <p class="home-links"><a href="https://orcid.org/0000-0002-4512-1151" class="ltr">ORCID</a> &rlm;·&rlm; <a href="https://scholar.google.com/citations?user=4hTO4WMAAAAJ" class="ltr">Google Scholar</a> &rlm;·&rlm; <a href="https://math.sci.kuniv.edu.kw/people/faculty/abdullah_alshammari">الصفحة الشخصية بجامعة الكويت</a> &rlm;·&rlm; <a href="mailto:abdullah.alshammari@ku.edu.kw">البريد الإلكتروني</a></p>
   </div>
 </div>
 
